@@ -24,5 +24,9 @@ in
         user = user;
         systemStateVersion = systemStateVersion;
       })
+      (import ./modules/rootUser.nix {
+        hostName = hostName;
+        systemStateVersion = systemStateVersion;
+      })
     ];
 }

@@ -17,7 +17,7 @@
     home.stateVersion = systemStateVersion;
     programs.git = {
       enable = true;
-      userName  = user.gitUser;
+      userName  = user.fullName;
       userEmail = user.email;
     };
   };

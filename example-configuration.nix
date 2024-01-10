@@ -3,9 +3,11 @@
   imports =
     [ 
       (import ./main.nix {
-        hostName = "framework1";
+        hostName = "fw1";
         user = {
           name = "ari";
+          fullName = "Ari Sosnovsky";
+          email = "ariel@sosnovsky.ca";
         };
       })
     ];
