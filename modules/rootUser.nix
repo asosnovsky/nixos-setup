@@ -8,5 +8,10 @@
       userName  = "root";
       userEmail = "root@${hostName}";
     };
+    programs.zsh = {
+      enable = true;
+      enableAutosuggestions = true;
+    };
+    programs.zsh.oh-my-zsh.enable = true;
   };
 }

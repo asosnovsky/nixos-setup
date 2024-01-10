@@ -1,5 +1,5 @@
 {
-  systemStateVersion ? "23.05",
+  systemStateVersion ? "23.11",
   hostName,
   user,
 }:
