@@ -5,10 +5,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = hostName; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.firewall.enable = false;
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
@@ -16,19 +17,27 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
 
-  # Fonts
-  # fonts = {
-  #   packages = with pkgs; [ 
-  #     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-  #   ];
+  # System Packages
+  environment.systemPackages = with pkgs; [
+    git
+    vscode
+    nil	  
+    docker-compose 
+  ];
 
-  #   fontconfig = {
-  #     enable = true;
-  #     defaultFonts = {
-  #       serif = [ "FiraCode" "DroidSansMono" ];
-  #       sansSerif = [ "FiraCode" "DroidSansMono" ];
-  #       monospace = [ "FiraCode" ];
-  #     };
-  #   };
-  # };
+  # Fonts
+  fonts = {
+    packages = with pkgs; [ 
+      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    ];
+
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = [ "FiraCode" "DroidSansMono" ];
+        sansSerif = [ "FiraCode" "DroidSansMono" ];
+        monospace = [ "FiraCode" ];
+      };
+    };
+  };
 }

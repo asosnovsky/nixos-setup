@@ -2,6 +2,7 @@
   systemStateVersion ? "23.11",
   hostName,
   user,
+  enableSSHServer ? false,
 }:
 { ... }:
 let 
@@ -16,6 +17,10 @@ in
       })
       (import ./modules/os/core.nix {
         hostName = hostName;
+      })
+      (import ./modules/os/ssh.nix {
+        user = user;
+        enableSSHServer = enableSSHServer;
       })
       (import "${home-manager}/nixos")
       ./modules/os/services.nix
