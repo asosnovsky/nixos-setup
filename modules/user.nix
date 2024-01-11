@@ -13,6 +13,7 @@
     packages = with pkgs; [
       firefox
       bitwarden-cli
+      jq
     ];
   };
   home-manager.users.${user.name} = {
