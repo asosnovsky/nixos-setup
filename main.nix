@@ -3,6 +3,7 @@
   hostName,
   user,
   enableSSHServer ? false,
+  firewall ? {enable = true;},
 }:
 { ... }:
 let 
@@ -17,6 +18,7 @@ in
       })
       (import ./modules/os/core.nix {
         hostName = hostName;
+        firewall = firewall;
       })
       (import ./modules/os/ssh.nix {
         user = user;

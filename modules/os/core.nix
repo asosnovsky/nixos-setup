@@ -1,4 +1,4 @@
-{ hostName }:
+{ hostName, firewall }:
 { pkgs, ... }:
 {
   # Bootloader.
@@ -9,7 +9,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.firewall.enable = false;
+  networking.firewall = firewall;
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
