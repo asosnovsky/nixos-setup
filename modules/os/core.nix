@@ -23,6 +23,8 @@
     vscode
     nil	  
     docker-compose 
+    usbutils
+    wget
   ];
 
   # Fonts

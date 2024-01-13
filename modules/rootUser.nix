@@ -1,8 +1,8 @@
-{ hostName, systemStateVersion }:
+{ hostName, homeMangerVersion }:
 { pkgs, ... }:
 {
   home-manager.users.root = {
-    home.stateVersion = systemStateVersion;
+    home.stateVersion = homeMangerVersion;
     programs.git = {
       enable = true;
       userName  = "root";

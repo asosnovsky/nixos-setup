@@ -1,13 +1,15 @@
 {
   systemStateVersion ? "23.11",
+  homeMangerVersion ? "23.11",
   hostName,
   user,
   enableSSHServer ? false,
   firewall ? {enable = true;},
+  enableFingerPrint ? false,
 }:
-{ ... }:
+{ pkgs, ... }:
 let 
-    home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-${systemStateVersion}.tar.gz";
+    home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-${homeMangerVersion}.tar.gz";
 in
 {
   imports =
@@ -20,6 +22,9 @@ in
         hostName = hostName;
         firewall = firewall;
       })
+      (import ./modules/os/hardware.nix {
+        enableFingerPrint = enableFingerPrint;
+      })
       (import ./modules/os/ssh.nix {
         user = user;
         enableSSHServer = enableSSHServer;
@@ -29,11 +34,11 @@ in
       ./modules/docker/core.nix
       (import ./modules/user.nix {
         user = user;
-        systemStateVersion = systemStateVersion;
+        homeMangerVersion = homeMangerVersion;
       })
       (import ./modules/rootUser.nix {
         hostName = hostName;
-        systemStateVersion = systemStateVersion;
+        homeMangerVersion = homeMangerVersion;
       })
     ];
 }

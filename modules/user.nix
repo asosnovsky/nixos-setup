@@ -1,4 +1,4 @@
-{ user, systemStateVersion }:
+{ user, homeMangerVersion }:
 { pkgs, ... }:
 {
   users.users.${user.name} = {
@@ -18,7 +18,7 @@
   };
   home-manager.users.${user.name} = {
     home = {
-      stateVersion = systemStateVersion;
+      stateVersion = homeMangerVersion;
       shellAliases = {
         cat = "bat";
       };
