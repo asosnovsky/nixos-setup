@@ -25,7 +25,16 @@
     docker-compose 
     usbutils
     wget
+    (import (fetchTarball https://install.devenv.sh/latest)).default
   ];
+
+  # Exclude Gnome packages
+  environment.gnome.excludePackages = [ 
+    pkgs.gnome-tour 
+  ];
+  services.xserver.excludePackages = [ 
+    pkgs.xterm 
+  ]; 
 
   # Fonts
   fonts = {

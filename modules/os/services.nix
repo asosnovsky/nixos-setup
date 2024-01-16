@@ -26,4 +26,18 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  # Special Cronjobs
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "0 0 * * *      root    nix-channel --update >> /var/log/cron/updater.log"
+    ];
+  };
+
+  # Programs
+  programs.tmux = {
+    enable = true;
+    clock24 = true;
+  };
 }

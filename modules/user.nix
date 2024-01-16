@@ -14,6 +14,7 @@
       firefox
       bitwarden-cli
       jq
+      zoom-us
     ];
   };
   home-manager.users.${user.name} = {
