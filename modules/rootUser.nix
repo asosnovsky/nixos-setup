@@ -1,6 +1,7 @@
 { hostName, homeMangerVersion }:
 { pkgs, ... }:
 {
+  users.users.root.shell = pkgs.zsh;
   home-manager.users.root = {
     home.stateVersion = homeMangerVersion;
     programs.git = {

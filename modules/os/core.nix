@@ -18,14 +18,17 @@
   i18n.defaultLocale = "en_CA.UTF-8";
 
   # System Packages
+  programs.zsh.enable = true;
   environment.systemPackages = with pkgs; [
+    zsh
     git
     vscode
     nil	  
     docker-compose 
     usbutils
     wget
-    (import (fetchTarball https://install.devenv.sh/latest)).default
+    ollama
+    (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
 
   # Exclude Gnome packages
