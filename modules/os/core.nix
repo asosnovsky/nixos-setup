@@ -28,6 +28,7 @@
     usbutils
     wget
     ollama
+    appimage-run
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
   # Default Session Variables
