@@ -29,6 +29,7 @@
     wget
     ollama
     appimage-run
+    htop
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
   # Default Session Variables
