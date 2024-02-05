@@ -30,8 +30,10 @@
     ollama
     appimage-run
     htop
+    nfs-utils
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
+  services.nfs.server.enable = true;
   # Default Session Variables
   environment.sessionVariables = rec {
 #    PROMPT = "%(!.%{%F{yellow}%}.)\$USER@%{\$fg[white]%}%M \${ret_status} %{\$fg[cyan]%}%c%{\$reset_color%} $(git_prompt_info)";
