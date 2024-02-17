@@ -31,16 +31,19 @@
     appimage-run
     htop
     nfs-utils
+    cachix
+    rocmPackages.rpp
+    rocmPackages.rocm-smi
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
   services.nfs.server.enable = true;
   # Default Session Variables
   environment.sessionVariables = rec {
-#    PROMPT = "%(!.%{%F{yellow}%}.)\$USER@%{\$fg[white]%}%M \${ret_status} %{\$fg[cyan]%}%c%{\$reset_color%} $(git_prompt_info)";
   };
   # Exclude Gnome packages
   environment.gnome.excludePackages = [ 
     pkgs.gnome-tour 
+    pkgs.gnome-console 
   ];
   services.xserver.excludePackages = [ 
     pkgs.xterm 

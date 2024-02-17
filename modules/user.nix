@@ -15,6 +15,8 @@
       bitwarden-cli
       jq
       zoom-us
+      terminator
+      nixd
     ];
   };
   home-manager.users.${user.name} = {
@@ -29,6 +31,7 @@
     };
     programs = {
       bat.enable = true;
+      direnv.enable = true;
       lsd = {
         enable = true;
         enableAliases = true;
