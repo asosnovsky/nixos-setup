@@ -1,6 +1,7 @@
 {
   systemStateVersion ? "23.11",
   homeMangerVersion ? "23.11",
+  enableHomeManager ? true,
   hostName,
   user,
   enableSSHServer ? false,
@@ -12,8 +13,7 @@ let
     home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-${homeMangerVersion}.tar.gz";
 in
 {
-  imports =
-    [ 
+  imports = [ 
       /etc/nixos/hardware-configuration.nix
       (import ./modules/os/nix.nix {
         systemStateVersion = systemStateVersion;
@@ -29,16 +29,20 @@ in
         user = user;
         enableSSHServer = enableSSHServer;
       })
-      (import "${home-manager}/nixos")
       ./modules/os/services.nix
       ./modules/docker/core.nix
       (import ./modules/user.nix {
         user = user;
-        homeMangerVersion = homeMangerVersion;
       })
       (import ./modules/rootUser.nix {
         hostName = hostName;
-        homeMangerVersion = homeMangerVersion;
       })
-    ];
+    ] ++ (if enableHomeManager then [
+      (import "${home-manager}/nixos")
+      (import ./modules/home-manager-config.nix {
+        homeMangerVersion = homeMangerVersion;
+        hostName = hostName;
+        user = user;
+      })
+    ] else []);
 }
