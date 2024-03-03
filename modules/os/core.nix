@@ -34,6 +34,9 @@
     cachix
     rocmPackages.rpp
     rocmPackages.rocm-smi
+    glib
+    glibc
+    glib-networking
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
   services.nfs.server.enable = true;

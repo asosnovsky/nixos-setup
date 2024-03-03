@@ -41,6 +41,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Yubikey
+  services.yubikey-agent.enable = true;
+  
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
