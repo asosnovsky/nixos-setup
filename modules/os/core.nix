@@ -37,6 +37,7 @@
     glib
     glibc
     glib-networking
+    gnomeExtensions.vitals
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
   services.nfs.server.enable = true;
