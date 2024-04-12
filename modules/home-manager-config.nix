@@ -22,6 +22,11 @@
       };
       packages = [
         (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+        pkgs.kubectl
+        pkgs.terraform
+        pkgs.rye
+        pkgs.glibc
+        pkgs.betterdiscordctl
       ];
     };
     programs = {
@@ -39,6 +44,9 @@
       zsh = {
         enable = true;
         enableAutosuggestions = true;
+        envExtra = ''
+          export KUBECONFIG=/run/media/ari/Data/local/kube/config.yml
+        '';
       };
       zsh.oh-my-zsh = {
         enable = true;

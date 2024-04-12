@@ -19,6 +19,7 @@ in
         systemStateVersion = systemStateVersion;
       })
       (import ./modules/os/core.nix {
+        user = user;
         hostName = hostName;
         firewall = firewall;
       })
