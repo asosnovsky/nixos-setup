@@ -27,6 +27,7 @@
         pkgs.rye
         pkgs.glibc
         pkgs.betterdiscordctl
+        pkgs.discord
       ];
     };
     programs = {
