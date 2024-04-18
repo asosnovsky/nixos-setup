@@ -43,6 +43,7 @@
     gnomeExtensions.vitals
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   services.nfs.server.enable = true;
   nix.settings.trusted-substituters = [ 
     "https://cache.flox.dev"
