@@ -19,6 +19,7 @@
 
   # System Packages
   programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
     zsh
     git
