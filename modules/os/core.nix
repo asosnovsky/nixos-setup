@@ -1,4 +1,4 @@
-{ hostName, firewall }:
+{ hostName, firewall, user }:
 { pkgs, ... }:
 {
   # Bootloader.
@@ -20,6 +20,8 @@
   # System Packages
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "client";
   environment.systemPackages = with pkgs; [
     zsh
     git
@@ -41,7 +43,17 @@
     gnomeExtensions.vitals
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   services.nfs.server.enable = true;
+  nix.settings.trusted-substituters = [ 
+    "https://cache.flox.dev"
+    "https://devenv.cachix.org"
+  ];
+  nix.settings.trusted-users = [ "root" user.name ];
+  nix.settings.trusted-public-keys = [ 
+    "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+    "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+  ];
   # Default Session Variables
   environment.sessionVariables = rec {
   };
