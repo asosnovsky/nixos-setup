@@ -41,6 +41,9 @@
         enable = true;
         userName = user.fullName;
         userEmail = user.email;
+        delta = {
+          enable = true;
+        };
       };
       zsh = {
         enable = true;
