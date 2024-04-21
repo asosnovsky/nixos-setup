@@ -40,7 +40,7 @@ in
     })
   ] ++ (if enableHomeManager then [
     (import "${home-manager}/nixos")
-    (import ./optional/home-manager-config.nix {
+    (import ./modules/optional/home-manager-config.nix {
       homeMangerVersion = homeMangerVersion;
       hostName = hostName;
       user = user;
