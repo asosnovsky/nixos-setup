@@ -5,7 +5,7 @@
     home.stateVersion = homeMangerVersion;
     programs.git = {
       enable = true;
-      userName  = "root";
+      userName = "root";
       userEmail = "root@${hostName}";
     };
     programs.zsh = {
@@ -39,7 +39,7 @@
       };
       git = {
         enable = true;
-        userName  = user.fullName;
+        userName = user.fullName;
         userEmail = user.email;
       };
       zsh = {

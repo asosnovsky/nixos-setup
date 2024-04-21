@@ -27,49 +27,34 @@
     zsh
     git
     vscode
-    nil	  
-    docker-compose 
+    nil
+    docker-compose
     usbutils
     wget
-    ollama
     appimage-run
     htop
     nfs-utils
     cachix
-    rocmPackages.rpp
-    rocmPackages.rocm-smi
     glib
     glibc
     glib-networking
-    gnomeExtensions.vitals
     (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   services.nfs.server.enable = true;
-  nix.settings.trusted-substituters = [ 
+  services.hydra.useSubstitutes = true;
+  nix.settings.trusted-substituters = [
     "https://cache.flox.dev"
     "https://devenv.cachix.org"
   ];
   nix.settings.trusted-users = [ "root" user.name ];
-  nix.settings.trusted-public-keys = [ 
+  nix.settings.trusted-public-keys = [
     "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
     "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
   ];
-  # Default Session Variables
-  environment.sessionVariables = rec {
-  };
-  # Exclude Gnome packages
-  environment.gnome.excludePackages = [ 
-    pkgs.gnome-tour 
-    pkgs.gnome-console 
-  ];
-  services.xserver.excludePackages = [ 
-    pkgs.xterm 
-  ]; 
-
   # Fonts
   fonts = {
-    packages = with pkgs; [ 
+    packages = with pkgs; [
       (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     ];
 
