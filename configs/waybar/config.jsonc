@@ -2,9 +2,9 @@
 {
     "layer": "top", 
     "position": "top", 
-    "spacing": 4, // Gaps between modules (4px)
+    "spacing": 8, // Gaps between modules (4px)
+    "reload_style_on_change": true,
     "modules-left": [
-        "keyboard-state",
         "hyprland/workspaces"
         // "hyprland/submap"
     ],
@@ -13,17 +13,28 @@
         // "power-profiles-daemon"
     ],
     "modules-right": [
+        "group/indicators"
 //        "mpd",
         // "idle_inhibitor",
-        // "pulseaudio",
-        "network",
-        "cpu",
-        "memory",
-        "temperature",
         // "backlight",
-        "battery"
         // "tray"
     ],
+    "group/indicators": {
+        "orientation": "orthogonal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true
+        },
+        "modules": [
+            "battery",
+            "network",
+            "cpu",
+            "memory",
+            "temperature",
+            "keyboard-state",
+            "pulseaudio"
+        ]
+    },
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
@@ -125,7 +136,6 @@
       }
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-ethernet": "{ipaddr}/{cidr} ",
         "tooltip-format": "{ifname} via {gwaddr} ",

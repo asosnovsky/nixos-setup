@@ -1,17 +1,16 @@
-/* @import "macchiato.css";*/
-
-/** {
-  color: @text;
-}*/
-
-/*window#waybar {
-	background-color: shade(@base, 0.9);
-	border: 2px solid alpha(@crust, 0.3);
-	padding-left: 1em;
-	padding-right: 1em;
-}
-*/
+@import "mocha.css";
 
 * {
-	font-family: "Arimo Nerd Font", "Font Awesome 6 Free";
+  color: @text;
+  font-family: "Arimo Nerd Font", "Font Awesome 6 Free";
+  border: none;
+  border-radius: 0;
+  font-size: 13px;
+  min-height: 0;
 }
+
+window#waybar {
+	background-color: shade(@base, 0.9); 
+	border: 2px solid alpha(@crust, 0.3);
+}
+
