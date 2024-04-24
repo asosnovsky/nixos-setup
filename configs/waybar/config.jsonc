@@ -4,25 +4,25 @@
     "position": "top", 
     "spacing": 4, // Gaps between modules (4px)
     "modules-left": [
-	"hyprland/workspaces"
-//	"hyprland/submap"
+        "keyboard-state",
+        "hyprland/workspaces"
+        // "hyprland/submap"
     ],
     "modules-center": [
+        "clock"
+        // "power-profiles-daemon"
     ],
     "modules-right": [
 //        "mpd",
-        "idle_inhibitor",
-        "pulseaudio",
+        // "idle_inhibitor",
+        // "pulseaudio",
         "network",
-        "power-profiles-daemon",
         "cpu",
         "memory",
         "temperature",
-        "backlight",
-        "keyboard-state",
-        "battery",
-        "clock",
-        "tray"
+        // "backlight",
+        "battery"
+        // "tray"
     ],
     "keyboard-state": {
         "numlock": true,
@@ -76,11 +76,11 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
-        "format": "{usage}% ",
+        "format": "{usage}%",
         "tooltip": false
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}%"
     },
     "temperature": {
         // "thermal-zone": 2,

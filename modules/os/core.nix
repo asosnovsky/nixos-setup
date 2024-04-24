@@ -55,9 +55,18 @@
   # Fonts
   fonts = {
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+      # (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+      fira-code
+      fira-code-symbols
+      font-awesome
+      liberation_ttf
+      mplus-outline-fonts.githubRelease
+      nerdfonts
+      noto-fonts
+      noto-fonts-emoji
+      proggyfonts
     ];
-
+    fontDir.enable = true;
     fontconfig = {
       enable = true;
       defaultFonts = {

@@ -1,0 +1,17 @@
+/* @import "macchiato.css";*/
+
+/** {
+  color: @text;
+}*/
+
+/*window#waybar {
+	background-color: shade(@base, 0.9);
+	border: 2px solid alpha(@crust, 0.3);
+	padding-left: 1em;
+	padding-right: 1em;
+}
+*/
+
+* {
+	font-family: "Arimo Nerd Font", "Font Awesome 6 Free";
+}
