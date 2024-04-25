@@ -27,7 +27,6 @@ window#waybar > box {
 
 widget > * {
   border-radius: 10px;
-  /* background-color: #11111b; */
   color: #cdd6f4;
   border-left: 1px solid #cdd6f4;
   border-right: 1px solid #cdd6f4;
@@ -36,25 +35,3 @@ widget > * {
   margin-left: 10px;
 }
 
-
-widget > label:hover {
-  /* background-color: #cdd6f4; */
-  color: #11111b;
-}
-
-/* #backlight, #bluetooth {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  padding-right: 5px;
-  margin-right: 0
-} */
-
-/* #pulseaudio, #network {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  padding-left: 5px;
-} */
-/* 
-#clock {
-  margin-right: 0;
-} */
