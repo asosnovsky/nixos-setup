@@ -25,6 +25,10 @@
     lxqt.lxqt-policykit
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
+    # screenshots
+    grim
+    swappy
+    slurp
     # networking
     networkmanagerapplet
     # waybar
@@ -33,6 +37,7 @@
     wayland-utils
     wl-clipboard
     wlroots
+    cliphist
     # app launchers
     rofi-wayland
     wofi

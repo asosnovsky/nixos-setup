@@ -1,16 +1,17 @@
 {
-  "layer": "top",
+  "layer": "bottom",
+  "position": "top",
+  "name": "waybar",
+  "width": "50px",
   "modules-left": [
     "hyprland/workspaces"
   ],
   "modules-center": [
-    "clock"
+    "group/hardware"
   ],
   "modules-right": [
-    "backlight",
-    "pulseaudio",
-    "bluetooth",
-    "network",
+    // "backlight",
+    // "pulseaudio",
     "battery"
   ],
   "hyprland/workspaces": {
@@ -60,13 +61,6 @@
     "scroll-step": 1,
     "on-click": "pavucontrol"
   },
-  "bluetooth": {
-    "format": "<span color='#b4befe'></span> {status}",
-    "format-disabled": "", // an empty format will hide the module
-    "format-connected": "<span color='#b4befe'></span> {num_connections}",
-    "tooltip-format": "{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}   {device_address}"
-  },
   "network": {
     "format": "{ifname}",
     "format-wifi": "<span color='#b4befe'> </span>{essid}",
@@ -76,20 +70,53 @@
     "on-click": "nm-connection-editor"
   },
   "battery": {
-    "format": "<span color='#b4befe'>{icon}</span> {capacity}%",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "format-charging": "<span color='#b4befe'></span> {capacity}%",
-    "tooltip": false,
+    "states": {
+        "warning": 30,
+        "critical": 15
+    },
+    "format": "{capacity}%|{power}w {icon}",
+    "format-icons": ["", "", "", "", ""],
+    "design-capacity": true
   },
+  "custom/quit": {
+    "format": "󰗼",
+    "tooltip": false,
+    "on-click": "hyprctl dispatch exit"
+  },
+  "group/hardware": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "clock",
+      "bluetooth",
+      "cpu",
+      "memory",
+      "network",
+      "temperature"
+    ]
+  },
+  "cpu": {
+    "interval": 1,
+    "format": "{icon}cpu",
+    "format-icons": [
+      "<span color='#69ff94'>▁</span>", // green
+      "<span color='#2aa9ff'>▂</span>", // blue
+      "<span color='#f8f8f2'>▃</span>", // white
+      "<span color='#f8f8f2'>▄</span>", // white
+      "<span color='#ffffa5'>▅</span>", // yellow
+      "<span color='#ffffa5'>▆</span>", // yellow
+      "<span color='#ff9977'>▇</span>", // orange
+      "<span color='#dd532e'>█</span>" // red
+    ]
+  },
+  "memory": {
+    "interval": 30,
+    "format": "{used:0.1f}G/{total:0.1f}G"
+  },
+  "temperature": {
+    "format": "{temperatureC}°C "
+  }
 }
