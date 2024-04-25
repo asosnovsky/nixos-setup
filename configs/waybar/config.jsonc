@@ -93,7 +93,8 @@
     "modules": [
       "battery",
       "backlight",
-      "custom/quit"
+      "custom/logout",
+      "custom/suspend"
     ]
   },
   "battery": {
@@ -105,10 +106,15 @@
     "format-icons": ["", "", "", "", ""],
     "design-capacity": true
   },
-  "custom/quit": {
-    "format": "󰗼",
+  "custom/logout": {
+    "format": "Logout",
     "tooltip": false,
     "on-click": "hyprctl dispatch exit"
+  },
+  "custom/suspend": {
+    "format": "Suspend",
+    "tooltip": false,
+    "on-click": "systemctl suspend"
   },
   "group/hardware": {
     "orientation": "inherit",

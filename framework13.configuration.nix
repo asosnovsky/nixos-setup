@@ -5,6 +5,7 @@ let
     fullName = "Ari Sosnovsky";
     email = "ariel@sosnovsky.ca";
   };
+  dataDir = "/mnt/Data";
 in
 {
   imports =
@@ -24,7 +25,7 @@ in
     ];
   hardware.framework.amd-7040.preventWakeOnAC = true;
   services.fwupd.enable = true;
-  fileSystems."/mnt/Data" = {
+  fileSystems."${dataDir}" = {
     device = "/dev/sda1";
     fsType = "ext4";
     options = [
@@ -32,4 +33,7 @@ in
       "nofail"
     ];
   };
+  # home-manager.users.${user.name}.zsh.extraEnv = ''
+  #   export KUBECONFIG=${dataDir}/local/kube/config.yml
+  # '';
 }

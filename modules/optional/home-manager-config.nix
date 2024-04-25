@@ -2,9 +2,10 @@
 { pkgs, ... }:
 let
   gitconfigs =
-    (builtins.filterSource (path: type: type != "directory") ../../gitconfigs);
+    (builtins.filterSource (path: type: type != "directory") ../../configs/gitconfigs);
   gitconfigFiles = builtins.attrNames (builtins.readDir gitconfigs);
-in {
+in
+{
   home-manager.users.root = {
     home.stateVersion = homeMangerVersion;
     programs.git = {
@@ -58,9 +59,6 @@ in {
       zsh = {
         enable = true;
         enableAutosuggestions = true;
-        envExtra = ''
-          export KUBECONFIG=/run/media/ari/Data/local/kube/config.yml
-        '';
       };
       zsh.oh-my-zsh = {
         enable = true;

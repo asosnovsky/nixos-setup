@@ -55,7 +55,6 @@
   # Fonts
   fonts = {
     packages = with pkgs; [
-      # (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
       fira-code
       fira-code-symbols
       font-awesome
@@ -65,6 +64,7 @@
       noto-fonts
       noto-fonts-emoji
       proggyfonts
+      flatpak
     ];
     fontDir.enable = true;
     fontconfig = {
