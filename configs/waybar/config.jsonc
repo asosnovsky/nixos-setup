@@ -10,9 +10,8 @@
     "group/hardware"
   ],
   "modules-right": [
-    // "backlight",
-    // "pulseaudio",
-    "battery"
+    "group/sound",
+    "group/right-side"
   ],
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -61,6 +60,11 @@
     "scroll-step": 1,
     "on-click": "pavucontrol"
   },
+  "pulseaudio/slider": {
+      "min": 0,
+      "max": 100,
+      "orientation": "horizontal"
+  },
   "network": {
     "format": "{ifname}",
     "format-wifi": "<span color='#b4befe'> </span>{essid}",
@@ -68,6 +72,29 @@
     "format-disconnected": "<span color='#b4befe'>󰖪 </span>No Network",
     "tooltip": false,
     "on-click": "nm-connection-editor"
+  },
+  "group/sound": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "pulseaudio",
+      "pulseaudio/slider"
+    ]
+  },
+  "group/right-side": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "battery",
+      "backlight",
+      "custom/quit"
+    ]
   },
   "battery": {
     "states": {
@@ -97,6 +124,9 @@
       "network",
       "temperature"
     ]
+  },
+  "bluetooth": {
+    "on-click": "blueman-manager"
   },
   "cpu": {
     "interval": 1,
