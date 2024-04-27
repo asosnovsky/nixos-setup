@@ -5,7 +5,6 @@
 {
   imports =
     [
-      <nixos-hardware/framework/13-inch/7040-amd>
       ./fwbook.hardware-configuration.nix
     ];
   hardware.framework.amd-7040.preventWakeOnAC = true;
