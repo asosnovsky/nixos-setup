@@ -27,7 +27,9 @@
       nixosConfigurations.fwbook = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/fwbook.nix
+          (import ./hosts/fwbook.nix {
+            user = user;
+          })
           (import ./main.nix {
             enableFingerPrint = true;
             hostName = "fwbook";
