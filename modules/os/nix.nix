@@ -1,4 +1,4 @@
-{ systemStateVersion }:
+{ systemStateVersion, user }:
 { pkgs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
