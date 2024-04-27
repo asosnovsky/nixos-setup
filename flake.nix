@@ -31,16 +31,16 @@
           (import ./hosts/fwbook.nix {
             user = user;
           })
-          (import ./main.nix {
-            enableFingerPrint = true;
-            hostName = "fwbook";
-            user = user;
-          })
-          ./modules/optional/amd-packages.nix
-          ./modules/optional/gnome.nix
-          (import ./modules/optional/hyprland.nix {
-            user = user;
-          })
+          # (import ./main.nix {
+          #   enableFingerPrint = true;
+          #   hostName = "fwbook";
+          #   user = user;
+          # })
+          # ./modules/optional/amd-packages.nix
+          # ./modules/optional/gnome.nix
+          # (import ./modules/optional/hyprland.nix {
+          #   user = user;
+          # })
         ];
       };
     };
