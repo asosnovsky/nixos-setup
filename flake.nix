@@ -47,16 +47,13 @@
             };
             systemStateVersion = systemStateVersion;
           })
-          # (import ./modules/optional/hyprland.nix {
-          #   user = user;
-          # })
-          # (import ./main.nix {
-          #   enableFingerPrint = true;
-          #   hostName = "fwbook";
-          #   user = user;
-          # })
-          # ./modules/optional/gnome.nix
-
+          ./modules/rootUser.nix
+          (import ./modules/user.nix {
+            user = user;
+          })
+          (import ./modules/optional/hyprland.nix {
+            user = user;
+          })
         ];
       };
     };
