@@ -35,14 +35,14 @@
             user = user;
             hostName = hostName;
             firewall = {
-              enable = false;
+              enable = true;
             };
-            enableCore = false;
-            enableFonts = false;
-            enableNetowrking = false;
+            enableCore = true;
+            enableFonts = true;
+            enableNetowrking = true;
             enableSSH = false;
             hardware = {
-              enable = false;
+              enable = true;
               enableFingerPrint = true;
             };
             systemStateVersion = systemStateVersion;

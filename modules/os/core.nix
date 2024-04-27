@@ -25,7 +25,7 @@
     glib
     glibc
     glib-networking
-    (import (fetchTarball "https://install.devenv.sh/latest")).default
+    # (import (fetchTarball "https://install.devenv.sh/latest")).default
   ];
   programs.tmux = {
     enable = true;
