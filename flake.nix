@@ -31,12 +31,22 @@
           (import ./hosts/fwbook.nix {
             user = user;
           })
-          (import ./modules/os/nix.nix {
+          (import ./modules/os/main.nix {
+            user = user;
+            hostName = hostName;
+            firewall = {
+              enable = true;
+            };
+            enableCore = true;
+            enableFonts = true;
+            enableNetowrking = true;
+            enableSSH = false;
+            hardware = {
+              enable = true;
+              enableFingerPrint = true;
+            };
             systemStateVersion = systemStateVersion;
           })
-          {
-            networking.hostName = hostName;
-          }
           # (import ./modules/optional/hyprland.nix {
           #   user = user;
           # })

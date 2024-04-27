@@ -17,10 +17,14 @@ in
     (import ./modules/os/nix.nix {
       systemStateVersion = systemStateVersion;
     })
-    (import ./modules/os/core.nix {
-      user = user;
+    (import ./modules/os/networking.nix {
       hostName = hostName;
       firewall = firewall;
+    })
+    import
+    ./modules/os/fonts.nix
+    (import ./modules/os/core.nix {
+      user = user;
     })
     (import ./modules/os/hardware.nix {
       enableFingerPrint = enableFingerPrint;
@@ -45,4 +49,9 @@ in
       user = user;
     })
   ] else [ ]);
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.tmp.useTmpfs = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 }

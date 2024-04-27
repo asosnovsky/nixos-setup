@@ -20,6 +20,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # Amd GPU Support
   environment.systemPackages = with pkgs; [
     rocmPackages.rocm-smi
