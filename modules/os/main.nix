@@ -14,6 +14,7 @@
 {
   imports = [
     (import ./nix.nix {
+      user = user;
       systemStateVersion = systemStateVersion;
     })
   ] ++ (if enableCore then [
