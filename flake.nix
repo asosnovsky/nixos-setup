@@ -35,10 +35,10 @@
             user = user;
             hostName = hostName;
             firewall = {
-              enable = true;
+              enable = false;
             };
-            enableCore = true;
-            enableFonts = true;
+            enableCore = false;
+            enableFonts = false;
             enableNetowrking = false;
             enableSSH = false;
             hardware = {
