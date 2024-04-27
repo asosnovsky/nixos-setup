@@ -56,6 +56,10 @@
           (import ./modules/optional/hyprland.nix {
             user = user;
           })
+          {
+            # enable docker
+            virtualisation.docker.enable = true;
+          }
         ];
       };
     };
