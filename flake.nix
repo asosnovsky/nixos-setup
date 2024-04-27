@@ -31,13 +31,15 @@
           (import ./hosts/fwbook.nix {
             user = user;
           })
+          (import ./modules/os/nix.nix {
+            systemStateVersion = systemStateVersion;
+          })
           {
-            system.stateVersion = systemStateVersion;
             networking.hostName = hostName;
           }
-          (import ./modules/optional/hyprland.nix {
-            user = user;
-          })
+          # (import ./modules/optional/hyprland.nix {
+          #   user = user;
+          # })
           # (import ./main.nix {
           #   enableFingerPrint = true;
           #   hostName = "fwbook";
