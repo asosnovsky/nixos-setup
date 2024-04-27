@@ -1,4 +1,4 @@
-{ enableFingerPrint ? false }:
+{ enableFingerPrint ? false, ... }:
 { pkgs, ... }:
 {
   # Firmware Updater
