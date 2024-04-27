@@ -39,10 +39,10 @@
             };
             enableCore = true;
             enableFonts = true;
-            enableNetowrking = true;
+            enableNetowrking = false;
             enableSSH = false;
             hardware = {
-              enable = true;
+              enable = false;
               enableFingerPrint = true;
             };
             systemStateVersion = systemStateVersion;
