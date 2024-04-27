@@ -1,7 +1,7 @@
 { user
 , dataDir ? "/mnt/Data"
 }:
-{ ... }:
+{ pkgs, ... }:
 {
   imports =
     [
