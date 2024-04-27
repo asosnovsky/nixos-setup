@@ -2,9 +2,16 @@
   inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
+  inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
 
-  outputs = { self, nixpkgs, home-manager, fh, ... }@attrs:
+  outputs =
+    { self
+    , nixpkgs
+    , home-manager
+    , fh
+    , nixos-hardware
+    }@attrs:
     let
       user = {
         name = "ari";
@@ -21,7 +28,7 @@
         system = "x86_64-linux";
         modules = [
           hardware-configs/fwbook.nix
-          <nixos-hardware/framework/13-inch/7040-amd>
+          nixos-hardware.nixosModules.framework-13-7040-amd
           (import ./modules/os/nix.nix {
             systemStateVersion = systemStateVersion;
           })
@@ -52,9 +59,9 @@
             hostName = hostName;
             user = user;
           })
-          /home/ari/nixos-setup/modules/optional/amd-packages.nix
-          /home/ari/nixos-setup/modules/optional/gnome.nix
-          (import /home/ari/nixos-setup/modules/optional/hyprland.nix {
+          ./modules/optional/amd-packages.nix
+          ./modules/optional/gnome.nix
+          (import ./modules/optional/hyprland.nix {
             user = user;
           })
           {
