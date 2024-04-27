@@ -40,7 +40,7 @@
           #   hostName = "fwbook";
           #   user = user;
           # })
-          # ./modules/optional/amd-packages.nix
+          ./modules/optional/amd-packages.nix
           # ./modules/optional/gnome.nix
           # (import ./modules/optional/hyprland.nix {
           #   user = user;
