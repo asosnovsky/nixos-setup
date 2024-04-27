@@ -27,7 +27,7 @@
       nixosConfigurations.fwbook = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          hardware-configs/fwbook.nix
+          ./hardware-configs/fwbook.nix
           nixos-hardware.nixosModules.framework-13-7040-amd
           (import ./modules/os/nix.nix {
             systemStateVersion = systemStateVersion;
