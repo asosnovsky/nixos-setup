@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
   inputs.home-manager.url = github:nix-community/home-manager;
-  inputs.fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
+  # inputs.fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
 
@@ -9,7 +9,7 @@
     { self
     , nixpkgs
     , home-manager
-    , fh
+      # , fh
     , nixos-hardware
     }@attrs:
     let
@@ -28,14 +28,15 @@
         system = "x86_64-linux";
         modules = [
           ./hardware-configs/fwbook.nix
-          nixos-hardware.nixosModules.framework-13-7040-amd
-          (import ./modules/os/nix.nix {
-            systemStateVersion = systemStateVersion;
-          })
-          (import ./modules/os/core.nix {
+          (import ./main.nix {
+            enableFingerPrint = true;
+            hostName = "fwbook";
             user = user;
-            hostName = hostName;
-            firewall = { enable = true; };
+          })
+          ./modules/optional/amd-packages.nix
+          ./modules/optional/gnome.nix
+          (import ./modules/optional/hyprland.nix {
+            user = user;
           })
         ];
       };

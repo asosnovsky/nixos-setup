@@ -14,7 +14,6 @@ let
 in
 {
   imports = [
-    /etc/nixos/hardware-configuration.nix
     (import ./modules/os/nix.nix {
       systemStateVersion = systemStateVersion;
     })

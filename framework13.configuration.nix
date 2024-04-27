@@ -11,6 +11,7 @@ in
   imports =
     [
       /etc/nixos/cachix.nix
+      /etc/nixos/hardware-configuration.nix
       <nixos-hardware/framework/13-inch/7040-amd>
       (import /home/ari/nixos-setup/main.nix {
         enableFingerPrint = true;
