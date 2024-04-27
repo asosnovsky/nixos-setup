@@ -20,4 +20,20 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
+  # Amd GPU Support
+  environment.systemPackages = with pkgs; [
+    rocmPackages.rocm-smi
+    rocmPackages.rpp
+    rocmPackages.rocm-core
+    rocmPackages.rocm-runtime
+    rocmPackages.hipblas
+    rocmPackages.llvm.clang
+    amdgpu_top
+    amdctl
+  ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  hardware.opengl.extraPackages = with pkgs; [
+    rocmPackages.clr.icd
+    amdvlk
+  ];
 }
