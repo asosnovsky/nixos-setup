@@ -47,7 +47,9 @@
             };
             systemStateVersion = systemStateVersion;
           })
-          ./modules/rootUser.nix
+          (import ./modules/rootUser.nix {
+            hostName = hostName;
+          })
           (import ./modules/user.nix {
             user = user;
           })
