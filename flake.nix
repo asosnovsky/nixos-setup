@@ -31,6 +31,10 @@
           (import ./hosts/fwbook.nix {
             user = user;
           })
+          {
+            system.stateVersion = systemStateVersion;
+            networking.hostName = hostName;
+          }
           # (import ./main.nix {
           #   enableFingerPrint = true;
           #   hostName = "fwbook";
