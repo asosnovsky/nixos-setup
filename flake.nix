@@ -55,7 +55,7 @@
           (import ./modules/optional/hyprland.nix {
             user = user;
           })
-          # (import ./modules/optional/gnome.nix)
+          ./modules/optional/gnome.nix
           (import ./modules/optional/home-manager-config.nix {
             user = user;
             hostName = hostName;
