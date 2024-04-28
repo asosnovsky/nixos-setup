@@ -15,7 +15,7 @@ in
     };
     programs.zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
     };
     programs.zsh.oh-my-zsh.enable = true;
   };
@@ -56,7 +56,7 @@ in
       };
       zsh = {
         enable = true;
-        enableAutosuggestions = true;
+        autosuggestion.enable = true;
       };
       zsh.oh-my-zsh = {
         enable = true;
