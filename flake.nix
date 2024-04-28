@@ -1,6 +1,6 @@
 {
-  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
-  inputs.home-manager.url = github:nix-community/home-manager/release-23.11;
+  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+  inputs.home-manager.url = github:nix-community/home-manager;
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
   outputs =
@@ -17,7 +17,7 @@
       };
       dataDir = "/mnt/Data";
       systemStateVersion = "23.11";
-      homeMangerVersion = "23.11";
+      homeMangerVersion = "24.05";
       hostName = "fwbook";
     in
     {

@@ -63,9 +63,9 @@ in
         plugins = [ "git" "sudo" ];
         theme = "robbyrussell";
       };
-      programs.helix = {
-        enable = true;
-      };
+      # programs.helix = {
+      #   enable = true;
+      # };
     };
   };
 }
