@@ -56,6 +56,7 @@
             user = user;
           })
           ./modules/optional/gnome.nix
+          ./modules/optional/wayland.nix
           (import ./modules/optional/home-manager-config.nix {
             user = user;
             hostName = hostName;

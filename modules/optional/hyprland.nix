@@ -33,8 +33,6 @@
     networkmanagerapplet
     # waybar
     meson
-    wayland-protocols
-    wayland-utils
     wl-clipboard
     wlroots
     cliphist
