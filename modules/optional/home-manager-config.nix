@@ -63,14 +63,8 @@ in
         plugins = [ "git" "sudo" ];
         theme = "robbyrussell";
       };
-      vscode = {
+      programs.helix = {
         enable = true;
-        extensions = with pkgs.vscode-extensions; [
-          bbenoist.nix
-          ms-python.python
-          ms-azuretools.vscode-docker
-          ms-vscode-remote.remote-ssh
-        ];
       };
     };
   };
