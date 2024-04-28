@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.lightdm.greeters.enso.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = true;
   programs.xwayland.enable = true;
   environment.systemPackages = with pkgs; [
     wayland
