@@ -8,7 +8,6 @@
   i18n.defaultLocale = "en_CA.UTF-8";
 
   # System Packages
-  nixpkgs.config.allowUnfree = true;
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
