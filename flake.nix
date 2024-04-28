@@ -55,7 +55,7 @@
           (import ./modules/optional/hyprland.nix {
             user = user;
           })
-          ./modules/optional/x11.nix # still needed for things like sddm
+          ./modules/optional/x11.nix # still needed for things like lightdm
           ./modules/optional/wayland.nix
           (import ./modules/optional/home-manager-config.nix {
             user = user;

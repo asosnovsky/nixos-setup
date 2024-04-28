@@ -14,6 +14,7 @@
       proggyfonts
       flatpak
     ];
+    enableDefaultPackages = true;
     fontDir.enable = true;
     fontconfig = {
       enable = true;
