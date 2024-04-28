@@ -64,6 +64,8 @@
           {
             # enable docker
             virtualisation.docker.enable = true;
+            # enable unfree
+            nixpkgs.config.allowUnfree = true;
           }
         ];
       };

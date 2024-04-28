@@ -6,7 +6,6 @@ let
   gitconfigFiles = builtins.attrNames (builtins.readDir gitconfigs);
 in
 {
-  nixpkgs.config.allowUnfree = true;
   home-manager.users.root = {
     home.stateVersion = homeMangerVersion;
     programs.git = {
