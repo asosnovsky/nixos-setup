@@ -5,9 +5,9 @@
     shell = pkgs.zsh;
     isNormalUser = true;
     description = user.name;
-    extraGroups = [ 
-      "networkmanager" 
-      "wheel" 
+    extraGroups = [
+      "networkmanager"
+      "wheel"
       "docker"
     ];
     packages = with pkgs; [
@@ -17,6 +17,7 @@
       zoom-us
       terminator
       nixd
+      vscode
     ];
   };
 }

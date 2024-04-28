@@ -19,9 +19,9 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "FiraCode" "DroidSansMono" ];
-        sansSerif = [ "FiraCode" "DroidSansMono" ];
-        monospace = [ "FiraCode" ];
+        serif = [ "Fira Code" "DroidSansMono" ];
+        sansSerif = [ "Fira Code" "DroidSansMono" ];
+        monospace = [ "Fira Code" ];
       };
     };
   };

@@ -14,7 +14,6 @@
     nix-index
     zsh
     git
-    vscode
     nil
     docker-compose
     usbutils
