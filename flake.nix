@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
   inputs.home-manager.url = github:nix-community/home-manager;
-  # inputs.fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
+  inputs.fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
 
@@ -9,7 +9,7 @@
     { self
     , nixpkgs
     , home-manager
-      # , fh
+    , fh
     , nixos-hardware
     }@attrs:
     let
@@ -28,6 +28,8 @@
         system = "x86_64-linux";
         modules = [
           nixos-hardware.nixosModules.framework-13-7040-amd
+          home-manager.nixosModules.default
+          fh.packages.x86_64-linux.default
           (import ./hosts/fwbook.nix {
             user = user;
           })
@@ -55,6 +57,12 @@
           })
           (import ./modules/optional/hyprland.nix {
             user = user;
+          })
+          ./modules/optional/gnome.nix
+          (import ./modules/optional/home-manager-config.nix {
+            user = user;
+            hostName = hostName;
+            homeMangerVersion = homeMangerVersion;
           })
           {
             # enable docker

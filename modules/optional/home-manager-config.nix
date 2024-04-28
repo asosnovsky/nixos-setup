@@ -23,14 +23,12 @@ in
     home = {
       stateVersion = homeMangerVersion;
       shellAliases = { cat = "bat"; };
-      packages = [
-        (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-        pkgs.kubectl
-        pkgs.terraform
-        pkgs.rye
-        pkgs.glibc
-        pkgs.betterdiscordctl
-        pkgs.discord
+      packages = with pkgs; [
+        kubectl
+        terraform
+        rye
+        betterdiscordctl
+        discord
       ];
     };
     programs = {
