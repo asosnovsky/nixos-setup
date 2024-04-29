@@ -10,6 +10,7 @@
   # System Packages
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
+  services.flatpak.enable = true;
   environment.systemPackages = with pkgs; [
     nix-index
     zsh
@@ -25,7 +26,6 @@
     glib
     glibc
     glib-networking
-    flatpak
   ];
   programs.tmux = {
     enable = true;

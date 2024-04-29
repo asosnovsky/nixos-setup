@@ -24,6 +24,7 @@ in
       stateVersion = homeMangerVersion;
       shellAliases = { cat = "bat"; };
       packages = with pkgs; [
+        nixfmt-classic
         kubectl
         terraform
         rye
@@ -64,9 +65,5 @@ in
         plugins = [ "git" "sudo" ];
         theme = "robbyrussell";
       };
-      helix = {
-        enable = true;
-      };
     };
-  };
-}
+  }
