@@ -32,8 +32,6 @@
     slurp
     # networking
     networkmanagerapplet
-    libsForQt5.plasma-nm
-    networkmanager_dmenu
     # waybar
     meson
     wl-clipboard
