@@ -10,7 +10,4 @@
     pkgs.gnome-tour
     pkgs.gnome-console
   ];
-  services.xserver.excludePackages = [
-    pkgs.xterm
-  ];
 }

@@ -27,6 +27,9 @@
     glibc
     glib-networking
   ];
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
   programs.tmux = {
     enable = true;
     clock24 = true;
