@@ -12,20 +12,32 @@
   programs.nix-ld.enable = true;
   services.flatpak.enable = true;
   environment.systemPackages = with pkgs; [
+    # nix utils
     nix-index
+    appimage-run
+    nil
+    cachix
+
+    # shell tools
     zsh
     git
-    nil
-    docker-compose
     usbutils
     wget
-    appimage-run
     htop
+
+    # system utils
     nfs-utils
-    cachix
+
+    # misc
     glib
     glibc
     glib-networking
+
+    # docker
+    docker-compose
+
+    # printer
+    system-config-printer
   ];
   services.xserver.excludePackages = with pkgs; [
     xterm
