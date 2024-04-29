@@ -43,6 +43,7 @@
     wofi
   ];
   services.mpd.enable = true;
+  programs.kdeconnect.enable = true;
   services.pipewire.wireplumber.enable = true;
   users.users.${user.name}.extraGroups = [
     "input"
