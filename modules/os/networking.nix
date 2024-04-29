@@ -14,4 +14,7 @@
   # Tailscale
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "client";
+
+  # Disable the flaky nm service
+  systemd.services.NetworkManager-wait-online.enable = false;
 }

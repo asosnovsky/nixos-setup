@@ -8,7 +8,6 @@
       font-awesome
       mplus-outline-fonts.githubRelease
       noto-fonts-emoji
-      flatpak
     ];
     enableDefaultPackages = true;
     fontDir.enable = true;

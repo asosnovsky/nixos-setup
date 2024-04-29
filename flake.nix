@@ -21,7 +21,7 @@
       hostName = "fwbook";
     in
     {
-      nixosConfigurations.fwbook = nixpkgs.lib.nixosSystem {
+      nixosConfigurations."${hostName}" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           nixos-hardware.nixosModules.framework-13-7040-amd

@@ -25,7 +25,7 @@
     glib
     glibc
     glib-networking
-    # (import (fetchTarball "https://install.devenv.sh/latest")).default
+    flatpak
   ];
   programs.tmux = {
     enable = true;

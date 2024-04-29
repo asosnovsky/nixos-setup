@@ -29,6 +29,7 @@ in
         rye
         betterdiscordctl
         discord
+        devenv
       ];
     };
     programs = {
