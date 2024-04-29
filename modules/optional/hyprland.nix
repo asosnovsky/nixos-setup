@@ -14,6 +14,7 @@
     scdoc
     mpv
     gcc
+    xdg-desktop-portal
     # apps
     kitty
     # sound
@@ -21,7 +22,7 @@
     # notification daemon
     dunst
     libnotify
-    # hypland
+    # hyprland
     lxqt.lxqt-policykit
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
@@ -32,11 +33,13 @@
     # networking
     networkmanagerapplet
     libsForQt5.plasma-nm
+    networkmanager_dmenu
     # waybar
     meson
     wl-clipboard
     wlroots
     cliphist
+    xdg-desktop-portal-wlr
     # app launchers
     rofi-wayland
     wofi

@@ -71,7 +71,7 @@
     "format-ethernet": "{ipaddr}/{cidr} ",
     "format-disconnected": "<span color='#b4befe'>󰖪 </span>No Network",
     "tooltip": false,
-    "on-click": "nm-connection-editor"
+    "on-click": "kitty --class=float --name=wifi-manager -T \"Wifi Manager\" --start-as=normal nmtui"
   },
   "group/sound": {
     "orientation": "inherit",
