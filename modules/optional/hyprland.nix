@@ -32,6 +32,7 @@
     # color picker
     hyprpicker
     # nwg-shell
+    nwg-dock
     nwg-dock-hyprland
     nwg-launchers
     nwg-displays
@@ -42,15 +43,10 @@
     nwg-menu
     nwg-bar
     # screenshots
-    ## old
-    grim
     swappy
-    slurp
-    ## new
     hyprshot
     # networking
     networkmanagerapplet
-    # waybar
     meson
     wl-clipboard
     wlroots
