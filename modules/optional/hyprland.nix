@@ -7,7 +7,7 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };
-  programs.waybar.enable = true;
+  programs.waybar.enable = false;
   environment.systemPackages = with pkgs; [
     # common utilities
     busybox
@@ -26,10 +26,28 @@
     lxqt.lxqt-policykit
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
+    hyprlock
+    hypridle
+    hyprpaper
+    # color picker
+    hyprpicker
+    # nwg-shell
+    nwg-dock-hyprland
+    nwg-launchers
+    nwg-displays
+    nwg-drawer
+    nwg-panel
+    gopsuinfo
+    nwg-look
+    nwg-menu
+    nwg-bar
     # screenshots
+    ## old
     grim
     swappy
     slurp
+    ## new
+    hyprshot
     # networking
     networkmanagerapplet
     # waybar
