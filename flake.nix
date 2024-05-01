@@ -57,7 +57,6 @@
           ./modules/optional/x11.nix # still needed for things like lightdm
           ./modules/optional/wayland.nix
           ./modules/optional/kde.nix
-          ./modules/optional/sway.nix
           (import ./modules/optional/home-manager-config.nix {
             user = user;
             hostName = hostName;
