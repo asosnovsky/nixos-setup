@@ -1,7 +1,7 @@
 { user
 , dataDir ? "/mnt/Data"
 }:
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports =
     [
@@ -21,8 +21,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # Amd GPU Support
   environment.systemPackages = with pkgs; [
+    # Amd GPU Support
     rocmPackages.rocm-smi
     rocmPackages.rpp
     rocmPackages.rocm-core
@@ -32,7 +32,11 @@
     amdgpu_top
     amdctl
   ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
+  services.xserver.displayManager.sessionCommands = ''
+    ${lib.getBin pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 2 0
+  '';
+  boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
   hardware.opengl.extraPackages = with pkgs; [
     rocmPackages.clr.icd
     amdvlk
