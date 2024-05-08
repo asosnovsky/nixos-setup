@@ -20,20 +20,16 @@
       "hyprland-workspaces"
     ],
     "modules-center": [
-      "clock",
-      "executor-memory",
-      "executor-temp",
-      "executor-cpuav"
+      "clock"
     ],
-    "modules-right": [
-      "tray",
-      "keyboard-layout"
-    ],
+    "modules-right": [],
     "controls-settings": {
       "components": [
         "brightness",
         "volume",
-        "battery"
+        "battery",
+        "per-app-volume",
+        "processes"
       ],
       "commands": {
         "battery": ""
@@ -41,75 +37,47 @@
       "show-values": false,
       "interval": 1,
       "icon-size": 16,
-      "hover-opens": false,
+      "hover-opens": true,
       "leave-closes": true,
-      "click-closes": false,
+      "click-closes": true,
       "css-name": "controls-window",
       "custom-items": [
         {
           "name": "Panel settings",
           "icon": "nwg-panel",
           "cmd": "nwg-panel-config"
+        },
+        {
+          "name": "Exit",
+          "icon": "system-shutdown-symbolic",
+          "cmd": "nwg-bar"
         }
       ],
+      "show-brightness": true,
+      "show-volume": true,
+      "show-battery": true,
+      "output-switcher": true,
+      "per-app-volume": false,
+      "backlight-controller": "brightnessctl",
+      "backlight-device": "",
+      "window-width": 0,
+      "window-margin-horizontal": 0,
+      "window-margin-vertical": 0,
+      "root-css-name": "controls-overview",
+      "battery-low-level": 20,
+      "battery-low-interval": 3,
+      "processes-label": "Processes",
+      "readme-label": "README",
+      "angle": 0.0,
       "menu": {
         "name": "Exit",
         "icon": "system-shutdown-symbolic",
-        "items": [
-          {
-            "name": "Logout",
-            "cmd": "hyprctl dispatch exit"
-          },
-          {
-            "name": "Reboot",
-            "cmd": "systemctl reboot"
-          },
-          {
-            "name": "Shutdown",
-            "cmd": "systemctl -i poweroff"
-          }
-        ]
+        "items": []
       }
     },
     "tray": {
       "root-css-name": "tray",
       "inner-css-name": "inner-tray"
-    },
-    "sway-taskbar": {
-      "workspace-menu": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8"
-      ],
-      "name-max-len": 20,
-      "image-size": 16,
-      "workspaces-spacing": 0,
-      "task-padding": 0,
-      "show-app-icon": true,
-      "show-app-name": true,
-      "show-layout": true,
-      "workspace-buttons": false,
-      "all-workspaces": true,
-      "mark-autotiling": true,
-      "mark-xwayland": true,
-      "all-outputs": true
-    },
-    "sway-workspaces": {
-      "numbers": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8"
-      ]
     },
     "clock": {
       "format": "%a, %d. %b  %H:%M:%S",
@@ -142,15 +110,7 @@
       "label-css-name": "",
       "interval": 1
     },
-    "button-sample": {
-      "command": "notify-send 'sample button'",
-      "icon": "view-grid",
-      "label": "",
-      "label-position": "right",
-      "css-name": "button-custom",
-      "icon-size": 16
-    },
-    "menu-start": "left",
+    "menu-start": "off",
     "exclusive-zone": true,
     "sigrt": 64,
     "use-sigrt": false,
@@ -255,6 +215,26 @@
       "css-name": "",
       "icon-size": 16,
       "icon-placement": "right"
+    },
+    "sway-taskbar": {},
+    "sway-workspaces": {},
+    "menu-start-settings": {
+      "cmd-lock": "hyprlock -q",
+      "cmd-logout": "hyprctl dispatch exit",
+      "cmd-restart": "systemctl reboot",
+      "cmd-shutdown": "systemctl -i poweroff",
+      "autohide": false,
+      "file-manager": "dolphin",
+      "icon-size-large": 32,
+      "icon-size-small": 16,
+      "icon-size-button": 20,
+      "margin-bottom": 0,
+      "margin-left": 0,
+      "margin-right": 0,
+      "margin-top": 0,
+      "padding": 2,
+      "terminal": "kitty",
+      "run-through-compositor": false
     }
   }
 ]

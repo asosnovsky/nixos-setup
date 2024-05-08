@@ -1,5 +1,15 @@
 [
   {
+    "label": "Suspend",
+    "exec": "systemctl suspend",
+    "icon": "/nix/store/xl4m836jpyzq43azychrbbjjq1j7d0zq-nwg-bar-0.1.6/share/nwg-bar/images/system-suspend.svg"
+  },
+  {
+    "label": "Hibernate",
+    "exec": "systemctl hibernate",
+    "icon": "/nix/store/xl4m836jpyzq43azychrbbjjq1j7d0zq-nwg-bar-0.1.6/share/nwg-bar/images/system-hibernate.svg"
+  },
+  {
     "label": "Logout",
     "exec": "hyprctl dispatch exit",
     "icon": "/nix/store/xl4m836jpyzq43azychrbbjjq1j7d0zq-nwg-bar-0.1.6/share/nwg-bar/images/system-log-out.svg"
@@ -14,5 +24,4 @@
     "exec": "systemctl -i poweroff",
     "icon": "/nix/store/xl4m836jpyzq43azychrbbjjq1j7d0zq-nwg-bar-0.1.6/share/nwg-bar/images/system-shutdown.svg"
   }
-]
 ]
