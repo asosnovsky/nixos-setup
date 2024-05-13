@@ -63,11 +63,6 @@
           "name": "Panel settings",
           "icon": "nwg-panel",
           "cmd": "nwg-panel-config"
-        },
-        {
-          "name": "Shell settings",
-          "icon": "nwg-shell-config",
-          "cmd": "nwg-shell-config"
         }
       ],
       "menu": {

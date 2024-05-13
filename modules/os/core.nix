@@ -46,4 +46,13 @@
     enable = true;
     clock24 = true;
   };
+  # Storage Optim
+  nix.optimise.automatic = true;
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "* 23 * * *       root    nix-collect-garbage --delete-older-than 1d"
+      "* 23 * * *       ${user.name}   nix-collect-garbage --delete-older-than 1d"
+    ];
+  };
 }

@@ -31,6 +31,7 @@ in
         betterdiscordctl
         discord
         devenv
+        conda
       ];
     };
     programs = {
