@@ -41,7 +41,6 @@
             enableSSH = false;
             hardware = {
               enable = true;
-              enableFingerPrint = true;
             };
             systemStateVersion = systemStateVersion;
           })

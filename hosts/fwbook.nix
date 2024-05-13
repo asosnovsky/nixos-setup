@@ -8,6 +8,7 @@
       ./fwbook.hardware-configuration.nix
     ];
   services.fwupd.enable = true;
+  services.fprintd.enable = true;
   fileSystems."${dataDir}" = {
     device = "/dev/sda1";
     fsType = "ext4";
@@ -29,6 +30,7 @@
     rocmPackages.rocm-runtime
     rocmPackages.hipblas
     rocmPackages.llvm.clang
+    displaylink
     amdgpu_top
     amdctl
   ];

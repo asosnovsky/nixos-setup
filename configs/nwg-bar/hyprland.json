@@ -1,21 +1,21 @@
 [
   {
-    "label": "Lock",
+    "label": "Loc_k",
     "exec": "nwg-lock",
     "icon": "/usr/share/nwg-bar/images/system-lock-screen.svg"
   },
   {
-    "label": "Logout",
-    "exec": "swaymsg exit",
+    "label": "_Logout",
+    "exec": "hyprctl dispatch exit",
     "icon": "/usr/share/nwg-bar/images/system-log-out.svg"
   },
   {
-    "label": "Reboot",
+    "label": "_Reboot",
     "exec": "systemctl reboot",
     "icon": "/usr/share/nwg-bar/images/system-reboot.svg"
   },
   {
-    "label": "Shutdown",
+    "label": "_Shutdown",
     "exec": "systemctl -i poweroff",
     "icon": "/usr/share/nwg-bar/images/system-shutdown.svg"
   }

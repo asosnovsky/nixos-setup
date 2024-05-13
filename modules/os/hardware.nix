@@ -1,12 +1,7 @@
-{ enableFingerPrint ? false, ... }:
 { pkgs, ... }:
 {
   # Firmware Updater
   services.fwupd.enable = true;
-  services.fprintd =
-    if enableFingerPrint then {
-      enable = true;
-    } else { };
   # Enable all license firmware
   hardware.enableAllFirmware = true;
 

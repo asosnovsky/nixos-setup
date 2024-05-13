@@ -24,7 +24,7 @@
   ] else [ ]) ++ (if enableFonts then [
     ./fonts.nix
   ] else [ ]) ++ (if hardware.enable then [
-    (import ./hardware.nix hardware)
+    ./hardware.nix
   ] else [ ]) ++ (if enableNetowrking then [
     (import ./networking.nix {
       hostName = hostName;
