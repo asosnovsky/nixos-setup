@@ -78,15 +78,15 @@
           },
           {
             "name": "Exit Hyprland session",
-            "cmd": "nwg-dialog -p exit-hyprland -c \"hyprctl dispatch exit\""
+            "cmd": "hyprctl dispatch exit"
           },
           {
             "name": "Restart",
-            "cmd": "nwg-dialog -p reboot -c \"systemctl reboot\""
+            "cmd": "systemctl reboot"
           },
           {
             "name": "Shutdown",
-            "cmd": "nwg-dialog -p poweroff -c \"systemctl -i poweroff\""
+            "cmd": "systemctl -i poweroff"
           }
         ]
       },
