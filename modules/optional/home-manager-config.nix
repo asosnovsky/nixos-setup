@@ -39,6 +39,12 @@ in
     };
     programs = {
       bat.enable = true;
+      neovim = {
+        enable = true;
+        defaultEditor = true;
+        viAlias = true;
+        vimAlias = true;
+      };
       direnv.enable = true;
       lsd = {
         enable = true;

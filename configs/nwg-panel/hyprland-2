@@ -69,12 +69,16 @@
         "icon": "system-shutdown-symbolic",
         "items": [
           {
-            "name": "Lock",
-            "cmd": "nwg-lock"
+            "name": "Hibernate",
+            "cmd": "systemctl hibernate"
           },
           {
-            "name": "Exit Hyprland session",
+            "name": "Logout",
             "cmd": "hyprctl dispatch exit"
+          },
+          {
+            "name": "Restart",
+            "cmd": "systemctl reboot"
           },
           {
             "name": "Restart",
