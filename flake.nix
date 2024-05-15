@@ -46,7 +46,6 @@
             hardware = {
               enable = true;
             };
-            systemStateVersion = systemStateVersion;
           })
           (import ./modules/rootUser.nix {
             hostName = hostName;
