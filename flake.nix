@@ -39,7 +39,6 @@
             firewall = {
               enable = false;
             };
-            enableCore = true;
             enableFonts = true;
             enableNetowrking = true;
             enableSSH = false;

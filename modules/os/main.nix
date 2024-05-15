@@ -1,7 +1,6 @@
 { user
 , hostName
 , firewall
-, enableCore ? true
 , enableFonts ? true
 , enableNetowrking ? true
 , enableSSH ? true
@@ -11,11 +10,9 @@
 }:
 { pkgs, ... }:
 {
-  imports = [ ] ++ (if enableCore then [
-    (import ./core.nix {
-      user = user;
-    })
-  ] else [ ]) ++ (if enableFonts then [
+  imports = [
+    ./core.nix
+  ] ++ (if enableFonts then [
     ./fonts.nix
   ] else [ ]) ++ (if hardware.enable then [
     ./hardware.nix
