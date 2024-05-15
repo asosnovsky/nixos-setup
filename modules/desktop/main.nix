@@ -15,6 +15,8 @@
   ] else [ ]) ++ (if enableKDE then [
     ./kde.nix
   ] else [ ]) ++ (if enableHypr then [
-    ./hyprland.nix
+    (import ./hyprland.nix {
+      user = user;
+    })
   ] else [ ]);
 }

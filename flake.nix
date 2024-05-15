@@ -52,12 +52,12 @@
           (import ./modules/user.nix {
             user = user;
           })
-          (import ./modules/optional/hyprland.nix {
+          (import ./modules/desktop/main.nix {
             user = user;
+            enableKDE = true;
+            enableHypr = true;
+            enableX11 = true;
           })
-          ./modules/optional/x11.nix # still needed for things like lightdm
-          ./modules/optional/wayland.nix
-          ./modules/optional/kde.nix
           ./modules/optional/ollama.nix
           (import ./modules/optional/home-manager-config.nix {
             user = user;
