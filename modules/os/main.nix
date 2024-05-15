@@ -1,7 +1,6 @@
 { user
 , hostName
 , firewall
-, systemStateVersion
 , enableCore ? true
 , enableFonts ? true
 , enableNetowrking ? true
@@ -12,12 +11,7 @@
 }:
 { pkgs, ... }:
 {
-  imports = [
-    (import ./nix.nix {
-      user = user;
-      systemStateVersion = systemStateVersion;
-    })
-  ] ++ (if enableCore then [
+  imports = [ ] ++ (if enableCore then [
     (import ./core.nix {
       user = user;
     })

@@ -29,6 +29,10 @@
           (import ./hosts/fwbook.nix {
             user = user;
           })
+          (import ./modules/nix/main.nix {
+            user = user;
+            systemStateVersion = systemStateVersion;
+          })
           (import ./modules/os/main.nix {
             user = user;
             hostName = hostName;
@@ -62,12 +66,6 @@
             hostName = hostName;
             homeMangerVersion = homeMangerVersion;
           })
-          {
-            # enable docker
-            virtualisation.docker.enable = true;
-            # enable unfree
-            nixpkgs.config.allowUnfree = true;
-          }
         ];
       };
     };
