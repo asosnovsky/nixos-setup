@@ -27,6 +27,7 @@
       enableKDE = desktop.enableKDE;
       enableHypr = desktop.enableHypr;
       enableX11 = desktop.enableX11;
+      enableWine = desktop.enableWine;
     })
   ] else [ ]) ++ (if os.enable then [
     (import ./os/main.nix {

@@ -3,6 +3,7 @@
 , enableGnome ? false
 , enableKDE ? false
 , enableHypr ? false
+, enableWine ? false
 }:
 { pkgs, ... }:
 {
@@ -12,6 +13,8 @@
     ./x11.nix
   ] else [ ]) ++ (if enableGnome then [
     ./gnome.nix
+  ] else [ ]) ++ (if enableWine then [
+    ./wine.nix
   ] else [ ]) ++ (if enableKDE then [
     ./kde.nix
   ] else [ ]) ++ (if enableHypr then [
@@ -24,15 +27,23 @@
   programs.kdeconnect.enable = true;
   # Personal Desktop App
   users.users.${user.name}.packages = with pkgs; [
+    # web
     firefox
+    # password
     bitwarden-cli
-    zoom-us
+    # development
     vscode
+    # socials
+    zoom-us
     betterdiscordctl
     discord
+    # crypto
     trezor-suite
     trezord
     ledger-live-desktop
+    # documents
+    softmaker-office
+    onlyoffice-bin_7_5
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [

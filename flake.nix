@@ -40,6 +40,7 @@
               enableKDE = true;
               enableHypr = true;
               enableX11 = true;
+              enableWine = true;
             };
             os = {
               enable = true;
