@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm.wayland.enable = true;
   programs.xwayland.enable = true;
   environment.systemPackages = with pkgs; [
     wayland
