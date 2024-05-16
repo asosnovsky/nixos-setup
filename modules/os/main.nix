@@ -12,6 +12,10 @@
 {
   imports = [
     ./core.nix
+    ./rootUser.nix
+    (import ./user.nix {
+      user = user;
+    })
   ] ++ (if enableFonts then [
     ./fonts.nix
   ] else [ ]) ++ (if hardware.enable then [
@@ -22,8 +26,9 @@
       firewall = firewall;
     })
   ] else [ ]) ++ (if enableSSH then [
-    (import ./core.nix {
+    (import ./ssh.nix {
       enableSSHServer = true;
+      user = user;
     })
   ] else [ ]);
 }

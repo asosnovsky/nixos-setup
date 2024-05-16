@@ -46,19 +46,12 @@
               enable = true;
             };
           })
-          (import ./modules/rootUser.nix {
-            hostName = hostName;
-          })
-          (import ./modules/user.nix {
-            user = user;
-          })
           (import ./modules/desktop/main.nix {
             user = user;
             enableKDE = true;
             enableHypr = true;
             enableX11 = true;
           })
-          ./modules/optional/ollama.nix
           (import ./modules/optional/home-manager-config.nix {
             user = user;
             hostName = hostName;

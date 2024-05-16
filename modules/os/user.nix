@@ -11,13 +11,7 @@
       "docker"
     ];
     packages = with pkgs; [
-      firefox
-      bitwarden-cli
-      jq
-      zoom-us
-      terminator
       nixd
-      vscode
     ];
   };
 }

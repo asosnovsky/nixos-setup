@@ -44,11 +44,24 @@
     displaylink
     amdgpu_top
     amdctl
+    # Personal Apps
+    firefox
+    bitwarden-cli
+    jq
+    zoom-us
+    vscode
   ];
+  # Ollama
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
+  # Display Managers
   services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
   services.xserver.displayManager.sessionCommands = ''
     ${lib.getBin pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 2 0
   '';
+  # Kernel
   boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
   hardware.opengl.extraPackages = with pkgs; [
     rocmPackages.clr.icd
