@@ -74,6 +74,17 @@ in
         plugins = [ "git" "sudo" ];
         theme = "robbyrussell";
       };
+      tmux = {
+        enable = true;
+        clock24 = true;
+        mouse = true;
+        plugins = with pkgs.tmuxPlugins; [
+          nord
+          cpu
+          battery
+          sidebar
+        ]
+          };
+      };
     };
-  };
-}
+  }

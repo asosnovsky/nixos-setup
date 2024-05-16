@@ -8,6 +8,5 @@
       user = user;
       systemStateVersion = systemStateVersion;
     })
-    ./tmux.nix
   ];
 }
