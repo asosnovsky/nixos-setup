@@ -22,14 +22,14 @@
       systemStateVersion = "23.11";
     })
   ] ++ (if desktop.enable then [
-    (import ./modules/desktop/main.nix {
+    (import ./desktop/main.nix {
       user = user;
       enableKDE = desktop.enableKDE;
       enableHypr = desktop.enableHypr;
       enableX11 = desktop.enableX11;
     })
   ] else [ ]) ++ (if os.enable then [
-    (import ./modules/os/main.nix {
+    (import ./os/main.nix {
       user = user;
       hostName = hostName;
       firewall = os.firewall;

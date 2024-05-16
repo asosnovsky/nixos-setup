@@ -4,7 +4,7 @@
 , enableKDE ? false
 , enableHypr ? false
 }:
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./wayland.nix

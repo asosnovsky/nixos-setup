@@ -31,18 +31,18 @@
             systemStateVersion = "23.11";
             hostName = "fwbook";
             home-manager = {
-              enable = false;
+              enable = true;
               version = homeMangerVersion;
             };
             desktop = {
-              enable = false;
+              enable = true;
               user = user;
               enableKDE = true;
               enableHypr = true;
               enableX11 = true;
             };
             os = {
-              enable = false;
+              enable = true;
               firewall = {
                 enable = false;
               };
