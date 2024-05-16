@@ -1,14 +1,7 @@
-{ enableFingerPrint ? false }:
 { pkgs, ... }:
 {
   # Firmware Updater
   services.fwupd.enable = true;
-  services.fprintd =
-    if enableFingerPrint then {
-      enable = true;
-      # tod.enable = true;
-      # tod.driver = pkgs.libfprint-2-tod1-goodix;
-    } else { };
   # Enable all license firmware
   hardware.enableAllFirmware = true;
 
@@ -16,6 +9,9 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -70,4 +66,18 @@
       turbo = "auto";
     };
   };
+  # Logind
+  services.logind = {
+    lidSwitchExternalPower = "suspend-then-hibernate";
+    lidSwitch = "suspend-then-hibernate";
+    powerKey = "lock";
+    extraConfig = ''
+      HandlePowerKey=suspend-then-hibernate
+      IdleAction=suspend-then-hibernate
+      IdleActionSec=2m
+    '';
+  };
+  systemd.sleep.extraConfig = "HibernateDelaySec=30m";
+  # Yubikey
+  services.yubikey-agent.enable = true;
 }
