@@ -10,8 +10,6 @@
   ];
   environment.systemPackages = with pkgs; [
     kdePackages.plasma-browser-integration
-    whitesur-kde # theme
-    libsForQt5.qtstyleplugin-kvantum # theme support
     konsave # save configs
   ];
 }
