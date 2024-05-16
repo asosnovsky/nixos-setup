@@ -30,5 +30,8 @@
     vscode
     betterdiscordctl
     discord
+    trezor-suite
+    ledger-live-desktop
+    ledger-udev-rules
   ];
 }
