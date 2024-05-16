@@ -2,7 +2,7 @@
 { pkgs, ... }:
 let
   gitconfigs =
-    (builtins.filterSource (path: type: type != "directory") ../../configs/gitconfigs);
+    (builtins.filterSource (path: type: type != "directory") ../configs/gitconfigs);
   gitconfigFiles = builtins.attrNames (builtins.readDir gitconfigs);
 in
 {
@@ -62,8 +62,8 @@ in
           };
           init = { defaultBranch = "main"; };
         };
-        # includes =
-        #   (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles);
+        includes =
+          (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles);
       };
       zsh = {
         enable = true;
