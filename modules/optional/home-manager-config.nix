@@ -83,8 +83,8 @@ in
           cpu
           battery
           sidebar
-        ]
-          };
+        ];
       };
     };
-  }
+  };
+}
