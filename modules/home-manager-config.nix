@@ -22,7 +22,10 @@ in
   home-manager.users.${user.name} = {
     home = {
       stateVersion = homeMangerVersion;
-      shellAliases = { cat = "bat"; };
+      shellAliases = {
+        cat = "bat";
+        conda = "micromamba";
+      };
       packages = with pkgs; [
         jq
         nixfmt-classic
@@ -30,7 +33,7 @@ in
         terraform
         rye
         devenv
-        conda
+        micromamba
         neofetch
         ipfetch
         nixd

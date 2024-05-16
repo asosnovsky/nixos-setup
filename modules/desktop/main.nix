@@ -42,8 +42,10 @@
     trezord
     ledger-live-desktop
     # documents
-    softmaker-office
-    onlyoffice-bin_7_5
+    onlyoffice-bin_latest
+    # video
+    vlc
+    vlc-bittorrent
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [
