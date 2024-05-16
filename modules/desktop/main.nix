@@ -31,7 +31,12 @@
     betterdiscordctl
     discord
     trezor-suite
+    trezord
     ledger-live-desktop
+  ];
+  # udev rules for crypto wallets
+  services.udev.packages = with pkgs; [
     ledger-udev-rules
+    trezor-udev-rules
   ];
 }
