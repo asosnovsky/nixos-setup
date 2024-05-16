@@ -16,6 +16,9 @@
     (import ./user.nix {
       user = user;
     })
+    (import ./docker.nix {
+      user = user;
+    })
   ] ++ (if enableFonts then [
     ./fonts.nix
   ] else [ ]) ++ (if hardware.enable then [

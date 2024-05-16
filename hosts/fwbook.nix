@@ -41,13 +41,13 @@
     rocmPackages.rocm-runtime
     rocmPackages.hipblas
     rocmPackages.llvm.clang
-    displaylink
     amdgpu_top
     amdctl
-    # Personal Apps
+    # Display Libraries
+    displaylink
   ];
   # Personal Apps
-  home-manager.users.${user.name}.packages = with pkgs; [
+  users.users.${user.name}.packages = with pkgs; [
     firefox
     bitwarden-cli
     zoom-us

@@ -24,16 +24,16 @@ in
       stateVersion = homeMangerVersion;
       shellAliases = { cat = "bat"; };
       packages = with pkgs; [
+        jq
         nixfmt-classic
         kubectl
         terraform
         rye
-        betterdiscordctl
-        discord
         devenv
         conda
         neofetch
         ipfetch
+        nixd
       ];
     };
     programs = {

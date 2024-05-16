@@ -8,7 +8,6 @@
       user = user;
       systemStateVersion = systemStateVersion;
     })
-    ./docker.nix
     ./tmux.nix
   ];
 }
