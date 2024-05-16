@@ -45,11 +45,15 @@
     amdgpu_top
     amdctl
     # Personal Apps
+  ];
+  # Personal Apps
+  home-manager.users.${user.name}.packages = with pkgs; [
     firefox
     bitwarden-cli
-    jq
     zoom-us
     vscode
+    betterdiscordctl
+    discord
   ];
   # Ollama
   services.ollama = {

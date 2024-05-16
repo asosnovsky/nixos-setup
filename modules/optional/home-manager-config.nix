@@ -32,7 +32,6 @@ in
         discord
         devenv
         conda
-        lapce
         neofetch
         ipfetch
       ];
