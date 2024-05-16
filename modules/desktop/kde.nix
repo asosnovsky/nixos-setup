@@ -7,4 +7,7 @@
     elisa
     kate
   ];
+  environment.systemPackages = with pkgs; [
+    kdePackages.plasma-browser-integration
+  ];
 }
