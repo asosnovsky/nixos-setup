@@ -46,15 +46,13 @@
     # Display Libraries
     displaylink
   ];
-  # Personal Apps
-  users.users.${user.name}.packages = with pkgs; [
-    firefox
-    bitwarden-cli
-    zoom-us
-    vscode
-    betterdiscordctl
-    discord
-  ];
+  # Gaming
+  programs.gamescope.enable = true;
+  programs.steam = {
+    enable = true;
+    extest.enable = true;
+    gamescopeSession.enable = true;
+  };
   # Ollama
   services.ollama = {
     enable = true;

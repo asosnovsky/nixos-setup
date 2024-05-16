@@ -19,4 +19,16 @@
       user = user;
     })
   ] else [ ]);
+
+  # Useful Desktop Apps
+  programs.kdeconnect.enable = true;
+  # Personal Desktop App
+  users.users.${user.name}.packages = with pkgs; [
+    firefox
+    bitwarden-cli
+    zoom-us
+    vscode
+    betterdiscordctl
+    discord
+  ];
 }
