@@ -62,8 +62,8 @@ in
           };
           init = { defaultBranch = "main"; };
         };
-        includes =
-          (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles);
+        # includes =
+        #   (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles);
       };
       zsh = {
         enable = true;
