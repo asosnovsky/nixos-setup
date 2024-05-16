@@ -15,13 +15,10 @@
         fullName = "Ari Sosnovsky";
         email = "ariel@sosnovsky.ca";
       };
-      dataDir = "/mnt/Data";
-      systemStateVersion = "23.11";
       homeMangerVersion = "24.05";
-      hostName = "fwbook";
     in
     {
-      nixosConfigurations."${hostName}" = nixpkgs.lib.nixosSystem {
+      nixosConfigurations."fwbook" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           nixos-hardware.nixosModules.framework-13-7040-amd
@@ -29,33 +26,33 @@
           (import ./hosts/fwbook.nix {
             user = user;
           })
-          (import ./modules/nix/main.nix {
+          (import ./modules/main.nix {
             user = user;
-            systemStateVersion = systemStateVersion;
-          })
-          (import ./modules/os/main.nix {
-            user = user;
-            hostName = hostName;
-            firewall = {
+            systemStateVersion = "23.11";
+            hostName = "fwbook";
+            home-manager = {
               enable = false;
+              version = homeMangerVersion;
             };
-            enableFonts = true;
-            enableNetowrking = true;
-            enableSSH = false;
-            hardware = {
-              enable = true;
+            desktop = {
+              enable = false;
+              user = user;
+              enableKDE = true;
+              enableHypr = true;
+              enableX11 = true;
             };
-          })
-          (import ./modules/desktop/main.nix {
-            user = user;
-            enableKDE = true;
-            enableHypr = true;
-            enableX11 = true;
-          })
-          (import ./modules/optional/home-manager-config.nix {
-            user = user;
-            hostName = hostName;
-            homeMangerVersion = homeMangerVersion;
+            os = {
+              enable = false;
+              firewall = {
+                enable = false;
+              };
+              enableFonts = true;
+              enableNetowrking = true;
+              enableSSH = false;
+              hardware = {
+                enable = true;
+              };
+            };
           })
         ];
       };
