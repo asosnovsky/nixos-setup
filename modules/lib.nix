@@ -6,12 +6,11 @@
   makeNixOsModule = { system, configuration ? null, ... }@attrs:
     nixpkgs.lib.nixosSystem {
       system = system;
-      modules = (import ./main.nix attrs)
-        ++ (if attrs.home-manager.enable then
-        [ home-manager.nixosModules.default ]
-      else
-        [ ])
-        ++ (if (isNull configuration) then [ configuration ] else [ ]);
+      modules = (if (isNull configuration) then [ ] else [ configuration ]) ++
+        (if attrs.home-manager.enable then
+          [ home-manager.nixosModules.default ]
+        else
+          [ ]);
     };
   makeDarwinModule =
     { system ? "x86_64-darwin", user, configuration ? null, ... }@attrs:
