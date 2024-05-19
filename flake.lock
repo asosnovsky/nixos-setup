@@ -3,7 +3,6 @@
     "home-manager": {
       "inputs": {
         "nixpkgs": [
-          "modules",
           "nixpkgs"
         ]
       },
@@ -21,27 +20,9 @@
         "type": "github"
       }
     },
-    "modules": {
-      "inputs": {
-        "home-manager": "home-manager",
-        "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-FhENMA/zHvdxdkq1OQ27RoZ/AAIFKLMEFMSgA+/L4pA=",
-        "path": "modules/",
-        "type": "path"
-      },
-      "original": {
-        "path": "modules/",
-        "type": "path"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
-          "modules",
           "nixpkgs"
         ]
       },
@@ -93,8 +74,10 @@
     },
     "root": {
       "inputs": {
-        "modules": "modules",
-        "nixos-hardware": "nixos-hardware"
+        "home-manager": "home-manager",
+        "nix-darwin": "nix-darwin",
+        "nixos-hardware": "nixos-hardware",
+        "nixpkgs": "nixpkgs"
       }
     }
   },

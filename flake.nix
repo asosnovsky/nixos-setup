@@ -1,14 +1,28 @@
 {
   inputs = {
-    modules = {
-      url = "path:modules/";
-    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, modules, nixos-hardware }:
+  outputs =
+    { self
+    , nixos-hardware
+    , nixpkgs
+    , home-manager
+    , nix-darwin
+    }:
     let
       user = {
         name = "ari";
@@ -16,9 +30,15 @@
         email = "ariel@sosnovsky.ca";
       };
       homeMangerVersion = "24.05";
+      lib = (import modules/lib.nix {
+        nixpkgs = nixpkgs;
+        home-manager = home-manager;
+        nix-darwin = nix-darwin;
+      });
     in
     {
-      nixosConfigurations."fwbook" = modules.lib.makeNixOsModule {
+      lib = lib;
+      nixosConfigurations."fwbook" = lib.makeNixOsModule {
         system = "x86_64-linux";
         user = user;
         systemStateVersion = "23.11";
@@ -45,7 +65,12 @@
           hardware = { enable = true; };
         };
         configuration = { ... }: {
-          imports = [ nixos-hardware.nixosModules.framework-13-7040-amd ];
+          imports = [
+            nixos-hardware.nixosModules.framework-13-7040-amd
+            (import ./hosts/fwbook.nix {
+              user = user;
+            })
+          ];
         };
       };
     };
