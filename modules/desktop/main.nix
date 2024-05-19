@@ -29,6 +29,7 @@
   users.users.${user.name}.packages = with pkgs; [
     # web
     firefox
+    brave
     # password
     bitwarden-cli
     # development
