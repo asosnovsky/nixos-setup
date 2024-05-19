@@ -1,6 +1,12 @@
 {
-  inputs.modules.url = "path:modules/";
-  inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+  inputs = {
+    modules = {
+      url = "path:modules/";
+    };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
+  };
 
   outputs = { self, modules, nixos-hardware }:
     let
