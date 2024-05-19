@@ -3,11 +3,10 @@
 , nix-darwin
 }:
 {
-  makeImports = { ... }@attrs: [ (import ./main.nix attrs) ];
   makeNixOsModule = { system, configuration ? null, ... }@attrs:
     nixpkgs.lib.nixosSystem {
       system = system;
-      modules = (self.lib.makeImports attrs)
+      modules = (import ./main.nix attrs)
         ++ (if attrs.home-manager.enable then
         [ home-manager.nixosModules.default ]
       else
@@ -17,7 +16,7 @@
   makeDarwinModule =
     { system ? "x86_64-darwin", user, configuration ? null, ... }@attrs:
     nix-darwin.lib.darwinSystem {
-      modules = (self.lib.makeImports attrs)
+      modules = (import ./main.nix attrs)
         ++ (if attrs.home-manager.enable then [
         home-manager.darwinModules.home-manager
         (import ./macos-home-manager.nix { user = user; })
@@ -29,6 +28,5 @@
           system = system;
         })
       ];
-      darwinPackages = self.darwinConfigurations."default".pkgs;
     };
 }
