@@ -14,6 +14,7 @@
 , home-manager ? {
     enable = false;
   }
+, ...
 }:
 { ... }:
 {

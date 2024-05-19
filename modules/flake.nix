@@ -14,8 +14,7 @@
     };
   };
   outputs = { self, home-manager, nix-darwin, nixpkgs }: {
-    default
-      lib = {
+    lib = {
       makeImports = { ... }@attrs: [ (import ./main.nix attrs) ];
       makeNixOsModule = { system, configuration ? null, ... }@attrs:
         nixpkgs.lib.nixosSystem {

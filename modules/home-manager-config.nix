@@ -2,7 +2,7 @@
 { pkgs, ... }:
 let
   gitconfigs =
-    (builtins.filterSource (path: type: type != "directory") ../configs/gitconfigs);
+    (builtins.filterSource (path: type: type != "directory") ./gitconfigs);
   gitconfigFiles = builtins.attrNames (builtins.readDir gitconfigs);
 in
 {
