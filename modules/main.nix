@@ -1,6 +1,7 @@
 { user
 , systemStateVersion
 , hostName
+, system
   # Desktop Module
 , desktop ? {
     enable = false;
