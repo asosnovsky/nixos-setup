@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+cred_file=${1}
+aws_cred_file=$HOME/.aws/credentials
+
+source $HOME/$cred_file.sh
+
+if [ -z "${AWS_ACCESS_KEY_ID}" ]; then
+    echo "Missing access key";
+    exit 1
+fi
+if [ -z "${AWS_SECRET_ACCESS_KEY}" ]; then
+    echo "Missing AWS_SECRET_ACCESS_KEY";
+    exit 1
+fi
+if [ -z "${AWS_SESSION_TOKEN}" ]; then
+    echo "Missing AWS_SESSION_TOKEN";
+    exit 1
+fi
+
+echo "Updating $aws_cred_file ..."
+echo "[default]" > $aws_cred_file
+echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> $aws_cred_file
+echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> $aws_cred_file
+echo "aws_session_token=$AWS_SESSION_TOKEN" >> $aws_cred_file
+
+unset AWS_ACCESS_KEY_ID
+unset AWS_SECRET_ACCESS_KEY
+unset AWS_SESSION_TOKEN
+
+echo `aws sts get-caller-identity`

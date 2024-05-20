@@ -1,0 +1,4 @@
+#!/bin/bash
+
+dep=${1}
+eks $dep analytics ${@:2}

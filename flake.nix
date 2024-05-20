@@ -45,7 +45,6 @@
         hostName = "fwbook";
         home-manager = {
           enable = true;
-          mode = "nixos";
           version = homeMangerVersion;
         };
         desktop = {
@@ -72,6 +71,25 @@
             })
           ];
         };
+      };
+      darwinConfigurations."asosnovsky-mac" = lib.makeDarwinModule {
+        user = user;
+        systemStateVersion = 4;
+        system = "aarch64-darwin";
+        hostName = "asosnovsky-mac";
+        home-manager = {
+          enable = true;
+          version = homeMangerVersion;
+        };
+        desktop = {
+          enable = false;
+        };
+        os = {
+          enable = false;
+        };
+        configuration = (import ./hosts/asosnovsky-mac.nix {
+          user = user;
+        });
       };
     };
 }

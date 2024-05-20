@@ -1,0 +1,6 @@
+#/bin/zsh
+set -e 
+
+dev encrypted_disk mount
+dev provision ssh_keys
+ssh-add /Volumes/Encrypted/keys/prod_rsa
