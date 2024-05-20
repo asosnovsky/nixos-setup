@@ -66,7 +66,11 @@ in
           init = { defaultBranch = "main"; };
         };
         includes =
-          (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles);
+          (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles)
+          ++ (if builtins.hasAttr "extraGitConfigs" user then
+            user.extraGitConfigs
+          else
+            [ ]);
       };
       zsh = {
         enable = true;
@@ -81,12 +85,7 @@ in
         enable = true;
         clock24 = true;
         mouse = true;
-        plugins = with pkgs.tmuxPlugins; [
-          nord
-          cpu
-          battery
-          sidebar
-        ];
+        plugins = with pkgs.tmuxPlugins; [ nord cpu battery sidebar ];
       };
     };
   };

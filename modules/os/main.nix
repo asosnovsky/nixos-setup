@@ -11,7 +11,9 @@
 { pkgs, ... }:
 {
   imports = [
-    ./core.nix
+    (import ./core.nix {
+      user = user;
+    })
     ./rootUser.nix
     (import ./user.nix {
       user = user;

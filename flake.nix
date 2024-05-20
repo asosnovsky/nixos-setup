@@ -29,6 +29,15 @@
         fullName = "Ari Sosnovsky";
         email = "ariel@sosnovsky.ca";
       };
+      sumoUser = rec {
+        name = "asosnovsky";
+        fullName = user.fullName;
+        email = "${name}@sumologic.com";
+        homepath = "/Users/${name}";
+        # extraGitConfigs = [
+        # 	{path = "${user.homepath}/.config/mysumo/gitconfig";}
+        # ];
+      };
       homeMangerVersion = "24.05";
       lib = (import modules/lib.nix {
         nixpkgs = nixpkgs;
@@ -73,9 +82,9 @@
         };
       };
       darwinConfigurations."asosnovsky-mac" = lib.makeDarwinModule {
-        user = user;
+        user = sumoUser;
         systemStateVersion = 4;
-        system = "aarch64-darwin";
+        system = "x86_64-darwin";
         hostName = "asosnovsky-mac";
         home-manager = {
           enable = true;
@@ -88,7 +97,7 @@
           enable = false;
         };
         configuration = (import ./hosts/asosnovsky-mac.nix {
-          user = user;
+          user = sumoUser;
         });
       };
     };

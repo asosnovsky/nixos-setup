@@ -21,7 +21,7 @@
   imports = [
     (import ./nix/main.nix {
       user = user;
-      systemStateVersion = "23.11";
+      systemStateVersion = systemStateVersion;
     })
   ] ++ (if desktop.enable then [
     (import ./desktop/main.nix {
