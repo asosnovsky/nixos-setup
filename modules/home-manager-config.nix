@@ -21,6 +21,9 @@ in
   };
   home-manager.users.${user.name} = {
     home = {
+      sessionVariables = {
+        MAMBA_ROOT_PREFIX = "$HOME/.local/micromamba";
+      };
       stateVersion = homeMangerVersion;
       shellAliases = {
         cat = "bat";
@@ -75,6 +78,10 @@ in
       zsh = {
         enable = true;
         autosuggestion.enable = true;
+        initExtra = ''
+          export MAMBA_ROOT_PREFIX="$HOME/.local/micromamba"
+          source <(micromamba shell hook --root-prefix=$MAMBA_ROOT_PREFIX)
+        '';
       };
       zsh.oh-my-zsh = {
         enable = true;
