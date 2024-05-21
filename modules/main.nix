@@ -19,12 +19,12 @@
 { ... }:
 {
   imports = [
-    (import ./nix/main.nix {
+    (import ./nix {
       user = user;
       systemStateVersion = systemStateVersion;
     })
   ] ++ (if desktop.enable then [
-    (import ./desktop/main.nix {
+    (import ./desktop {
       user = user;
       enableKDE = desktop.enableKDE;
       enableHypr = desktop.enableHypr;
@@ -32,7 +32,7 @@
       enableWine = desktop.enableWine;
     })
   ] else [ ]) ++ (if os.enable then [
-    (import ./os/main.nix {
+    (import ./os {
       user = user;
       hostName = hostName;
       firewall = os.firewall;
