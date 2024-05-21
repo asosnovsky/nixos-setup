@@ -34,9 +34,9 @@
         fullName = user.fullName;
         email = "${name}@sumologic.com";
         homepath = "/Users/${name}";
-        # extraGitConfigs = [
-        # 	{path = "${user.homepath}/.config/mysumo/gitconfig";}
-        # ];
+        extraGitConfigs = [
+          { path = "${homepath}/.config/mysumo/gitconfig"; }
+        ];
       };
       homeMangerVersion = "24.05";
       lib = (import modules/lib.nix {
