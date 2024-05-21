@@ -42,7 +42,7 @@
       hardware = os.hardware;
     })
   ] else [ ]) ++ (if home-manager.enable then [
-    (import ./home-manager-config.nix {
+    (import ./home-manager/common.nix {
       user = user;
       homeMangerVersion = home-manager.version;
       hostName = hostName;

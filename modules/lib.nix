@@ -38,7 +38,7 @@ in
         attrs = attrs;
         home-manager-modules = [
           home-manager.darwinModules.home-manager
-          (import ./macos-home-manager.nix { user = user; })
+          (import ./home-manager/macos.nix { user = user; })
         ];
       }) ++ [
         (import ./macos.nix {
