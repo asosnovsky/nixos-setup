@@ -11,6 +11,13 @@ in
       packages = with pkgs; [
         coreutils-prefixed
         awscli2
+        kubernetes-helm
+        nixfmt-classic
+        nil
+        jq
+        pre-commit
+        devenv
+        terragrunt
       ];
       shellAliases = {
         k = "kubectl";
