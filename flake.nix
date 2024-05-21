@@ -1,11 +1,8 @@
 {
   inputs = {
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware/master";
-    };
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    systems.url = "github:nix-systems/default";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +19,7 @@
     , nixpkgs
     , home-manager
     , nix-darwin
+    , systems
     }:
     let
       user = {
@@ -44,9 +42,16 @@
         home-manager = home-manager;
         nix-darwin = nix-darwin;
       });
+      eachSystem = nixpkgs.lib.genAttrs (import systems);
     in
     {
       lib = lib;
+      formatter = eachSystem (system:
+        nixpkgs.legacyPackages.${system}.nixpkgs-fmt
+      );
+
+      # NIXOS Setups
+      # -------------
       nixosConfigurations."fwbook" = lib.makeNixOsModule {
         system = "x86_64-linux";
         user = user;
@@ -81,6 +86,9 @@
           ];
         };
       };
+
+      # MacBooks Setups
+      # -------------
       darwinConfigurations."asosnovsky-mac" = lib.makeDarwinModule {
         user = sumoUser;
         systemStateVersion = 4;
