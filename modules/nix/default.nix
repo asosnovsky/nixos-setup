@@ -6,6 +6,11 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://cache.flox.dev"
+      "https://devenv.cachix.org"
+    ];
     trusted-substituters = [
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
@@ -24,6 +29,7 @@
     nix-index
     nil
     cachix
+    nix-serve
 
     # shell tools
     wget
