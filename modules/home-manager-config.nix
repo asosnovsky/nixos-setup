@@ -75,7 +75,8 @@ in
         enable = true;
         autosuggestion.enable = true;
         initExtra = ''
-          micromamba shell init --shell zsh --root-prefix=$HOME/.local/micromamba
+          export MAMBA_ROOT_PREFIX="$HOME/.local/micromamba"
+          source <(micromamba shell hook --root-prefix=$MAMBA_ROOT_PREFIX)
         '';
       };
       zsh.oh-my-zsh = {
