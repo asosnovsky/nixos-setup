@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "pinage404.nix-extension-pack"
+        "pinage404.nix-extension-pack",
+        "brettm12345.nixfmt-vscode"
     ]
 }
