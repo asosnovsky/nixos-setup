@@ -3,6 +3,10 @@
 # Devenv
 .devenv*
 devenv.local.nix
+.devbox
+
+# tmp
+tmp
 
 # direnv
 .direnv

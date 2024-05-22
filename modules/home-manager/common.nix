@@ -40,6 +40,7 @@ in
         neofetch
         ipfetch
         nixd
+        devbox
       ];
     };
     programs = {
