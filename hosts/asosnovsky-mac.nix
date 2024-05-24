@@ -18,6 +18,7 @@ in
         pre-commit
         devenv
         terragrunt
+        oterm
       ];
       shellAliases = {
         k = "kubectl";
