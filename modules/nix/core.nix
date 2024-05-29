@@ -31,6 +31,7 @@
     nix-index
     nil
     cachix
+    nixpkgs-fmt
 
     # shell tools
     wget
