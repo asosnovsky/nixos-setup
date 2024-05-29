@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "<<< ◉ Updating dsh  ⦿ >>>"
+cd ~/git/sumo && git fetch origin master:master && git merge master  && git status
+
+echo "<<< ◉ Updatig knobs  ⦿ >>>"
+cd ~/git/knobs && git fetch origin master:master && git merge master  && git status
+

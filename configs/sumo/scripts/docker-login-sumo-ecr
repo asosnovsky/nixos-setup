@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+dev hcvault login
+eval $(dev hcvault cli_env -a infrastructure)
+
+region="us-west-2"
+aws_account_id=`aws sts get-caller-identity --query "Account" --output text`
+
+aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com

@@ -1,11 +1,8 @@
 {
   inputs = {
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware/master";
-    };
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    systems.url = "github:nix-systems/default";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +19,7 @@
     , nixpkgs
     , home-manager
     , nix-darwin
+    , systems
     }:
     let
       user = {
@@ -29,15 +27,31 @@
         fullName = "Ari Sosnovsky";
         email = "ariel@sosnovsky.ca";
       };
+      sumoUser = rec {
+        name = "asosnovsky";
+        fullName = user.fullName;
+        email = "${name}@sumologic.com";
+        homepath = "/Users/${name}";
+        extraGitConfigs = [
+          { path = "${homepath}/.config/mysumo/gitconfig"; }
+        ];
+      };
       homeMangerVersion = "24.05";
       lib = (import modules/lib.nix {
         nixpkgs = nixpkgs;
         home-manager = home-manager;
         nix-darwin = nix-darwin;
       });
+      eachSystem = nixpkgs.lib.genAttrs (import systems);
     in
     {
       lib = lib;
+      formatter = eachSystem (system:
+        nixpkgs.legacyPackages.${system}.nixpkgs-fmt
+      );
+
+      # NIXOS Setups
+      # -------------
       nixosConfigurations."fwbook" = lib.makeNixOsModule {
         system = "x86_64-linux";
         user = user;
@@ -45,7 +59,6 @@
         hostName = "fwbook";
         home-manager = {
           enable = true;
-          mode = "nixos";
           version = homeMangerVersion;
         };
         desktop = {
@@ -72,6 +85,28 @@
             })
           ];
         };
+      };
+
+      # MacBooks Setups
+      # -------------
+      darwinConfigurations."asosnovsky-mac" = lib.makeDarwinModule {
+        user = sumoUser;
+        systemStateVersion = 4;
+        system = "x86_64-darwin";
+        hostName = "asosnovsky-mac";
+        home-manager = {
+          enable = true;
+          version = homeMangerVersion;
+        };
+        desktop = {
+          enable = false;
+        };
+        os = {
+          enable = false;
+        };
+        configuration = (import ./hosts/asosnovsky-mac.nix {
+          user = sumoUser;
+        });
       };
     };
 }

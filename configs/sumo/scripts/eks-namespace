@@ -1,0 +1,6 @@
+#!/bin/bash
+
+current_dep=$(kubectl config current-context | cut -d "-" -f2)
+dep=${2:-$current_dep}
+echo "$dep $current_dep"
+kubectl config set-context --current --namespace=$dep-${1}
