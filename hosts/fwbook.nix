@@ -2,6 +2,10 @@
 , dataDir ? "/mnt/Data"
 }:
 { pkgs, lib, ... }:
+let
+  zshFWBook = builtins.filterSource (p: t: true) ../configs/fwbook;
+  zshFunctions = zshFWBook + "/functions.sh";
+in
 {
   imports =
     [
@@ -69,4 +73,8 @@
     rocmPackages.clr.icd
     amdvlk
   ];
+  # Add Functions
+  home-manager.users.${user.name}.programs.zsh.initExtra = ''
+    source ${zshFunctions}
+  '';
 }
