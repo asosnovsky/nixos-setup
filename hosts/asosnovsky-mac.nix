@@ -38,13 +38,13 @@ in
         "$HOME/.krew/bin"
         "$HOME/git/github/paas-infrastructure/bin"
         "$HOME/.krew/bin"
+        "$HOME/.rd/bin"
         zshScripts
       ];
     };
     programs.zsh.initExtra = ''
       			source ${zshFunctions}
       			source /dev/stdin <<< "$($HOME/.devcli/dev --init)"
-            export PATH=$PATH:$HOME/.rd/bin
       			complete -o default -F __start_kubectl k
       			source <(helm completion zsh)
       			complete -C '/opt/homebrew/bin/aws_completer' aws
