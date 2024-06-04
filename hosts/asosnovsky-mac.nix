@@ -44,6 +44,7 @@ in
     programs.zsh.initExtra = ''
       			source ${zshFunctions}
       			source /dev/stdin <<< "$($HOME/.devcli/dev --init)"
+            export PATH=$PATH:$HOME/.rd/bin
       			complete -o default -F __start_kubectl k
       			source <(helm completion zsh)
       			complete -C '/opt/homebrew/bin/aws_completer' aws
