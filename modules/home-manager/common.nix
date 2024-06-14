@@ -21,9 +21,7 @@ in
   };
   home-manager.users.${user.name} = {
     home = {
-      sessionVariables = {
-        MAMBA_ROOT_PREFIX = "$HOME/.local/micromamba";
-      };
+      sessionVariables = { MAMBA_ROOT_PREFIX = "$HOME/.local/micromamba"; };
       stateVersion = homeMangerVersion;
       shellAliases = {
         cat = "bat";
@@ -41,6 +39,7 @@ in
         ipfetch
         nixd
         devbox
+        uv
       ];
     };
     programs = {
