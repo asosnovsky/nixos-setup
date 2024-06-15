@@ -1,10 +1,10 @@
 {
   inputs = {
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     systems.url = "github:nix-systems/default";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
@@ -14,13 +14,7 @@
   };
 
   outputs =
-    { self
-    , nixos-hardware
-    , nixpkgs
-    , home-manager
-    , nix-darwin
-    , systems
-    }:
+    { self, nixos-hardware, nixpkgs, home-manager, nix-darwin, systems }:
     let
       user = {
         name = "ari";
@@ -32,9 +26,7 @@
         fullName = user.fullName;
         email = "${name}@sumologic.com";
         homepath = "/Users/${name}";
-        extraGitConfigs = [
-          { path = "${homepath}/.config/mysumo/gitconfig"; }
-        ];
+        extraGitConfigs = [{ path = "${homepath}/.config/mysumo/gitconfig"; }];
       };
       homeMangerVersion = "24.05";
       lib = (import modules/lib.nix {
@@ -46,9 +38,8 @@
     in
     {
       lib = lib;
-      formatter = eachSystem (system:
-        nixpkgs.legacyPackages.${system}.nixpkgs-fmt
-      );
+      formatter =
+        eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       # NIXOS Setups
       # -------------
@@ -80,9 +71,7 @@
         configuration = { ... }: {
           imports = [
             nixos-hardware.nixosModules.framework-13-7040-amd
-            (import ./hosts/fwbook.nix {
-              user = user;
-            })
+            (import ./hosts/fwbook.nix { user = user; })
           ];
         };
       };
@@ -98,15 +87,10 @@
           enable = true;
           version = homeMangerVersion;
         };
-        desktop = {
-          enable = false;
-        };
-        os = {
-          enable = false;
-        };
-        configuration = (import ./hosts/asosnovsky-mac.nix {
-          user = sumoUser;
-        });
+        desktop = { enable = false; };
+        os = { enable = false; };
+        configuration =
+          (import ./hosts/asosnovsky-mac.nix { user = sumoUser; });
       };
     };
 }

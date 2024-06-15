@@ -51,9 +51,10 @@ in
   # Ollama
   services.ollama = {
     enable = true;
-    acceleration = "rocm";
+    # acceleration = "rocm";
     # host = "0.0.0.0";
-    openFirewall = true;
+    # openFirewall = true;
+    listenAddress = "0.0.0.0:11434";
   };
   # Display Managers
   services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
