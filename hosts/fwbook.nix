@@ -15,11 +15,11 @@ in
     })
     { inherit (pkgs) system; }).fwupd;
   services.fprintd.enable = true;
-  fileSystems."${dataDir}" = {
-    device = "/dev/sda1";
-    fsType = "ext4";
-    options = [ "users" "nofail" ];
-  };
+  # fileSystems."${dataDir}" = {
+  #   device = "/dev/sda1";
+  #   fsType = "ext4";
+  #   options = [ "users" "nofail" ];
+  # };
   hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
