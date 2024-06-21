@@ -56,7 +56,7 @@
           enable = true;
           user = user;
           enableKDE = true;
-          enableHypr = true;
+          enableHypr = false;
           enableX11 = true;
           enableWine = true;
         };

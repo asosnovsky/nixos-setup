@@ -19,8 +19,6 @@
   # Personal Desktop App
   users.users.${user.name}.packages = with pkgs; [
     # web
-    firefox
-    librewolf
     brave
     # password
     bitwarden-desktop
@@ -47,6 +45,7 @@
     # terminal
     alacritty
     alacritty-theme
+    kitty
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];

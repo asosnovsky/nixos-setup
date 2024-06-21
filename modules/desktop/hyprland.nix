@@ -1,12 +1,7 @@
 { user }:
-{ pkgs, ... }:
-{
-  programs.hyprland = {
-    enable = true;
-  };
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
+{ pkgs, ... }: {
+  programs.hyprland = { enable = true; };
+  environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
   programs.waybar.enable = false;
   environment.systemPackages = with pkgs; [
     # common utilities
@@ -15,8 +10,6 @@
     mpv
     gcc
     xdg-desktop-portal
-    # apps
-    kitty
     # sound
     pavucontrol
     # notification daemon
@@ -58,7 +51,5 @@
   ];
   services.mpd.enable = true;
   services.pipewire.wireplumber.enable = true;
-  users.users.${user.name}.extraGroups = [
-    "input"
-  ];
+  users.users.${user.name}.extraGroups = [ "input" ];
 }
