@@ -14,12 +14,15 @@
   else
     [ ]);
 
-  # Useful Desktop Apps
+  # Mobile Connect
   programs.kdeconnect.enable = true;
+  # Web
   # Personal Desktop App
   users.users.${user.name}.packages = with pkgs; [
     # web
     brave
+    # mail
+    thunderbird
     # password
     bitwarden-desktop
     rofi-rbw-wayland
@@ -45,7 +48,6 @@
     # terminal
     alacritty
     alacritty-theme
-    kitty
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];

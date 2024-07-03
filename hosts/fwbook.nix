@@ -51,11 +51,11 @@ in
   # Ollama
   services.ollama = {
     enable = true;
-    # acceleration = "rocm";
-    # host = "0.0.0.0";
-    # openFirewall = true;
+    acceleration = "rocm";
     listenAddress = "0.0.0.0:11434";
   };
+  # Brother Printer
+  hardware.sane.brscan5.enable = true;
   # Display Managers
   services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
   services.xserver.displayManager.sessionCommands = ''
