@@ -6,6 +6,20 @@ let
   zshFunctions = zshSumo + "/functions.sh";
 in
 {
+  homebrew = {
+    enable = true;
+    brews = [
+      "autoconf"
+      "autoconf-archive"
+      "automake"
+      "cmake"
+      "ffmpeg"
+      "ninja"
+      "ccache"
+      "pkg-config"
+      "qt"
+    ];
+  };
   home-manager.users.${user.name} = {
     home = {
       packages = with pkgs; [
@@ -38,19 +52,20 @@ in
         "$HOME/.krew/bin"
         "$HOME/git/github/paas-infrastructure/bin"
         "$HOME/.krew/bin"
-        "$HOME/.rd/bin"
+        # "$HOME/.rd/bin"
         zshScripts
       ];
     };
     programs.zsh.initExtra = ''
-      			source ${zshFunctions}
-      			source /dev/stdin <<< "$($HOME/.devcli/dev --init)"
-      			complete -o default -F __start_kubectl k
-      			source <(helm completion zsh)
-      			complete -C '/opt/homebrew/bin/aws_completer' aws
-      			source <(kubectl completion zsh)
-      			test -f ~/.prada/artifactory.env && source ~/.prada/artifactory.env
-      			ulimit -n $(sysctl -n kern.maxfilesperproc)
-      		'';
+            			source ${zshFunctions}
+      						eval "$(/opt/homebrew/bin/brew shellenv)"
+            			source /dev/stdin <<< "$($HOME/.devcli/dev --init)"
+            			complete -o default -F __start_kubectl k
+            			source <(helm completion zsh)
+            			complete -C '/opt/homebrew/bin/aws_completer' aws
+            			source <(kubectl completion zsh)
+            			test -f ~/.prada/artifactory.env && source ~/.prada/artifactory.env
+            			ulimit -n $(sysctl -n kern.maxfilesperproc)
+            		'';
   };
 }
