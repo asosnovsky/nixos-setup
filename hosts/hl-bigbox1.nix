@@ -21,6 +21,9 @@
   #virtualisation.docker.enableNvidia = true;
   # Kernel
   # Nvidia Settings
+  hardware.opengl = {
+    enable = true;
+  };
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
