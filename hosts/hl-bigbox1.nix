@@ -1,6 +1,5 @@
 { user }:
-{ pkgs, lib, ... }:
-{
+{ pkgs, lib, config, ... }: {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   # firmware updater
   services.fwupd.enable = true;
@@ -21,6 +20,15 @@
   # Docker
   virtualisation.docker.enableNvidia = true;
   # Kernel
+  # Nvidia Settings
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
   # boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
   # hardware.opengl.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
   # home-manager.users.${user.name}.programs.zsh.initExtra = ''
