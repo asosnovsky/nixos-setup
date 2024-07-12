@@ -13,13 +13,22 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/f2732ab2-ea52-4f61-b55a-6617d496bf39";
       fsType = "ext4";
     };
+  fileSystems."/mnt/EightTerra/DownloadedTorrents" = {
+    device = "tnas1.lab.internal:/mnt/EightTerra/DownloadedTorrents";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
+  };
 
+  fileSystems."/mnt/EightTerra/k3s-cluster" = {
+    device = "tnas1.lab.internal:/mnt/EightTerra/k3s-cluster";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
+  };
   fileSystems."/boot" =
     {
       device = "/dev/disk/by-uuid/9222-7B1D";
@@ -28,15 +37,7 @@
     };
 
   swapDevices = [ ];
-
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp2s0f0u4c2.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
