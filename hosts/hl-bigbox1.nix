@@ -8,14 +8,18 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # environment.systemPackages = with pkgs; [
-
-  # ];
+  environment.systemPackages = with pkgs; [
+    nvtopPackages.nvidia
+    cudaPackages.cudnn
+  ];
   # Ollama
   services.ollama = {
     enable = true;
     acceleration = "cuda";
     listenAddress = "0.0.0.0:11434";
+    environmentVariables = {
+      OLLAMA_LLM_LIBRARY = "cuda";
+    };
   };
   # Docker
   #virtualisation.docker.enableNvidia = true;
@@ -29,9 +33,10 @@
     powerManagement.enable = false;
     powerManagement.finegrained = false;
     open = false;
-    nvidiaSettings = true;
+    nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
   # boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
   # hardware.opengl.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
   # home-manager.users.${user.name}.programs.zsh.initExtra = ''
