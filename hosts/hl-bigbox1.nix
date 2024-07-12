@@ -18,7 +18,7 @@
     listenAddress = "0.0.0.0:11434";
   };
   # Docker
-  virtualisation.docker.enableNvidia = true;
+  #virtualisation.docker.enableNvidia = true;
   # Kernel
   # Nvidia Settings
   hardware.nvidia = {

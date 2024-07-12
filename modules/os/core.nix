@@ -3,7 +3,6 @@
 {
   # System Packages
   services.hydra.useSubstitutes = true;
-  services.flatpak.enable = true;
   services.nix-serve = {
     enable = true;
     port = 5000;

@@ -14,6 +14,8 @@
   else
     [ ]);
 
+  # Flatpak
+  services.flatpak.enable = true;
   # Mobile Connect
   programs.kdeconnect.enable = true;
   # Web
