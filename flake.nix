@@ -41,7 +41,7 @@
       formatter =
         eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-      # NIXOS Setups
+      # NIXOS Framework Setups
       # -------------
       nixosConfigurations."fwbook" = lib.makeNixOsModule {
         system = "x86_64-linux";
@@ -87,10 +87,31 @@
           enable = true;
           version = homeMangerVersion;
         };
-        desktop = { enable = false; };
-        os = { enable = false; };
         configuration =
           (import ./hosts/asosnovsky-mac.nix { user = sumoUser; });
+      };
+
+      # NIXOS Homelab - BIGBOX1
+      # -------------
+      nixosConfigurations."hl-bigbox1" = lib.makeNixOsModule {
+        system = "x86_64-linux";
+        user = user;
+        systemStateVersion = "24.05";
+        hostName = "hl-bigbox1";
+        home-manager = {
+          enable = true;
+          version = homeMangerVersion;
+        };
+        os = {
+          enable = true;
+          firewall = { enable = false; };
+          enableFonts = true;
+          enableNetowrking = true;
+          enableSSH = true;
+          hardware = { enable = true; };
+        };
+        configuration =
+          (import ./hosts/hl-bigbox1.nix { user = user; });
       };
     };
 }
