@@ -22,13 +22,8 @@
       LD_LIBRARY_PATH = "run/opengl-driver/lib";
     };
   };
-  # Docker
-  #virtualisation.docker.enableNvidia = true;
-  # Kernel
   # Nvidia Settings
-  hardware.opengl = {
-    enable = true;
-  };
+  hardware.opengl = { enable = true; };
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -37,10 +32,4 @@
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-
-  # boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
-  # hardware.opengl.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
-  # home-manager.users.${user.name}.programs.zsh.initExtra = ''
-  #   tmux attach || tmux
-  # '';
 }
