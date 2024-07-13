@@ -47,7 +47,8 @@ in
   services.ollama = {
     enable = true;
     acceleration = "rocm";
-    listenAddress = "0.0.0.0:11434";
+    # listenAddress = "0.0.0.0:11434";
+    host = "0.0.0.0";
   };
   # Brother Printer
   hardware.sane.brscan5.enable = true;
@@ -58,7 +59,7 @@ in
   '';
   # Kernel
   boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
-  hardware.opengl.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
+  hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
   # Add Functions
   home-manager.users.${user.name}.programs.zsh.initExtra = ''
     source ${zshFunctions}
