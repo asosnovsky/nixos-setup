@@ -20,7 +20,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   environment.systemPackages = with pkgs; [
     # Amd GPU Support
     rocmPackages.rocm-smi
@@ -47,19 +47,18 @@ in
   services.ollama = {
     enable = true;
     acceleration = "rocm";
-    # listenAddress = "0.0.0.0:11434";
-    host = "0.0.0.0";
+    listenAddress = "0.0.0.0:11434";
   };
   # Brother Printer
   hardware.sane.brscan5.enable = true;
   # Display Managers
-  services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
+  services.xserver.videoDrivers =
+    [ "displaylink" "modesetting" "amdgpu" "fbdev" ];
   services.xserver.displayManager.sessionCommands = ''
     ${lib.getBin pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 2 0
   '';
   # Kernel
   boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
-  # hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
   # Add Functions
   home-manager.users.${user.name}.programs.zsh.initExtra = ''
     source ${zshFunctions}
@@ -95,17 +94,17 @@ in
       STOP_CHARGE_THRESH_BAT0 = 97; # and above it stops charging
     };
   };
-  # services.auto-cpufreq.enable = true;
-  # services.auto-cpufreq.settings = {
-  #   battery = {
-  #     governor = "powersave";
-  #     turbo = "never";
-  #   };
-  #   charger = {
-  #     governor = "performance";
-  #     turbo = "auto";
-  #   };
-  # };
+  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
   # Logind
   services.logind = {
     lidSwitchExternalPower = "suspend-then-hibernate";

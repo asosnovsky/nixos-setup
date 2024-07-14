@@ -53,4 +53,7 @@
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];
+  # trezor groups
+  users.groups.trezord = { };
+  users.groups.trezord.members = [ user.name ];
 }

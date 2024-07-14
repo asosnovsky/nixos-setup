@@ -4,36 +4,35 @@
 , enableFonts ? true
 , enableNetowrking ? true
 , enableSSH ? true
-, hardware ? {
-    enable = false;
-  }
+, containerRuntime ? null
+, hardware ? { enable = false; }
 }:
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   imports = [
-    (import ./core.nix {
-      user = user;
-    })
+    (import ./core.nix { user = user; })
     ./rootUser.nix
-    (import ./user.nix {
+    (import ./user.nix { user = user; })
+    (import ./containers.nix {
       user = user;
+      runtime = containerRuntime;
     })
-    (import ./docker.nix {
-      user = user;
-    })
-  ] ++ (if enableFonts then [
-    ./fonts.nix
-  ] else [ ]) ++ (if hardware.enable then [
-    ./hardware.nix
-  ] else [ ]) ++ (if enableNetowrking then [
-    (import ./networking.nix {
-      hostName = hostName;
-      firewall = firewall;
-    })
-  ] else [ ]) ++ (if enableSSH then [
-    (import ./ssh.nix {
-      enableSSHServer = true;
-      user = user;
-    })
-  ] else [ ]);
+  ] ++ (if enableFonts then [ ./fonts.nix ] else [ ])
+  ++ (if hardware.enable then [ ./hardware.nix ] else [ ])
+  ++ (if enableNetowrking then
+    [
+      (import ./networking.nix {
+        hostName = hostName;
+        firewall = firewall;
+      })
+    ]
+  else
+    [ ]) ++ (if enableSSH then
+    [
+      (import ./ssh.nix {
+        enableSSHServer = true;
+        user = user;
+      })
+    ]
+  else
+    [ ]);
 }

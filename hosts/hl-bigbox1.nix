@@ -16,16 +16,16 @@
   services.ollama = {
     enable = true;
     acceleration = "cuda";
-    host = "0.0.0.0";
-    environmentVariables = {
-      OLLAMA_LLM_LIBRARY = "cuda";
-      LD_LIBRARY_PATH = "run/opengl-driver/lib";
-      NVARCH = "x86_64";
-      NV_CUDA_CUDART_VERSION = "11.3.1";
-      NVIDIA_VISIBLE_DEVICES = "all";
-    };
+    # environmentVariables = {
+    #   OLLAMA_LLM_LIBRARY = "cuda";
+    #   LD_LIBRARY_PATH = "run/opengl-driver/lib";
+    #   NVARCH = "x86_64";
+    #   NV_CUDA_CUDART_VERSION = "11.3.1";
+    #   NVIDIA_VISIBLE_DEVICES = "all";
+    # };
   };
   # Nvidia Settings
+  services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
   hardware.graphics = { enable = true; };
   hardware.nvidia = {
     modesetting.enable = true;
