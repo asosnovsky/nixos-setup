@@ -1,5 +1,5 @@
 { user }:
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, unsable, ... }: {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   # firmware updater
   services.fwupd.enable = true;
@@ -17,6 +17,7 @@
     enable = true;
     acceleration = "cuda";
     host = "0.0.0.0";
+    package = unsable.ollama;
     environmentVariables = {
       OLLAMA_LLM_LIBRARY = "cuda";
       LD_LIBRARY_PATH = "run/opengl-driver/lib";

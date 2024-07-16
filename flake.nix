@@ -28,7 +28,7 @@
         homepath = "/Users/${name}";
         extraGitConfigs = [{ path = "${homepath}/.config/mysumo/gitconfig"; }];
       };
-      homeMangerVersion = "24.05";
+      homeManagerVersion = "24.05";
       lib = (import modules/lib.nix {
         nixpkgs = nixpkgs;
         home-manager = home-manager;
@@ -50,7 +50,7 @@
         hostName = "fwbook";
         home-manager = {
           enable = true;
-          version = homeMangerVersion;
+          version = homeManagerVersion;
         };
         desktop = {
           enable = true;
@@ -64,7 +64,7 @@
           enable = true;
           firewall = { enable = false; };
           enableFonts = true;
-          enableNetowrking = true;
+          enableNetworking = true;
           enableSSH = false;
           hardware = { enable = true; };
         };
@@ -85,7 +85,7 @@
         hostName = "asosnovsky-mac";
         home-manager = {
           enable = true;
-          version = homeMangerVersion;
+          version = homeManagerVersion;
         };
         configuration =
           (import ./hosts/asosnovsky-mac.nix { user = sumoUser; });
@@ -100,13 +100,13 @@
         hostName = "hl-bigbox1";
         home-manager = {
           enable = true;
-          version = homeMangerVersion;
+          version = homeManagerVersion;
         };
         os = {
           enable = true;
           firewall = { enable = false; };
           enableFonts = true;
-          enableNetowrking = true;
+          enableNetworking = true;
           enableSSH = true;
           hardware = { enable = true; };
         };
