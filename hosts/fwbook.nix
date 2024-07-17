@@ -20,7 +20,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # Packages
   environment.systemPackages = with pkgs; [
     # Amd GPU Support
     rocmPackages.rocm-smi
@@ -58,11 +58,13 @@ in
     ${lib.getBin pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 2 0
   '';
   # Kernel
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
   # Add Functions
   home-manager.users.${user.name}.programs.zsh.initExtra = ''
     source ${zshFunctions}
   '';
+  environment.localBinInPath = true;
   # Advance Power Management
   powerManagement.powertop.enable = true;
   powerManagement.enable = true;

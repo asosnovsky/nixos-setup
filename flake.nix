@@ -67,7 +67,7 @@
           enableNetowrking = true;
           enableSSH = false;
           hardware = { enable = true; };
-          containerRuntime = "podman";
+          containerRuntime = "docker";
         };
         configuration = { ... }: {
           imports = [
