@@ -37,14 +37,14 @@
       hostName = hostName;
       firewall = os.firewall;
       enableFonts = os.enableFonts;
-      enableNetowrking = os.enableNetowrking;
+      enableNetworking = os.enableNetworking;
       enableSSH = os.enableSSH;
       hardware = os.hardware;
     })
   ] else [ ]) ++ (if home-manager.enable then [
     (import ./home-manager/common.nix {
       user = user;
-      homeMangerVersion = home-manager.version;
+      homeManagerVersion = home-manager.version;
       hostName = hostName;
     })
   ] else [ ])

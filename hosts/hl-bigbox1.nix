@@ -1,5 +1,5 @@
 { user }:
-{ pkgs, lib, config, unstable, ... }: {
+{ pkgs, lib, config, ... }: {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   # firmware updater
   services.fwupd.enable = true;

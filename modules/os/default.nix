@@ -2,7 +2,7 @@
 , hostName
 , firewall
 , enableFonts ? true
-, enableNetowrking ? true
+, enableNetworking ? true
 , enableSSH ? true
 , hardware ? {
     enable = false;
@@ -25,7 +25,7 @@
     ./fonts.nix
   ] else [ ]) ++ (if hardware.enable then [
     ./hardware.nix
-  ] else [ ]) ++ (if enableNetowrking then [
+  ] else [ ]) ++ (if enableNetworking then [
     (import ./networking.nix {
       hostName = hostName;
       firewall = firewall;

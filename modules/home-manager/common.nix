@@ -1,4 +1,4 @@
-{ hostName, homeMangerVersion, user }:
+{ hostName, homeManagerVersion, user }:
 { pkgs, ... }:
 let
   gitconfigs =
@@ -7,7 +7,7 @@ let
 in
 {
   home-manager.users.root = {
-    home.stateVersion = homeMangerVersion;
+    home.stateVersion = homeManagerVersion;
     programs.git = {
       enable = true;
       userName = "root";
@@ -22,7 +22,7 @@ in
   home-manager.users.${user.name} = {
     home = {
       sessionVariables = { MAMBA_ROOT_PREFIX = "$HOME/.local/micromamba"; };
-      stateVersion = homeMangerVersion;
+      stateVersion = homeManagerVersion;
       shellAliases = {
         cat = "bat";
         conda = "micromamba";
