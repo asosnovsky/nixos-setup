@@ -123,7 +123,7 @@
         hostName = "hl-minipc1";
         enableNetworkDrives = true;
         home-manager = {
-          enable = true;
+          enable = false;
           version = homeManagerVersion;
         };
         os = {
@@ -132,6 +132,7 @@
           enableFonts = true;
           enableNetworking = true;
           enableSSH = true;
+	  hardware = { enable = false; };
         };
         configuration = (import ./hosts/hl-minipc1.nix { user = user; });
       };

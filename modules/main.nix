@@ -49,7 +49,7 @@
       hostName = hostName;
     })
   ] else [ ]) ++ (if enableNetworkDrives then [
-    (import ./network-drives)
+    (import ./network-drives.nix)
   ] else [ ])
   ;
 }
