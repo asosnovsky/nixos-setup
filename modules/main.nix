@@ -2,6 +2,7 @@
 , systemStateVersion
 , hostName
 , system
+, enableNetworkDrives ? false
   # Desktop Module
 , desktop ? {
     enable = false;
@@ -47,6 +48,8 @@
       homeManagerVersion = home-manager.version;
       hostName = hostName;
     })
+  ] else [ ]) ++ (if enableNetworkDrives then [
+    (import ./network-drives)
   ] else [ ])
   ;
 }

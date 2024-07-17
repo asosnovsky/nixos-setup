@@ -45,11 +45,7 @@
     [{ device = "/dev/disk/by-uuid/5175a4b0-0067-47c6-b7da-35acb247f134"; }];
 
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.br-74ce7d3722b8.useDHCP = lib.mkDefault true;
   networking.interfaces.docker0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.tailscale0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.vethdb1ba40.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp1s0.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;

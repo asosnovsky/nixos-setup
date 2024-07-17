@@ -102,6 +102,7 @@
           enable = true;
           version = homeManagerVersion;
         };
+        enableNetworkDrives = true;
         os = {
           enable = true;
           firewall = { enable = false; };
@@ -111,6 +112,28 @@
           hardware = { enable = true; };
         };
         configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
+      };
+
+      # NIXOS Homelab - minipc1
+      # -------------
+      nixosConfigurations."hl-minipc1" = lib.makeNixOsModule {
+        system = "x86_64-linux";
+        user = user;
+        systemStateVersion = "23.11";
+        hostName = "hl-minipc1";
+        enableNetworkDrives = true;
+        home-manager = {
+          enable = true;
+          version = homeManagerVersion;
+        };
+        os = {
+          enable = true;
+          firewall = { enable = false; };
+          enableFonts = true;
+          enableNetworking = true;
+          enableSSH = true;
+        };
+        configuration = (import ./hosts/hl-minipc1.nix { user = user; });
       };
     };
 }
