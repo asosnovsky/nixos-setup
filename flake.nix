@@ -99,7 +99,7 @@
         systemStateVersion = "24.05";
         hostName = "hl-bigbox1";
         home-manager = {
-          enable = true;
+          enable = false;
           version = homeManagerVersion;
         };
         enableNetworkDrives = true;
@@ -123,7 +123,7 @@
         hostName = "hl-minipc1";
         enableNetworkDrives = true;
         home-manager = {
-          enable = false;
+          enable = true;
           version = homeManagerVersion;
         };
         os = {
