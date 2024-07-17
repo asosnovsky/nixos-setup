@@ -51,6 +51,7 @@
         home-manager = {
           enable = true;
           version = homeManagerVersion;
+          enableDevelopmentKit = true;
         };
         desktop = {
           enable = true;
@@ -85,6 +86,7 @@
         hostName = "asosnovsky-mac";
         home-manager = {
           enable = true;
+          enableDevelopmentKit = true;
           version = homeManagerVersion;
         };
         configuration =
@@ -100,6 +102,7 @@
         hostName = "hl-bigbox1";
         home-manager = {
           enable = true;
+          enableDevelopmentKit = false;
           version = homeManagerVersion;
         };
         enableNetworkDrives = true;
@@ -125,6 +128,7 @@
         home-manager = {
           enable = true;
           version = homeManagerVersion;
+          enableDevelopmentKit = false;
         };
         os = {
           enable = true;

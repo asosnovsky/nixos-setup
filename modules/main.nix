@@ -14,6 +14,7 @@
   # Home Manager
 , home-manager ? {
     enable = false;
+    enableDevelopmentKit = false;
   }
 , ...
 }:
@@ -43,9 +44,10 @@
       hardware = os.hardware;
     })
   ] else [ ]) ++ (if home-manager.enable then [
-    (import ./home-manager/common.nix {
+    (import ./home-manager {
       user = user;
       homeManagerVersion = home-manager.version;
+      enableDevelopmentKit = home-manager.enableDevelopmentKit;
       hostName = hostName;
     })
   ] else [ ]) ++ (if enableNetworkDrives then [
