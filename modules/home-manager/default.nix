@@ -1,4 +1,8 @@
-{ hostName, homeManagerVersion, user }:
+{ hostName
+, homeManagerVersion
+, user
+, enableDevelopmentKit ? false
+}:
 { pkgs, ... }:
 let
   gitconfigs =
@@ -30,17 +34,17 @@ in
       packages = with pkgs; [
         jq
         nixfmt-classic
-        kubectl
-        terraform
-        rye
         devenv
-        micromamba
-        neofetch
         ipfetch
         nixd
-        devbox
+      ] ++ (if enableDevelopmentKit then [
+        rye
         uv
-      ];
+        devbox
+        micromamba
+        terraform
+        kubectl
+      ] else [ ]);
     };
     programs = {
       bat.enable = true;
@@ -78,10 +82,10 @@ in
       zsh = {
         enable = true;
         autosuggestion.enable = true;
-        initExtra = ''
+        initExtra = (if enableDevelopmentKit then ''
           export MAMBA_ROOT_PREFIX="$HOME/.local/micromamba"
           source <(micromamba shell hook --root-prefix=$MAMBA_ROOT_PREFIX)
-        '';
+        '' else "");
       };
       zsh.oh-my-zsh = {
         enable = true;
