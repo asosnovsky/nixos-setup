@@ -3,6 +3,7 @@
 , hostName
 , system
 , enableNetworkDrives ? false
+, enableHomelabServices ? false
   # Desktop Module
 , desktop ? {
     enable = false;
@@ -52,6 +53,8 @@
     })
   ] else [ ]) ++ (if enableNetworkDrives then [
     (import ./network-drives.nix)
+  ] else [ ]) ++ (if enableHomelabServices then [
+    (import ./hl-services)
   ] else [ ])
   ;
 }

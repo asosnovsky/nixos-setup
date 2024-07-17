@@ -12,11 +12,12 @@
     fsType = "ext4";
     options = [ "nofail" ];
   };
-  services.audiobookshelf = {
+  homelab.services.audiobookshelf = {
     enable = true;
     host = "0.0.0.0";
     openFirewall = true;
     port = 8000;
-    dataDir = "audiobookshelf";
+    configDir = "/mnt/Data/audiobookshelf/config";
+    metadtaDir = "/mnt/Data/audiobookshelf/metadata";
   };
 }

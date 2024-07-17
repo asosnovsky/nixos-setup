@@ -125,6 +125,7 @@
         systemStateVersion = "23.11";
         hostName = "hl-minipc1";
         enableNetworkDrives = true;
+        enableHomelabServices = true;
         home-manager = {
           enable = true;
           version = homeManagerVersion;
@@ -136,7 +137,7 @@
           enableFonts = true;
           enableNetworking = true;
           enableSSH = true;
-	  hardware = { enable = false; };
+          hardware = { enable = false; };
         };
         configuration = (import ./hosts/hl-minipc1.nix { user = user; });
       };
