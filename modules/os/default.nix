@@ -2,7 +2,7 @@
 , hostName
 , firewall
 , enableFonts ? true
-, enableNetowrking ? true
+, enableNetworking ? true
 , enableSSH ? true
 , containerRuntime ? null
 , hardware ? { enable = false; }
@@ -18,7 +18,7 @@
     })
   ] ++ (if enableFonts then [ ./fonts.nix ] else [ ])
   ++ (if hardware.enable then [ ./hardware.nix ] else [ ])
-  ++ (if enableNetowrking then
+  ++ (if enableNetworking then
     [
       (import ./networking.nix {
         hostName = hostName;

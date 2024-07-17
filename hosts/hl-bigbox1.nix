@@ -8,31 +8,22 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  environment.systemPackages = with pkgs; [
-    nvtopPackages.nvidia
-    cudaPackages.cudnn
-  ];
   # Ollama
   services.ollama = {
     enable = true;
     acceleration = "cuda";
-    # environmentVariables = {
-    #   OLLAMA_LLM_LIBRARY = "cuda";
-    #   LD_LIBRARY_PATH = "run/opengl-driver/lib";
-    #   NVARCH = "x86_64";
-    #   NV_CUDA_CUDART_VERSION = "11.3.1";
-    #   NVIDIA_VISIBLE_DEVICES = "all";
-    # };
+    host = "0.0.0.0";
   };
   # Nvidia Settings
-  services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.enable = true;
   hardware.graphics = { enable = true; };
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = false;
+    open = true;
     nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 }

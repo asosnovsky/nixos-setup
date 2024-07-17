@@ -2,6 +2,8 @@
 , systemStateVersion
 , hostName
 , system
+, enableNetworkDrives ? false
+, enableHomelabServices ? false
   # Desktop Module
 , desktop ? {
     enable = false;
@@ -11,7 +13,10 @@
     enable = false;
   }
   # Home Manager
-, home-manager ? { enable = false; }
+, home-manager ? {
+    enable = false;
+    enableDevelopmentKit = false;
+  }
 , ...
 }:
 { ... }: {
@@ -38,21 +43,23 @@
         hostName = hostName;
         firewall = os.firewall;
         enableFonts = os.enableFonts;
-        enableNetowrking = os.enableNetowrking;
+        enableNetworking = os.enableNetworking;
         enableSSH = os.enableSSH;
         hardware = os.hardware;
-        containerRuntime = os.containerRuntime;
       })
     ]
   else
     [ ]) ++ (if home-manager.enable then
     [
-      (import ./home-manager/common.nix {
+      (import ./home-manager {
         user = user;
-        homeMangerVersion = home-manager.version;
+        homeManagerVersion = home-manager.version;
+        enableDevelopmentKit = home-manager.enableDevelopmentKit;
         hostName = hostName;
       })
     ]
   else
-    [ ]);
+    [ ])
+  ++ (if enableNetworkDrives then [ (import ./network-drives.nix) ] else [ ])
+  ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ]);
 }

@@ -28,7 +28,7 @@
         homepath = "/Users/${name}";
         extraGitConfigs = [{ path = "${homepath}/.config/mysumo/gitconfig"; }];
       };
-      homeMangerVersion = "24.05";
+      homeManagerVersion = "24.05";
       lib = (import modules/lib.nix {
         nixpkgs = nixpkgs;
         home-manager = home-manager;
@@ -50,7 +50,8 @@
         hostName = "fwbook";
         home-manager = {
           enable = true;
-          version = homeMangerVersion;
+          version = homeManagerVersion;
+          enableDevelopmentKit = true;
         };
         desktop = {
           enable = true;
@@ -64,7 +65,7 @@
           enable = true;
           firewall = { enable = false; };
           enableFonts = true;
-          enableNetowrking = true;
+          enableNetworking = true;
           enableSSH = false;
           hardware = { enable = true; };
           containerRuntime = "docker";
@@ -86,7 +87,8 @@
         hostName = "asosnovsky-mac";
         home-manager = {
           enable = true;
-          version = homeMangerVersion;
+          enableDevelopmentKit = true;
+          version = homeManagerVersion;
         };
         configuration =
           (import ./hosts/asosnovsky-mac.nix { user = sumoUser; });
@@ -101,17 +103,44 @@
         hostName = "hl-bigbox1";
         home-manager = {
           enable = true;
-          version = homeMangerVersion;
+          enableDevelopmentKit = false;
+          version = homeManagerVersion;
+        };
+        enableNetworkDrives = true;
+        os = {
+          enable = true;
+          firewall = { enable = false; };
+          enableFonts = true;
+          enableNetworking = true;
+          enableSSH = true;
+          hardware = { enable = true; };
+        };
+        configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
+      };
+
+      # NIXOS Homelab - minipc1
+      # -------------
+      nixosConfigurations."hl-minipc1" = lib.makeNixOsModule {
+        system = "x86_64-linux";
+        user = user;
+        systemStateVersion = "23.11";
+        hostName = "hl-minipc1";
+        enableNetworkDrives = true;
+        enableHomelabServices = true;
+        home-manager = {
+          enable = true;
+          version = homeManagerVersion;
+          enableDevelopmentKit = false;
         };
         os = {
           enable = true;
           firewall = { enable = false; };
           enableFonts = true;
-          enableNetowrking = true;
+          enableNetworking = true;
           enableSSH = true;
-          hardware = { enable = true; };
+          hardware = { enable = false; };
         };
-        configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
+        configuration = (import ./hosts/hl-minipc1.nix { user = user; });
       };
     };
 }
