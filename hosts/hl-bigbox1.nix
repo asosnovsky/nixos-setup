@@ -14,6 +14,21 @@
     acceleration = "cuda";
     host = "0.0.0.0";
   };
+  services.wyoming = {
+    openwakeword.enable = true;
+    faster-whisper.servers.main-eng = {
+      enable = true;
+      device = "cuda";
+      model = "medium.en";
+      language = "en";
+      uri = "tcp://0.0.0.0:10300";
+    };
+    piper.servers.pier = {
+      enable = true;
+      uri = "tcp://0.0.0.0:10200";
+      voice = "en_GB-alan-medium";
+    };
+  };
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
