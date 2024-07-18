@@ -42,6 +42,11 @@
         home-manager = home-manager;
         nix-darwin = nix-darwin;
       });
+      unstableLib = (import modules/lib.nix {
+        nixpkgs = unstable;
+        home-manager = home-manager;
+        nix-darwin = nix-darwin;
+      });
       eachSystem = nixpkgs.lib.genAttrs (import systems);
       unstablePkgs = eachSystem (system:
         import unstable {
@@ -113,7 +118,7 @@
 
       # NIXOS Homelab - BIGBOX1
       # -------------
-      nixosConfigurations."hl-bigbox1" = lib.makeNixOsModule {
+      nixosConfigurations."hl-bigbox1" = unstableLib.makeNixOsModule {
         system = "x86_64-linux";
         user = user;
         systemStateVersion = "24.05";
@@ -131,10 +136,7 @@
           hardware = { enable = true; };
           enablePrometheusExporters = true;
         };
-        configuration = (import ./hosts/hl-bigbox1.nix {
-          user = user;
-          unstable = unstablePkgs.x86_64-linux;
-        });
+        configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
       };
 
       # NIXOS Homelab - minipc1

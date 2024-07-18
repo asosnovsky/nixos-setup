@@ -1,4 +1,4 @@
-{ user, unstable }:
+{ user }:
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   # firmware updater
@@ -12,8 +12,7 @@
   services.ollama = {
     enable = true;
     acceleration = "cuda";
-    listenAddress = "0.0.0.0:11434";
-    package = unstable.ollama;
+    host = "0.0.0.0";
   };
   services.wyoming = {
     openwakeword.enable = true;
@@ -33,7 +32,6 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
-  # nixpkgs.config.cudaSupport = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
