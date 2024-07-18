@@ -26,37 +26,22 @@
       systemStateVersion = systemStateVersion;
     })
   ] ++ (if desktop.enable then
-    [
-      (import ./desktop {
-        user = user;
-        enableKDE = desktop.enableKDE;
-        enableHypr = desktop.enableHypr;
-        enableX11 = desktop.enableX11;
-        enableWine = desktop.enableWine;
-      })
-    ]
+    [ (import ./desktop ({ user = user; } // desktop)) ]
   else
     [ ]) ++ (if os.enable then
     [
-      (import ./os {
+      (import ./os ({
         user = user;
         hostName = hostName;
-        firewall = os.firewall;
-        enableFonts = os.enableFonts;
-        enableNetworking = os.enableNetworking;
-        enableSSH = os.enableSSH;
-        hardware = os.hardware;
-      })
+      } // os))
     ]
   else
     [ ]) ++ (if home-manager.enable then
     [
-      (import ./home-manager {
+      (import ./home-manager ({
         user = user;
-        homeManagerVersion = home-manager.version;
-        enableDevelopmentKit = home-manager.enableDevelopmentKit;
         hostName = hostName;
-      })
+      } // home-manager))
     ]
   else
     [ ])

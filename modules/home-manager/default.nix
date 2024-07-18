@@ -1,8 +1,4 @@
-{ hostName
-, homeManagerVersion
-, user
-, enableDevelopmentKit ? false
-}:
+{ hostName, version, user, enableDevelopmentKit ? false, ... }:
 { pkgs, ... }:
 let
   gitconfigs =
@@ -11,7 +7,7 @@ let
 in
 {
   home-manager.users.root = {
-    home.stateVersion = homeManagerVersion;
+    home.stateVersion = version;
     programs.git = {
       enable = true;
       userName = "root";
@@ -26,25 +22,22 @@ in
   home-manager.users.${user.name} = {
     home = {
       sessionVariables = { MAMBA_ROOT_PREFIX = "$HOME/.local/micromamba"; };
-      stateVersion = homeManagerVersion;
+      stateVersion = version;
       shellAliases = {
         cat = "bat";
         conda = "micromamba";
       };
-      packages = with pkgs; [
-        jq
-        nixfmt-classic
-        devenv
-        ipfetch
-        nixd
-      ] ++ (if enableDevelopmentKit then [
-        rye
-        uv
-        devbox
-        micromamba
-        terraform
-        kubectl
-      ] else [ ]);
+      packages = with pkgs;
+        [ jq nixfmt-classic devenv ipfetch nixd ]
+        ++ (if enableDevelopmentKit then [
+          rye
+          uv
+          devbox
+          micromamba
+          terraform
+          kubectl
+        ] else
+          [ ]);
     };
     programs = {
       bat.enable = true;
@@ -85,7 +78,8 @@ in
         initExtra = (if enableDevelopmentKit then ''
           export MAMBA_ROOT_PREFIX="$HOME/.local/micromamba"
           source <(micromamba shell hook --root-prefix=$MAMBA_ROOT_PREFIX)
-        '' else "");
+        '' else
+          "");
       };
       zsh.oh-my-zsh = {
         enable = true;
