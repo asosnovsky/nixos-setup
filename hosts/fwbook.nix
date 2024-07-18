@@ -1,5 +1,5 @@
 { user, dataDir ? "/mnt/Data" }:
-{ pkgs, lib, ... }:
+{ pkgs, lib, unstable, ... }:
 let
   zshFWBook = builtins.filterSource (p: t: true) ../configs/fwbook;
   zshFunctions = zshFWBook + "/functions.sh";
@@ -48,6 +48,7 @@ in
     enable = true;
     acceleration = "rocm";
     listenAddress = "0.0.0.0:11434";
+    package = unstable.ollama;
   };
   # Brother Printer
   hardware.sane.brscan5.enable = true;
