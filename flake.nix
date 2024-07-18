@@ -69,6 +69,7 @@
           enableSSH = false;
           hardware = { enable = true; };
           containerRuntime = "docker";
+          enablePrometheusExporters = true;
         };
         configuration = { ... }: {
           imports = [
@@ -111,9 +112,8 @@
           enable = true;
           firewall = { enable = false; };
           enableFonts = true;
-          enableNetworking = true;
-          enableSSH = true;
           hardware = { enable = true; };
+          enablePrometheusExporters = true;
         };
         configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
       };
@@ -135,10 +135,7 @@
         os = {
           enable = true;
           firewall = { enable = false; };
-          enableFonts = true;
-          enableNetworking = true;
-          enableSSH = true;
-          hardware = { enable = false; };
+          enablePrometheusExporters = true;
         };
         configuration = (import ./hosts/hl-minipc1.nix { user = user; });
       };

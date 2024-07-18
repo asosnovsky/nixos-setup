@@ -7,6 +7,7 @@
 , containerRuntime ? null
 , hardware ? { enable = false; }
 , enablePrometheusExporters ? false
+, ...
 }:
 { pkgs, ... }: {
   imports = [

@@ -4,6 +4,7 @@
 , enableKDE ? false
 , enableHypr ? false
 , enableWine ? false
+, ...
 }:
 { pkgs, ... }: {
   imports = [ ./wayland.nix ] ++ (if enableX11 then [ ./x11.nix ] else [ ])
