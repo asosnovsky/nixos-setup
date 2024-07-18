@@ -18,7 +18,7 @@
     openwakeword.enable = true;
     faster-whisper.servers.main-eng = {
       enable = true;
-      device = "auto";
+      device = "cpu";
       model = "medium.en";
       language = "en";
       uri = "tcp://0.0.0.0:10300";
@@ -32,7 +32,7 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
-  nixpkgs.config.cudaSupport = true;
+  #nixpkgs.config.cudaSupport = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
