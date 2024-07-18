@@ -133,7 +133,7 @@
           enable = true;
           firewall = { enable = false; };
           enableFonts = true;
-          hardware = { enable = true; };
+          hardware = { enable = false; };
           enablePrometheusExporters = true;
         };
         configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
