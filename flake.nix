@@ -43,6 +43,11 @@
         nix-darwin = nix-darwin;
       });
       eachSystem = nixpkgs.lib.genAttrs (import systems);
+      unstablePkgs = eachSystem (system:
+        import unstable {
+          system = system;
+          config = { allowUnfree = true; };
+        });
     in
     {
       lib = lib;
@@ -84,7 +89,7 @@
             nixos-hardware.nixosModules.framework-13-7040-amd
             (import ./hosts/fwbook.nix {
               user = user;
-              unstable = unstable.legacyPackages.x86_64-linux;
+              unstable = unstablePkgs.x86_64-linux;
             })
           ];
         };
@@ -128,7 +133,7 @@
         };
         configuration = (import ./hosts/hl-bigbox1.nix {
           user = user;
-          unstable = unstable.legacyPackages.x86_64-linux;
+          unstable = unstablePkgs.x86_64-linux;
         });
       };
 
