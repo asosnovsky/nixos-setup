@@ -19,7 +19,7 @@
     openwakeword.enable = true;
     faster-whisper.servers.main-eng = {
       enable = true;
-      device = "auto";
+      device = "cpu";
       model = "medium.en";
       language = "en";
       uri = "tcp://0.0.0.0:10300";
