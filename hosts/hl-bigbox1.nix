@@ -12,13 +12,13 @@
   services.ollama = {
     enable = true;
     acceleration = "cuda";
-    host = "0.0.0.0";
+    listenAddress = "0.0.0.0:11434";
   };
   services.wyoming = {
     openwakeword.enable = true;
     faster-whisper.servers.main-eng = {
       enable = true;
-      device = "cuda";
+      device = "auto";
       model = "medium.en";
       language = "en";
       uri = "tcp://0.0.0.0:10300";
@@ -32,7 +32,7 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
-  hardware.graphics = { enable = true; };
+  nixpkgs.config.cudaSupport = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
