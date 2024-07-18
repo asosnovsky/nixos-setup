@@ -38,15 +38,11 @@
   else
     [ ]) ++ (if os.enable then
     [
-      (import ./os {
-        user = user;
-        hostName = hostName;
-        firewall = os.firewall;
-        enableFonts = os.enableFonts;
-        enableNetworking = os.enableNetworking;
-        enableSSH = os.enableSSH;
-        hardware = os.hardware;
-      })
+      (import ./os
+        {
+          user = user;
+          hostName = hostName;
+        } // os)
     ]
   else
     [ ]) ++ (if home-manager.enable then

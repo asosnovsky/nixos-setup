@@ -6,6 +6,7 @@
 , enableSSH ? true
 , containerRuntime ? null
 , hardware ? { enable = false; }
+, enablePrometheusExporters ? false
 }:
 { pkgs, ... }: {
   imports = [
@@ -34,5 +35,6 @@
       })
     ]
   else
-    [ ]);
+    [ ])
+  ++ (if enablePrometheusExporters then [ ./exporters.nix ] else [ ]);
 }
