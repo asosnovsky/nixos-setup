@@ -12,7 +12,7 @@
   services.ollama = {
     enable = true;
     acceleration = "cuda";
-    listenAddress = "0.0.0.0:11434";
+    host = "0.0.0.0";
   };
   services.wyoming = {
     openwakeword.enable = true;
@@ -33,6 +33,7 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
   nixpkgs.config.cudaSupport = true;
+  hardware.graphics = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
