@@ -1,5 +1,5 @@
-{ user, dataDir ? "/mnt/Data" }:
-{ pkgs, lib, unstable, ... }:
+{ user, dataDir ? "/mnt/Data", unstable }:
+{ pkgs, lib, config, ... }:
 let
   zshFWBook = builtins.filterSource (p: t: true) ../configs/fwbook;
   zshFunctions = zshFWBook + "/functions.sh";

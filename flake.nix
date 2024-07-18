@@ -1,6 +1,7 @@
 {
   inputs = {
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     systems.url = "github:nix-systems/default";
     home-manager = {
@@ -14,7 +15,14 @@
   };
 
   outputs =
-    { self, nixos-hardware, nixpkgs, home-manager, nix-darwin, systems }:
+    { self
+    , nixos-hardware
+    , nixpkgs
+    , home-manager
+    , nix-darwin
+    , systems
+    , unstable
+    }:
     let
       user = {
         name = "ari";
@@ -74,7 +82,10 @@
         configuration = { ... }: {
           imports = [
             nixos-hardware.nixosModules.framework-13-7040-amd
-            (import ./hosts/fwbook.nix { user = user; })
+            (import ./hosts/fwbook.nix {
+              user = user;
+              unstable = unstable.legacyPackages.x86_64-linux;
+            })
           ];
         };
       };
@@ -115,7 +126,10 @@
           hardware = { enable = true; };
           enablePrometheusExporters = true;
         };
-        configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
+        configuration = (import ./hosts/hl-bigbox1.nix {
+          user = user;
+          unstable = unstable.legacyPackages.x86_64-linux;
+        });
       };
 
       # NIXOS Homelab - minipc1
