@@ -2,10 +2,9 @@
   services.prometheus.exporters = {
     node = {
       enable = true;
-      enabledCollectors = [ "process" "systemd" ];
+      enabledCollectors = [ "systemd" ];
       openFirewall = true;
+      port = 9100;
     };
-    # systemd.enable = true;
-    # process.enable = true;
   };
 }
