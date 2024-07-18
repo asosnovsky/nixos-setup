@@ -8,6 +8,10 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    unstable-home-manager = {
+      url = "github:nix-community/home-manager/release-master";
+      inputs.nixpkgs.follows = "unstable";
+    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +26,7 @@
     , nix-darwin
     , systems
     , unstable
+    , unstable-home-manager
     }:
     let
       user = {
@@ -44,7 +49,7 @@
       });
       unstableLib = (import modules/lib.nix {
         nixpkgs = unstable;
-        home-manager = home-manager;
+        home-manager = unstable-home-manager;
         nix-darwin = nix-darwin;
       });
       eachSystem = nixpkgs.lib.genAttrs (import systems);
@@ -126,7 +131,7 @@
         home-manager = {
           enable = true;
           enableDevelopmentKit = false;
-          version = homeManagerVersion;
+          version = "24.11";
         };
         enableNetworkDrives = true;
         os = {
