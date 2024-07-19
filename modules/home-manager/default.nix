@@ -78,8 +78,10 @@ in
         initExtra = (if enableDevelopmentKit then ''
           export MAMBA_ROOT_PREFIX="$HOME/.local/micromamba"
           source <(micromamba shell hook --root-prefix=$MAMBA_ROOT_PREFIX)
-        '' else
-          "");
+          export PROMPT='%(!.%{%F{yellow}%}.)$USER@%{$fg[white]%}%M %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+        '' else ''
+          export PROMPT='%(!.%{%F{yellow}%}.)$USER@%{$fg[white]%}%M %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+        '');
       };
       zsh.oh-my-zsh = {
         enable = true;
