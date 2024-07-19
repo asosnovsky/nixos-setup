@@ -4,7 +4,7 @@
 , enableFonts ? true
 , enableNetworking ? true
 , enableSSH ? true
-, containerRuntime ? null
+, containers ? { runtime = null; }
 , hardware ? { enable = false; }
 , enablePrometheusExporters ? false
 , ...
@@ -14,10 +14,9 @@
     (import ./core.nix { user = user; })
     ./rootUser.nix
     (import ./user.nix { user = user; })
-    (import ./containers/default.nix {
+    (import ./containers/default.nix ({
       user = user;
-      runtime = containerRuntime;
-    })
+    } // containers))
   ] ++ (if enableFonts then [ ./fonts.nix ] else [ ])
   ++ (if hardware.enable then [ ./hardware.nix ] else [ ])
   ++ (if enableNetworking then

@@ -1,4 +1,4 @@
-{ user }:
+{ user, ... }:
 { pkgs, ... }: {
   virtualisation.oci-containers.backend = "podman";
   virtualisation = {
@@ -10,5 +10,5 @@
       autoPrune.enable = true;
     };
   };
-  environment.systemPackages = with pkgs; [ podman-compose ];
+  environment.systemPackages = with pkgs; [ podman-compose podman-tui ];
 }

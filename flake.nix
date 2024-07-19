@@ -1,7 +1,7 @@
 {
   inputs = {
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     systems.url = "github:nix-systems/default";
     home-manager = {
@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     unstable-home-manager = {
-      url = "github:nix-community/home-manager/release-master";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "unstable";
     };
     nix-darwin = {
@@ -91,7 +91,9 @@
           enableNetworking = true;
           enableSSH = false;
           hardware = { enable = true; };
-          containerRuntime = "docker";
+          containers = {
+            runtime = "docker";
+          };
           enablePrometheusExporters = true;
         };
         configuration = { ... }: {
@@ -140,6 +142,9 @@
           enableFonts = true;
           hardware = { enable = false; };
           enablePrometheusExporters = true;
+          containers = {
+            runtime = "docker";
+          };
         };
         configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
       };

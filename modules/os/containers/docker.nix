@@ -1,9 +1,9 @@
-{ user }:
+{ user, enableOnBoot ? false, ... }:
 { pkgs, ... }: {
   virtualisation.docker = {
     enable = true;
     autoPrune.enable = true;
-    enableOnBoot = false;
+    enableOnBoot = enableOnBoot;
     liveRestore = false;
   };
   environment.systemPackages = with pkgs; [ docker-compose ];
