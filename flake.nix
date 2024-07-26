@@ -47,9 +47,7 @@
         "http://minipc1.lab.internal:5000"
         "http://fwlaptop.devices.internal:5000"
       ];
-      localDockerRegistries = [
-        "minipc1.lab.internal:5001"
-      ];
+      localDockerRegistries = [ "minipc1.lab.internal:5001" ];
       # Libs
       lib = (import modules/lib.nix {
         nixpkgs = nixpkgs;
@@ -67,6 +65,29 @@
           system = system;
           config = { allowUnfree = true; };
         });
+      makeHLService = lib.makeNixOsModuleMaker {
+        system = "x86_64-linux";
+        user = user;
+        localNixCaches = localNixCaches;
+        enableNetworkDrives = true;
+        enableHomelabServices = true;
+        home-manager = {
+          enable = true;
+          version = homeManagerVersion;
+          enableDevelopmentKit = false;
+        };
+        os = {
+          enable = true;
+          firewall = { enable = false; };
+          enableFonts = true;
+          hardware = { enable = false; };
+          enablePrometheusExporters = true;
+          containers = {
+            runtime = "docker";
+            localDockerRegistries = localDockerRegistries;
+          };
+        };
+      };
     in
     {
       lib = lib;
@@ -166,30 +187,18 @@
 
       # NIXOS Homelab - minipc1
       # -------------
-      nixosConfigurations."hl-minipc1" = lib.makeNixOsModule {
-        system = "x86_64-linux";
-        user = user;
-        localNixCaches = localNixCaches;
-        systemStateVersion = "23.11";
+      nixosConfigurations."hl-minipc1" = makeHLService {
         hostName = "hl-minipc1";
-        enableNetworkDrives = true;
-        enableHomelabServices = true;
-        home-manager = {
-          enable = true;
-          version = homeManagerVersion;
-          enableDevelopmentKit = false;
-        };
-        os = {
-          enable = true;
-          firewall = { enable = false; };
-          enablePrometheusExporters = true;
-        };
         configuration = (import ./hosts/hl-minipc1.nix { user = user; });
-        containers = {
-          runtime = "docker";
-          enableOnBoot = true;
-          localDockerRegistries = localDockerRegistries;
-        };
+        systemStateVersion = "23.11";
+      };
+
+      # NIXOS Homelab - minipc2
+      # -------------
+      nixosConfigurations."hl-minipc2" = makeHLService {
+        hostName = "hl-minipc2";
+        configuration = (import ./hosts/hl-minipc2.nix { user = user; });
+        systemStateVersion = "24.05";
       };
     };
 }

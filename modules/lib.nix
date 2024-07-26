@@ -27,6 +27,19 @@ in
         home-manager-modules = [ home-manager.nixosModules.default ];
       });
     };
+  makeNixOsModuleMaker =
+    masterAttrs:
+    { system ? masterAttrs.system ? "x86_64-linux"
+    , configuration ? null
+    , ...
+    }@attrs:
+    nixpkgs.lib.nixosSystem {
+      system = system;
+      modules = (makeImports {
+        attrs = masterAttrs // attrs;
+        home-manager-modules = [ home-manager.nixosModules.default ];
+      });
+    };
   makeDarwinModule =
     { system ? "x86_64-darwin"
     , user
