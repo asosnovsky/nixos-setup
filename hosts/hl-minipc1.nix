@@ -8,7 +8,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   # Data
   fileSystems."/mnt/Data" = {
-    device = "/dev/sdb1";
+    device = "/dev/disk/by-uuid/ee4a60a8-b0d1-4f5c-a554-1d1d84c89e34";
     fsType = "ext4";
     options = [ "nofail" ];
   };
