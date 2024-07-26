@@ -34,25 +34,27 @@
     containers = {
       myevents-app = {
         autoStart = true;
-        image = "minipc1.lab.internal:5001/asosnovsky/myevents";
+        image = "localhost:5001/asosnovsky/myevents";
         extraOptions = [ "--gpus" "all" ];
         ports = [ "8000:80" ];
         cmd = [ "app" ];
         environmentFiles = [
           "/mnt/Data/myevents/app.env"
         ];
+        dependsOn = [ "myevents-db" ];
       };
       myevents-cron = {
         autoStart = true;
-        image = "minipc1.lab.internal:5001/asosnovsky/myevents";
+        image = "localhost:5001/asosnovsky/myevents";
         cmd = [ "cron" ];
         environmentFiles = [
           "/mnt/Data/myevents/app.env"
         ];
+        dependsOn = [ "myevents-db" ];
       };
       myevents-db = {
         autoStart = true;
-        image = docker.io/postgres;
+        image = "docker.io/postgres";
         hostname = "myevents-db";
         environmentFiles = [
           "/mnt/Data/myevents/db.env"
@@ -61,3 +63,4 @@
     };
   };
 }
+
