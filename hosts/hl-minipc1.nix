@@ -24,7 +24,7 @@
   services.dockerRegistry = {
     enable = true;
     storagePath = "/mnt/Data/docker-registry";
-    port = 5000;
+    port = 5001;
     openFirewall = true;
     listenAddress = "0.0.0.0";
     enableDelete = true;
