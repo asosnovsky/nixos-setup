@@ -42,6 +42,11 @@
         extraGitConfigs = [{ path = "${homepath}/.config/mysumo/gitconfig"; }];
       };
       homeManagerVersion = "24.05";
+      localNixCaches = [
+        "http://minipc1.lab.internal:5000"
+        "http://fwlaptop.devices.internal:5000"
+      ];
+      # Libs
       lib = (import modules/lib.nix {
         nixpkgs = nixpkgs;
         home-manager = home-manager;
@@ -71,6 +76,7 @@
         user = user;
         systemStateVersion = "23.11";
         hostName = "fwbook";
+        localNixCaches = localNixCaches;
         home-manager = {
           enable = true;
           version = homeManagerVersion;
@@ -112,6 +118,7 @@
       darwinConfigurations."asosnovsky-mac" = lib.makeDarwinModule {
         user = sumoUser;
         systemStateVersion = 4;
+        localNixCaches = localNixCaches;
         system = "x86_64-darwin";
         hostName = "asosnovsky-mac";
         home-manager = {
@@ -128,6 +135,7 @@
       nixosConfigurations."hl-bigbox1" = unstableLib.makeNixOsModule {
         system = "x86_64-linux";
         user = user;
+        localNixCaches = localNixCaches;
         systemStateVersion = "24.05";
         hostName = "hl-bigbox1";
         home-manager = {
@@ -154,6 +162,7 @@
       nixosConfigurations."hl-minipc1" = lib.makeNixOsModule {
         system = "x86_64-linux";
         user = user;
+        localNixCaches = localNixCaches;
         systemStateVersion = "23.11";
         hostName = "hl-minipc1";
         enableNetworkDrives = true;

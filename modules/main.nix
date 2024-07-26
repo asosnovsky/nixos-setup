@@ -17,6 +17,7 @@
     enable = false;
     enableDevelopmentKit = false;
   }
+, localNixCaches ? [ ]
 , ...
 }:
 { ... }: {
@@ -24,6 +25,7 @@
     (import ./nix {
       user = user;
       systemStateVersion = systemStateVersion;
+      localNixCaches = localNixCaches;
     })
   ] ++ (if desktop.enable then
     [ (import ./desktop ({ user = user; } // desktop)) ]
