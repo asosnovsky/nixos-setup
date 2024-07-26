@@ -29,4 +29,35 @@
     listenAddress = "0.0.0.0";
     enableDelete = true;
   };
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers = {
+      myevents-app = {
+        autoStart = true;
+        image = "minipc1.lab.internal:5001/asosnovsky/myevents";
+        extraOptions = [ "--gpus" "all" ];
+        ports = [ "8000:80" ];
+        cmd = [ "app" ];
+        environmentFiles = [
+          "/mnt/Data/myevents/app.env"
+        ];
+      };
+      myevents-cron = {
+        autoStart = true;
+        image = "minipc1.lab.internal:5001/asosnovsky/myevents";
+        cmd = [ "cron" ];
+        environmentFiles = [
+          "/mnt/Data/myevents/app.env"
+        ];
+      };
+      myevents-db = {
+        autoStart = true;
+        image = docker.io/postgres;
+        hostname = "myevents-db";
+        environmentFiles = [
+          "/mnt/Data/myevents/db.env"
+        ];
+      };
+    };
+  };
 }

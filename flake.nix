@@ -42,9 +42,13 @@
         extraGitConfigs = [{ path = "${homepath}/.config/mysumo/gitconfig"; }];
       };
       homeManagerVersion = "24.05";
+      # Local Services
       localNixCaches = [
         "http://minipc1.lab.internal:5000"
         "http://fwlaptop.devices.internal:5000"
+      ];
+      localDockerRegistries = [
+        "minipc1.lab.internal:5001"
       ];
       # Libs
       lib = (import modules/lib.nix {
@@ -77,6 +81,7 @@
         systemStateVersion = "23.11";
         hostName = "fwbook";
         localNixCaches = localNixCaches;
+        localDockerRegistries = localDockerRegistries;
         home-manager = {
           enable = true;
           version = homeManagerVersion;
@@ -98,6 +103,7 @@
           enableSSH = false;
           hardware = { enable = true; };
           containers = {
+            localDockerRegistries = localDockerRegistries;
             runtime = "docker";
           };
           enablePrometheusExporters = true;
@@ -152,6 +158,7 @@
           enablePrometheusExporters = true;
           containers = {
             runtime = "docker";
+            localDockerRegistries = localDockerRegistries;
           };
         };
         configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
@@ -178,6 +185,11 @@
           enablePrometheusExporters = true;
         };
         configuration = (import ./hosts/hl-minipc1.nix { user = user; });
+        containers = {
+          runtime = "docker";
+          enableOnBoot = true;
+          localDockerRegistries = localDockerRegistries;
+        };
       };
     };
 }
