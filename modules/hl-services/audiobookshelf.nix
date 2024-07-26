@@ -17,6 +17,12 @@ in {
         type = types.str;
       };
 
+      dataDir = mkOption {
+        description = "Path to Audiobookshelf config and metadata inside of /var/lib.";
+        default = "audiobookshelf";
+        type = types.str;
+      };
+
       metadtaDir = mkOption {
         description =
           "Path to Audiobookshelf config folder";
