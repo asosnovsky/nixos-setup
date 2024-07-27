@@ -59,6 +59,9 @@
         environmentFiles = [
           "/mnt/Data/myevents/db.env"
         ];
+        volumes = [
+          "/mnt/Data/myevents/db:/var/lib/postgresql/data"
+        ];
       };
     };
   };
