@@ -65,7 +65,7 @@
           system = system;
           config = { allowUnfree = true; };
         });
-      makeHLService = lib.makeNixOsModuleMaker {
+      hlCommonSettings = {
         system = "x86_64-linux";
         user = user;
         localNixCaches = localNixCaches;
@@ -88,6 +88,7 @@
           };
         };
       };
+      makeHLService = lib.makeNixOsModuleMaker hlCommonSettings;
     in
     {
       lib = lib;
@@ -159,10 +160,7 @@
 
       # NIXOS Homelab - BIGBOX1
       # -------------
-      nixosConfigurations."hl-bigbox1" = unstableLib.makeNixOsModule {
-        system = "x86_64-linux";
-        user = user;
-        localNixCaches = localNixCaches;
+      nixosConfigurations."hl-bigbox1" = unstableLib.makeNixOsModule (hlCommonSettings // {
         systemStateVersion = "24.05";
         hostName = "hl-bigbox1";
         home-manager = {
@@ -170,20 +168,8 @@
           enableDevelopmentKit = false;
           version = "24.11";
         };
-        enableNetworkDrives = true;
-        os = {
-          enable = true;
-          firewall = { enable = false; };
-          enableFonts = true;
-          hardware = { enable = false; };
-          enablePrometheusExporters = true;
-          containers = {
-            runtime = "docker";
-            localDockerRegistries = localDockerRegistries;
-          };
-        };
         configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
-      };
+      });
 
       # NIXOS Homelab - minipc1
       # -------------
