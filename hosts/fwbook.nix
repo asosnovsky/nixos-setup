@@ -36,6 +36,13 @@ in
     # python
     python312
   ];
+  # Opengl
+  hardware.opengl = {
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = [ pkgs.amdvlk ];
+    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
+  };
   # Gaming
   programs.gamescope.enable = true;
   programs.steam = {
