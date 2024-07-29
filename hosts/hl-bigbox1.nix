@@ -59,4 +59,15 @@
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
+  # Steam Settings
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
+  environment.systemPackages = with pkgs; [
+    steam-tui
+    steamPackages.steamcmd
+  ];
 }
