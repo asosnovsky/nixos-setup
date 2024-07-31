@@ -1,6 +1,6 @@
 { user }:
 { pkgs, lib, config, ... }: {
-  imports = [ ./hl-minipc2.hardware-configuration.nix ];
+  imports = [ ./hl-terra1.hardware-configuration.nix ];
   # firmware updater
   services.fwupd.enable = true;
   # Bootloader.
