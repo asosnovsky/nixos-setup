@@ -17,7 +17,7 @@
     enable = false;
     enableDevelopmentKit = false;
   }
-, localNixCaches ? [ ]
+, localNixCaches ? { keys = [ ]; urls = [ ]; }
 , ...
 }:
 { ... }: {

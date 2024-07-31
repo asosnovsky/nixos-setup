@@ -1,4 +1,4 @@
-{ user, systemStateVersion, localNixCaches ? [ ] }:
+{ user, systemStateVersion, localNixCaches ? { keys = [ ]; urls = [ ]; } }:
 { pkgs, ... }:
 {
   # Nix core
@@ -10,16 +10,16 @@
       "https://cache.nixos.org"
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
-    ] ++ localNixCaches;
+    ] ++ localNixCaches.urls;
     trusted-substituters = [
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
-    ] ++ localNixCaches;
+    ] ++ localNixCaches.urls;
     trusted-users = [ "root" user.name ];
     trusted-public-keys = [
       "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-    ];
+    ] ++ localNixCaches.keys;
   };
 
   # System Packages
