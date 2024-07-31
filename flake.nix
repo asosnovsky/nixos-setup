@@ -43,10 +43,14 @@
       };
       homeManagerVersion = "24.05";
       # Local Services
-      localNixCaches = [
-        "http://minipc1.lab.internal:5000"
-        "http://fwlaptop.devices.internal:5000"
-      ];
+      localNixCaches = {
+        urls = [
+          "http://minipc1.lab.internal:5000"
+        ];
+        keys = [
+          "minipc1.lab.internal:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
+        ];
+      };
       localDockerRegistries = [ "minipc1.lab.internal:5001" ];
       # Libs
       lib = (import modules/lib.nix {

@@ -1,6 +1,11 @@
 { user }:
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-minipc1.hardware-configuration.nix ];
+  # Nix Stores
+  services.nix-serve = {
+    enable = true;
+    secretKeyFile = "/var/keys/cache-priv-key.pem";
+  };
   # firmware updater
   services.fwupd.enable = true;
   # Bootloader.
