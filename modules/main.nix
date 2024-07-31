@@ -48,5 +48,7 @@
   else
     [ ])
   ++ (if enableNetworkDrives then [ (import ./network-drives.nix) ] else [ ])
-  ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ]);
+  ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ])
+  ++ (if enableHomelabServices then [ (import ./hl-hardware) ] else [ ])
+  ;
 }
