@@ -1,6 +1,11 @@
 { user, systemStateVersion, localNixCaches ? { keys = [ ]; urls = [ ]; } }:
 { pkgs, ... }:
 {
+  imports = [
+    (import ./remote-builder.nix {
+      user = user;
+    })
+  ];
   # Nix core
   system.stateVersion = systemStateVersion;
   nixpkgs.config.allowUnfree = true;
