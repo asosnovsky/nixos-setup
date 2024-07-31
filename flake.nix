@@ -186,5 +186,13 @@
         configuration = (import ./hosts/hl-minipc2.nix { user = user; });
         systemStateVersion = "24.05";
       };
+
+      # NIXOS Homelab - terramaster 1
+      # -------------
+      nixosConfigurations."hl-terra1" = makeHLService {
+        hostName = "hl-terra1";
+        configuration = (import ./hosts/hl-terra1.nix { user = user; });
+        systemStateVersion = "24.05";
+      };
     };
 }
