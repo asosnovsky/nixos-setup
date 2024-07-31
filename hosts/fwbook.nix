@@ -73,6 +73,7 @@ in
     source ${zshFunctions}
   '';
   environment.localBinInPath = true;
+  homelab.nix.remote-builder.enable = true;
   # Advance Power Management
   powerManagement.powertop.enable = true;
   powerManagement.enable = true;

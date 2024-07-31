@@ -8,7 +8,8 @@
   };
   # firmware updater
   services.fwupd.enable = true;
-  homelab.nix.remote-builder = true;
+  homelab.nix.remote-builder.enable = true;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

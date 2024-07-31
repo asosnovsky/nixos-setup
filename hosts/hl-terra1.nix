@@ -7,6 +7,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   homelab.hardware.fan2go.enable = true;
-  homelab.nix.remote-builder = true;
+  homelab.nix.remote-builder.enable = true;
+
 }
 
