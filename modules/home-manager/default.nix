@@ -21,11 +21,10 @@ in
   };
   home-manager.users.${user.name} = {
     home = {
-      sessionVariables = { MAMBA_ROOT_PREFIX = "$HOME/.local/micromamba"; };
+      sessionVariables = { };
       stateVersion = version;
       shellAliases = {
         cat = "bat";
-        conda = "micromamba";
       };
       packages = with pkgs;
         [ jq nixfmt-classic devenv ipfetch nixd ]
@@ -33,7 +32,6 @@ in
           rye
           uv
           devbox
-          micromamba
           terraform
           kubectl
         ] else
@@ -75,13 +73,9 @@ in
       zsh = {
         enable = true;
         autosuggestion.enable = true;
-        initExtra = (if enableDevelopmentKit then ''
-          export MAMBA_ROOT_PREFIX="$HOME/.local/micromamba"
-          source <(micromamba shell hook --root-prefix=$MAMBA_ROOT_PREFIX)
+        initExtra = ''
           export PROMPT='%(!.%{%F{yellow}%}.)$USER@%{$fg[white]%}%M %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
-        '' else ''
-          export PROMPT='%(!.%{%F{yellow}%}.)$USER@%{$fg[white]%}%M %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
-        '');
+        '';
       };
       zsh.oh-my-zsh = {
         enable = true;

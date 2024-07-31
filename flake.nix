@@ -43,10 +43,14 @@
       };
       homeManagerVersion = "24.05";
       # Local Services
-      localNixCaches = [
-        "http://minipc1.lab.internal:5000"
-        "http://fwlaptop.devices.internal:5000"
-      ];
+      localNixCaches = {
+        urls = [
+          "http://minipc1.lab.internal:5000"
+        ];
+        keys = [
+          "minipc1.lab.internal:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
+        ];
+      };
       localDockerRegistries = [ "minipc1.lab.internal:5001" ];
       # Libs
       lib = (import modules/lib.nix {
@@ -184,6 +188,14 @@
       nixosConfigurations."hl-minipc2" = makeHLService {
         hostName = "hl-minipc2";
         configuration = (import ./hosts/hl-minipc2.nix { user = user; });
+        systemStateVersion = "24.05";
+      };
+
+      # NIXOS Homelab - terramaster 1
+      # -------------
+      nixosConfigurations."hl-terra1" = makeHLService {
+        hostName = "hl-terra1";
+        configuration = (import ./hosts/hl-terra1.nix { user = user; });
         systemStateVersion = "24.05";
       };
     };
