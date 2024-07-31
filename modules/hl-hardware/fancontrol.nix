@@ -9,6 +9,9 @@ in
 {
   options.homelab.hardware.fancontrol = with lib; {
     enable = mkEnableOption "fancontrol";
+    configName = mkOption {
+      type = types.str;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -22,7 +25,7 @@ in
       };
 
       serviceConfig = {
-        ExecStart = "${pkgs.lm_sensors}/bin/fancontrol";
+        ExecStart = "${pkgs.lm_sensors}/bin/fancontrol ${cfg.configName}";
         Restart = "always";
       };
     };
