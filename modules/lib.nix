@@ -1,18 +1,20 @@
 { nixpkgs
 , home-manager
 , nix-darwin
+, lix-module
 }:
 let
   makeImports =
     { attrs
     , home-manager-modules
+    , extraConfiguration ? [ ]
     }: (if (isNull attrs.configuration) then [ ] else [ attrs.configuration ])
       ++ [
       (import ./main.nix attrs)
     ] ++ (if attrs.home-manager.enable then
       home-manager-modules
     else
-      [ ]);
+      [ ]) ++ extraConfiguration;
 in
 {
   makeNixOsModule =
@@ -25,6 +27,7 @@ in
       modules = (makeImports {
         attrs = attrs;
         home-manager-modules = [ home-manager.nixosModules.default ];
+        extraConfiguration = [ lix-module.nixosModules.default ];
       });
     };
   makeNixOsModuleMaker =

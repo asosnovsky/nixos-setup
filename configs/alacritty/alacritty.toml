@@ -1,4 +1,9 @@
+
 live_config_reload = true
+
+import = [
+    "~/.config/alacritty/themes/themes/nord.toml"
+]
 
 [window]
 title = "Terminal"
@@ -16,3 +21,4 @@ args = [
 	"-c",
 	"tmux attach || tmux"
 ]	
+

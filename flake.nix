@@ -1,9 +1,17 @@
 {
   inputs = {
+    # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    systems.url = "github:nix-systems/default";
+    # Nixpkgs
     unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    systems.url = "github:nix-systems/default";
+    # Lix
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,6 +20,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "unstable";
     };
+    # Macos
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,11 +31,12 @@
     { self
     , nixos-hardware
     , nixpkgs
-    , home-manager
-    , nix-darwin
     , systems
     , unstable
+    , lix-module
+    , home-manager
     , unstable-home-manager
+    , nix-darwin
     }:
     let
       user = {
@@ -57,11 +67,13 @@
         nixpkgs = nixpkgs;
         home-manager = home-manager;
         nix-darwin = nix-darwin;
+        lix-module = lix-module;
       });
       unstableLib = (import modules/lib.nix {
         nixpkgs = unstable;
         home-manager = unstable-home-manager;
         nix-darwin = nix-darwin;
+        lix-module = lix-module;
       });
       eachSystem = nixpkgs.lib.genAttrs (import systems);
       unstablePkgs = eachSystem (system:
@@ -164,16 +176,21 @@
 
       # NIXOS Homelab - BIGBOX1
       # -------------
-      nixosConfigurations."hl-bigbox1" = unstableLib.makeNixOsModule (hlCommonSettings // {
-        systemStateVersion = "24.05";
+      nixosConfigurations."hl-bigbox1" = makeHLService {
         hostName = "hl-bigbox1";
-        home-manager = {
-          enable = true;
-          enableDevelopmentKit = false;
-          version = "24.11";
-        };
         configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
-      });
+        systemStateVersion = "24.05";
+      };
+      # unstableLib.makeNixOsModule (hlCommonSettings // {
+      #   systemStateVersion = "24.05";
+      #   hostName = "hl-bigbox1";
+      #   home-manager = {
+      #     enable = true;
+      #     enableDevelopmentKit = false;
+      #     version = "24.11";
+      #   };
+      #   configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
+      # });
 
       # NIXOS Homelab - minipc1
       # -------------
