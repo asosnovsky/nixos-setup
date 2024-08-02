@@ -105,13 +105,8 @@
         };
       };
       makeHLService = lib.makeNixOsModuleMaker hlCommonSettings;
-      homelabMachines = [
-        "hl-bigbox1"
-        "hl-minipc1"
-        "hl-minipc2"
-        "hl-terra1"
-      ];
-      homeLabModules = builtins.map
+      makeunstableHLService = unstableLib.makeNixOsModuleMaker hlCommonSettings;
+      homeLabModulesUsingStable = builtins.map
         (name: {
           name = name;
           value = makeHLService {
@@ -120,7 +115,22 @@
             systemStateVersion = "24.05";
           };
         })
-        homelabMachines;
+        ([
+          "hl-bigbox1"
+          "hl-minipc1"
+          "hl-minipc2"
+          "hl-terra1"
+        ]);
+      homeLabModulesUsingUnStable = builtins.map
+        (name: {
+          name = name;
+          value = makeunstableHLService {
+            hostName = name;
+            configuration = (import (./hosts + "/${name}.nix") { user = user; });
+            systemStateVersion = "24.05";
+          };
+        })
+        ([ ]);
     in
     {
       lib = lib;
@@ -191,30 +201,6 @@
             ];
           };
         };
-      } // builtins.listToAttrs homeLabModules;
-
-      #   # Homelab
-      #   # -------------
-      #   hl-bigbox1 = makeHLService {
-      #     hostName = "hl-bigbox1";
-      #     configuration = (import ./hosts/hl-bigbox1.nix { user = user; });
-      #     systemStateVersion = "24.05";
-      #   };
-      #   hl-minipc1 = makeHLService {
-      #     hostName = "hl-minipc1";
-      #     configuration = (import ./hosts/hl-minipc1.nix { user = user; });
-      #     systemStateVersion = "23.11";
-      #   };
-      #   hl-minipc2 = makeHLService {
-      #     hostName = "hl-minipc2";
-      #     configuration = (import ./hosts/hl-minipc2.nix { user = user; });
-      #     systemStateVersion = "24.05";
-      #   };
-      #   hl-terra1 = makeHLService {
-      #     hostName = "hl-terra1";
-      #     configuration = (import ./hosts/hl-terra1.nix { user = user; });
-      #     systemStateVersion = "24.05";
-      #   };
-      # };
+      } // (builtins.listToAttrs homeLabModulesUsingStable) // (builtins.listToAttrs homeLabModulesUsingUnStable);
     };
 }
