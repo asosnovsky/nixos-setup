@@ -116,7 +116,6 @@
           };
         })
         ([
-          "hl-bigbox1"
           "hl-minipc1"
           "hl-minipc2"
           "hl-terra1"
@@ -130,7 +129,9 @@
             systemStateVersion = "24.05";
           };
         })
-        ([ ]);
+        ([
+          "hl-bigbox1"
+				]);
     in
     {
       lib = lib;

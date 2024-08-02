@@ -4,13 +4,14 @@
   # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
-  systemd.enableUnifiedCgroupHierarchy = false;
+  hardware.nvidia-container-toolkit.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # Containers
+	#systemd.enableUnifiedCgroupHierarchy = false;
+	# Containers
   virtualisation.oci-containers = {
     backend = "docker";
     containers = {
@@ -48,16 +49,16 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
-  # hardware.graphics.enable32Bit = true;
-  # hardware.graphics.enable = true;
-  hardware.opengl.enable = true;
+  hardware.graphics.enable32Bit = true;
+  hardware.graphics.enable = true;
+  #hardware.opengl.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
     open = false;
-    nvidiaSettings = false;
-    # package = config.boot.kernelPackages.nvidiaPackages.production;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
   # Steam Settings
   programs.steam = {
