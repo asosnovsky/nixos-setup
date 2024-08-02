@@ -50,7 +50,8 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
-  hardware.graphics.enable = true;
+  # hardware.graphics.enable = true;
+  hardware.opengl.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
