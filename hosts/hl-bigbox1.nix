@@ -4,7 +4,6 @@
   # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
-  hardware.graphics.enable32Bit = true;
   systemd.enableUnifiedCgroupHierarchy = false;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -33,7 +32,6 @@
 
   # Wyoming Service
   services.wyoming = {
-    #		openwakeword.enable = true;
     faster-whisper.servers.main-eng = {
       enable = true;
       device = "cpu";
@@ -50,15 +48,16 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
+  # hardware.graphics.enable32Bit = true;
   # hardware.graphics.enable = true;
   hardware.opengl.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = true;
+    open = false;
     nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    # package = config.boot.kernelPackages.nvidiaPackages.production;
   };
   # Steam Settings
   programs.steam = {
@@ -69,6 +68,7 @@
   };
   environment.systemPackages = with pkgs; [
     steam-tui
+    steam-run
     steamPackages.steamcmd
   ];
 }
