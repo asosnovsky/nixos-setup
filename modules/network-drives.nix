@@ -10,4 +10,10 @@
     fsType = "nfs";
     options = [ "x-systemd.automount" "noauto" ];
   };
+
+  fileSystems."/mnt/EightTerra/NVR" = {
+    device = "tnas1.lab.internal:/mnt/EightTerra/NVR";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
+  };
 }
