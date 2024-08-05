@@ -31,20 +31,17 @@ in
     rocmPackages.llvm.clang
     amdgpu_top
     amdctl
-    # Display Libraries
-    displaylink
     # python
     python312
   ];
-  # Opengl
+  # # Opengl
   hardware.opengl = {
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = [ pkgs.amdvlk ];
     extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   };
-  # Gaming
-  programs.gamescope.enable = true;
+  # # Gaming
   programs.steam = {
     enable = true;
     extest.enable = true;
@@ -57,23 +54,20 @@ in
     listenAddress = "0.0.0.0:11434";
     package = unstable.ollama;
   };
-  # Brother Printer
+  # # Brother Printer
   hardware.sane.brscan5.enable = true;
-  # Display Managers
+  # # Display Managers
   services.xserver.videoDrivers =
-    [ "displaylink" "modesetting" "amdgpu" "fbdev" ];
-  services.xserver.displayManager.sessionCommands = ''
-    ${lib.getBin pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 2 0
-  '';
+    [ "modesetting" "amdgpu" "fbdev" ];
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   # Add Functions
   home-manager.users.${user.name}.programs.zsh.initExtra = ''
     source ${zshFunctions}
   '';
   environment.localBinInPath = true;
-  homelab.nix.remote-builder.enable = true;
+  # homelab.nix.remote-builder.enable = true;
   # Advance Power Management
   powerManagement.powertop.enable = true;
   powerManagement.enable = true;
