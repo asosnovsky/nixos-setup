@@ -10,10 +10,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-	#systemd.enableUnifiedCgroupHierarchy = false;
-	# Containers
+  # Containers
   virtualisation.oci-containers = {
-    backend = "docker";
     containers = {
       ollama = {
         autoStart = true;

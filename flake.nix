@@ -131,7 +131,7 @@
         })
         ([
           "hl-bigbox1"
-				]);
+        ]);
     in
     {
       lib = lib;
@@ -201,6 +201,18 @@
               })
             ];
           };
+        };
+        # NIXOS Framework Homelab
+        # -------------
+        hl-fws1 = makeHLService {
+          hostName = "hl-fws1";
+          configuration = { ... }: {
+            imports = [
+              nixos-hardware.nixosModules.framework-11th-gen-intel
+              (import (./hosts/hl-fws1.nix) { user = user; })
+            ];
+          };
+          systemStateVersion = "24.05";
         };
       } // (builtins.listToAttrs homeLabModulesUsingStable) // (builtins.listToAttrs homeLabModulesUsingUnStable);
     };
