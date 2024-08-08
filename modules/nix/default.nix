@@ -36,6 +36,7 @@
     cachix
     nixpkgs-fmt
     nix-serve
+    nvd
 
     # shell tools
     wget
