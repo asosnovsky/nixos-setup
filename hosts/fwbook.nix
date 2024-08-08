@@ -15,6 +15,7 @@ in
     })
     { inherit (pkgs) system; }).fwupd;
   services.fprintd.enable = true;
+  homelab.nix.remote-builder.enable = true;
   hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
