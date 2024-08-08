@@ -69,5 +69,6 @@
     steam-tui
     steam-run
     steamPackages.steamcmd
-  ];
+		ollama
+	];
 }
