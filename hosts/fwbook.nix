@@ -15,7 +15,6 @@ in
     })
     { inherit (pkgs) system; }).fwupd;
   services.fprintd.enable = true;
-  homelab.nix.remote-builder.enable = true;
   hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -68,7 +67,6 @@ in
     source ${zshFunctions}
   '';
   environment.localBinInPath = true;
-  # homelab.nix.remote-builder.enable = true;
   # Advance Power Management
   powerManagement.powertop.enable = true;
   powerManagement.enable = true;

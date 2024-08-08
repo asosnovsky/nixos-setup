@@ -16,3 +16,5 @@ tmp
 
 # nix build
 result
+results
+diffs

@@ -5,7 +5,6 @@
   # firmware updater
   services.fwupd.enable = true;
   hardware.framework.enableKmod = true;
-  homelab.nix.remote-builder.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

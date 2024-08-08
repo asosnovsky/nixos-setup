@@ -7,7 +7,5 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  homelab.nix.remote-builder.enable = true;
-
 }
 
