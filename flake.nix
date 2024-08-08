@@ -25,6 +25,13 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # <---  Cosmic Desktop Trials
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "unstable";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
+    };
+    # Cosmic Desktop Trials ---/>
   };
 
   outputs =
@@ -37,6 +44,9 @@
     , home-manager
     , unstable-home-manager
     , nix-darwin
+      # <---  Cosmic Desktop Trials
+    , nixos-cosmic
+      # Cosmic Desktop Trials ---/>
     }:
     let
       user = {
@@ -193,7 +203,18 @@
             enablePrometheusExporters = true;
           };
           configuration = { ... }: {
+            # <---  Cosmic Desktop Trials
+            nix.settings = {
+              substituters = [ "https://cosmic.cachix.org/" ];
+              trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+            };
+            services.desktopManager.cosmic.enable = true;
+            services.displayManager.cosmic-greeter.enable = true;
+            # Cosmic Desktop Trials ---/>
             imports = [
+              # <---  Cosmic Desktop Trials
+              nixos-cosmic.nixosModules.default
+              # Cosmic Desktop Trials ---/>
               nixos-hardware.nixosModules.framework-13-7040-amd
               (import ./hosts/fwbook.nix {
                 user = user;
