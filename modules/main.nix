@@ -22,6 +22,7 @@
 }:
 { ... }: {
   imports = [
+    (import ./skyg)
     (import ./nix {
       user = user;
       systemStateVersion = systemStateVersion;
@@ -51,4 +52,6 @@
   ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ])
   ++ (if enableHomelabServices then [ (import ./hl-hardware) ] else [ ])
   ;
+
+  skyg.core.hostName = hostName;
 }
