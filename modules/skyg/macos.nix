@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 with lib;
 
@@ -7,7 +7,7 @@ let
 in
 {
   options = {
-    skyg.skyg.user.macos = {
+    skyg.user.macos = {
       enableOverride = mkEnableOption "";
     };
   };

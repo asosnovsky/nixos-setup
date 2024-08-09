@@ -41,5 +41,5 @@
   ++ (if enableHomelabServices then [ (import ./hl-hardware) ] else [ ])
   ;
   skyg.user = user;
-  skyg.home-manager.version = home-manager.version;
+  skyg.home-manager.version = homeManagerVersion;
 }

@@ -8,15 +8,11 @@
 let
   makeImports =
     { attrs
-    , home-manager-modules
     , extraConfiguration ? [ ]
     }: (if (isNull attrs.configuration) then [ ] else [ attrs.configuration ])
       ++ [
       (import ./main.nix attrs)
-    ] ++ (if attrs.home-manager.enable then
-      home-manager-modules
-    else
-      [ ]) ++ extraConfiguration;
+    ] ++ extraConfiguration;
   eachSystem = nixpkgs.lib.genAttrs (import systems);
   pkgs = eachSystem (system:
     import nixpkgs {
@@ -35,8 +31,10 @@ let
       system = system;
       modules = (makeImports {
         attrs = joinedttrs;
-        home-manager-modules = [ home-manager.nixosModules.default ];
-        extraConfiguration = [ lix-module.nixosModules.default ];
+        extraConfiguration = [
+          home-manager.nixosModules.default
+          lix-module.nixosModules.default
+        ];
       });
     };
   makeNixOsModule =
@@ -51,9 +49,8 @@ let
     nix-darwin.lib.darwinSystem {
       modules = (makeImports {
         attrs = attrs;
-        home-manager-modules = [
+        extraConfiguration = [
           home-manager.darwinModules.home-manager
-          (import ./home-manager/macos.nix { user = user; })
         ];
       }) ++ [
         (import ./macos.nix {
