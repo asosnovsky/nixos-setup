@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f .built_via_skg ]; then
+if [ ! -f .locks/.built_via_skg ]; then
     ./build-nixos.sh
     echo "Do you want to continue? (y/N)"
     read -r answer
@@ -14,4 +14,4 @@ fi
 
 sudo nixos-rebuild switch --flake .
 git cap
-rm -f .built_via_skg
+rm -f .locks/.built_via_skg
