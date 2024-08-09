@@ -62,25 +62,6 @@
         ];
       };
       localDockerRegistries = [ "minipc1.lab.internal:5001" ];
-      # Libs
-      lib = (import modules/lib.nix {
-        nixpkgs = nixpkgs;
-        home-manager = home-manager;
-        nix-darwin = nix-darwin;
-        lix-module = lix-module;
-      });
-      unstableLib = (import modules/lib.nix {
-        nixpkgs = unstable;
-        home-manager = unstable-home-manager;
-        nix-darwin = nix-darwin;
-        lix-module = lix-module;
-      });
-      eachSystem = nixpkgs.lib.genAttrs (import systems);
-      unstablePkgs = eachSystem (system:
-        import unstable {
-          system = system;
-          config = { allowUnfree = true; };
-        });
       hlCommonSettings = {
         system = "x86_64-linux";
         user = user;
@@ -104,39 +85,42 @@
           };
         };
       };
-      makeHLService = lib.makeNixOsModuleMaker hlCommonSettings;
-      makeunstableHLService = unstableLib.makeNixOsModuleMaker hlCommonSettings;
-      homeLabModulesUsingStable = builtins.map
-        (name: {
-          name = name;
-          value = makeHLService {
-            hostName = name;
-            configuration = (import (./hosts + "/${name}.nix") { user = user; });
-            systemStateVersion = "24.05";
-          };
+      # Lib Config 
+      libConfig = {
+        nix-darwin = nix-darwin;
+        lix-module = lix-module;
+        hlCommonSettings = hlCommonSettings;
+        systems = systems;
+      };
+      # Libs
+      lib = (import modules/lib.nix ({
+        nixpkgs = nixpkgs;
+        home-manager = home-manager;
+      } // libConfig));
+      unstableLib = (import modules/lib.nix ({
+        nixpkgs = unstable;
+        home-manager = unstable-home-manager;
+      } // libConfig));
+      homelabServices = (
+        (lib.makeHLServices {
+          user = user;
+          nodeNames = [
+            "hl-minipc1"
+            "hl-minipc2"
+            "hl-terra1"
+          ];
+        }) // (unstableLib.makeHLServices {
+          user = user;
+          nodeNames = [
+            "hl-bigbox1"
+          ];
         })
-        ([
-          "hl-minipc1"
-          "hl-minipc2"
-          "hl-terra1"
-        ]);
-      homeLabModulesUsingUnStable = builtins.map
-        (name: {
-          name = name;
-          value = makeunstableHLService {
-            hostName = name;
-            configuration = (import (./hosts + "/${name}.nix") { user = user; });
-            systemStateVersion = "24.05";
-          };
-        })
-        ([
-          "hl-bigbox1"
-        ]);
+      );
     in
     {
       lib = lib;
       formatter =
-        eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+        lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       # MacBooks Setups
       # -------------
@@ -197,14 +181,14 @@
               nixos-hardware.nixosModules.framework-13-7040-amd
               (import ./hosts/fwbook.nix {
                 user = user;
-                unstable = unstablePkgs.x86_64-linux;
+                unstable = unstableLib.pkgs.x86_64-linux;
               })
             ];
           };
         };
         # NIXOS Framework Homelab
         # -------------
-        hl-fws1 = makeHLService {
+        hl-fws1 = lib.makeHLService {
           hostName = "hl-fws1";
           configuration = { ... }: {
             imports = [
@@ -214,6 +198,6 @@
           };
           systemStateVersion = "24.05";
         };
-      } // (builtins.listToAttrs homeLabModulesUsingStable) // (builtins.listToAttrs homeLabModulesUsingUnStable);
+      } // homelabServices;
     };
 }

@@ -121,4 +121,5 @@ in
     '';
   };
   systemd.sleep.extraConfig = "HibernateDelaySec=30m";
+  skyg.core.hostName = "fwbook";
 }

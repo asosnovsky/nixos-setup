@@ -8,7 +8,7 @@ in
 {
   options = {
     skyg.core = {
-      hostname = mkOption {
+      hostName = mkOption {
         description = "Machine Hostname";
         type = types.str;
       };
@@ -16,7 +16,7 @@ in
   };
 
   config = {
-    home-manager.users.root.programs.git.userName = "root@${cfg.hostName}";
+    home-manager.users.root.programs.git.userEmail = "root@${cfg.hostName}";
     networking.hostName = cfg.hostName;
   };
 }

@@ -52,6 +52,5 @@
   ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ])
   ++ (if enableHomelabServices then [ (import ./hl-hardware) ] else [ ])
   ;
-
-  skyg.core.hostName = hostName;
+  skyg.user = user;
 }
