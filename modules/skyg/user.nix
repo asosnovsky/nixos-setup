@@ -1,9 +1,9 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
 let
-  cfg = config.skyg.core;
+  cfg = config.skyg;
   gitconfigs =
     (builtins.filterSource (path: type: type != "directory") ./gitconfigs);
   gitconfigFiles = builtins.attrNames (builtins.readDir gitconfigs);
@@ -11,6 +11,9 @@ let
 in
 {
   options = {
+    skyg.home-manager.version = mkOption {
+      type = types.str;
+    };
     skyg.user = {
       name = mkOption {
         type = types.str;
@@ -22,7 +25,7 @@ in
         type = types.str;
       };
       extraGitConfigs = mkOption {
-        type = types.listOf (types.attrsOf {
+        type = types.listOf (types.submodule {
           path = mkOption {
             type = types.str;
           };
@@ -37,10 +40,22 @@ in
   };
 
   config = {
+    home-manager.users.root = {
+      home.stateVersion = cfg.home-manager.version;
+      programs.git = {
+        enable = true;
+        userName = "root";
+      };
+      programs.zsh = {
+        enable = true;
+        autosuggestion.enable = true;
+      };
+      programs.zsh.oh-my-zsh.enable = true;
+    };
     home-manager.users.${cfg.user.name} = {
       home = {
         sessionVariables = { };
-        stateVersion = version;
+        stateVersion = cfg.home-manager.version;
         shellAliases = {
           cat = "bat";
         };
@@ -83,10 +98,7 @@ in
           };
           includes =
             (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles)
-            ++ (if builtins.hasAttr "extraGitConfigs" user then
-              cfg.user.extraGitConfigs
-            else
-              [ ]);
+            ++ cfg.user.extraGitConfigs;
         };
         zsh = {
           enable = true;

@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 mkdir -p .locks
 rm -f .locks/.built_via_skg

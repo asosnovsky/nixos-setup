@@ -1,4 +1,5 @@
 { user
+, homeManagerVersion
 , systemStateVersion
 , hostName
 , system
@@ -11,11 +12,6 @@
   # os
 , os ? {
     enable = false;
-  }
-  # Home Manager
-, home-manager ? {
-    enable = false;
-    enableDevelopmentKit = false;
   }
 , localNixCaches ? { keys = [ ]; urls = [ ]; }
 , ...
@@ -39,18 +35,11 @@
       } // os))
     ]
   else
-    [ ]) ++ (if home-manager.enable then
-    [
-      (import ./home-manager ({
-        user = user;
-        hostName = hostName;
-      } // home-manager))
-    ]
-  else
     [ ])
   ++ (if enableNetworkDrives then [ (import ./network-drives.nix) ] else [ ])
   ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ])
   ++ (if enableHomelabServices then [ (import ./hl-hardware) ] else [ ])
   ;
   skyg.user = user;
+  skyg.home-manager.version = home-manager.version;
 }

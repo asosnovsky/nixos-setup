@@ -68,11 +68,7 @@
         localNixCaches = localNixCaches;
         enableNetworkDrives = true;
         enableHomelabServices = true;
-        home-manager = {
-          enable = true;
-          version = homeManagerVersion;
-          enableDevelopmentKit = false;
-        };
+        homeManagerVersion = homeManagerVersion;
         os = {
           enable = true;
           firewall = { enable = false; };
@@ -125,16 +121,14 @@
       # MacBooks Setups
       # -------------
       darwinConfigurations."asosnovsky-mac" = lib.makeDarwinModule {
-        user = sumoUser;
+        user = sumoUser // {
+          enableDevelopmentKit = true;
+        };
         systemStateVersion = 4;
         localNixCaches = localNixCaches;
         system = "x86_64-darwin";
         hostName = "asosnovsky-mac";
-        home-manager = {
-          enable = true;
-          enableDevelopmentKit = true;
-          version = homeManagerVersion;
-        };
+        homeManagerVersion = homeManagerVersion;
         configuration =
           (import ./hosts/asosnovsky-mac.nix { user = sumoUser; });
       };
@@ -145,16 +139,14 @@
         # -------------
         fwbook = lib.makeNixOsModule {
           system = "x86_64-linux";
-          user = user;
+          user = user // {
+            enableDevelopmentKit = true;
+          };
           systemStateVersion = "23.11";
           hostName = "fwbook";
           localNixCaches = localNixCaches;
           localDockerRegistries = localDockerRegistries;
-          home-manager = {
-            enable = true;
-            version = homeManagerVersion;
-            enableDevelopmentKit = true;
-          };
+          homeManagerVersion = homeManagerVersion;
           desktop = {
             enable = true;
             user = user;
