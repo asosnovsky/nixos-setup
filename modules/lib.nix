@@ -75,7 +75,7 @@ in
         name = name;
         value = makeHLService {
           hostName = name;
-          configuration = (import (./hosts + "/${name}.nix") { user = user; });
+          configuration = (import (../hosts + "/${name}.nix") { user = user; });
           systemStateVersion = systemStateVersion;
         };
       })
