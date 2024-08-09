@@ -40,6 +40,7 @@ in
   };
 
   config = {
+    programs.zsh.enable = true;
     home-manager.users.root = {
       home.stateVersion = cfg.home-manager.version;
       programs.git = {

@@ -16,14 +16,9 @@
 , localNixCaches ? { keys = [ ]; urls = [ ]; }
 , ...
 }:
-{ ... }: {
+{ pkgs, ... }: {
   imports = [
     (import ./skyg)
-    (import ./nix {
-      user = user;
-      systemStateVersion = systemStateVersion;
-      localNixCaches = localNixCaches;
-    })
   ] ++ (if desktop.enable then
     [ (import ./desktop ({ user = user; } // desktop)) ]
   else
@@ -40,6 +35,25 @@
   ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ])
   ++ (if enableHomelabServices then [ (import ./hl-hardware) ] else [ ])
   ;
+  # Share defaults
   skyg.user = user;
   skyg.home-manager.version = homeManagerVersion;
+  skyg.core.substituters = localNixCaches;
+  system.stateVersion = systemStateVersion;
+  nixpkgs.config.allowUnfree = true;
+  nix.settings = {
+    optimise.automatic = true;
+    experimental-features = [ "nix-command" "flakes" ];
+  };
+  # System Packages
+  environment.systemPackages = with pkgs; [
+    # nix utils
+    nix-index
+    nil
+    cachix
+    nixpkgs-fmt
+    nvd
+    # shell tools
+    wget
+  ];
 }
