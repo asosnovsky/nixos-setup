@@ -4,7 +4,6 @@
 , hostName
 , system
 , enableNetworkDrives ? false
-, enableHomelabServices ? false
   # Desktop Module
 , desktop ? {
     enable = false;
@@ -19,6 +18,8 @@
 { pkgs, ... }: {
   imports = [
     (import ./skyg)
+    (import ./hl-services)
+    (import ./hl-hardware)
   ] ++ (if desktop.enable then
     [ (import ./desktop ({ user = user; } // desktop)) ]
   else
@@ -32,8 +33,6 @@
   else
     [ ])
   ++ (if enableNetworkDrives then [ (import ./network-drives.nix) ] else [ ])
-  ++ (if enableHomelabServices then [ (import ./hl-services) ] else [ ])
-  ++ (if enableHomelabServices then [ (import ./hl-hardware) ] else [ ])
   ;
   # Share defaults
   skyg.user = user;
@@ -41,9 +40,9 @@
   skyg.core.substituters = localNixCaches;
   system.stateVersion = systemStateVersion;
   nixpkgs.config.allowUnfree = true;
-  nix.settings = {
+  nix = {
     optimise.automatic = true;
-    experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [ "nix-command" "flakes" ];
   };
   # System Packages
   environment.systemPackages = with pkgs; [

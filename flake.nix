@@ -67,7 +67,6 @@
         user = user;
         localNixCaches = localNixCaches;
         enableNetworkDrives = true;
-        enableHomelabServices = true;
         homeManagerVersion = homeManagerVersion;
         os = {
           enable = true;
