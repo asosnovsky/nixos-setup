@@ -1,15 +1,9 @@
-{ stateVersion
-, enableDevelopmentKit
-, name
-, fullName
-, email
-, extraGitConfigs ? [ ]
-}:
+{ stateVersion }:
 let
   gitconfigs =
     (builtins.filterSource (path: type: type != "directory") ./gitconfigs);
   gitconfigFiles = builtins.attrNames (builtins.readDir gitconfigs);
-  commonGitConfigs = {
+  makeCommonGitConfigs = { extraGitConfigs }: {
     delta = { enable = true; };
     extraConfig = {
       color = { ui = "auto"; };
@@ -68,34 +62,40 @@ in
       git = {
         enable = true;
         userName = "root";
-      } // commonGitConfigs;
+      } // (makeCommonGitConfigs { extraGitConfigs = [ ]; });
     } // (commonProgramsConfig { pkgs = pkgs; });
   };
 
-  makeCommonUser = { pkgs, ... }: {
-    home = {
-      stateVersion = stateVersion;
-      shellAliases = {
-        cat = "bat";
+  makeCommonUser =
+    { enableDevelopmentKit
+    , fullName
+    , email
+    , extraGitConfigs ? [ ]
+    , ...
+    }: { pkgs, ... }: {
+      home = {
+        stateVersion = stateVersion;
+        shellAliases = {
+          cat = "bat";
+        };
+        packages = with pkgs;
+          [ jq nixpkgs-fmt ipfetch nixd ]
+          ++ (if enableDevelopmentKit then [
+            rye
+            devenv
+            uv
+            devbox
+            terraform
+            kubectl
+          ] else
+            [ ]);
       };
-      packages = with pkgs;
-        [ jq nixpkgs-fmt ipfetch nixd ]
-        ++ (if enableDevelopmentKit then [
-          rye
-          devenv
-          uv
-          devbox
-          terraform
-          kubectl
-        ] else
-          [ ]);
+      programs = {
+        git = {
+          enable = true;
+          userName = fullName;
+          userEmail = email;
+        } // (makeCommonGitConfigs { extraGitConfigs = extraGitConfigs; });
+      } // (commonProgramsConfig { pkgs = pkgs; });
     };
-    programs = {
-      git = {
-        enable = true;
-        userName = fullName;
-        userEmail = email;
-      } // commonGitConfigs;
-    } // (commonProgramsConfig { pkgs = pkgs; });
-  };
 }

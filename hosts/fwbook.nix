@@ -6,6 +6,7 @@ let
 in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
+  skyg.user.enabled = true;
   services.fwupd.enable = true;
   services.fwupd.package = (import
     (builtins.fetchTarball {

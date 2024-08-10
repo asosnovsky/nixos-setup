@@ -1,6 +1,8 @@
 { user }:
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-minipc1.hardware-configuration.nix ];
+  skyg.user.enabled = true;
+
   # Nix Stores
   services.nix-serve = {
     enable = true;

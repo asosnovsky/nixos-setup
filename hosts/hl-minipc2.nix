@@ -1,6 +1,7 @@
 { user }:
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-minipc2.hardware-configuration.nix ];
+  skyg.user.enabled = true;
   # firmware updater
   services.fwupd.enable = true;
   # Bootloader.
