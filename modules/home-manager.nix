@@ -3,7 +3,7 @@ let
   gitconfigs =
     (builtins.filterSource (path: type: type != "directory") ./gitconfigs);
   gitconfigFiles = builtins.attrNames (builtins.readDir gitconfigs);
-  makeCommonGitConfigs = { extraGitConfigs }: {
+  makeCommonGitConfigs = { extraGitConfigs ? [ ] }: {
     delta = { enable = true; };
     extraConfig = {
       color = { ui = "auto"; };

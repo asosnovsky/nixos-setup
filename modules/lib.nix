@@ -14,7 +14,7 @@ let
       (import ./main.nix attrs)
     ] ++ extraConfiguration;
   eachSystem = nixpkgs.lib.genAttrs (import systems);
-  pkgs = eachSystem (system:
+  allPkgs = eachSystem (system:
     import nixpkgs {
       system = system;
       config = { allowUnfree = true; };
@@ -63,11 +63,13 @@ let
     { modules ? [ ]
     , homeManagerVersion
     , user
+    , system ? "x86_64-linux"
     }:
     let
       hm = (import ../home-manager.nix {
         stateVersion = homeManagerVersion;
       });
+      pkgs = allPkgs."${system}";
     in
     home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
@@ -78,7 +80,7 @@ let
 in
 {
   eachSystem = eachSystem;
-  pkgs = pkgs;
+  pkgs = allPkgs;
   makeNixOsModule = makeNixOsModule;
   makeHLService = makeHLService;
   makeDarwinModule = makeDarwinModule;
