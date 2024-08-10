@@ -132,6 +132,10 @@
           (import ./hosts/asosnovsky-mac.nix { user = sumoUser; });
       };
 
+      homeConfigurations."${user.name}" = lib.makeHomeManagerUsers {
+        user = user;
+        homeManagerVersion = homeManagerVersion;
+      };
 
       nixosConfigurations = {
         # NIXOS Framework Setups

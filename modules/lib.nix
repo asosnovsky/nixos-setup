@@ -59,6 +59,22 @@ let
         })
       ];
     };
+  makeHomeManagerUsers =
+    { modules ? [ ]
+    , homeManagerVersion
+    , user
+    }:
+    let
+      hm = (import ../home-manager.nix {
+        stateVersion = homeManagerVersion;
+      });
+    in
+    home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      modules = [
+        (hm.makeCommonUser user)
+      ] ++ modules;
+    };
 in
 {
   eachSystem = eachSystem;
@@ -66,6 +82,7 @@ in
   makeNixOsModule = makeNixOsModule;
   makeHLService = makeHLService;
   makeDarwinModule = makeDarwinModule;
+  makeHomeManagerUsers = makeHomeManagerUsers;
   makeHLServices =
     { nodeNames ? [ ]
     , systemStateVersion ? "24.05"
