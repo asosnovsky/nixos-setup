@@ -67,13 +67,17 @@ in
   };
 
   makeCommonUser =
-    { enableDevelopmentKit
+    { enableDevelopmentKit ? false
     , fullName
     , email
     , extraGitConfigs ? [ ]
+    , name
+    , homeDirectory ? null
     , ...
     }: { pkgs, ... }: {
       home = {
+        username = name;
+        homeDirectory = if (builtins.isNull homeDirectory) then "/home/${name}" else homeDirectory;
         stateVersion = stateVersion;
         shellAliases = {
           cat = "bat";
