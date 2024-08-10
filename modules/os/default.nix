@@ -12,7 +12,6 @@
 { pkgs, ... }: {
   imports = [
     (import ./core.nix { user = user; })
-    ./rootUser.nix
     (import ./user.nix { user = user; })
     (import ./containers/default.nix ({
       user = user;

@@ -16,6 +16,7 @@ in
   };
 
   config = {
+    users.users.root.shell = pkgs.zsh;
     home-manager.users.root.programs.git.userEmail = "root@${cfg.hostName}";
     networking.hostName = cfg.hostName;
   };
