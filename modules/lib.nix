@@ -66,7 +66,7 @@ let
     , system ? "x86_64-linux"
     }:
     let
-      hm = (import ./home-manager.nix {
+      hm = (import ./home {
         stateVersion = homeManagerVersion;
       });
       pkgs = allPkgs."${system}";

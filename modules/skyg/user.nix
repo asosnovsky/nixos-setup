@@ -38,7 +38,7 @@ in
 
   config =
     let
-      hm = (import ../home-manager.nix {
+      hm = (import ../home {
         stateVersion = cfg.home-manager.version;
       });
     in
