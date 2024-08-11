@@ -45,7 +45,9 @@ in
     mkIf cfg.user.enabled
       {
         programs.zsh.enable = true;
-        home-manager.users.root = hm.makeRootUser { pkgs = pkgs; };
-        home-manager.users.${cfg.user.name} = (hm.makeCommonUser cfg.user) { pkgs = pkgs; };
+        home-manager.users.root =
+          (hm.makeRootUser { hostName = config.skyg.core.hostName; }) { pkgs = pkgs; };
+        home-manager.users.${cfg.user.name} =
+          (hm.makeCommonUser cfg.user) { pkgs = pkgs; };
       };
 }

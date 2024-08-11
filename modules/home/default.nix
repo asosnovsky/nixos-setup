@@ -1,8 +1,8 @@
 { stateVersion }:
 let
-  makeCommonGitConfigs = (import ./git).makeCommonGitConfigs;
-  programsModule = (import ./programs);
-  servicesModule = (import ./services);
+  makeCommonGitConfigs = (import ./git.nix).makeCommonGitConfigs;
+  programsModule = (import ./programs.nix);
+  servicesModule = (import ./services.nix);
   homeModule = {
     stateVersion = stateVersion;
     shellAliases = {
@@ -24,13 +24,16 @@ in
   };
 
   makeCommonUser =
-    { enableDevelopmentKit
+    { enableDevelopmentKit ? false
     , fullName
     , email
     , extraGitConfigs ? [ ]
+    , name
     , ...
     }: { pkgs, ... }: {
       home = homeModule // {
+        username = name;
+        homeDirectory = "/home/${name}";
         packages = with pkgs;
           [ jq nixpkgs-fmt ipfetch nixd ]
             ++ (if enableDevelopmentKit then [
