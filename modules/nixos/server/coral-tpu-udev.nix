@@ -1,9 +1,9 @@
 { config, lib, ... }:
 with lib;
-let cfg = config.homelab.udevrules.coraltpu;
+let cfg = config.skyg.homelab.udevrules.coraltpu;
 in {
   options = {
-    homelab.udevrules.coraltpu = {
+    skyg.homelab.udevrules.coraltpu = {
       enable = mkEnableOption
         "Enable Coral TPU Udev rules";
       symlinkName = mkOption {

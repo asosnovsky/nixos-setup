@@ -2,10 +2,10 @@
 
 with lib;
 
-let cfg = config.homelab.services.audiobookshelf;
+let cfg = config.skyg.homelab.services.audiobookshelf;
 in {
   options = {
-    homelab.services.audiobookshelf = {
+    skyg.homelab.services.audiobookshelf = {
       enable = mkEnableOption
         "Audiobookshelf, self-hosted audiobook and podcast server.";
 
