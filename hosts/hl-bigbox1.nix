@@ -59,6 +59,12 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
   # Steam Settings
+	users.users.steam = {
+		shell = pkgs.zsh;
+		isNormalUser = true;
+		description = "Steam User";
+		extraGroups = [ "wheel" ];
+	};
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
