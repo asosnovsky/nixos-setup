@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
@@ -16,7 +16,7 @@ in
   };
 
   config = {
-    home-manager.users.root.programs.git.userEmail = "root@${cfg.hostName}";
+    users.users.root.shell = pkgs.zsh;
     networking.hostName = cfg.hostName;
   };
 }

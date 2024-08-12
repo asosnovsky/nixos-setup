@@ -1,6 +1,7 @@
 { user }:
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
+  skyg.user.enabled = true;
   # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
@@ -75,6 +76,6 @@
     steam-tui
     steam-run
     steamPackages.steamcmd
-		ollama
-	];
+    ollama
+  ];
 }

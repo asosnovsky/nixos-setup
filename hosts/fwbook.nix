@@ -1,11 +1,12 @@
 { user, dataDir ? "/mnt/Data", unstable }:
 { pkgs, lib, config, ... }:
 let
-  zshFWBook = builtins.filterSource (p: t: true) ../configs/fwbook;
+  zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
   zshFunctions = zshFWBook + "/functions.sh";
 in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
+  skyg.user.enabled = true;
   services.fwupd.enable = true;
   services.fwupd.package = (import
     (builtins.fetchTarball {
