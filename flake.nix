@@ -74,7 +74,7 @@
           };
         };
       };
-      # Lib Config 
+      # Lib Config
       libConfig = {
         nix-darwin = nix-darwin;
         hlCommonSettings = hlCommonSettings;
@@ -128,8 +128,16 @@
       # None-NIXOS LINUX Setups
       # -------------
       homeConfigurations."${user.name}" = lib.makeHomeManagerUsers {
-        user = user;
+        user = user // { enableDevelopmentKit = true; };
         homeManagerVersion = homeManagerVersion;
+      };
+
+      homeConfigurations."cloaky" = lib.makeHomeManagerUsers {
+        user = user // { enableDevelopmentKit = true; };
+        homeManagerVersion = homeManagerVersion;
+        modules = [
+          hosts/cloaky.nix
+        ];
       };
 
       nixosConfigurations = {
