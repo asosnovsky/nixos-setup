@@ -6,11 +6,6 @@
     # Nixpkgs
     unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    # Lix
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -33,7 +28,6 @@
     , nixpkgs
     , systems
     , unstable
-    , lix-module
     , home-manager
     , unstable-home-manager
     , nix-darwin
@@ -83,7 +77,6 @@
       # Lib Config 
       libConfig = {
         nix-darwin = nix-darwin;
-        lix-module = lix-module;
         hlCommonSettings = hlCommonSettings;
         systems = systems;
       };

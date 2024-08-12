@@ -34,7 +34,16 @@ in
     amdctl
     # python
     python312
+    # crypto
+    trezor-suite
+    trezord
+    ledger-live-desktop
   ];
+  # udev rules for crypto wallets
+  services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];
+  # trezor groups
+  users.groups.trezord = { };
+  users.groups.trezord.members = [ user.name ];
   # # Opengl
   hardware.opengl = {
     driSupport = true;

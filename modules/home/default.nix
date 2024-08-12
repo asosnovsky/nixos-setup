@@ -43,7 +43,39 @@ in
             devbox
             terraform
             kubectl
+
+            # socials
             slack
+            zoom-us
+            betterdiscordctl
+            discord
+            signal-desktop
+            whatsapp-for-linux
+            caprine-bin # facebook messenger
+
+            # development
+            vscode
+
+            # web
+            brave
+
+            # mail
+            thunderbird
+
+            # password
+            bitwarden-desktop
+
+            # documents
+            onlyoffice-bin_latest
+
+            # video
+            vlc
+            vlc-bittorrent
+
+            # terminal
+            alacritty
+            alacritty-theme
+
           ] else
             [ ]);
       };
