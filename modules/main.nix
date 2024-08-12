@@ -18,8 +18,7 @@
 { pkgs, ... }: {
   imports = [
     (import ./skyg)
-    (import ./hl-services)
-    (import ./hl-hardware)
+    (import ./nixos)
   ] ++ (if desktop.enable then
     [ (import ./desktop ({ user = user; } // desktop)) ]
   else

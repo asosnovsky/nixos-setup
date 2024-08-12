@@ -4,10 +4,10 @@
 , ...
 }:
 let
-  cfg = config.homelab.hardware.fancontrol;
+  cfg = config.skyg.hardware.fancontrol;
 in
 {
-  options.homelab.hardware.fancontrol = with lib; {
+  options.skyg.hardware.fancontrol = with lib; {
     enable = mkEnableOption "fancontrol";
     configName = mkOption {
       type = types.str;

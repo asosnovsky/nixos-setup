@@ -1,7 +1,6 @@
 { nixpkgs
 , home-manager
 , nix-darwin
-, lix-module
 , systems
 , hlCommonSettings
 }:
@@ -33,7 +32,6 @@ let
         attrs = joinedttrs;
         extraConfiguration = [
           home-manager.nixosModules.default
-          lix-module.nixosModules.default
         ];
       });
     };

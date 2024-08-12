@@ -21,7 +21,7 @@
     options = [ "nofail" ];
   };
   # Services
-  homelab.services.audiobookshelf = {
+  skyg.homelab.services.audiobookshelf = {
     enable = true;
     host = "0.0.0.0";
     openFirewall = true;

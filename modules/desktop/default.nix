@@ -20,41 +20,4 @@
   # Mobile Connect
   programs.kdeconnect.enable = true;
   # Web
-  # Personal Desktop App
-  users.users.${user.name}.packages = with pkgs; [
-    # web
-    brave
-    # mail
-    thunderbird
-    # password
-    bitwarden-desktop
-    rofi-rbw-wayland
-    rofi-rbw-x11
-    # development
-    vscode
-    # socials
-    zoom-us
-    betterdiscordctl
-    discord
-    signal-desktop
-    whatsapp-for-linux
-    caprine-bin # facebook messenger
-    # crypto
-    trezor-suite
-    trezord
-    ledger-live-desktop
-    # documents
-    onlyoffice-bin_latest
-    # video
-    vlc
-    vlc-bittorrent
-    # terminal
-    alacritty
-    alacritty-theme
-  ];
-  # udev rules for crypto wallets
-  services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];
-  # trezor groups
-  users.groups.trezord = { };
-  users.groups.trezord.members = [ user.name ];
 }
