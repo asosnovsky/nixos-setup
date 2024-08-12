@@ -38,7 +38,6 @@ in
     trezor-suite
     trezord
     ledger-live-desktop
-    alacritty
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];
