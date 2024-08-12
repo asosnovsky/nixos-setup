@@ -9,7 +9,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Special udev rule for google's coral tpu
-  skg.homelab.udevrules.coraltpu.enable = true;
+  skyg.homelab.udevrules.coraltpu.enable = true;
 
   # Containers
   virtualisation.oci-containers = {

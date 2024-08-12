@@ -43,6 +43,7 @@ in
             devbox
             terraform
             kubectl
+            slack
           ] else
             [ ]);
       };
