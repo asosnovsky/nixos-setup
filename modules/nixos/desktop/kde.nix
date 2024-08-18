@@ -6,12 +6,12 @@ let
 in
 {
   options = {
-    skyg.skyg.desktop.kde = {
-      enable = mkEnableOption
+    skyg.desktop.kde = {
+      enabled = mkEnableOption
         "KDE";
     };
   };
-  config = mkIf cfg.enable {
+  config = mkIf cfg.enabled {
     services.desktopManager.plasma6.enable = true;
     services.desktopManager.plasma6.notoPackage = config.skyg.desktop.fonts;
     services.desktopManager.plasma6.enableQt5Integration = true;

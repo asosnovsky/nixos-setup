@@ -3,6 +3,7 @@
   imports = [
     ./common.nix
     ./kde.nix
+    ./hyprland.nix
     ./wayland.nix
     ./x11.nix
     ./packages.nix

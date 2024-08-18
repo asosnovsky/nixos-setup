@@ -39,5 +39,10 @@
     # terminal
     alacritty
     alacritty-theme
+
+    # wine
+    wineWowPackages.stable
+    winetricks
+    wineWowPackages.waylandFull
   ];
 }
