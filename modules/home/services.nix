@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   gpg-agent = {
     enable = true;

@@ -2,5 +2,6 @@
 {
   imports = [
     ./hardware
+    ./core.nix
   ];
 }

@@ -35,11 +35,15 @@ in
         username = name;
         homeDirectory = "/home/${name}";
         packages = with pkgs;
-          [ jq nixpkgs-fmt ipfetch nixd ]
-            ++ (if enableDevelopmentKit then [
-            rye
+          [
+            jq
+            nixpkgs-fmt
+            ipfetch
+            nixd
+            htop
+          ]
+          ++ (if enableDevelopmentKit then [
             devenv
-            uv
             devbox
             terraform
             kubectl
