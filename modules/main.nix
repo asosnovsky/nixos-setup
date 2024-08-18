@@ -19,6 +19,7 @@
   imports = [
     (import ./skyg)
     (import ./nixos)
+    (import ./network-drives.nix)
   ] ++ (if os.enable then
     [
       (import ./os ({
@@ -28,13 +29,13 @@
     ]
   else
     [ ])
-  ++ (if enableNetworkDrives then [ (import ./network-drives.nix) ] else [ ])
   ;
   # Share defaults
   skyg.user = user;
   skyg.core.hostName = hostName;
   skyg.home-manager.version = homeManagerVersion;
   skyg.core.substituters = localNixCaches;
+  skyg.networkDrives.enabled = enableNetworkDrives;
   system.stateVersion = systemStateVersion;
   nixpkgs.config.allowUnfree = true;
   nix = {
