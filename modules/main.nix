@@ -19,10 +19,7 @@
   imports = [
     (import ./skyg)
     (import ./nixos)
-  ] ++ (if desktop.enable then
-    [ (import ./desktop ({ user = user; } // desktop)) ]
-  else
-    [ ]) ++ (if os.enable then
+  ] ++ (if os.enable then
     [
       (import ./os ({
         user = user;

@@ -3,5 +3,6 @@
   imports = [
     ./common
     ./server
+    ./desktop
   ];
 }
