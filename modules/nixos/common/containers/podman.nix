@@ -3,7 +3,7 @@ let
   cfg = config.skyg.common.containers;
 in
 {
-  config = lib.mkIf cfg.runtime == "podman" {
+  config = lib.mkIf (cfg.runtime == "podman") {
     virtualisation.oci-containers.backend = "podman";
     virtualisation = {
       podman = {

@@ -10,12 +10,7 @@
 , ...
 }:
 { pkgs, ... }: {
-  imports = [
-    (import ./containers/default.nix ({
-      user = user;
-    } // containers))
-  ]
-  ++ (if enableSSH then
+  imports = (if enableSSH then
     [
       (import ./ssh.nix {
         enableSSHServer = true;

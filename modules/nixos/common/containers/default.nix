@@ -10,12 +10,12 @@ with lib;
   options = {
     skyg.common.containers = {
       runtime = mkOption {
-        description = "DOcker vs podman";
+        description = "Docker vs podman";
         type = types.str;
         default = "docker";
       };
       enableOnBoot = mkOption {
-        type = types.boolean;
+        type = types.bool;
         default = false;
       };
       localDockerRegistries = mkOption {

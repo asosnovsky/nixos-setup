@@ -4,7 +4,7 @@ let
   cfg = config.skyg.common.containers;
 in
 {
-  config = lib.mkIf cfg.runtime == "docker" {
+  config = lib.mkIf (cfg.runtime == "docker") {
     virtualisation.docker = {
       enable = true;
       autoPrune.enable = true;
