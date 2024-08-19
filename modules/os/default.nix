@@ -15,15 +15,7 @@
       user = user;
     } // containers))
   ]
-  ++ (if enableNetworking then
-    [
-      (import ./networking.nix {
-        hostName = hostName;
-        firewall = firewall;
-      })
-    ]
-  else
-    [ ]) ++ (if enableSSH then
+  ++ (if enableSSH then
     [
       (import ./ssh.nix {
         enableSSHServer = true;
