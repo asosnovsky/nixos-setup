@@ -1,4 +1,9 @@
-{ ... }:
+{ config, lib, pkgs, ... }:
+with lib;
+
+let
+  cfg = config.skyg.nixos.desktop;
+in
 {
   imports = [
     ./kde.nix
@@ -8,6 +13,14 @@
     ./packages.nix
   ];
 
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+  options = {
+    skyg.nixos.desktop = {
+      enabled = mkEnableOption
+        "Enable Desktop";
+    };
+  };
+  config = mkIf cfg.enabled {
+    services.displayManager.sddm.enable = true;
+    services.displayManager.sddm.wayland.enable = true;
+  };
 }
