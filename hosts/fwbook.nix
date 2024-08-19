@@ -6,11 +6,14 @@ let
 in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
+  # Skyg
   skyg.user.enabled = true;
   skyg.nixos.desktop = {
     enabled = true;
     kde.enabled = true;
   };
+  skyg.nixos.common.hardware.sound.enable = true;
+  # Firmware updater
   services.fwupd.enable = true;
   services.fwupd.package = (import
     (builtins.fetchTarball {
