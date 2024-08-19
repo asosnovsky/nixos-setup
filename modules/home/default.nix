@@ -3,6 +3,7 @@ let
   makeCommonGitConfigs = (import ./git.nix).makeCommonGitConfigs;
   programsModule = (import ./programs.nix);
   servicesModule = (import ./services.nix);
+  fontsModule = (import ./fonts.nix);
   homeModule = {
     stateVersion = stateVersion;
     shellAliases = {
@@ -21,6 +22,7 @@ in
       });
     };
     services = servicesModule { pkgs = pkgs; };
+    fonts = fontsModule;
   };
 
   makeCommonUser =
@@ -31,6 +33,7 @@ in
     , name
     , ...
     }: { pkgs, ... }: {
+      fonts = fontsModule;
       home = homeModule // {
         username = name;
         homeDirectory = "/home/${name}";

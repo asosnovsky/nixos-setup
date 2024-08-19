@@ -15,8 +15,7 @@
     (import ./containers/default.nix ({
       user = user;
     } // containers))
-  ] ++ (if enableFonts then [ ./fonts.nix ] else [ ])
-  ++ (if hardware.enable then [ ./hardware.nix ] else [ ])
+  ] ++ (if hardware.enable then [ ./hardware.nix ] else [ ])
   ++ (if enableNetworking then
     [
       (import ./networking.nix {

@@ -7,6 +7,7 @@
   services.nix-serve = {
     enable = true;
     secretKeyFile = "/var/keys/cache-priv-key.pem";
+    port = 5000;
   };
   # firmware updater
   services.fwupd.enable = true;
