@@ -1,5 +1,14 @@
 { user }:
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  openPorts = [
+    5000
+    5001
+    8000
+    22
+  ];
+in
+{
   imports = [ ./hl-minipc1.hardware-configuration.nix ];
   skyg.user.enabled = true;
   skyg.nixos.common.ssh-server.enabled = true;
@@ -39,5 +48,8 @@
     listenAddress = "0.0.0.0";
     enableDelete = true;
   };
+  # Firewall
+  networking.firewall.allowedUDPPorts = openPorts;
+  networking.firewall.allowedTCPPorts = openPorts;
 }
 
