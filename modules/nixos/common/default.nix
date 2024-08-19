@@ -2,6 +2,7 @@
 {
   imports = [
     ./hardware
+    ./containers
     ./core.nix
     ./networking.nix
     ./user.nix
