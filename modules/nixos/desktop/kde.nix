@@ -24,5 +24,6 @@ in
       kdePackages.plasma-browser-integration
       konsave # save configs
     ];
+    services.desktopManager.plasma6.notoPackage = pkgs.fira-code;
   };
 }
