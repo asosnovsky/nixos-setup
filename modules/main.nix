@@ -17,7 +17,7 @@
 }:
 { pkgs, ... }: {
   imports = [
-    (import ./skyg)
+    (import ./core)
     (import ./nixos)
     (import ./network-drives.nix)
   ];
