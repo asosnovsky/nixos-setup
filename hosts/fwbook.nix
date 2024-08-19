@@ -20,7 +20,15 @@ in
     })
     { inherit (pkgs) system; }).fwupd;
   services.fprintd.enable = true;
+  # Yubikey
+  services.yubikey-agent.enable = true;
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+  # Bluetooth
   hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
