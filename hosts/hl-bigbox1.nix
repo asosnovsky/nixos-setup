@@ -2,6 +2,7 @@
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg.user.enabled = true;
+  skyg.ssh-server.enabled = true;
   # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
@@ -60,12 +61,12 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
   # Steam Settings
-	users.users.steam = {
-		shell = pkgs.zsh;
-		isNormalUser = true;
-		description = "Steam User";
-		extraGroups = [ "wheel" ];
-	};
+  users.users.steam = {
+    shell = pkgs.zsh;
+    isNormalUser = true;
+    description = "Steam User";
+    extraGroups = [ "wheel" ];
+  };
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
