@@ -16,7 +16,6 @@ in
   };
 
   config = {
-    users.users.root.shell = pkgs.zsh;
     networking.hostName = cfg.hostName;
   };
 }

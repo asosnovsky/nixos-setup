@@ -9,7 +9,6 @@ in
   skyg.user.enabled = true;
   skyg.desktop = {
     kde.enabled = true;
-    fonts = pkgs.fira-code;
   };
   services.fwupd.enable = true;
   services.fwupd.package = (import

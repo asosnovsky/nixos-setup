@@ -11,7 +11,6 @@
 }:
 { pkgs, ... }: {
   imports = [
-    (import ./user.nix { user = user; })
     (import ./containers/default.nix ({
       user = user;
     } // containers))
