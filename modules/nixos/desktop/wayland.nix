@@ -1,10 +1,15 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
+let
+  cfg = config.skyg.nixos.desktop;
+in
 {
-  # Flatpak
-  environment.systemPackages = with pkgs; [
-    wayland
-    wayland-protocols
-    wayland-utils
-  ];
-  programs.xwayland.enable = true;
+  config = lib.mkIf cfg.enabled {
+    # Flatpak
+    environment.systemPackages = with pkgs; [
+      wayland
+      wayland-protocols
+      wayland-utils
+    ];
+    programs.xwayland.enable = true;
+  };
 }

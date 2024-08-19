@@ -1,48 +1,53 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
+let
+  cfg = config.skyg.nixos.desktop;
+in
 {
-  # Flatpak
-  services.flatpak.enable = true;
-  # Mobile Connect
-  programs.kdeconnect.enable = true;
-  environment.systemPackages = with pkgs; [
-    # copy to clipboard
-    wl-clipboard-x11
-    xclip
-    # socials
-    slack
-    zoom-us
-    betterdiscordctl
-    discord
-    signal-desktop
-    whatsapp-for-linux
-    caprine-bin # facebook messenger
+  config = lib.mkIf cfg.enabled {
+    # Flatpak
+    services.flatpak.enable = true;
+    # Mobile Connect
+    programs.kdeconnect.enable = true;
+    environment.systemPackages = with pkgs; [
+      # copy to clipboard
+      wl-clipboard-x11
+      xclip
+      # socials
+      slack
+      zoom-us
+      betterdiscordctl
+      discord
+      signal-desktop
+      whatsapp-for-linux
+      caprine-bin # facebook messenger
 
-    # development
-    vscode
+      # development
+      vscode
 
-    # web
-    brave
+      # web
+      brave
 
-    # mail
-    thunderbird
+      # mail
+      thunderbird
 
-    # password
-    bitwarden-desktop
+      # password
+      bitwarden-desktop
 
-    # documents
-    onlyoffice-bin_latest
+      # documents
+      onlyoffice-bin_latest
 
-    # video
-    vlc
-    vlc-bittorrent
+      # video
+      vlc
+      vlc-bittorrent
 
-    # terminal
-    alacritty
-    alacritty-theme
+      # terminal
+      alacritty
+      alacritty-theme
 
-    # wine
-    wineWowPackages.stable
-    winetricks
-    wineWowPackages.waylandFull
-  ];
+      # wine
+      wineWowPackages.stable
+      winetricks
+      wineWowPackages.waylandFull
+    ];
+  };
 }
