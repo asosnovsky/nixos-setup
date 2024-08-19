@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ./common.nix
     ./kde.nix
     ./hyprland.nix
     ./wayland.nix
