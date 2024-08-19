@@ -20,16 +20,7 @@
     (import ./skyg)
     (import ./nixos)
     (import ./network-drives.nix)
-  ] ++ (if os.enable then
-    [
-      (import ./os ({
-        user = user;
-        hostName = hostName;
-      } // os))
-    ]
-  else
-    [ ])
-  ;
+  ];
   # Share defaults
   skyg.user = user;
   skyg.core.hostName = hostName;
