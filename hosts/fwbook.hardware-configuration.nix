@@ -42,7 +42,13 @@
   };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/5175a4b0-0067-47c6-b7da-35acb247f134"; }];
+    [
+      { device = "/dev/disk/by-uuid/5175a4b0-0067-47c6-b7da-35acb247f134"; }
+      {
+        device = "/swapfile";
+        size = 16 * 1024; # 16GB
+      }
+    ];
 
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
