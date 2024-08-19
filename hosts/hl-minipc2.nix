@@ -2,7 +2,7 @@
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-minipc2.hardware-configuration.nix ];
   skyg.user.enabled = true;
-  skyg.ssh-server.enabled = true;
+  skyg.nixos.common.ssh-server.enabled = true;
   # firmware updater
   services.fwupd.enable = true;
   # Bootloader.
@@ -10,7 +10,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Special udev rule for google's coral tpu
-  skyg.homelab.udevrules.coraltpu.enable = true;
+  skyg.nixos.server.udevrules.coraltpu.enable = true;
 
   # Containers
   virtualisation.oci-containers = {

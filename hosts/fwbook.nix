@@ -7,7 +7,7 @@ in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
   skyg.user.enabled = true;
-  skyg.desktop = {
+  skyg.nixos.desktop = {
     kde.enabled = true;
   };
   services.fwupd.enable = true;

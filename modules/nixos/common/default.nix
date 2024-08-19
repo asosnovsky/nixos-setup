@@ -6,6 +6,7 @@
     ./core.nix
     ./networking.nix
     ./user.nix
+    ./fonts.nix
     ./ssh-server.nix
   ];
 }

@@ -27,7 +27,7 @@
   skyg.home-manager.version = homeManagerVersion;
   skyg.core.substituters = localNixCaches;
   skyg.networkDrives.enabled = enableNetworkDrives;
-  skyg.common.containers = (if os.enable then os.containers else { });
+  skyg.nixos.common.containers = (if os.enable then os.containers else { });
   system.stateVersion = systemStateVersion;
   nixpkgs.config.allowUnfree = true;
   nix = {

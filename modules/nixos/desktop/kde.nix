@@ -2,11 +2,11 @@
 with lib;
 
 let
-  cfg = config.skyg.desktop.kde;
+  cfg = config.skyg.nixos.desktop.kde;
 in
 {
   options = {
-    skyg.desktop.kde = {
+    skyg.nixos.desktop.kde = {
       enabled = mkEnableOption
         "KDE";
     };

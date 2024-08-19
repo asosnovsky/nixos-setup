@@ -2,7 +2,7 @@
 { pkgs, lib, config, ... }: {
   imports = [ ./hl-minipc1.hardware-configuration.nix ];
   skyg.user.enabled = true;
-  skyg.ssh-server.enabled = true;
+  skyg.nixos.common.ssh-server.enabled = true;
 
   # Nix Stores
   services.nix-serve = {
@@ -23,7 +23,7 @@
     options = [ "nofail" ];
   };
   # Services
-  skyg.homelab.services.audiobookshelf = {
+  skyg.nixos.server.services.audiobookshelf = {
     enable = true;
     host = "0.0.0.0";
     openFirewall = true;

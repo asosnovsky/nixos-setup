@@ -2,11 +2,11 @@
 with lib;
 
 let
-  cfg = config.skyg.desktop.hyprland;
+  cfg = config.skyg.nixos.desktop.hyprland;
 in
 {
   options = {
-    skyg.desktop.hyprland = {
+    skyg.nixos.desktop.hyprland = {
       enabled = mkEnableOption
         "Hyprland";
     };

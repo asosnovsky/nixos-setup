@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.skyg.common.containers;
+  cfg = config.skyg.nixos.common.containers;
 in
 {
   config = lib.mkIf (cfg.runtime == "podman") {

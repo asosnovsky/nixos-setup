@@ -2,11 +2,11 @@
 with lib;
 
 let
-  cfg = config.skyg.ssh-server;
+  cfg = config.skyg.nixos.common.ssh-server;
 in
 {
   options = {
-    skyg.ssh-server = {
+    skyg.nixos.common.ssh-server = {
       enabled = mkEnableOption
         "enable ssh server";
       masterPubKey = mkOption {

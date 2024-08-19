@@ -8,7 +8,7 @@ with lib;
     ./podman.nix
   ];
   options = {
-    skyg.common.containers = {
+    skyg.nixos.common.containers = {
       runtime = mkOption {
         description = "Docker vs podman";
         type = types.str;

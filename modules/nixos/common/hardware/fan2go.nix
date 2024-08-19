@@ -5,7 +5,7 @@
 , ...
 }:
 let
-  cfg = config.skyg.hardware.fan2go;
+  cfg = config.skyg.nixos.common.hardware.fan2go;
 
   fan2goConfig = pkgs.writeText "fan2go.yaml" ''
     dbPath: ${cfg.dbPath}
@@ -65,7 +65,7 @@ let
   '';
 in
 {
-  options.skyg.hardware.fan2go = with lib; {
+  options.skyg.nixos.common.hardware.fan2go = with lib; {
     enable = mkEnableOption "fan2go";
 
     dbPath = mkOption {

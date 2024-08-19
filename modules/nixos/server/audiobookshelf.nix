@@ -2,10 +2,10 @@
 
 with lib;
 
-let cfg = config.skyg.homelab.services.audiobookshelf;
+let cfg = config.skyg.nixos.server.services.audiobookshelf;
 in {
   options = {
-    skyg.homelab.services.audiobookshelf = {
+    skyg.nixos.server.services.audiobookshelf = {
       enable = mkEnableOption
         "Audiobookshelf, self-hosted audiobook and podcast server.";
 
