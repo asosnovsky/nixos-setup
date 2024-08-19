@@ -1,5 +1,15 @@
 { user }:
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+	openPorts = [
+		22
+		11434
+		10400
+		10300
+		10200
+	];
+in
+{
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg.user.enabled = true;
   skyg.nixos.common.ssh-server.enabled = true;
@@ -79,4 +89,7 @@
     steamPackages.steamcmd
     ollama
   ];
+	# Networking
+	networking.firewall.allowedUDPPorts = openPorts;
+	networking.firewall.allowedTCPPorts = openPorts;
 }
