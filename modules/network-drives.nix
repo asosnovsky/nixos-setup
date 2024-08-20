@@ -31,5 +31,11 @@ in
       fsType = "nfs";
       options = [ "x-systemd.automount" "noauto" ];
     };
+
+    fileSystems."/mnt/terra1/Data/apps" = {
+      device = "terra1.lab.internal:/mnt/Data/apps";
+      fsType = "nfs";
+      options = [ "x-systemd.automount" "noauto" ];
+    };
   };
 }
