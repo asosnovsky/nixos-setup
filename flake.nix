@@ -145,6 +145,7 @@
           localNixCaches = localNixCaches;
           localDockerRegistries = localDockerRegistries;
           homeManagerVersion = homeManagerVersion;
+          enableNetworkDrives = true;
           desktop = {
             enable = true;
             user = user;

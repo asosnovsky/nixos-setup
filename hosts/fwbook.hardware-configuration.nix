@@ -29,18 +29,6 @@
     options = [ "users" "nofail" ];
   };
 
-  fileSystems."/mnt/EightTerra/DownloadedTorrents" = {
-    device = "tnas1.lab.internal:/mnt/EightTerra/DownloadedTorrents";
-    fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" ];
-  };
-
-  fileSystems."/mnt/EightTerra/k3s-cluster" = {
-    device = "tnas1.lab.internal:/mnt/EightTerra/k3s-cluster";
-    fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" ];
-  };
-
   swapDevices =
     [
       { device = "/dev/disk/by-uuid/5175a4b0-0067-47c6-b7da-35acb247f134"; }
