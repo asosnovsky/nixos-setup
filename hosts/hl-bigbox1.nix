@@ -6,6 +6,7 @@
   skyg.nixos.common.ssh-server.enabled = true;
   skyg.nixos.server.services.ai.enable = true;
   skyg.nixos.server.services.jellyfin.enable = true;
+  skyg.server.admin.enable = true;
   # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;

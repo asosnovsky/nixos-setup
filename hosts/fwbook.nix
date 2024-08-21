@@ -8,6 +8,7 @@ in
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
   skyg.user.enabled = true;
+  skyg.server.admin.enable = true;
   skyg.nixos.desktop = {
     enabled = true;
     kde.enabled = true;
