@@ -6,5 +6,6 @@
     ./exporters.nix
     ./ai-services.nix
     ./jellyfin.nix
+    ./admin.nix
   ];
 }
