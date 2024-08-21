@@ -14,7 +14,7 @@ in
     };
   };
   config = mkIf cfg.enabled {
-    fileSystems."/mnt/EightTerra/DownloadedTorrents" = {
+    fileSystems."/torrents" = {
       device = "tnas1.lab.internal:/mnt/EightTerra/DownloadedTorrents";
       fsType = "nfs";
       options = [ "x-systemd.automount" "noauto" ];

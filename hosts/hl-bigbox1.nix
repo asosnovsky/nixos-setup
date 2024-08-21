@@ -1,18 +1,11 @@
 { user }:
 { pkgs, lib, config, ... }:
-let
-	openPorts = [
-		22
-		11434
-		10400
-		10300
-		10200
-	];
-in
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg.user.enabled = true;
   skyg.nixos.common.ssh-server.enabled = true;
+  skyg.nixos.server.services.ai.enable = true;
+  skyg.nixos.server.services.jellyfin.enable = true;
   # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
@@ -22,40 +15,6 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # Containers
-  virtualisation.oci-containers = {
-    containers = {
-      ollama = {
-        autoStart = true;
-        image = "ollama/ollama";
-        extraOptions = [ "--gpus" "all" ];
-        ports = [ "11434:11434" ];
-        volumes = [ "ollama:/root/.ollama" ];
-      };
-      openwakeword = {
-        autoStart = true;
-        image = "rhasspy/wyoming-openwakeword";
-        cmd = [ "--preload-model" "ok_nabu" ];
-        ports = [ "10400:10400" ];
-      };
-    };
-  };
-
-  # Wyoming Service
-  services.wyoming = {
-    faster-whisper.servers.main-eng = {
-      enable = true;
-      device = "cpu";
-      model = "medium.en";
-      language = "en";
-      uri = "tcp://0.0.0.0:10300";
-    };
-    piper.servers.pier = {
-      enable = true;
-      uri = "tcp://0.0.0.0:10200";
-      voice = "en_GB-alan-medium";
-    };
-  };
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
@@ -89,7 +48,4 @@ in
     steamPackages.steamcmd
     ollama
   ];
-	# Networking
-	networking.firewall.allowedUDPPorts = openPorts;
-	networking.firewall.allowedTCPPorts = openPorts;
 }
