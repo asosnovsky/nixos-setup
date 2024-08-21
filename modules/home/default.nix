@@ -37,9 +37,7 @@ in
         packages = with pkgs;
           [ jq nixpkgs-fmt ipfetch nixd ]
             ++ (if enableDevelopmentKit then [
-            rye
             devenv
-            uv
             devbox
             terraform
             kubectl
