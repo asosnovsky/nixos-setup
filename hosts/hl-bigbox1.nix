@@ -1,7 +1,12 @@
 { user }:
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+{
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg.user.enabled = true;
+  skyg.nixos.common.ssh-server.enabled = true;
+  skyg.nixos.server.services.ai.enable = true;
+  skyg.nixos.server.services.jellyfin.enable = true;
+  skyg.server.admin.enable = true;
   # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
@@ -11,40 +16,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # Containers
-  virtualisation.oci-containers = {
-    containers = {
-      ollama = {
-        autoStart = true;
-        image = "ollama/ollama";
-        extraOptions = [ "--gpus" "all" ];
-        ports = [ "11434:11434" ];
-        volumes = [ "ollama:/root/.ollama" ];
-      };
-      openwakeword = {
-        autoStart = true;
-        image = "rhasspy/wyoming-openwakeword";
-        cmd = [ "--preload-model" "ok_nabu" ];
-        ports = [ "10400:10400" ];
-      };
-    };
-  };
-
-  # Wyoming Service
-  services.wyoming = {
-    faster-whisper.servers.main-eng = {
-      enable = true;
-      device = "cpu";
-      model = "medium.en";
-      language = "en";
-      uri = "tcp://0.0.0.0:10300";
-    };
-    piper.servers.pier = {
-      enable = true;
-      uri = "tcp://0.0.0.0:10200";
-      voice = "en_GB-alan-medium";
-    };
-  };
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
@@ -60,12 +31,12 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
   # Steam Settings
-	users.users.steam = {
-		shell = pkgs.zsh;
-		isNormalUser = true;
-		description = "Steam User";
-		extraGroups = [ "wheel" ];
-	};
+  users.users.steam = {
+    shell = pkgs.zsh;
+    isNormalUser = true;
+    description = "Steam User";
+    extraGroups = [ "wheel" ];
+  };
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;

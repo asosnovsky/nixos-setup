@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 if [ ! -f .locks/.built_via_skg ]; then
     ./build-nixos.sh

@@ -1,12 +1,7 @@
-{ user }:
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   # System Packages
   services.hydra.useSubstitutes = true;
-  services.nix-serve = {
-    enable = true;
-    port = 5000;
-  };
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
@@ -16,7 +11,6 @@
     # shell tools
     git
     usbutils
-    htop
 
     # system utils
     nfs-utils
@@ -43,7 +37,7 @@
     enable = true;
     systemCronJobs = [
       "* 23 * * *       root    nix-collect-garbage --delete-older-than 1d"
-      "* 23 * * *       ${user.name}   nix-collect-garbage --delete-older-than 1d"
+      "* 23 * * *       ${config.skyg.user.name}   nix-collect-garbage --delete-older-than 1d"
     ];
   };
 }

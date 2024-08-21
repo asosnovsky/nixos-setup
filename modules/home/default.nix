@@ -3,6 +3,7 @@ let
   makeCommonGitConfigs = (import ./git.nix).makeCommonGitConfigs;
   programsModule = (import ./programs.nix);
   servicesModule = (import ./services.nix);
+  fontsModule = (import ./fonts.nix);
   homeModule = {
     stateVersion = stateVersion;
     shellAliases = {
@@ -21,6 +22,7 @@ in
       });
     };
     services = servicesModule { pkgs = pkgs; };
+    fonts = fontsModule;
   };
 
   makeCommonUser =
@@ -31,49 +33,23 @@ in
     , name
     , ...
     }: { pkgs, ... }: {
+      fonts = fontsModule;
       home = homeModule // {
         username = name;
         homeDirectory = "/home/${name}";
         packages = with pkgs;
-          [ jq nixpkgs-fmt ipfetch nixd ]
-            ++ (if enableDevelopmentKit then [
+          [
+            jq
+            nixpkgs-fmt
+            ipfetch
+            nixd
+            htop
+          ]
+          ++ (if enableDevelopmentKit then [
             devenv
             devbox
             terraform
             kubectl
-
-            # socials
-            slack
-            zoom-us
-            betterdiscordctl
-            discord
-            signal-desktop
-            whatsapp-for-linux
-            caprine-bin # facebook messenger
-
-            # development
-            vscode
-
-            # web
-            brave
-
-            # mail
-            thunderbird
-
-            # password
-            bitwarden-desktop
-
-            # documents
-            onlyoffice-bin_latest
-
-            # video
-            vlc
-            vlc-bittorrent
-
-            # terminal
-            alacritty
-            alacritty-theme
-
           ] else
             [ ]);
       };

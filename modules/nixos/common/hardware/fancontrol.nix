@@ -4,10 +4,10 @@
 , ...
 }:
 let
-  cfg = config.skyg.hardware.fancontrol;
+  cfg = config.skyg.nixos.common.hardware.fancontrol;
 in
 {
-  options.skyg.hardware.fancontrol = with lib; {
+  options.skyg.nixos.common.hardware.fancontrol = with lib; {
     enable = mkEnableOption "fancontrol";
     configName = mkOption {
       type = types.str;

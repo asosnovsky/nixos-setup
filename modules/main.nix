@@ -17,27 +17,17 @@
 }:
 { pkgs, ... }: {
   imports = [
-    (import ./skyg)
+    (import ./core)
     (import ./nixos)
-  ] ++ (if desktop.enable then
-    [ (import ./desktop ({ user = user; } // desktop)) ]
-  else
-    [ ]) ++ (if os.enable then
-    [
-      (import ./os ({
-        user = user;
-        hostName = hostName;
-      } // os))
-    ]
-  else
-    [ ])
-  ++ (if enableNetworkDrives then [ (import ./network-drives.nix) ] else [ ])
-  ;
+    (import ./network-drives.nix)
+  ];
   # Share defaults
   skyg.user = user;
   skyg.core.hostName = hostName;
   skyg.home-manager.version = homeManagerVersion;
   skyg.core.substituters = localNixCaches;
+  skyg.networkDrives.enabled = enableNetworkDrives;
+  skyg.nixos.common.containers = (if os.enable then os.containers else { });
   system.stateVersion = systemStateVersion;
   nixpkgs.config.allowUnfree = true;
   nix = {

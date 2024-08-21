@@ -1,6 +1,5 @@
 { pkgs, ... }:
 {
-  # Fonts
   fonts = {
     packages = with pkgs; [
       fira-code

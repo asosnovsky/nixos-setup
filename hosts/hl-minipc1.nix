@@ -1,12 +1,24 @@
 { user }:
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  openPorts = [
+    5000
+    5001
+    8000
+    22
+  ];
+in
+{
   imports = [ ./hl-minipc1.hardware-configuration.nix ];
   skyg.user.enabled = true;
+  skyg.nixos.common.ssh-server.enabled = true;
+  skyg.server.admin.enable = true;
 
   # Nix Stores
   services.nix-serve = {
     enable = true;
     secretKeyFile = "/var/keys/cache-priv-key.pem";
+    port = 5000;
   };
   # firmware updater
   services.fwupd.enable = true;
@@ -21,7 +33,7 @@
     options = [ "nofail" ];
   };
   # Services
-  skyg.homelab.services.audiobookshelf = {
+  skyg.nixos.server.services.audiobookshelf = {
     enable = true;
     host = "0.0.0.0";
     openFirewall = true;
@@ -37,5 +49,8 @@
     listenAddress = "0.0.0.0";
     enableDelete = true;
   };
+  # Firewall
+  networking.firewall.allowedUDPPorts = openPorts;
+  networking.firewall.allowedTCPPorts = openPorts;
 }
 
