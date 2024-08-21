@@ -33,8 +33,9 @@ in
     services.jellyfin = {
       inherit user group;
       enable = true;
-      dataDir = "/mnt/apps/jellyfin/datadir";
-      configDir = "/mnt/apps/jellyfin/configdir";
+			dataDir = "/mnt/apps/jellyfin/data";
+			cacheDir = "/mnt/apps/jellyfin/cache";
+			configDir = "/mnt/apps/jellyfin/config";
       openFirewall = true;
     };
     fileSystems."/mnt/apps/jellyfin" = {
