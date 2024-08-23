@@ -31,7 +31,7 @@ in
       libnotify
 
       # hyprland
-      pyprland
+      # pyprland
       # hyprlock
       # hypridle
       # hyprpaper
@@ -59,13 +59,15 @@ in
       # # nwg-bar
 
       # general utilities
-      # swappy
+      swappy # screenshot editor
       hyprshot # screenshots
       cliphist # clipboard manager
       xfce.thunar # file manager
       wofi # app launcher
       wl-screenrec # screen recorder
       slurp # helper selection tools
+      waypaper # wallpaper manager
+      swww # wallpaper service
 
       # networking
       networkmanagerapplet
