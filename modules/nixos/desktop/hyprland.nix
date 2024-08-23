@@ -35,14 +35,16 @@ in
       # hyprlock
       # hypridle
       # hyprpaper
-      # gbar
+      gbar
 
-      # lxqt.lxqt-policykit
+      # App Support
+      lxqt.lxqt-policykit
       xdg-desktop-portal
       xdg-desktop-portal-hyprland
 
       # color picker
       hyprpicker
+
 
       # nwg-shell
       # # nwg-dock
@@ -60,6 +62,8 @@ in
       # swappy
       hyprshot # screenshots
       cliphist # clipboard manager
+      xfce.thunar # file manager
+      wofi # app launcher
 
       # networking
       networkmanagerapplet
@@ -69,14 +73,14 @@ in
       # xdg-desktop-portal-wlr
       # # app launchers
       # rofi-wayland
-      # wofi
+      # 
     ];
     services.mpd.enable = true;
     services.pipewire.wireplumber.enable = true;
     users.users.${config.skyg.user.name}.extraGroups = [ "input" ];
     system.userActivationScripts.hyprlandlocalConfig.text = ''
       if [[ ! -h "$HOME/.config/hypr" ]]; then
-        ln -s "$HOME/.config/hypr" "/home/${config.skyg.user.name}/nixos-setup/configs/hypr"
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hypr" "$HOME/.config/hypr"
       fi
     '';
   };

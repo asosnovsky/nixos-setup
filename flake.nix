@@ -76,9 +76,11 @@
       };
       # Lib Config 
       libConfig = {
-        nix-darwin = nix-darwin;
-        hlCommonSettings = hlCommonSettings;
-        systems = systems;
+        inherit
+          nix-darwin
+          hlCommonSettings
+          systems
+          ;
       };
       # Libs
       lib = (import modules/lib.nix ({
