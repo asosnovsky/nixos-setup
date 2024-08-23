@@ -39,7 +39,7 @@ in
     , ...
     }@user: { pkgs, ... }: {
       fonts = fontsModule;
-      gtk = (import "./gtk.nix" { inherit pkgs; });
+      gtk = (import ./gtk.nix { inherit pkgs; });
       home = homeModule // {
         username = name;
         homeDirectory = "/home/${name}";

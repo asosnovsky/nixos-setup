@@ -31,13 +31,6 @@ in
       dunst
       libnotify
 
-      # hyprland
-      # pyprland
-      # hyprlock
-      # hypridle
-      # hyprpaper
-      gbar
-
       # App Support
       lxqt.lxqt-policykit
       xdg-desktop-portal
@@ -45,19 +38,6 @@ in
 
       # color picker
       hyprpicker
-
-
-      # nwg-shell
-      # # nwg-dock
-      # # nwg-dock-hyprland
-      # # nwg-launchers
-      # # nwg-displays
-      # # nwg-drawer
-      # # nwg-panel
-      # # gopsuinfo
-      # # nwg-look
-      # # nwg-menu
-      # # nwg-bar
 
       # general utilities
       swappy # screenshot editor
@@ -69,16 +49,12 @@ in
       slurp # helper selection tools
       waypaper # wallpaper manager
       swww # wallpaper service
+      waybar # top bar
+      hypridle # idle watch
 
       # networking
       networkmanagerapplet
 
-      # wl-clipboard
-      # wlroots
-      # xdg-desktop-portal-wlr
-      # # app launchers
-      # rofi-wayland
-      # 
     ];
     services.mpd.enable = true;
     services.pipewire.wireplumber.enable = true;

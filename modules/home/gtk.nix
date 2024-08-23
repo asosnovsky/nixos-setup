@@ -1,7 +1,8 @@
-{ ... }:
+{ pkgs }:
+with pkgs;
 {
-  enable = true;
   theme = {
-    name = "Adwaita-dark";
+    name = "WhiteSur-Dark";
+    package = whitesur-gtk-theme;
   };
 }
