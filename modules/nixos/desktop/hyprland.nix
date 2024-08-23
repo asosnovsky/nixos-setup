@@ -51,6 +51,7 @@ in
       swww # wallpaper service
       waybar # top bar
       hypridle # idle watch
+      brightnessctl # brightness ctl
 
       # networking
       networkmanagerapplet
