@@ -30,4 +30,29 @@
     mouse = true;
     plugins = with pkgs.tmuxPlugins; [ nord cpu battery sidebar ];
   };
+  alacritty = {
+    enable = true;
+    settings = {
+      import = [
+        "~/.config/alacritty/themes/themes/nord.toml"
+      ];
+      window = {
+        title = "Terminal";
+        blur = true;
+      };
+      font = {
+        normal = { family = "Fira Code"; style = "Regular"; };
+        bold = { family = "Fira Code"; style = "Bold"; };
+        italic = { family = "Fira Code"; style = "Italic"; };
+      };
+      shell = {
+        # program = pkgs.zsh;
+        args = [
+          "-l"
+          "-c"
+          "tmux attach || tmux"
+        ];
+      };
+    };
+  };
 }
