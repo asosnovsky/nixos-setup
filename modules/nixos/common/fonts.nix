@@ -6,7 +6,8 @@
       fira-code-symbols
       font-awesome
       mplus-outline-fonts.githubRelease
-      noto-fonts-emoji
+      jetbrains-mono
+      ubuntu_font_family
     ];
     enableDefaultPackages = true;
     fontDir.enable = true;

@@ -18,6 +18,7 @@ in
     services.hypridle.enable = true;
     # services.xserver.windowManager.hypr.enable = true;
     programs.hyprlock.enable = true;
+    programs.waybar.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
     environment.systemPackages = with pkgs; [
       # common utilities
