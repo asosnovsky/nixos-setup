@@ -9,9 +9,14 @@ in
     # Mobile Connect
     programs.kdeconnect.enable = true;
     environment.systemPackages = with pkgs; [
+      # General utils
+      busybox
+      gcc
+
       # copy to clipboard
       wl-clipboard-x11
       xclip
+
       # socials
       slack
       zoom-us

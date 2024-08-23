@@ -12,57 +12,72 @@ in
     };
   };
   config = mkIf cfg.enabled {
-    programs.hyprland = { enable = true; };
+    programs.hyprland.enable = true;
+    # programs.hyprland.xwayland.enable = true;
+    programs.hyprland.systemd.setPath.enable = true;
+    services.hypridle.enable = true;
+    # services.xserver.windowManager.hypr.enable = true;
+    programs.hyprlock.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
-    programs.waybar.enable = false;
     environment.systemPackages = with pkgs; [
       # common utilities
-      busybox
-      scdoc
-      mpv
-      gcc
-      xdg-desktop-portal
+      # mpv
+
       # sound
       pavucontrol
+
       # notification daemon
       dunst
       libnotify
+
       # hyprland
-      lxqt.lxqt-policykit
-      xdg-desktop-portal-gtk
+      pyprland
+      # hyprlock
+      # hypridle
+      # hyprpaper
+      # gbar
+
+      # lxqt.lxqt-policykit
+      xdg-desktop-portal
       xdg-desktop-portal-hyprland
-      hyprlock
-      hypridle
-      hyprpaper
+
       # color picker
       hyprpicker
+
       # nwg-shell
-      nwg-dock
-      nwg-dock-hyprland
-      nwg-launchers
-      nwg-displays
-      nwg-drawer
-      nwg-panel
-      gopsuinfo
-      nwg-look
-      nwg-menu
-      nwg-bar
-      # screenshots
-      swappy
-      hyprshot
+      # # nwg-dock
+      # # nwg-dock-hyprland
+      # # nwg-launchers
+      # # nwg-displays
+      # # nwg-drawer
+      # # nwg-panel
+      # # gopsuinfo
+      # # nwg-look
+      # # nwg-menu
+      # # nwg-bar
+
+      # general utilities
+      # swappy
+      hyprshot # screenshots
+      cliphist # clipboard manager
+
       # networking
       networkmanagerapplet
-      meson
-      wl-clipboard
-      wlroots
-      cliphist
-      xdg-desktop-portal-wlr
-      # app launchers
-      rofi-wayland
-      wofi
+
+      # wl-clipboard
+      # wlroots
+      # xdg-desktop-portal-wlr
+      # # app launchers
+      # rofi-wayland
+      # wofi
     ];
     services.mpd.enable = true;
     services.pipewire.wireplumber.enable = true;
     users.users.${config.skyg.user.name}.extraGroups = [ "input" ];
+    system.userActivationScripts.hyprlandlocalConfig.text = ''
+      if [[ ! -h "$HOME/.config/hypr" ]]; then
+        ln -s "$HOME/.config/hypr" "/home/${config.skyg.user.name}/nixos-setup/configs/hypr"
+      fi
+    '';
   };
 }

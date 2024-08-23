@@ -12,6 +12,7 @@ in
   skyg.nixos.desktop = {
     enabled = true;
     kde.enabled = true;
+    hyprland.enabled = true;
   };
   skyg.nixos.common.hardware.sound.enable = true;
   # Firmware updater
