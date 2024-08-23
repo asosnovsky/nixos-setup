@@ -15,6 +15,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "unstable";
     };
+    gBar.url = "github:scorpion-26/gBar";
     # Macos
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -31,6 +32,7 @@
     , home-manager
     , unstable-home-manager
     , nix-darwin
+    , gBar
     }:
     let
       user = {
@@ -80,6 +82,7 @@
           nix-darwin
           hlCommonSettings
           systems
+          gBar
           ;
       };
       # Libs

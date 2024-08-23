@@ -10,6 +10,9 @@ in
     skyg.home-manager.version = mkOption {
       type = types.str;
     };
+    skyg.home-manager.extraImports = mkOption {
+      default = [ ];
+    };
     skyg.user = {
       enabled = mkEnableOption "";
       name = mkOption {
@@ -48,6 +51,8 @@ in
         home-manager.users.root =
           (hm.makeRootUser { hostName = config.skyg.core.hostName; }) { pkgs = pkgs; };
         home-manager.users.${cfg.user.name} =
-          (hm.makeCommonUser cfg.user) { pkgs = pkgs; };
+          ((hm.makeCommonUser cfg.user) { pkgs = pkgs; }) // {
+            imports = cfg.home-manager.extraImports;
+          };
       };
 }

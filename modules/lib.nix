@@ -3,6 +3,7 @@
 , nix-darwin
 , systems
 , hlCommonSettings
+, gBar
 }:
 let
   makeImports =
@@ -10,7 +11,7 @@ let
     , extraConfiguration ? [ ]
     }: (if (isNull attrs.configuration) then [ ] else [ attrs.configuration ])
       ++ [
-      (import ./main.nix attrs)
+      (import ./main.nix (attrs // { inherit gBar; }))
     ] ++ extraConfiguration;
   eachSystem = nixpkgs.lib.genAttrs (import systems);
   allPkgs = eachSystem (system:

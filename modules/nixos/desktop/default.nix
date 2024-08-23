@@ -2,7 +2,7 @@
 with lib;
 
 let
-  cfg = config.skyg.nixos.desktop;
+  cfg = config.skyg.nixos;
 in
 {
   imports = [
@@ -19,7 +19,7 @@ in
         "Enable Desktop";
     };
   };
-  config = mkIf cfg.enabled {
+  config = mkIf cfg.desktop.enabled {
     services.displayManager.sddm.enable = true;
     services.displayManager.sddm.wayland.enable = true;
   };
