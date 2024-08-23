@@ -27,7 +27,7 @@ in
         config.skyg.user.name
       ];
     };
-    users.groups.shared-files.members = [
+    users.groups.www-data.members = [
       user
     ];
     services.jellyfin = {

@@ -9,8 +9,8 @@ in {
     };
   };
   config = mkIf cfg.enable {
-    users.groups.shared-files = {
-      gid = 6660;
+    users.groups.www-data = {
+      gid = 33;
       members = [
         config.skyg.user.name
       ];
