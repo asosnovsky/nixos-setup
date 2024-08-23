@@ -64,6 +64,9 @@ in
       if [[ ! -h "$HOME/.config/hypr" ]]; then
         ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hypr" "$HOME/.config/hypr"
       fi
+      if [[ ! -h "$HOME/.config/waybar" ]]; then
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/waybar" "$HOME/.config/hypr"
+      fi
     '';
   };
 }
