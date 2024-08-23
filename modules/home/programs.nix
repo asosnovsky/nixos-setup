@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, user, ... }:
 {
   bat.enable = true;
   neovim = {
@@ -34,7 +34,7 @@
     enable = true;
     settings = {
       import = [
-        "~/.config/alacritty/themes/themes/nord.toml"
+        "${pkgs.alacritty-theme}/nord.toml"
       ];
       window = {
         title = "Terminal";
@@ -46,7 +46,7 @@
         italic = { family = "Fira Code"; style = "Italic"; };
       };
       shell = {
-        # program = pkgs.zsh;
+        program = "/home/${user.name}/.nix-profile/bin/zsh";
         args = [
           "-l"
           "-c"

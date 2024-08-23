@@ -14,7 +14,12 @@ in
 {
   makeRootUser = { hostName }: { pkgs, ... }: {
     home = homeModule;
-    programs = (programsModule { pkgs = pkgs; }) // {
+    programs = (programsModule {
+      pkgs = pkgs;
+      user = {
+        name = "root";
+      };
+    }) // {
       git = (makeCommonGitConfigs {
         userName = "root";
         userEmail = "root@${hostName}";
@@ -32,7 +37,7 @@ in
     , extraGitConfigs ? [ ]
     , name
     , ...
-    }: { pkgs, ... }: {
+    }@user: { pkgs, ... }: {
       fonts = fontsModule;
       home = homeModule // {
         username = name;
@@ -53,7 +58,9 @@ in
           ] else
             [ ]);
       };
-      programs = (programsModule { pkgs = pkgs; }) // {
+      programs = (programsModule {
+        inherit pkgs user;
+      }) // {
         git = (makeCommonGitConfigs {
           userName = fullName;
           userEmail = email;
