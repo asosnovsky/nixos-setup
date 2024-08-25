@@ -50,6 +50,7 @@ in
       waypaper # wallpaper manager
       swww # wallpaper service
       waybar # top bar
+      nwg-bar # logout window
       hypridle # idle watch
       brightnessctl # brightness ctl
 

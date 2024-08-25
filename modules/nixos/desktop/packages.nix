@@ -12,6 +12,7 @@ in
       # General utils
       busybox
       gcc
+      rofimoji # emoji picker
 
       # copy to clipboard
       wl-clipboard-x11

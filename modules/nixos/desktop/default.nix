@@ -20,7 +20,9 @@ in
     };
   };
   config = mkIf cfg.desktop.enabled {
-    services.displayManager.sddm.enable = true;
-    services.displayManager.sddm.wayland.enable = true;
+    services.displayManager.sddm.enable = false;
+    services.displayManager.sddm.wayland.enable = false;
+    services.xserver.displayManager.gdm.enable = true;
+    services.xserver.displayManager.gdm.wayland = true;
   };
 }
