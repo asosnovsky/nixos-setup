@@ -50,6 +50,8 @@ in
             ipfetch
             nixd
             htop
+            nnn
+            thefuck
           ]
           ++ (if enableDevelopmentKit then [
             devenv

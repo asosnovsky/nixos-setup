@@ -36,9 +36,6 @@ in
       xdg-desktop-portal
       xdg-desktop-portal-hyprland
 
-      # color picker
-      hyprpicker
-
       # general utilities
       swappy # screenshot editor
       hyprshot # screenshots
