@@ -54,6 +54,9 @@ in
       wineWowPackages.stable
       winetricks
       wineWowPackages.waylandFull
+
+      # Video recording
+      obs-studio
     ];
   };
 }
