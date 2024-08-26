@@ -10,6 +10,8 @@
       nvim-lspconfig
       nvim-treesitter.withAllGrammars
       telescope-cheat-nvim
+      yuck-vim
+      statix
     ];
   };
   direnv.enable = true;

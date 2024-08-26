@@ -13,6 +13,7 @@ in
       busybox
       gcc
       rofimoji # emoji picker
+      feh # image viewer
 
       # copy to clipboard
       wl-clipboard-x11
@@ -58,5 +59,9 @@ in
       # Video recording
       obs-studio
     ];
+    home-manager.users.${config.skyg.user.name}.home.shellAliases = {
+      open-image = "feh";
+      open-file = "thunar";
+    };
   };
 }
