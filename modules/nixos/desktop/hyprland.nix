@@ -63,7 +63,10 @@ in
         ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hypr" "$HOME/.config/hypr"
       fi
       if [[ ! -h "$HOME/.config/waybar" ]]; then
-        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/waybar" "$HOME/.config/hypr"
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/waybar" "$HOME/.config/waybar"
+      fi
+      if [[ ! -h "$HOME/.config/nwg-bar" ]]; then
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/nwg-bar" "$HOME/.config/nwg-bar"
       fi
     '';
   };

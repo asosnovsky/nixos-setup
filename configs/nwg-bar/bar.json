@@ -1,5 +1,15 @@
 [
   {
+    "label": "Sleep",
+    "exec": "systemctl suspend",
+    "icon": "/nix/store/rwc6cn4dcv2simn3c4kmy2wgi0s9x3df-nwg-bar-0.1.6/share/nwg-bar/images/system-suspend.svg"
+  },
+  {
+    "label": "Hibernate",
+    "exec": "systemctl hibernate",
+    "icon": "/nix/store/rwc6cn4dcv2simn3c4kmy2wgi0s9x3df-nwg-bar-0.1.6/share/nwg-bar/images/system-hibernate.svg"
+  },
+  {
     "label": "Logout",
     "exec": "hyprctl dispatch exit",
     "icon": "/nix/store/rwc6cn4dcv2simn3c4kmy2wgi0s9x3df-nwg-bar-0.1.6/share/nwg-bar/images/system-log-out.svg"
