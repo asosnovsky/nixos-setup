@@ -16,14 +16,10 @@ in
     # programs.hyprland.xwayland.enable = true;
     programs.hyprland.systemd.setPath.enable = true;
     services.hypridle.enable = true;
-    # services.xserver.windowManager.hypr.enable = true;
     programs.hyprlock.enable = true;
     programs.waybar.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
     environment.systemPackages = with pkgs; [
-      # common utilities
-      # mpv
-
       # sound
       pavucontrol
 
@@ -50,14 +46,13 @@ in
       nwg-bar # logout window
       hypridle # idle watch
       brightnessctl # brightness ctl
-
-      # networking
-      networkmanagerapplet
-
+      networkmanagerapplet # networking
     ];
+    # <Sound
     services.mpd.enable = true;
     services.pipewire.wireplumber.enable = true;
     users.users.${config.skyg.user.name}.extraGroups = [ "input" ];
+    # Sound />
     system.userActivationScripts.hyprlandlocalConfig.text = ''
       if [[ ! -h "$HOME/.config/hypr" ]]; then
         ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hypr" "$HOME/.config/hypr"
