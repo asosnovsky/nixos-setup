@@ -6,6 +6,11 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      nvim-lspconfig
+      nvim-treesitter.withAllGrammars
+      telescope-cheat-nvim
+    ];
   };
   direnv.enable = true;
   lsd = {
