@@ -9,9 +9,16 @@ in
     # Mobile Connect
     programs.kdeconnect.enable = true;
     environment.systemPackages = with pkgs; [
+      # General utils
+      busybox
+      gcc
+      rofimoji # emoji picker
+      feh # image viewer
+
       # copy to clipboard
       wl-clipboard-x11
       xclip
+
       # socials
       slack
       zoom-us
@@ -48,6 +55,13 @@ in
       wineWowPackages.stable
       winetricks
       wineWowPackages.waylandFull
+
+      # Video recording
+      obs-studio
     ];
+    home-manager.users.${config.skyg.user.name}.home.shellAliases = {
+      open-image = "feh";
+      open-file = "thunar";
+    };
   };
 }

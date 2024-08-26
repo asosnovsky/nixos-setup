@@ -13,6 +13,7 @@
     enable = false;
   }
 , localNixCaches ? { keys = [ ]; urls = [ ]; }
+, gBar
 , ...
 }:
 { pkgs, ... }: {
@@ -25,6 +26,9 @@
   skyg.user = user;
   skyg.core.hostName = hostName;
   skyg.home-manager.version = homeManagerVersion;
+  skyg.home-manager.extraImports = [
+    gBar.homeManagerModules.x86_64-linux.default
+  ];
   skyg.core.substituters = localNixCaches;
   skyg.networkDrives.enabled = enableNetworkDrives;
   skyg.nixos.common.containers = (if os.enable then os.containers else { });

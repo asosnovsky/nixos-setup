@@ -14,7 +14,12 @@ in
 {
   makeRootUser = { hostName }: { pkgs, ... }: {
     home = homeModule;
-    programs = (programsModule { pkgs = pkgs; }) // {
+    programs = (programsModule {
+      pkgs = pkgs;
+      user = {
+        name = "root";
+      };
+    }) // {
       git = (makeCommonGitConfigs {
         userName = "root";
         userEmail = "root@${hostName}";
@@ -32,8 +37,9 @@ in
     , extraGitConfigs ? [ ]
     , name
     , ...
-    }: { pkgs, ... }: {
+    }@user: { pkgs, ... }: {
       fonts = fontsModule;
+      gtk = (import ./gtk.nix { inherit pkgs; });
       home = homeModule // {
         username = name;
         homeDirectory = "/home/${name}";
@@ -44,6 +50,8 @@ in
             ipfetch
             nixd
             htop
+            nnn
+            thefuck
           ]
           ++ (if enableDevelopmentKit then [
             devenv
@@ -53,7 +61,9 @@ in
           ] else
             [ ]);
       };
-      programs = (programsModule { pkgs = pkgs; }) // {
+      programs = (programsModule {
+        inherit pkgs user;
+      }) // {
         git = (makeCommonGitConfigs {
           userName = fullName;
           userEmail = email;

@@ -12,57 +12,57 @@ in
     };
   };
   config = mkIf cfg.enabled {
-    programs.hyprland = { enable = true; };
+    programs.hyprland.enable = true;
+    # programs.hyprland.xwayland.enable = true;
+    programs.hyprland.systemd.setPath.enable = true;
+    services.hypridle.enable = true;
+    programs.hyprlock.enable = true;
+    programs.waybar.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
-    programs.waybar.enable = false;
     environment.systemPackages = with pkgs; [
-      # common utilities
-      busybox
-      scdoc
-      mpv
-      gcc
-      xdg-desktop-portal
       # sound
       pavucontrol
+
       # notification daemon
       dunst
       libnotify
-      # hyprland
+
+      # App Support
       lxqt.lxqt-policykit
-      xdg-desktop-portal-gtk
+      xdg-desktop-portal
       xdg-desktop-portal-hyprland
-      hyprlock
-      hypridle
-      hyprpaper
-      # color picker
-      hyprpicker
-      # nwg-shell
-      nwg-dock
-      nwg-dock-hyprland
-      nwg-launchers
-      nwg-displays
-      nwg-drawer
-      nwg-panel
-      gopsuinfo
-      nwg-look
-      nwg-menu
-      nwg-bar
-      # screenshots
-      swappy
-      hyprshot
-      # networking
-      networkmanagerapplet
-      meson
-      wl-clipboard
-      wlroots
-      cliphist
-      xdg-desktop-portal-wlr
-      # app launchers
-      rofi-wayland
-      wofi
+
+      # general utilities
+      swappy # screenshot editor
+      hyprshot # screenshots
+      cliphist # clipboard manager
+      xfce.thunar # file manager
+      wofi # app launcher
+      wl-screenrec # screen recorder
+      slurp # helper selection tools
+      waypaper # wallpaper manager
+      swww # wallpaper service
+      waybar # top bar
+      nwg-bar # logout window
+      hypridle # idle watch
+      brightnessctl # brightness ctl
+      networkmanagerapplet # networking
     ];
+    # <Sound
     services.mpd.enable = true;
     services.pipewire.wireplumber.enable = true;
     users.users.${config.skyg.user.name}.extraGroups = [ "input" ];
+    # Sound />
+    system.userActivationScripts.hyprlandlocalConfig.text = ''
+      if [[ ! -h "$HOME/.config/hypr" ]]; then
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hypr" "$HOME/.config/hypr"
+      fi
+      if [[ ! -h "$HOME/.config/waybar" ]]; then
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/waybar" "$HOME/.config/waybar"
+      fi
+      if [[ ! -h "$HOME/.config/nwg-bar" ]]; then
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/nwg-bar" "$HOME/.config/nwg-bar"
+      fi
+    '';
   };
 }

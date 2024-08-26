@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, user, ... }:
 {
   bat.enable = true;
   neovim = {
@@ -6,6 +6,13 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      nvim-lspconfig
+      nvim-treesitter.withAllGrammars
+      telescope-cheat-nvim
+      yuck-vim
+      statix
+    ];
   };
   direnv.enable = true;
   lsd = {
@@ -29,5 +36,30 @@
     clock24 = true;
     mouse = true;
     plugins = with pkgs.tmuxPlugins; [ nord cpu battery sidebar ];
+  };
+  alacritty = {
+    enable = true;
+    settings = {
+      import = [
+        "${pkgs.alacritty-theme}/nord.toml"
+      ];
+      window = {
+        title = "Terminal";
+        blur = true;
+      };
+      font = {
+        normal = { family = "Fira Code"; style = "Regular"; };
+        bold = { family = "Fira Code"; style = "Bold"; };
+        italic = { family = "Fira Code"; style = "Italic"; };
+      };
+      shell = {
+        program = "/home/${user.name}/.nix-profile/bin/zsh";
+        args = [
+          "-l"
+          "-c"
+          "tmux attach || tmux"
+        ];
+      };
+    };
   };
 }

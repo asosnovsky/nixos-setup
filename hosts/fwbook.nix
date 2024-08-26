@@ -12,7 +12,9 @@ in
   skyg.nixos.desktop = {
     enabled = true;
     kde.enabled = true;
+    hyprland.enabled = true;
   };
+  services.displayManager.defaultSession = "hyprland";
   skyg.nixos.common.hardware.sound.enable = true;
   # Firmware updater
   services.fwupd.enable = true;
@@ -54,6 +56,8 @@ in
     trezor-suite
     trezord
     ledger-live-desktop
+    # skype
+    skypeforlinux
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];
@@ -141,6 +145,7 @@ in
     lidSwitch = "suspend-then-hibernate";
     powerKey = "lock";
     extraConfig = ''
+      LidSwitchIgnoreInhibited=yes
       HandlePowerKey=suspend-then-hibernate
       IdleAction=suspend-then-hibernate
       IdleActionSec=2m
