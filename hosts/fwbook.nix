@@ -34,7 +34,7 @@ in
   hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
+  # services.blueman.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -58,6 +58,9 @@ in
     ledger-live-desktop
     # skype
     skypeforlinux
+    # Work
+    dvc-with-remotes
+    awscli
   ];
   # udev rules for crypto wallets
   services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];
@@ -75,7 +78,6 @@ in
   programs.steam = {
     enable = true;
     extest.enable = true;
-    gamescopeSession.enable = true;
   };
   # Ollama
   services.ollama = {
