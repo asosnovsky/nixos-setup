@@ -14,7 +14,7 @@ in
     kde.enabled = true;
     hyprland = {
       enabled = true;
-      useNWG = true;
+      useNWG = false;
     };
   };
   services.displayManager.defaultSession = "hyprland";
