@@ -4,6 +4,7 @@ with lib;
   imports = [
     ./common.nix
     ./mine.nix
+    ./nwg-shell.nix
   ];
   options = {
     skyg.nixos.desktop.hyprland = {
