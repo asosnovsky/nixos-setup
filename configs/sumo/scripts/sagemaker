@@ -1,3 +1,0 @@
-#!/bin/bash
-
-eks us2 analytics-sagemaker ${@:1}

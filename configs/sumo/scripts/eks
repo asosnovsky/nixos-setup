@@ -1,6 +1,0 @@
-#!/bin/bash
-
-dep=${1}
-assembly=${2}
-echo "${dep}/${assembly}"
-kubectl --cluster eks-$dep -n $dep-${assembly} --context eks-$dep-eks-$dep ${@:3}

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-dep=${1}
-eks $dep analytics-airflow-v2 ${@:2}

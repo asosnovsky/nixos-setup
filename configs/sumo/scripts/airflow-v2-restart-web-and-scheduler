@@ -1,7 +1,0 @@
-#!/bin/bash
-
-current_dep=$(kubectl config current-context | cut -d '-' -f2)
-dep=${1:-$current_dep}
-airflow-v2 $dep rollout restart deploy/$dep-analytics-airflow-v2-web &
-airflow-v2 $dep rollout restart deploy/$dep-analytics-airflow-v2-scheduler &
-wait

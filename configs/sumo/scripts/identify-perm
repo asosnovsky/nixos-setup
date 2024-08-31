@@ -1,9 +1,0 @@
-#!/bin/bash
-
-TF_LOG=trace terraform apply --auto-approve &> apply.log 
-TF_LOG=trace terraform destroy --auto-approve &> destroy.log
-
-cat destroy.log | grep "DEBUG: Request" | sed -nr 's/^.*Request (.*) Details:/\1/p' | sort | uniq > all.perms 
-cat apply.log | grep "DEBUG: Request" | sed -nr 's/^.*Request (.*) Details:/\1/p' | sort | uniq >> all.perms 
-cat all.perms | sort | uniq -u > required.perms
-rm all.perms

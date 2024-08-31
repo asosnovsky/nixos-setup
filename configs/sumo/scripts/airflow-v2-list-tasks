@@ -1,4 +1,0 @@
-#!/bin/bash
-
-current_dep=$(kubectl config current-context | cut -d '-' -f2)
-airflow-v2 ${1:-$current_dep} get pod --sort-by=.status.startTime -l task_id

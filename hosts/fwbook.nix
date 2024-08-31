@@ -12,7 +12,10 @@ in
   skyg.nixos.desktop = {
     enabled = true;
     kde.enabled = true;
-    hyprland.enabled = true;
+    hyprland = {
+      enabled = true;
+      useNWG = true;
+    };
   };
   services.displayManager.defaultSession = "hyprland";
   skyg.nixos.common.hardware.sound.enable = true;
