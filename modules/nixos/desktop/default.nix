@@ -11,6 +11,7 @@ in
     ./wayland.nix
     ./x11.nix
     ./packages.nix
+    ./crypto.nix
   ];
 
   options = {
