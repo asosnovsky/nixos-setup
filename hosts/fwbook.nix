@@ -1,5 +1,5 @@
-{ user, dataDir ? "/mnt/Data", unstable }:
-{ pkgs, lib, config, ... }:
+{ user, unstable }:
+{ pkgs, ... }:
 let
   zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
   zshFunctions = zshFWBook + "/functions.sh";
@@ -14,8 +14,9 @@ in
     kde.enabled = true;
     hyprland = {
       enabled = true;
-      useNWG = true;
+      useNWG = false;
     };
+    crypto.enabled = true;
   };
   services.displayManager.defaultSession = "hyprland";
   skyg.nixos.common.hardware.sound.enable = true;
@@ -55,21 +56,23 @@ in
     amdctl
     # python
     python312
-    # crypto
-    trezor-suite
-    trezord
-    ledger-live-desktop
     # skype
     skypeforlinux
     # Work
     dvc-with-remotes
     awscli
   ];
-  # udev rules for crypto wallets
-  services.udev.packages = with pkgs; [ ledger-udev-rules trezor-udev-rules ];
-  # trezor groups
-  users.groups.trezord = { };
-  users.groups.trezord.members = [ user.name ];
+  programs.firefox = {
+    enable = true;
+  };
+  programs.chromium = {
+    enable = true;
+    extensions = [
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+      "nngceckbapebfimnlniiiahkandclblb"
+    ];
+  };
+
   # # Opengl
   hardware.opengl = {
     driSupport = true;
@@ -157,4 +160,10 @@ in
     '';
   };
   systemd.sleep.extraConfig = "HibernateDelaySec=30m";
+  # Family Storage
+  fileSystems."/mnt/EightTerra/FamilyStorage" = {
+    device = "tnas1.lab.internal:/mnt/EightTerra/FamilyStorage";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
+  };
 }

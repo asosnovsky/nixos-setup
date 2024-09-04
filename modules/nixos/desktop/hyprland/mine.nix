@@ -19,6 +19,9 @@ in
       waypaper # wallpaper manager
       swww # wallpaper service
       waybar # top bar
+      nwg-panel # top bar
+      nwg-dock-hyprland # bottom bar
+      nwg-displays # display management
       nwg-bar # logout window
     ];
     system.userActivationScripts.hyprlandMineConfig.text = ''

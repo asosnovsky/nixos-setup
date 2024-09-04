@@ -12,7 +12,6 @@ in
       nwg-bar
       nwg-menu
       nwg-look
-      nwg-dock
       nwg-panel
       nwg-hello
       nwg-drawer

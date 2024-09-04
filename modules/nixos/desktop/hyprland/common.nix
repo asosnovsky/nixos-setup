@@ -26,6 +26,7 @@ in
       lxqt.lxqt-policykit
       xdg-desktop-portal
       xdg-desktop-portal-hyprland
+      auto-cpufreq
 
       # general utilities
       brightnessctl # brightness ctl
