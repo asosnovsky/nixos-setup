@@ -61,15 +61,18 @@ in
     # Work
     dvc-with-remotes
     awscli
+    # Web
+    chromium
   ];
   programs.firefox = {
     enable = true;
   };
   programs.chromium = {
     enable = true;
+    enablePlasmaBrowserIntegration = true;
     extensions = [
       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-      "nngceckbapebfimnlniiiahkandclblb"
+      "nngceckbapebfimnlniiiahkandclblb" # bitwarden
     ];
   };
 

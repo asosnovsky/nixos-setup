@@ -14,6 +14,7 @@ in
       gcc
       rofimoji # emoji picker
       feh # image viewer
+      xdg-desktop-portal
 
       # copy to clipboard
       wl-clipboard-x11

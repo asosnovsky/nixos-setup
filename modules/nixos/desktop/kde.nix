@@ -22,6 +22,7 @@ in
     ];
     environment.systemPackages = with pkgs; [
       kdePackages.plasma-browser-integration
+      kdePackages.xdg-desktop-portal-kde
       konsave # save configs
     ];
     services.desktopManager.plasma6.notoPackage = pkgs.fira-code;

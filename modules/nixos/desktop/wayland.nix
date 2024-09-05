@@ -9,6 +9,7 @@ in
       wayland
       wayland-protocols
       wayland-utils
+      xdg-desktop-portal-wlr
     ];
     programs.xwayland.enable = true;
   };
