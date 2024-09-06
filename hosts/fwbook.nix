@@ -3,6 +3,9 @@
 let
   zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
   zshFunctions = zshFWBook + "/functions.sh";
+  openPorts = [
+    8000
+  ];
 in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
@@ -169,4 +172,7 @@ in
     fsType = "nfs";
     options = [ "x-systemd.automount" "noauto" ];
   };
+  # Firewall
+  networking.firewall.allowedUDPPorts = openPorts;
+  networking.firewall.allowedTCPPorts = openPorts;
 }

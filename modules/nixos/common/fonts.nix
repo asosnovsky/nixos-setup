@@ -8,6 +8,9 @@
       mplus-outline-fonts.githubRelease
       jetbrains-mono
       ubuntu_font_family
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
     ];
     enableDefaultPackages = true;
     fontDir.enable = true;
