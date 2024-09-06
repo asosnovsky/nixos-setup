@@ -6,12 +6,14 @@ let
 in
 {
   config = mkIf cfg.enabled {
-    programs.hyprland.enable = true;
-    programs.hyprland.xwayland.enable = true;
-    programs.hyprland.systemd.setPath.enable = true;
+    programs.hyprland = {
+      enable = true;
+      portalPackage = pkgs.xdg-desktop-portal-hyprland;
+      xwayland.enable = true;
+      systemd.setPath.enable = true;
+    };
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     services.hypridle.enable = true;
-    # programs.hyprlock.enable = true;
-    # programs.waybar.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
     environment.systemPackages = with pkgs; [
       # sound

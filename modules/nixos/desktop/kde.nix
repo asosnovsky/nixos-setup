@@ -26,5 +26,6 @@ in
       konsave # save configs
     ];
     services.desktopManager.plasma6.notoPackage = pkgs.fira-code;
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
   };
 }
