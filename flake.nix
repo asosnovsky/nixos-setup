@@ -12,6 +12,10 @@
       inputs.nixpkgs.follows = "unstable";
       inputs.systems.follows = "systems";
     };
+    hyprspace = {
+      url = "github:KZDKM/Hyprspace";
+      inputs.hyprland.follows = "hyprland";
+    };
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -40,6 +44,7 @@
     , nix-darwin
     , gBar
     , hyprland
+    , hyprspace
     }:
     let
       user = {
@@ -94,6 +99,7 @@
           inputs = {
             inherit
               gBar
+              hyprspace
               hyprland;
           };
         };

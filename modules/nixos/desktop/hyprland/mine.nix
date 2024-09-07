@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }:
-with lib;
-
+{ config, lib, pkgs, inputs, ... }:
 let
   cfg = config.skyg.nixos.desktop.hyprland;
 in
 {
-  config = mkIf (cfg.enabled && !cfg.useNWG) {
+  config = lib.mkIf (cfg.enabled && !cfg.useNWG) {
+    home-manager.users.${config.skyg.user.name}.wayland.windowManager.hyprland.plugins = [
+      inputs.hyprspace.packages.${pkgs.system}.Hyprspace
+    ];
     programs.hyprlock.enable = true;
     environment.systemPackages = with pkgs; [
       # general utilities

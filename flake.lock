@@ -207,6 +207,26 @@
         "type": "github"
       }
     },
+    "hyprspace": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ]
+      },
+      "locked": {
+        "lastModified": 1724608787,
+        "narHash": "sha256-t2BzxfdLhMY8pnzmQe76bLGL8bB5p5bdIXHhkSV+xr8=",
+        "owner": "KZDKM",
+        "repo": "Hyprspace",
+        "rev": "b328501fbad4159e404697e25cdaaab0ad9f81a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "KZDKM",
+        "repo": "Hyprspace",
+        "type": "github"
+      }
+    },
     "hyprutils": {
       "inputs": {
         "nixpkgs": [
@@ -330,6 +350,7 @@
         "gBar": "gBar",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "hyprspace": "hyprspace",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
