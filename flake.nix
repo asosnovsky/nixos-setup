@@ -6,6 +6,12 @@
     # Nixpkgs
     unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    # Hyprland
+    hyprland = {
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+      inputs.nixpkgs.follows = "unstable";
+      inputs.systems.follows = "systems";
+    };
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -33,6 +39,7 @@
     , unstable-home-manager
     , nix-darwin
     , gBar
+    , hyprland
     }:
     let
       user = {
@@ -82,8 +89,14 @@
           nix-darwin
           hlCommonSettings
           systems
-          gBar
           ;
+        specialArgs = {
+          inputs = {
+            inherit
+              gBar
+              hyprland;
+          };
+        };
       };
       # Libs
       lib = (import modules/lib.nix ({

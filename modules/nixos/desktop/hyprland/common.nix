@@ -1,18 +1,18 @@
-{ config, lib, pkgs, ... }:
-with lib;
-
+{ config, lib, pkgs, inputs, ... }:
 let
   cfg = config.skyg.nixos.desktop.hyprland;
+  hyprpkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
-  config = mkIf cfg.enabled {
+  config = lib.mkIf cfg.enabled {
     programs.hyprland = {
       enable = true;
-      portalPackage = pkgs.xdg-desktop-portal-hyprland;
+      package = hyprpkgs.hyprland;
+      portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
       xwayland.enable = true;
       systemd.setPath.enable = true;
     };
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    xdg.portal.extraPortals = [ hyprpkgs.xdg-desktop-portal-hyprland ];
     services.hypridle.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
     environment.systemPackages = with pkgs; [
@@ -27,7 +27,6 @@ in
       xwaylandvideobridge
       lxqt.lxqt-policykit
       xdg-desktop-portal
-      xdg-desktop-portal-hyprland
       auto-cpufreq
 
       # general utilities

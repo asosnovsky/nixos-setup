@@ -3,7 +3,7 @@
 , nix-darwin
 , systems
 , hlCommonSettings
-, gBar
+, specialArgs
 }:
 let
   makeImports =
@@ -11,7 +11,7 @@ let
     , extraConfiguration ? [ ]
     }: (if (isNull attrs.configuration) then [ ] else [ attrs.configuration ])
       ++ [
-      (import ./main.nix (attrs // { inherit gBar; }))
+      (import ./main.nix attrs)
     ] ++ extraConfiguration;
   eachSystem = nixpkgs.lib.genAttrs (import systems);
   allPkgs = eachSystem (system:
@@ -22,12 +22,12 @@ let
   makeNixOsModuleMaker =
     masterAttrs:
     { system ? masterAttrs.system ? "x86_64-linux"
-    , configuration ? null
     , ...
     }@attrs:
     let joinedttrs = masterAttrs // attrs;
     in
     nixpkgs.lib.nixosSystem {
+      inherit specialArgs;
       system = system;
       modules = (makeImports {
         attrs = joinedttrs;
@@ -42,7 +42,6 @@ let
   makeDarwinModule =
     { system ? "x86_64-darwin"
     , user
-    , configuration ? null
     , ...
     }@attrs:
     nix-darwin.lib.darwinSystem {

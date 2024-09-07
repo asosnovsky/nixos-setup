@@ -1,5 +1,4 @@
 { lib, ... }:
-with lib;
 {
   imports = [
     ./common.nix
@@ -7,7 +6,7 @@ with lib;
     ./nwg-shell.nix
   ];
   options = {
-    skyg.nixos.desktop.hyprland = {
+    skyg.nixos.desktop.hyprland = with lib; {
       enabled = mkEnableOption
         "Hyprland";
       useNWG = mkEnableOption
