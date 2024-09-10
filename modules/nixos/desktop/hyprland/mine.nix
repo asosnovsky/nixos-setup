@@ -4,9 +4,18 @@ let
 in
 {
   config = lib.mkIf (cfg.enabled && !cfg.useNWG) {
-    home-manager.users.${config.skyg.user.name}.wayland.windowManager.hyprland.plugins = [
-      inputs.hyprspace.packages.${pkgs.system}.Hyprspace
-    ];
+    home-manager.users.${config.skyg.user.name}.wayland.windowManager.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      # plugins = [
+      #   inputs.hyprspace.packages.${pkgs.system}.Hyprspace
+      # ];
+      extraConfig = ''
+        source = ~/.config/hypr/hyprland.d/*.conf
+        debug:enable_stdout_logs = true
+      '';
+    };
     programs.hyprlock.enable = true;
     environment.systemPackages = with pkgs; [
       # general utilities
@@ -26,17 +35,21 @@ in
       nwg-bar # logout window
     ];
     system.userActivationScripts.hyprlandMineConfig.text = ''
-      rm "$HOME/.config/hypr"
+      rm -f "$HOME/.config/hypr"
       if [[ ! -h "$HOME/.config/hypr" ]]; then
         ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hyprland/mine/hypr" "$HOME/.config/hypr"
       fi
-      rm "$HOME/.config/waybar"
+      rm -f "$HOME/.config/waybar"
       if [[ ! -h "$HOME/.config/waybar" ]]; then
         ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hyprland/mine/waybar" "$HOME/.config/waybar"
       fi
-      rm "$HOME/.config/nwg-bar"
+      rm -f "$HOME/.config/nwg-bar"
       if [[ ! -h "$HOME/.config/nwg-bar" ]]; then
         ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hyprland/mine/nwg-bar" "$HOME/.config/nwg-bar"
+      fi
+      rm -f "$HOME/.config/dunst"
+      if [[ ! -h "$HOME/.config/dunst" ]]; then
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hyprland/mine/dunst" "$HOME/.config/nwg-bar"
       fi
     '';
   };

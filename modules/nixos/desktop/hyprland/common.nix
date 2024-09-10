@@ -7,12 +7,12 @@ in
   config = lib.mkIf cfg.enabled {
     programs.hyprland = {
       enable = true;
-      package = hyprpkgs.hyprland;
-      portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
+      # package = hyprpkgs.hyprland;
+      portalPackage = pkgs.xdg-desktop-portal-hyprland;
       xwayland.enable = true;
       systemd.setPath.enable = true;
     };
-    xdg.portal.extraPortals = [ hyprpkgs.xdg-desktop-portal-hyprland ];
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     services.hypridle.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
     environment.systemPackages = with pkgs; [
