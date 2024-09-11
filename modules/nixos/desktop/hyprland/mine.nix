@@ -49,7 +49,7 @@ in
       fi
       rm -f "$HOME/.config/dunst"
       if [[ ! -h "$HOME/.config/dunst" ]]; then
-        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hyprland/mine/dunst" "$HOME/.config/nwg-bar"
+        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/hyprland/mine/dunst" "$HOME/.config/dunst"
       fi
     '';
   };

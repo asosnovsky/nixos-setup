@@ -63,6 +63,7 @@ in
     skypeforlinux
     # Work
     dvc-with-remotes
+    google-cloud-sdk
     awscli
     # Web
     chromium
