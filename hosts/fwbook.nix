@@ -15,13 +15,14 @@ in
   skyg.nixos.desktop = {
     enabled = true;
     kde.enabled = true;
+    cosmic.enabled = true;
     hyprland = {
       enabled = true;
       useNWG = false;
     };
     crypto.enabled = true;
   };
-  services.displayManager.defaultSession = "hyprland";
+  services.displayManager.defaultSession = "plasma";
   skyg.nixos.common.hardware.sound.enable = true;
   # Firmware updater
   services.fwupd.enable = true;
@@ -65,8 +66,12 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
+    dbeaver-bin
     # Web
     chromium
+    # Photo Editing
+    krita
+    gimp-with-plugins
   ];
   programs.firefox = {
     enable = true;

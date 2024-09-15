@@ -3,6 +3,7 @@
 , nix-darwin
 , systems
 , hlCommonSettings
+, nixos-cosmic
 , specialArgs
 }:
 let
@@ -32,6 +33,13 @@ let
       modules = (makeImports {
         attrs = joinedttrs;
         extraConfiguration = [
+          {
+            nix.settings = {
+              substituters = [ "https://cosmic.cachix.org/" ];
+              trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+            };
+          }
+          nixos-cosmic.nixosModules.default
           home-manager.nixosModules.default
         ];
       });

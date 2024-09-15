@@ -6,6 +6,11 @@
     # Nixpkgs
     unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    # Cosmic
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Hyprland
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
@@ -45,6 +50,7 @@
     , gBar
     , hyprland
     , hyprspace
+    , nixos-cosmic
     }:
     let
       user = {
@@ -94,6 +100,7 @@
           nix-darwin
           hlCommonSettings
           systems
+          nixos-cosmic
           ;
         specialArgs = {
           inputs = {

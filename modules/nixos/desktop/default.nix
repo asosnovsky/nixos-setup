@@ -8,6 +8,7 @@ in
   imports = [
     ./hyprland
     ./kde.nix
+    ./cosmic.nix
     ./wayland.nix
     ./x11.nix
     ./packages.nix
