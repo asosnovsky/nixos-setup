@@ -10,20 +10,24 @@ in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
-  skyg.user.enabled = true;
-  skyg.server.admin.enable = true;
-  skyg.nixos.desktop = {
-    enabled = true;
-    kde.enabled = true;
-    cosmic.enabled = true;
-    hyprland = {
-      enabled = true;
-      useNWG = false;
+  skyg = {
+    user.enabled = true;
+    server.admin.enable = true;
+    nixos = {
+      common.hardware.sound.enable = true;
+      desktop = {
+        enabled = true;
+        kde.enabled = true;
+        cosmic.enabled = true;
+        hyprland = {
+          enabled = true;
+          useNWG = false;
+        };
+        crypto.enabled = true;
+      };
     };
-    crypto.enabled = true;
   };
   services.displayManager.defaultSession = "plasma";
-  skyg.nixos.common.hardware.sound.enable = true;
   # Firmware updater
   services.fwupd.enable = true;
   services.fwupd.package = (import

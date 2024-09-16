@@ -1,18 +1,16 @@
-{ config, lib, pkgs, ... }:
-with lib;
-
+{ config, lib, ... }:
 let
-  cfg = config.skyg.nixos.cosmic.kde;
+  cfg = config.skyg.nixos.desktop.cosmic;
 in
 {
   options = {
     skyg.nixos.desktop.cosmic = {
-      enabled = mkEnableOption
+      enabled = lib.mkEnableOption
         "Cosmic";
     };
   };
-  config = mkIf cfg.enabled {
+  config = lib.mkIf cfg.enabled {
     services.desktopManager.cosmic.enable = true;
-    services.displayManager.cosmic-greeter.enable = true;
+    # services.displayManager.cosmic-greeter.enable = true;
   };
 }
