@@ -28,8 +28,13 @@ in
     services.xserver.displayManager.gdm.wayland = true;
     xdg.portal = {
       enable = true;
-      wlr.enable = false;
-      xdgOpenUsePortal = false;
+      wlr.enable = true;
+      xdgOpenUsePortal = true;
+    };
+    services.pipewire = {
+      enable = true;
+      pulse.enable = true;
+      systemWide = true;
     };
   };
 }
