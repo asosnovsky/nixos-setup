@@ -10,6 +10,7 @@ in
       wayland-protocols
       wayland-utils
       xdg-desktop-portal-wlr
+      xdg-desktop-portal-gtk
     ];
     programs.xwayland.enable = true;
   };

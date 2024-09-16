@@ -21,5 +21,8 @@ in
       alsa.support32Bit = true;
       jack.enable = true;
     };
+    services.jack = {
+      alsa.enable = true;
+    };
   };
 }
