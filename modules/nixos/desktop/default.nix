@@ -45,10 +45,5 @@ in
         ];
       };
     };
-    services.pipewire = {
-      enable = true;
-      pulse.enable = true;
-      systemWide = true;
-    };
   };
 }
