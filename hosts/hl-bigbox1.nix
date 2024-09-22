@@ -37,6 +37,13 @@
     description = "Steam User";
     extraGroups = [ "wheel" ];
   };
+  # Sunshine Service
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
