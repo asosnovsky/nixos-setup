@@ -140,6 +140,9 @@
                 nixpkgs-fmt
                 nixd
               ];
+              shellHook = ''
+                export PROMPT="<nixos-setup> "$PROMPT
+              '';
             };
           });
       lib = lib;
