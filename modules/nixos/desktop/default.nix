@@ -23,6 +23,8 @@ in
     services.displayManager.sddm.enable = false;
     services.displayManager.sddm.wayland.enable = false;
     services.xserver.displayManager.gdm.enable = true;
+    services.xserver.displayManager.gdm.autoSuspend = false;
+    services.xserver.displayManager.gdm.banner = ''Ari's PC'';
     services.xserver.displayManager.gdm.wayland = true;
     xdg = {
       autostart.enable = true;

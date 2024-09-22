@@ -20,6 +20,11 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
   services.openssh.settings.X11Forwarding = true;
+  services.xserver.displayManager.gdm.autoLogin.delay = 0;
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = config.skyg.user.name;
+  };
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
   #hardware.opengl.enable = true;
