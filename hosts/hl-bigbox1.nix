@@ -6,8 +6,11 @@
   skyg.nixos.common.ssh-server.enabled = true;
   skyg.nixos.server.services.ai.enable = true;
   skyg.nixos.server.services.jellyfin.enable = true;
-  skyg.server.admin.enable = true;
-  # firmware updater
+  skyg.nixos.desktop.kde.enabled = true;
+  skyg.nixos.desktop.enabled = true;
+	skyg.server.admin.enable = true;
+	users.users.ari.extraGroups = [ "input" ];
+	# firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
   hardware.nvidia-container-toolkit.enable = true;
@@ -35,7 +38,7 @@
     shell = pkgs.zsh;
     isNormalUser = true;
     description = "Steam User";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "input" ];
   };
   # Sunshine Service
   services.sunshine = {
