@@ -142,6 +142,7 @@
               ];
               shellHook = ''
                 export PROMPT="<nixos-setup> "$PROMPT
+                export PATH=$PATH:$(pwd)/bin
               '';
             };
           });

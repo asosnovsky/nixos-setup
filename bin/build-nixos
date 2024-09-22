@@ -6,4 +6,4 @@ rm -f .locks/.built_via_skg
 sudo nixos-rebuild build --flake .
 touch .locks/.built_via_skg
 nvd diff /run/current-system result
-diff -r /run/current-system result
+diff --color=always -r /run/current-system result
