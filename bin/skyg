@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -e
+
+
+# Bootstrap
+## Folder handlings
+set -e
+ROOT_FOLDER=$(realpath $0 | xargs dirname | xargs dirname)
+pushd $ROOT_FOLDER >> /dev/null
+## Colors
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+BOLD='\033[1m'
+# Bootstrap
+
+MENAME=$(basename $0)
+LOCKS_FOLDER=$ROOT_FOLDER/.tmp/.locks
+LOCK_FILE=$LOCKS_FOLDER/.built_via_skg
+
+mkdir -p $LOCKS_FOLDER
+
+function lock() {
+    touch $LOCK_FILE
+}
+function unlock() {
+    rm -f $LOCK_FILE
+}
+
+function run-build() {
+    : Run nixos build and emits difference
+    :
+    unlock
+    nixos-rebuild build --flake .
+    lock
+    run-diff
+}
+
+function run-switch() {
+    : Runs nixos switch and ensures that we actually saw a build\'s difference
+    :
+    if [ ! -f $LOCK_FILE ]; then
+        run-build
+        echo "Do you want to continue? (y/N)"
+        read -r answer
+        if [[ $answer =~ ^[yY]$ ]]; then
+            echo "Continuing..."
+        else
+            echo "Exiting."
+            exit 1
+        fi
+    fi
+    
+    sudo nixos-rebuild switch --flake .
+    git cap
+    unlock
+    
+}
+
+function run-diff() {
+    : Diff results to current system
+    :
+    nvd diff /run/current-system result
+    diff --color=always -r /run/current-system result
+}
+
+function run-remote-deploy() {
+    : Builds locally the system and deploys to an external system
+    :  Usage: skyg remote-deploy {target} {cmd}
+    target=${1}
+    cmd=${2}
+    $ROOT_FOLDER/bin/build-remote-nixos ${target} ${cmd}
+}
+
+
+function list_run_functions() {
+    declare -F | awk '$3 ~ /^run-/{sub("run-", "", $3); print $3}'
+}
+
+all_functions=$(list_run_functions)
+
+for f in ${all_functions[@]}; do
+    if [ "$1" == "$f" ]; then
+        echo -e "${BLUE}$1${YELLOW}"
+        run-$1 ${@:2}
+        ecode=$(echo $?)
+        echo -e "${NC}DONE"
+        exit $ecode
+    fi
+done
+
+echo -e "Invalid Command '$1' please select one of${NC}"
+
+for function_name in $all_functions; do
+    start_line=$(grep -n -m 1 "function run-$function_name" "${BASH_SOURCE[0]}" | cut -d: -f1)
+    end_line=$(awk "NR > $start_line && /^}/ {print NR; exit}" "${BASH_SOURCE[0]}")
+    function_body=$(sed -n "${start_line},${end_line}p" "${BASH_SOURCE[0]}")
+    description=$(echo "$function_body" | sed -n '/^\s*:/,/^\s*[^:]/p' | sed 's/^\s*:\s*/ │ /')
+    echo -e "$BOLD\r$MENAME \`${function_name}\`$NC\n${description}\n └──────────\n"
+done
