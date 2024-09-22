@@ -22,6 +22,7 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
+  services.openssh.settings.X11Forwarding = true;
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
   #hardware.opengl.enable = true;

@@ -30,7 +30,6 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "unstable";
     };
-    gBar.url = "github:scorpion-26/gBar";
     # Macos
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -47,7 +46,6 @@
     , home-manager
     , unstable-home-manager
     , nix-darwin
-    , gBar
     , hyprland
     , hyprspace
     , nixos-cosmic
@@ -57,13 +55,6 @@
         name = "ari";
         fullName = "Ari Sosnovsky";
         email = "ariel@sosnovsky.ca";
-      };
-      sumoUser = rec {
-        name = "asosnovsky";
-        fullName = user.fullName;
-        email = "${name}@sumologic.com";
-        homepath = "/Users/${name}";
-        extraGitConfigs = [{ path = "${homepath}/.config/mysumo/gitconfig"; }];
       };
       homeManagerVersion = "24.05";
       # Local Services
@@ -105,7 +96,6 @@
         specialArgs = {
           inputs = {
             inherit
-              gBar
               hyprspace
               hyprland;
           };
@@ -137,24 +127,27 @@
       );
     in
     {
+      # Dev Setups
+      # -------------
+      devShells =
+        lib.eachSystem (system:
+          let pkgs = nixpkgs.legacyPackages.${system};
+          in
+          {
+            default = pkgs.mkShell {
+              name = "nixos-setup";
+              packages = with pkgs; [
+                nixpkgs-fmt
+                nixd
+              ];
+              shellHook = ''
+                export PROMPT="<nixos-setup> "$PROMPT
+              '';
+            };
+          });
       lib = lib;
       formatter =
         lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
-
-      # MacBooks Setups
-      # -------------
-      darwinConfigurations."asosnovsky-mac" = lib.makeDarwinModule {
-        user = sumoUser // {
-          enableDevelopmentKit = true;
-        };
-        systemStateVersion = 4;
-        localNixCaches = localNixCaches;
-        system = "x86_64-darwin";
-        hostName = "asosnovsky-mac";
-        homeManagerVersion = homeManagerVersion;
-        configuration =
-          (import ./hosts/asosnovsky-mac.nix { user = sumoUser; });
-      };
 
       # None-NIXOS LINUX Setups
       # -------------
@@ -163,14 +156,8 @@
         homeManagerVersion = homeManagerVersion;
       };
 
-      homeConfigurations."cloaky" = lib.makeHomeManagerUsers {
-        user = user // { enableDevelopmentKit = true; };
-        homeManagerVersion = homeManagerVersion;
-        modules = [
-          hosts/cloaky.nix
-        ];
-      };
-
+      # NIXOS LINUX Setups
+      # -------------
       nixosConfigurations = {
         # NIXOS Framework Setups
         # -------------
