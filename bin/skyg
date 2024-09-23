@@ -6,16 +6,17 @@ set -e
 ## Folder handlings
 set -e
 ROOT_FOLDER=$(realpath $0 | xargs dirname | xargs dirname)
-pushd $ROOT_FOLDER >> /dev/null
 ## Colors
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 BOLD='\033[1m'
+BLUE_BOLD='\033[1;34m'
+YELLOW_BOLD='\033[1;33m'
 # Bootstrap
 
 MENAME=$(basename $0)
-LOCKS_FOLDER=$ROOT_FOLDER/.tmp/.locks
+LOCKS_FOLDER=/tmp/skyg/$ROOT_FOLDER/.tmp/.locks
 LOCK_FILE=$LOCKS_FOLDER/.built_via_skg
 
 mkdir -p $LOCKS_FOLDER
@@ -60,8 +61,12 @@ function run-switch() {
 function run-diff() {
     : Diff results to current system
     :
-    nvd diff /run/current-system result
-    diff --color=always -r /run/current-system result
+    echo -e "Running ${YELLOW_BOLD}nvd${NC}"
+    nvd diff /run/current-system result | sed "s/^/\t│ /"
+    echo -e "\t└──${NC}DONE ${BLUE_BOLD}nvd${NC}"
+    echo -e "Running ${YELLOW_BOLD}diff${NC}"
+    diff --color=always -r /run/current-system result | sed "s/^/\t│ /"
+    echo -e "\t└──${NC}DONE ${BLUE_BOLD}diff${NC}"
 }
 
 function run-remote-deploy() {
@@ -81,10 +86,10 @@ all_functions=$(list_run_functions)
 
 for f in ${all_functions[@]}; do
     if [ "$1" == "$f" ]; then
-        echo -e "${BLUE}$1${YELLOW}"
-        run-$1 ${@:2}
+        echo -e "Running ${BLUE_BOLD}$1${NC}"
+        run-$1 ${@:2} 2>&1 | sed "s/^/\t│ /"
         ecode=$(echo $?)
-        echo -e "${NC}DONE"
+        echo -e "\t└──${NC}DONE ${BLUE_BOLD}$1${NC}"
         exit $ecode
     fi
 done
