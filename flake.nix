@@ -141,7 +141,7 @@
                 nixd
               ];
               shellHook = ''
-                export PROMPT="<nixos-setup> "$PROMPT
+                export PS1="<nixos-setup> $PS1"
                 export PATH=$PATH:$(pwd)/bin
               '';
             };
