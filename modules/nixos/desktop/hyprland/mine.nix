@@ -22,7 +22,7 @@ in
       swappy # screenshot editor
       hyprshot # screenshots
       cliphist # clipboard manager
-      xfce.thunar # file manager
+      gnome.nautilus # file manager
       wofi # app launcher
       wl-screenrec # screen recorder
       slurp # helper selection tools

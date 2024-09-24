@@ -32,7 +32,8 @@ function run-build() {
     : Run nixos build and emits difference
     :
     unlock
-    nixos-rebuild build --flake .
+    echo "sudo nixos-rebuild build --flake ."
+    sudo nixos-rebuild build --flake .
     lock
     run-diff
 }
@@ -53,7 +54,6 @@ function run-switch() {
     fi
     
     sudo nixos-rebuild switch --flake .
-    git cap
     unlock
     
 }
@@ -62,7 +62,9 @@ function run-diff() {
     : Diff results to current system
     :
     echo -e "Running ${YELLOW_BOLD}nvd${NC}"
-    nvd diff /run/current-system result | sed "s/^/\t│ /"
+    sudo nvd diff /run/current-system result | sed "s/^/\t│ /"
+    echo "press any key to continue "
+    read
     echo -e "\t└──${NC}DONE ${BLUE_BOLD}nvd${NC}"
     echo -e "Running ${YELLOW_BOLD}diff${NC}"
     diff --color=always -r /run/current-system result | sed "s/^/\t│ /"

@@ -71,23 +71,18 @@ in
     google-cloud-sdk
     awscli
     dbeaver-bin
-    # Web
-    chromium
     # Photo Editing
     krita
     gimp-with-plugins
   ];
-  programs.firefox = {
-    enable = true;
-  };
-  programs.chromium = {
-    enable = true;
-    enablePlasmaBrowserIntegration = true;
-    extensions = [
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-      "nngceckbapebfimnlniiiahkandclblb" # bitwarden
-    ];
-  };
+  # programs.chromium = {
+  #   enable = true;
+  #   enablePlasmaBrowserIntegration = true;
+  #   extensions = [
+  #     "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+  #     "nngceckbapebfimnlniiiahkandclblb" # bitwarden
+  #   ];
+  # };
 
   # # Opengl
   hardware.opengl = {

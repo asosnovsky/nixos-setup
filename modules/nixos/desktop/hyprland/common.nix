@@ -12,6 +12,7 @@ in
       xwayland.enable = true;
       systemd.setPath.enable = true;
     };
+    xdg.portal.enable = true;
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     services.hypridle.enable = true;
     environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
