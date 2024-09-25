@@ -25,6 +25,7 @@ in
       "https://cache.nixos.org"
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
+      "https://hyprland.cachix.org"
     ] ++ cfg.urls;
     nix.settings.trusted-substituters = [
       "https://cache.flox.dev"
@@ -33,6 +34,7 @@ in
     nix.settings.trusted-public-keys = [
       "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ] ++ cfg.keys;
     nix.settings.trusted-users = [ "root" skygUser.name ];
   };
