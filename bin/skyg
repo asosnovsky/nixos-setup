@@ -65,9 +65,10 @@ function run-rollback() {
 }
 
 function run-update() {
-    : Updates a single flake
+    : Updates a single flake and runs update
     :  Usage: skyg update {name-of-input}
     nix flake lock --update-input ${1}
+    run-update
 }
 
 function run-diff() {
@@ -79,8 +80,9 @@ function run-diff() {
     read
     echo -e "\t└──${NC}DONE ${BLUE_BOLD}nvd${NC}"
     echo -e "Running ${YELLOW_BOLD}diff${NC}"
-    diff --color=always -r /run/current-system result | sed "s/^/\t│ /"
-    echo -e "\t└──${NC}DONE ${BLUE_BOLD}diff${NC}"
+    diff --color=always -r /run/current-system result > result.diff
+    cat result.diff | sed "s/^/\t│ /"
+    echo -e "\t└──${NC}DONE ${BLUE_BOLD}diff${NC} @ ${pwd}/result.diff"
 }
 
 function run-remote-deploy() {
