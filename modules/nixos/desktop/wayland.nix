@@ -13,5 +13,6 @@ in
       xdg-desktop-portal-gtk
     ];
     programs.xwayland.enable = true;
+    xdg.portal.enable = true;
   };
 }

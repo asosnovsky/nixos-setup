@@ -70,7 +70,7 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
-    dbeaver-bin
+    unstable.dbeaver-bin
     # Photo Editing
     krita
     gimp-with-plugins

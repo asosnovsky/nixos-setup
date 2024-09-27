@@ -11,6 +11,8 @@
         "Hyprland";
       useNWG = mkEnableOption
         "nwg-shell experience";
+      useDevelopmentMode = mkEnableOption
+        "use the dev mode of hyprland";
     };
   };
 }

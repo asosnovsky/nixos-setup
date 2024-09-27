@@ -1,17 +1,15 @@
 { config, lib, pkgs, ... }:
-with lib;
-
 let
   cfg = config.skyg.nixos.desktop.kde;
 in
 {
   options = {
     skyg.nixos.desktop.kde = {
-      enabled = mkEnableOption
+      enabled = lib.mkEnableOption
         "KDE";
     };
   };
-  config = mkIf cfg.enabled {
+  config = lib.mkIf cfg.enabled {
     services.desktopManager.plasma6.enable = true;
     services.desktopManager.plasma6.enableQt5Integration = true;
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
@@ -20,12 +18,12 @@ in
       kate # text editor
       gwenview # image viewer
     ];
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
     environment.systemPackages = with pkgs; [
       kdePackages.plasma-browser-integration
       kdePackages.xdg-desktop-portal-kde
       konsave # save configs
     ];
     services.desktopManager.plasma6.notoPackage = pkgs.fira-code;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
   };
 }
