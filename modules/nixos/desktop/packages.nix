@@ -32,9 +32,6 @@ in
       # development
       vscode
 
-      # web
-      brave
-
       # mail
       thunderbird
 
@@ -60,9 +57,12 @@ in
       # Video recording
       obs-studio
     ];
+    programs.firefox = {
+      enable = true;
+    };
     home-manager.users.${config.skyg.user.name}.home.shellAliases = {
       open-image = "feh";
-      open-file = "thunar";
+      open-file = "nautilus";
     };
   };
 }

@@ -17,10 +17,6 @@
       inputs.nixpkgs.follows = "unstable";
       inputs.systems.follows = "systems";
     };
-    hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      inputs.hyprland.follows = "hyprland";
-    };
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -47,7 +43,6 @@
     , unstable-home-manager
     , nix-darwin
     , hyprland
-    , hyprspace
     , nixos-cosmic
     }:
     let
@@ -96,8 +91,8 @@
         specialArgs = {
           inputs = {
             inherit
-              hyprspace
-              hyprland;
+              hyprland
+              unstable;
           };
         };
       };
@@ -141,7 +136,8 @@
                 nixd
               ];
               shellHook = ''
-                export PROMPT="<nixos-setup> "$PROMPT
+                export PS1="<nixos-setup> $PS1"
+                export PATH=$PATH:$(pwd)/bin
               '';
             };
           });

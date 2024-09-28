@@ -28,7 +28,9 @@ let
     let joinedttrs = masterAttrs // attrs;
     in
     nixpkgs.lib.nixosSystem {
-      inherit specialArgs;
+      specialArgs = specialArgs // {
+        inherit system;
+      };
       system = system;
       modules = (makeImports {
         attrs = joinedttrs;
