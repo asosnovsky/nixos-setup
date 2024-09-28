@@ -7,5 +7,6 @@
     ./ai-services.nix
     ./jellyfin.nix
     ./admin.nix
+    ./prowlarr.nix
   ];
 }
