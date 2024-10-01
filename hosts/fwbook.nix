@@ -70,6 +70,7 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
+    quickemu
     # Photo Editing
     krita
     gimp-with-plugins
