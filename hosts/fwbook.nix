@@ -27,7 +27,7 @@ in
       };
     };
   };
-  services.displayManager.defaultSession = "hyprland";
+  services.displayManager.defaultSession = "plasmax11";
   # Firmware updater
   services.fwupd.enable = true;
   services.fwupd.package = (import
@@ -52,7 +52,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   # Packages
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     # Amd GPU Support
     rocmPackages.rocm-smi
     rocmPackages.rpp
@@ -70,11 +70,12 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
-    unstable.dbeaver-bin
     # Photo Editing
     krita
     gimp-with-plugins
-  ];
+  ]) ++ (with unstable; [
+    dbeaver-bin
+  ]);
   # # Opengl
   hardware.opengl = {
     driSupport = true;
