@@ -75,15 +75,6 @@ in
     krita
     gimp-with-plugins
   ];
-  # programs.chromium = {
-  #   enable = true;
-  #   enablePlasmaBrowserIntegration = true;
-  #   extensions = [
-  #     "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-  #     "nngceckbapebfimnlniiiahkandclblb" # bitwarden
-  #   ];
-  # };
-
   # # Opengl
   hardware.opengl = {
     driSupport = true;

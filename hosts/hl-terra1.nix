@@ -40,5 +40,14 @@ in
       /mnt/Data/apps  10.0.0.0/16(rw,wdelay,insecure,no_root_squash,no_subtree_check,sec=sys,rw,insecure,no_root_squash,no_all_squash)
     '';
   };
+  # Services
+  skg.nixos.server.services.prowlarr = {
+    enable = true;
+    user = config.skyg.user.name;
+    group = "users";
+    openFirewall = true;
+    dataDir = "/mnt/Data/apps/prowlarr";
+    port = 8080;
+  };
 }
 

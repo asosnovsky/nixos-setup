@@ -1,16 +1,33 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
-  cfg = config.services.prowlarr;
+  cfg = config.skg.nixos.server.services.prowlarr;
 
 in
 {
   options = {
-    services.prowlarr = {
+    skg.nixos.server.services.prowlarr = {
+      enable = lib.mkEnableOption "Prowlarr, an indexer manager/proxy for Torrent trackers and Usenet indexers";
+
+      package = lib.mkPackageOption pkgs "prowlarr" { };
+
+      openFirewall = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Open ports in the firewall for the Prowlarr web interface.";
+      };
       dataDir = lib.mkOption {
         type = lib.types.str;
         default = "/var/lib/prowlarr";
         description = "data directory for prowlarr";
+      };
+      user = lib.mkOption {
+        type = lib.types.str;
+        default = "prowlarr";
+      };
+      group = lib.mkOption {
+        type = lib.types.str;
+        default = "prowlarr";
       };
       port = lib.mkOption {
         type = lib.types.int;
@@ -27,6 +44,9 @@ in
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
+        User = cfg.user;
+        Group = cfg.group;
+        WorkingDirectory = cfg.dataDir;
         Type = "simple";
         DynamicUser = true;
         StateDirectory = "prowlarr";
