@@ -3,7 +3,7 @@ let
   cfg = config.skyg.nixos.desktop.hyprland;
 in
 {
-  config = lib.mkIf (cfg.enabled && !cfg.useNWG) {
+  config = lib.mkIf (cfg.enable && !cfg.useNWG) {
     home-manager.users.${config.skyg.user.name}.wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;

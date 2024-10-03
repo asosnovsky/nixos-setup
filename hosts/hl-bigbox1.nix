@@ -2,15 +2,15 @@
 { pkgs, lib, config, ... }:
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
-  skyg.user.enabled = true;
-  skyg.nixos.common.ssh-server.enabled = true;
+  skyg.user.enable = true;
+  skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.server.services.ai.enable = true;
   skyg.nixos.server.services.jellyfin.enable = true;
-  skyg.nixos.desktop.kde.enabled = true;
-  skyg.nixos.desktop.enabled = true;
-	skyg.server.admin.enable = true;
-	users.users.ari.extraGroups = [ "input" ];
-	# firmware updater
+  skyg.nixos.desktop.kde.enable = true;
+  skyg.nixos.desktop.enable = true;
+  skyg.server.admin.enable = true;
+  users.users.ari.extraGroups = [ "input" ];
+  # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
   hardware.nvidia-container-toolkit.enable = true;

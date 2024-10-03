@@ -5,7 +5,7 @@ let
   cfg = config.skyg.nixos.desktop.hyprland;
 in
 {
-  config = mkIf (cfg.enabled && cfg.useNWG) {
+  config = mkIf (cfg.enable && cfg.useNWG) {
     programs.hyprlock.enable = true;
     environment.systemPackages = with pkgs; [
       # general utilities

@@ -5,11 +5,11 @@ in
 {
   options = {
     skyg.nixos.desktop.kde = {
-      enabled = lib.mkEnableOption
+      enable = lib.mkEnableOption
         "KDE";
     };
   };
-  config = lib.mkIf cfg.enabled {
+  config = lib.mkIf cfg.enable {
     services.desktopManager.plasma6.enable = true;
     services.desktopManager.plasma6.enableQt5Integration = true;
     environment.plasma6.excludePackages = with pkgs.kdePackages; [

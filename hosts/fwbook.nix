@@ -11,19 +11,20 @@ in
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
   skyg = {
-    user.enabled = true;
+    user.enable = true;
     server.admin.enable = true;
+    core.qemu.enable = true;
     nixos = {
       common.hardware.sound.enable = true;
       desktop = {
-        enabled = true;
-        kde.enabled = true;
-        cosmic.enabled = false;
+        enable = true;
+        kde.enable = true;
+        cosmic.enable = false;
         hyprland = {
-          enabled = true;
+          enable = true;
           useNWG = false;
         };
-        crypto.enabled = true;
+        crypto.enable = true;
       };
     };
   };
@@ -70,7 +71,6 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
-    quickemu
     # Photo Editing
     krita
     gimp-with-plugins

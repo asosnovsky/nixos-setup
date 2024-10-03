@@ -9,11 +9,11 @@ in
 {
   options = {
     skyg.networkDrives = {
-      enabled = mkEnableOption
+      enable = mkEnableOption
         "Network Drives";
     };
   };
-  config = mkIf cfg.enabled {
+  config = mkIf cfg.enable {
     fileSystems."/torrents" = {
       device = "tnas1.lab.internal:/mnt/EightTerra/DownloadedTorrents";
       fsType = "nfs";
