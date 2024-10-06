@@ -15,11 +15,16 @@ in
       systemPackages = with pkgs; [
         qemu
         quickemu
+        win-spice
+        spice
         spice-vdagent
         spice-autorandr
+        virt-viewer
       ];
-      services.spice-vdagentd.enable = true;
-      services.spice-autorandr.enable = true;
     };
+    services.spice-vdagentd.enable = true;
+    services.spice-autorandr.enable = true;
+    services.spice-webdavd.enable = true;
+    virtualisation.spiceUSBRedirection.enable = true;
   };
 }
