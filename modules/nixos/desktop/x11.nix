@@ -9,6 +9,7 @@ in
       xkb.layout = "us";
       xkb.variant = "";
     };
+    users.users.${config.skyg.user.name}.extraGroups = [ "input" ];
     environment.systemPackages = with pkgs; [
       # These are used to handle touchpad gestures
       libinput-gestures
