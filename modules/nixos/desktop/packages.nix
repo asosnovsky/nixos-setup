@@ -21,7 +21,7 @@ in
       xclip
 
       # socials
-      slack
+      #slack
       zoom-us
       betterdiscordctl
       discord
