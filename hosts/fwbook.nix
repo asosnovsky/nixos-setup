@@ -22,13 +22,18 @@ in
       desktop = {
         enable = true;
         kde.enable = true;
-        cosmic.enable = false;
+        cosmic.enable = true;
         hyprland = {
           enable = false;
           useNWG = false;
         };
         crypto.enable = true;
       };
+    };
+    server.arrs = {
+      enable = false;
+      rootDataDir = "/mnt/terra1/Data/apps/arrs";
+      prowlarr.enable = true;
     };
   };
   services.displayManager.defaultSession = "plasmax11";
@@ -76,6 +81,8 @@ in
     # Photo Editing
     krita
     gimp-with-plugins
+    # Util
+    libusb1
     # Web
     chromium
   ]) ++ (with unstable; [

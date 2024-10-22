@@ -2,16 +2,13 @@
 let
   cfg = config.skyg.server.arrs;
   dbPort = 5432;
+  rootDataDir = "/var/lib/arrs";
   makeConfig = { port, name, uid, gid }: {
     enable = lib.mkEnableOption "Enable ${name}";
 
     package = lib.mkPackageOption pkgs name { };
+    openFirewall = lib.mkEnableOption "Open port for ${name}";
 
-    dataDir = lib.mkOption {
-      type = lib.types.str;
-      default = "/var/lib/arrs/${name}";
-      description = "data directory for ${name}";
-    };
     user = lib.mkOption {
       type = lib.types.str;
       default = name;
@@ -21,11 +18,11 @@ let
       default = name;
     };
     uid = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.number;
       default = uid;
     };
     gid = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.number;
       default = gid;
     };
     port = lib.mkOption {
@@ -46,16 +43,15 @@ in
         "Enable Arr Stack Store";
       openFirewall = lib.mkEnableOption
         "Open Firewall ports for services";
+      rootDataDir = lib.mkOption {
+        type = lib.types.str;
+        default = rootDataDir;
+      };
     };
     skyg.server.arrs.database = {
       port = lib.mkOption {
         type = lib.types.int;
         default = dbPort;
-      };
-      dataDir = lib.mkOption {
-        description = "Data folder for db";
-        type = lib.types.str;
-        default = "/var/lib/postgresql/arrs";
       };
     };
     skyg.server.arrs.prowlarr = makeConfig {

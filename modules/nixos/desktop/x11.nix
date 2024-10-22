@@ -17,10 +17,7 @@ in
       xdotool
     ];
     system.userActivationScripts.hyprlandMineConfig.text = ''
-      rm -f "$HOME/.config/libinput-gestures.conf"
-      if [[ ! -h "$HOME/.config/libinput-gestures.conf" ]]; then
-        ln -s "/home/${config.skyg.user.name}/nixos-setup/configs/libinput-gestures.conf" "$HOME/.config/libinput-gestures.conf"
-      fi
+      ln -sfn "/home/${config.skyg.user.name}/nixos-setup/configs/libinput-gestures.conf" "$HOME/.config/libinput-gestures.conf"
     '';
   };
 }

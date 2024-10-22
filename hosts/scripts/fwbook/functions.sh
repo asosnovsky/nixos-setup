@@ -11,3 +11,7 @@ function restart-wifi {
 function start-windows() {
     quickemu --vm /mnt/Data/vms/windows-11.conf --display spice --viewer remote-viewer
 }
+
+# function clean-file() {
+#     ${@} | grep -v '^\s*#'  | grep -v '^$'
+# }
