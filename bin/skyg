@@ -45,10 +45,10 @@ function run-switch() {
             exit 1
         fi
     fi
-    
+
     sudo nixos-rebuild switch --flake .
     unlock
-    
+
 }
 
 function run-rollback() {
@@ -60,7 +60,10 @@ function run-rollback() {
 function run-update() {
     : Updates a single flake and runs update
     :  Usage: skyg update {name-of-input}
-    nix flake lock --update-input ${1}
+    echo "updating ${1}"
+		cmd="nix flake lock --update-input ${1}"
+		echo $cmd
+		$cmd
     run-update
 }
 
@@ -91,16 +94,16 @@ function run-build-all() {
     : Builds all remote and local configurations
     :  Usage: skyg build-all
     mkdir -p results
-    
+
     nix flake show --json | jq -r -c '.nixosConfigurations | keys[]' | while read i; do
         echo "[[SKYG]] Building current $i"
         sudo nixos-rebuild build --flake .#$i
         rm -f results/$i-result
         mv result results/$i-result
     done
-    
+
     nix flake update
-    
+
     rm -f diffs
     mkdir diffs
     nix flake show --json | jq -r -c '.nixosConfigurations | keys[]' | while read i; do
@@ -110,7 +113,7 @@ function run-build-all() {
         mv result results/$i-result-post
         nvd diff results/$i-result results/$i-result-post > diffs/$i
     done
-    
+
 }
 
 

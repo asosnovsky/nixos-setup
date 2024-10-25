@@ -10,7 +10,8 @@ in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
-  skyg = {
+  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+	skyg = {
     user.enable = true;
     server.admin.enable = true;
     core.qemu.enable = true;
@@ -78,6 +79,7 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
+    google-chrome
     # Photo Editing
     krita
     gimp-with-plugins
