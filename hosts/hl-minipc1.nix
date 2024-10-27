@@ -1,5 +1,5 @@
-{ user }:
-{ pkgs, lib, config, ... }:
+{}:
+{ ... }:
 let
   openPorts = [
     5000

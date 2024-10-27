@@ -1,5 +1,5 @@
-{ user }:
-{ pkgs, lib, config, ... }:
+{}:
+{ pkgs, config, ... }:
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg.user.enable = true;
