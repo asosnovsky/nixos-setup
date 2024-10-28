@@ -35,9 +35,9 @@ else
 fi
 
 function run {
-    cmd=${1}
-    echo -e "$BOLD$cmd$NC on $YELLOW$target_host with $profile through $build_host$NC"
-    runcmd="nixos-rebuild --target-host $target_host --use-remote-sudo $cmd --flake .#$profile"
+    remote_cmd=${1}
+    echo -e "$BOLD$remote_cmd$NC on $YELLOW$target_host with $profile through $build_host$NC"
+    runcmd="nixos-rebuild --target-host $target_host --use-remote-sudo $remote_cmd --flake .#$profile"
     echo -e "$BLUE$runcmd$NC"
     $runcmd 
 }

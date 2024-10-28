@@ -32,5 +32,10 @@
       };
     };
   };
+  # K8s
+  skyg.nixos.server.k8s = {
+    enable = true;
+    isMaster = false;
+  };
 }
 

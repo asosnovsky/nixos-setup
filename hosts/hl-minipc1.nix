@@ -52,5 +52,10 @@ in
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
+  # K8s
+  skyg.nixos.server.k8s = {
+    enable = true;
+    isMaster = true;
+  };
 }
 
