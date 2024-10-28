@@ -11,5 +11,7 @@ in
         advertiseAddress = cfg.masterIP;
       };
     };
+    networking.firewall.allowedUDPPorts = [ cfg.masterAPIPort ];
+    networking.firewall.allowedTCPPorts = [ cfg.masterAPIPort ];
   };
 }
