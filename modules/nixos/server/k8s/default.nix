@@ -3,7 +3,7 @@ let
   cfg = config.skyg.nixos.server.k8s;
 in
 {
-  import = [
+  imports = [
     ./master.nix
     ./node.nix
   ];

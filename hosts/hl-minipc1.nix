@@ -1,4 +1,4 @@
-{}:
+{ user }:
 { ... }:
 let
   openPorts = [
