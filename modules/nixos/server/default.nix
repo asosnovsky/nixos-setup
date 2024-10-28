@@ -8,5 +8,6 @@
     ./jellyfin.nix
     ./admin.nix
     ./arrs
+    ./k8s
   ];
 }
