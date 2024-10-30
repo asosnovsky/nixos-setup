@@ -5,13 +5,11 @@ in
 {
   config = lib.mkIf (cfg.enable && cfg.isMaster) {
     services.kubernetes = {
-      roles = [ "master" "node" ];
+      roles = [ "master" ];
       apiserver = {
         securePort = cfg.masterAPIPort;
         advertiseAddress = cfg.masterIP;
       };
     };
-    networking.firewall.allowedUDPPorts = [ cfg.masterAPIPort ];
-    networking.firewall.allowedTCPPorts = [ cfg.masterAPIPort ];
   };
 }

@@ -53,9 +53,10 @@ in
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
   # K8s
+  services.kubernetes.kubelet.hostname = "minipc1.lab.internal";
   skyg.nixos.server.k8s = {
     enable = true;
-    isMaster = true;
+    isMaster = false;
   };
 }
 
