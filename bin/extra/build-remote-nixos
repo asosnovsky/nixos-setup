@@ -1,11 +1,17 @@
 #!/bin/sh
+# Bootstrap
+set -e
+ROOT_FOLDER=$(realpath $0 | xargs dirname)
+. $ROOT_FOLDER/common.sh
+# Bootstrap
+
 export NIX_SSHOPTS="-o RequestTTY=force"
 
 target=${1}
 target_host=root@$target.lab.internal
 profile=hl-$target
 
-valid_profiles=$(nix flake show --json | jq -r -c '.nixosConfigurations | keys[]' | grep "hl")
+valid_profiles=$(nix flake show --json 2> /dev/null | jq -r -c '.nixosConfigurations | keys[]' | grep "hl")
 
 function print_valid_targets {
     echo "valid targets:"
@@ -29,28 +35,16 @@ else
 fi
 
 function run {
-    cmd=${1}
-    echo "$cmd on $target_host with $profile through $build_host"
-    nixos-rebuild \
-    --target-host $target_host \
-    --use-remote-sudo \
-    $cmd \
-    --flake \
-    .#$profile
+    remote_cmd=${1}
+    echo -e "$BOLD$remote_cmd$NC on $YELLOW$target_host with $profile through $build_host$NC"
+    runcmd="nixos-rebuild --target-host $target_host --use-remote-sudo $remote_cmd --flake .#$profile"
+    echo -e "$BLUE$runcmd$NC"
+    $runcmd 
 }
-
-valid_cmds=( build switch test dry-activate )
 
 cmd=${2}
 case $cmd in
-    "test" | "dry-activate" | "run" | "switch") run $cmd;;
-    "build") 
-        output=$(run $cmd)
-        echo $output
-        echo "_"
-        echo $output | grep "nixos"
-        echo "_"
-        ;;
+    "test" | "dry-activate" | "run" | "switch" | "build") run $cmd;;
     *) 
         echo "invalid command"
         exit 1

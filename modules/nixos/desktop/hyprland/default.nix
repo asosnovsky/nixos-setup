@@ -7,7 +7,7 @@
   ];
   options = {
     skyg.nixos.desktop.hyprland = with lib; {
-      enabled = mkEnableOption
+      enable = mkEnableOption
         "Hyprland";
       useNWG = mkEnableOption
         "nwg-shell experience";

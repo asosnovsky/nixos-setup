@@ -7,11 +7,11 @@ in
 {
   options = {
     skyg.nixos.desktop.crypto = {
-      enabled = mkEnableOption
+      enable = mkEnableOption
         "Enable crypto wallets";
     };
   };
-  config = mkIf cfg.enabled {
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       trezor-suite
       trezord

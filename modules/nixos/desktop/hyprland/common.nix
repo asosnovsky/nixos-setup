@@ -10,7 +10,7 @@ in
         else pkgs
       ;
     in
-    lib.mkIf cfg.enabled {
+    lib.mkIf cfg.enable {
       programs.hyprland = {
         enable = true;
         package = hyprpkgs.hyprland;

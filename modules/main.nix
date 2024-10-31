@@ -22,8 +22,12 @@
   skyg.core.hostName = hostName;
   skyg.home-manager.version = homeManagerVersion;
   skyg.core.substituters = localNixCaches;
-  skyg.networkDrives.enabled = enableNetworkDrives;
+  skyg.networkDrives.enable = enableNetworkDrives;
   skyg.nixos.common.containers = (if os.enable then os.containers else { });
+  skyg.nixos.server.k8s = {
+    masterIP = "10.0.10.8";
+    masterHostName = "terra1.lab.internal";
+  };
   system.stateVersion = systemStateVersion;
   nixpkgs.config.allowUnfree = true;
   nix = {

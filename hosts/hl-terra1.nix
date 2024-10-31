@@ -15,8 +15,8 @@ let
 in
 {
   imports = [ ./hl-terra1.hardware-configuration.nix ];
-  skyg.user.enabled = true;
-  skyg.nixos.common.ssh-server.enabled = true;
+  skyg.user.enable = true;
+  skyg.nixos.common.ssh-server.enable = true;
   skyg.server.admin.enable = true;
   # firmware updater
   services.fwupd.enable = true;
@@ -39,6 +39,12 @@ in
     exports = ''
       /mnt/Data/apps  10.0.0.0/16(rw,wdelay,insecure,no_root_squash,no_subtree_check,sec=sys,rw,insecure,no_root_squash,no_all_squash)
     '';
+  };
+  # K8s
+  services.kubernetes.kubelet.hostname = "terra1.lab.internal";
+  skyg.nixos.server.k8s = {
+    enable = true;
+    isMaster = true;
   };
 }
 

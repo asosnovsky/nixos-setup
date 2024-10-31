@@ -10,24 +10,34 @@ in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
-  skyg = {
-    user.enabled = true;
+  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+	skyg = {
+    user.enable = true;
     server.admin.enable = true;
+    core.qemu.enable = true;
     nixos = {
-      common.hardware.sound.enable = true;
+      common.hardware = {
+        sound.enable = true;
+        laptop-power-mgr.enable = true;
+      };
       desktop = {
-        enabled = true;
-        kde.enabled = true;
-        cosmic.enabled = false;
+        enable = true;
+        kde.enable = true;
+        cosmic.enable = true;
         hyprland = {
-          enabled = true;
+          enable = false;
           useNWG = false;
         };
-        crypto.enabled = true;
+        crypto.enable = true;
       };
     };
+    server.arrs = {
+      enable = false;
+      rootDataDir = "/mnt/terra1/Data/apps/arrs";
+      prowlarr.enable = true;
+    };
   };
-  services.displayManager.defaultSession = "hyprland";
+  services.displayManager.defaultSession = "plasmax11";
   # Firmware updater
   services.fwupd.enable = true;
   services.fwupd.package = (import
@@ -46,13 +56,12 @@ in
   hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  # services.blueman.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   # Packages
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     # Amd GPU Support
     rocmPackages.rocm-smi
     rocmPackages.rpp
@@ -70,20 +79,17 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
-    unstable.dbeaver-bin
+    google-chrome
     # Photo Editing
     krita
     gimp-with-plugins
-  ];
-  # programs.chromium = {
-  #   enable = true;
-  #   enablePlasmaBrowserIntegration = true;
-  #   extensions = [
-  #     "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-  #     "nngceckbapebfimnlniiiahkandclblb" # bitwarden
-  #   ];
-  # };
-
+    # Util
+    libusb1
+    # Web
+    chromium
+  ]) ++ (with unstable; [
+    dbeaver-bin
+  ]);
   # # Opengl
   hardware.opengl = {
     driSupport = true;
@@ -95,6 +101,16 @@ in
   programs.steam = {
     enable = true;
     extest.enable = true;
+  };
+  # Chrome
+  programs.chromium = {
+    enable = true;
+    enablePlasmaBrowserIntegration = true;
+    extensions = [
+      "nngceckbapebfimnlniiiahkandclblb" # bitwarden
+      "gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+    ];
   };
   # Ollama
   services.ollama = {
@@ -116,67 +132,27 @@ in
     source ${zshFunctions}
   '';
   environment.localBinInPath = true;
-  # Advance Power Management
-  powerManagement.powertop.enable = true;
-  powerManagement.enable = true;
-  services.thermald.enable = true;
-  services.power-profiles-daemon.enable = false;
-  services.tlp = {
-    enable = true;
-    settings = {
-      TLP_DEFAULT_MODE = "BAT";
-      TLP_PERSISTENT_DEFAULT = 1;
-
-      CPU_BOOST_ON_BAT = 0;
-      RUNTIME_PM_ON_BAT = "auto";
-      PLATFORM_PROFILE_ON_AC = "balanced";
-      PLATFORM_PROFILE_ON_BAT = "low-power";
-
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 20;
-
-      START_CHARGE_THRESH_BAT0 = 40; # and bellow it starts to charge
-      STOP_CHARGE_THRESH_BAT0 = 97; # and above it stops charging
-    };
-  };
-  services.auto-cpufreq.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "powersave";
-      turbo = "never";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-  };
-  # Logind
-  services.logind = {
-    lidSwitchExternalPower = "suspend-then-hibernate";
-    lidSwitch = "suspend-then-hibernate";
-    powerKey = "lock";
-    extraConfig = ''
-      LidSwitchIgnoreInhibited=yes
-      HandlePowerKey=suspend-then-hibernate
-      IdleAction=suspend-then-hibernate
-      IdleActionSec=2m
-    '';
-  };
-  systemd.sleep.extraConfig = "HibernateDelaySec=30m";
   # Family Storage
   fileSystems."/mnt/EightTerra/FamilyStorage" = {
     device = "tnas1.lab.internal:/mnt/EightTerra/FamilyStorage";
     fsType = "nfs";
     options = [ "x-systemd.automount" "noauto" ];
   };
+  # Remote Builder
+  nix.buildMachines = [{
+    hostName = "root@bigbox1.lab.internal";
+    system = "x86_64-linux";
+    protocol = "ssh-ng";
+    maxJobs = 1;
+    speedFactor = 2;
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    mandatoryFeatures = [ ];
+  }];
+  nix.distributedBuilds = true;
+  # optional, useful when the builder has a faster internet connection than yours
+  nix.extraOptions = ''
+    	  builders-use-substitutes = true
+    	'';
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;

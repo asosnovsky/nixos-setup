@@ -14,7 +14,7 @@ in
       default = [ ];
     };
     skyg.user = {
-      enabled = mkEnableOption "";
+      enable = mkEnableOption "";
       name = mkOption {
         type = types.str;
       };
@@ -45,7 +45,7 @@ in
         stateVersion = cfg.home-manager.version;
       });
     in
-    mkIf cfg.user.enabled
+    mkIf cfg.user.enable
       {
         programs.zsh.enable = true;
         home-manager.users.root =

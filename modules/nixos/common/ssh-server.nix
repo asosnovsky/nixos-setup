@@ -7,7 +7,7 @@ in
 {
   options = {
     skyg.nixos.common.ssh-server = {
-      enabled = mkEnableOption
+      enable = mkEnableOption
         "enable ssh server";
       masterPubKey = mkOption {
         type = types.str;
@@ -15,7 +15,7 @@ in
       };
     };
   };
-  config = mkIf cfg.enabled {
+  config = mkIf cfg.enable {
     services.openssh = {
       enable = true;
       openFirewall = true;

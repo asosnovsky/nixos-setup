@@ -1,5 +1,5 @@
 { user }:
-{ pkgs, lib, config, ... }:
+{ ... }:
 let
   openPorts = [
     5000
@@ -10,8 +10,8 @@ let
 in
 {
   imports = [ ./hl-minipc1.hardware-configuration.nix ];
-  skyg.user.enabled = true;
-  skyg.nixos.common.ssh-server.enabled = true;
+  skyg.user.enable = true;
+  skyg.nixos.common.ssh-server.enable = true;
   skyg.server.admin.enable = true;
 
   # Nix Stores
@@ -52,5 +52,11 @@ in
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
+  # K8s
+  services.kubernetes.kubelet.hostname = "minipc1.lab.internal";
+  skyg.nixos.server.k8s = {
+    enable = true;
+    isMaster = false;
+  };
 }
 

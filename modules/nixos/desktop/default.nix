@@ -15,11 +15,11 @@ in
 
   options = {
     skyg.nixos.desktop = {
-      enabled = lib.mkEnableOption
+      enable = lib.mkEnableOption
         "Enable Desktop";
     };
   };
-  config = lib.mkIf cfg.desktop.enabled {
+  config = lib.mkIf cfg.desktop.enable {
     services.displayManager.sddm.enable = false;
     services.displayManager.sddm.wayland.enable = false;
     services.xserver.displayManager.gdm.enable = true;

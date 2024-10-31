@@ -3,7 +3,7 @@ let
   cfg = config.skyg.nixos.desktop;
 in
 {
-  config = lib.mkIf cfg.enabled {
+  config = lib.mkIf cfg.enable {
     # Flatpak
     services.flatpak.enable = true;
     # Mobile Connect
@@ -21,7 +21,7 @@ in
       xclip
 
       # socials
-      slack
+      #slack
       zoom-us
       betterdiscordctl
       discord
