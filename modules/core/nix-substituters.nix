@@ -26,15 +26,18 @@ in
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
       "https://hyprland.cachix.org"
+			"https://cuda-maintainers.cachix.org"
     ] ++ cfg.urls;
     nix.settings.trusted-substituters = [
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
+			"https://cuda-maintainers.cachix.org"
     ] ++ cfg.urls;
     nix.settings.trusted-public-keys = [
       "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+			"cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
     ] ++ cfg.keys;
     nix.settings.trusted-users = [ "root" skygUser.name ];
   };

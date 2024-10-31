@@ -7,7 +7,7 @@
   skyg.nixos.server.services.ai.enable = true;
   skyg.nixos.server.services.jellyfin.enable = true;
   skyg.nixos.desktop.kde.enabled = true;
-  skyg.nixos.desktop.enabled = true;
+  skyg.nixos.desktop.enabled = false;
 	skyg.server.admin.enable = true;
 	users.users.ari.extraGroups = [ "input" ];
 	# firmware updater
@@ -22,12 +22,12 @@
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.enable = true;
-  services.openssh.settings.X11Forwarding = true;
-  services.xserver.displayManager.gdm.autoLogin.delay = 0;
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = config.skyg.user.name;
-  };
+  #services.openssh.settings.X11Forwarding = true;
+  #services.xserver.displayManager.gdm.autoLogin.delay = 0;
+  #services.displayManager.autoLogin = {
+  #  enable = true;
+  #  user = config.skyg.user.name;
+  #};
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
   #hardware.opengl.enable = true;
@@ -64,5 +64,8 @@
     steam-run
     steamPackages.steamcmd
     ollama
+pkgs.jellyfin
+    pkgs.jellyfin-web
+    pkgs.jellyfin-ffmpeg
   ];
 }
