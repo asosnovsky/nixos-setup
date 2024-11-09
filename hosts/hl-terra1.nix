@@ -11,6 +11,8 @@ let
     20048
     # ssh
     22
+    # prometheus
+    9090
   ];
 in
 {
