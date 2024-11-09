@@ -6,5 +6,6 @@
     ./admin.nix
     ./arrs
     ./k8s
+    ./services
   ];
 }

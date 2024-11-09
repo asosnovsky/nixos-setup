@@ -16,6 +16,12 @@
   # Services
   skyg.nixos.server.services = {
     scrypted.enable = true;
+    dockge = {
+      enable = true;
+      openFirewall = true;
+      stacksDir = " /mnt/terra1/Data/apps/arrs/dockge/stacks";
+      dataaDir = " /mnt/terra1/Data/apps/arrs/dockge/data";
+    };
   };
 }
 
