@@ -13,6 +13,8 @@ in
         "Enable K8s";
       isMaster = lib.mkEnableOption
         "Enable as master";
+      isNode = lib.mkEnableOption
+        "Enable as node";
       masterIP = lib.mkOption {
         type = lib.types.str;
       };
@@ -33,7 +35,6 @@ in
         10250 # kubelet api
         10259 # kubelet scheduler
         10257 # kubelet controller
-        8888 # no idea what this is
       ];
       portRanges = [
         { from = 2379; to = 2380; } # etcd

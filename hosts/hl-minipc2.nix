@@ -36,7 +36,7 @@
   services.kubernetes.kubelet.hostname = "minipc2.lab.internal";
   skyg.nixos.server.k8s = {
     enable = true;
-    isMaster = false;
+    isNode = true;
   };
 }
 

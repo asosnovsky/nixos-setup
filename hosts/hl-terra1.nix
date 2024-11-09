@@ -1,5 +1,5 @@
 { user }:
-{ pkgs, lib, config, ... }:
+{ pkgs, ... }:
 let
   openPorts = [
     # nfs
@@ -39,12 +39,6 @@ in
     exports = ''
       /mnt/Data/apps  10.0.0.0/16(rw,wdelay,insecure,no_root_squash,no_subtree_check,sec=sys,rw,insecure,no_root_squash,no_all_squash)
     '';
-  };
-  # K8s
-  services.kubernetes.kubelet.hostname = "terra1.lab.internal";
-  skyg.nixos.server.k8s = {
-    enable = true;
-    isMaster = true;
   };
 }
 

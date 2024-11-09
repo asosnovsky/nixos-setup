@@ -52,6 +52,7 @@ in
             htop
             nnn
             thefuck
+            fastfetch
           ]
           ++ (if enableDevelopmentKit then [
             devenv
