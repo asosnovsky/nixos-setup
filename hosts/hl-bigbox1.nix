@@ -1,5 +1,4 @@
-{ user }:
-{}:
+{ ... }:
 { pkgs, config, ... }:
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
@@ -7,8 +6,7 @@
   skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.server.services.ai.enable = true;
   skyg.nixos.server.services.jellyfin.enable = true;
-  skyg.nixos.desktop.kde.enabled = true;
-  skyg.nixos.desktop.enabled = false;
+  skyg.nixos.desktop.enable = false;
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
   skyg.nixos.common.containers.openMetricsPort = true;

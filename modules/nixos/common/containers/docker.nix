@@ -12,7 +12,7 @@ in
       liveRestore = false;
       daemon.settings = {
         insecure-registries = cfg.localDockerRegistries;
-        metrics-addr = "127.0.0.1:${toString cfg.metricsPort}";
+        metrics-addr = "0.0.0.0:${toString cfg.metricsPort}";
       };
     };
     environment.systemPackages = with pkgs; [ docker-compose ];
