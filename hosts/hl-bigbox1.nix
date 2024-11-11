@@ -1,4 +1,4 @@
-{}:
+{ user }:
 { pkgs, config, ... }:
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
@@ -8,9 +8,12 @@
   skyg.nixos.server.services.jellyfin.enable = true;
   skyg.nixos.desktop.kde.enabled = true;
   skyg.nixos.desktop.enabled = false;
-	skyg.server.admin.enable = true;
-	users.users.ari.extraGroups = [ "input" ];
-	# firmware updater
+  skyg.server.admin.enable = true;
+  skyg.server.exporters.enable = true;
+  skyg.nixos.common.containers.openMetricsPort = true;
+
+  users.users.ari.extraGroups = [ "input" ];
+  # firmware updater
   services.fwupd.enable = true;
   virtualisation.docker.enableNvidia = true;
   hardware.nvidia-container-toolkit.enable = true;
@@ -64,8 +67,8 @@
     steam-run
     steamPackages.steamcmd
     ollama
-pkgs.jellyfin
-    pkgs.jellyfin-web
-    pkgs.jellyfin-ffmpeg
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
   ];
 }

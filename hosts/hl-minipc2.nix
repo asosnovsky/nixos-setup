@@ -4,6 +4,9 @@
   imports = [ ./hl-minipc2.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
+  skyg.server.exporters.enable = true;
+  skyg.nixos.common.containers.openMetricsPort = true;
+
   # firmware updater
   services.fwupd.enable = true;
   # Bootloader.

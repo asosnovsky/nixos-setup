@@ -13,6 +13,8 @@ in
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
   skyg.server.admin.enable = true;
+  skyg.server.exporters.enable = true;
+  skyg.nixos.common.containers.openMetricsPort = true;
 
   # Nix Stores
   services.nix-serve = {
@@ -52,12 +54,5 @@ in
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
-  # K8s
-  services.kubernetes.kubelet.hostname = "minipc1.lab.internal";
-  skyg.nixos.server.k8s = {
-    enable = true;
-    isMaster = true;
-    isNode = true;
-  };
 }
 

@@ -1,14 +1,13 @@
 { config, lib, ... }:
-with lib;
 let cfg = config.skyg.server.exporters;
 in {
   options = {
     skyg.server.exporters = {
-      enable = mkEnableOption
+      enable = lib.mkEnableOption
         "Enable Special prom exporters for servers";
     };
   };
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.prometheus.exporters = {
       node = {
         enable = true;

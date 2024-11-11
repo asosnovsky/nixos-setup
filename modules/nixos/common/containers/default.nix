@@ -1,7 +1,5 @@
 { lib, ... }:
 
-with lib;
-
 {
   imports = [
     ./docker.nix
@@ -9,18 +7,23 @@ with lib;
   ];
   options = {
     skyg.nixos.common.containers = {
-      runtime = mkOption {
+      runtime = lib.mkOption {
         description = "Docker vs podman";
-        type = types.str;
+        type = lib.types.str;
         default = "docker";
       };
-      enableOnBoot = mkOption {
-        type = types.bool;
+      enableOnBoot = lib.mkOption {
+        type = lib.types.bool;
         default = false;
       };
-      localDockerRegistries = mkOption {
-        type = types.listOf types.str;
+      localDockerRegistries = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
       };
+      metricsPort = lib.mkOption {
+        type = lib.types.number;
+        default = 9323;
+      };
+      openMetricsPort = lib.mkEnableOption "Open container metrics port";
     };
   };
 }

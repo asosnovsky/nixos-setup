@@ -1,16 +1,13 @@
 { config, lib, ... }:
-
-with lib;
-
 let
   cfg = config.skyg.core;
 in
 {
   options = {
     skyg.core = {
-      hostName = mkOption {
+      hostName = lib.mkOption {
         description = "Machine Hostname";
-        type = types.str;
+        type = lib.types.str;
       };
     };
   };

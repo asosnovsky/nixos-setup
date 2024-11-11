@@ -129,7 +129,7 @@ all_functions=$(list_run_functions)
 for f in ${all_functions[@]}; do
     if [ "$1" == "$f" ]; then
         echo -e "Running ${BLUE_BOLD}$1${NC}"
-        run-$1 ${@:2} 2>&1 | sed "s/^/\t│ /"
+        run-$1 ${@:2}
         ecode=$(echo $?)
         echo -e "\t└──${NC}DONE ${BLUE_BOLD}$1${NC}"
         exit $ecode
