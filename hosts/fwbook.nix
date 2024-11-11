@@ -11,7 +11,7 @@ in
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-	skyg = {
+  skyg = {
     user.enable = true;
     server.admin.enable = true;
     core.qemu.enable = true;
@@ -34,7 +34,7 @@ in
     server.arrs = {
       enable = false;
       rootDataDir = "/mnt/terra1/Data/apps/arrs";
-      prowlarr.enable = true;
+      prowlarr.enable = false;
     };
   };
   services.displayManager.defaultSession = "plasmax11";
@@ -76,6 +76,7 @@ in
     # skype
     skypeforlinux
     # Work
+    postgresql
     dvc-with-remotes
     google-cloud-sdk
     awscli

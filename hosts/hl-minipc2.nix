@@ -1,5 +1,6 @@
 { user }:
-{ ... }: {
+{ ... }:
+{
   imports = [ ./hl-minipc2.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
@@ -19,8 +20,8 @@
     dockge = {
       enable = true;
       openFirewall = true;
-      stacksDir = " /mnt/terra1/Data/apps/arrs/dockge/stacks";
-      dataaDir = " /mnt/terra1/Data/apps/arrs/dockge/data";
+      stacksDir = "/mnt/terra1/Data/apps/arrs/dockge/stacks";
+      dataDir = "/mnt/terra1/Data/apps/arrs/dockge/data";
     };
   };
 }

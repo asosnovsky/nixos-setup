@@ -36,14 +36,17 @@ in
 
   config = lib.mkIf cfg.enable {
     networking.firewall =
-      lib.mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.port ]; };
+      lib.mkIf cfg.openFirewall {
+        allowedTCPPorts = [ cfg.port ];
+        allowedUDPPorts = [ cfg.port ];
+      };
     virtualisation.oci-containers = {
       containers = {
         dockge = {
           autoStart = true;
           image = "louislam/dockge:1";
           ports = [
-            "${cfg.port}:5001"
+            "${toString cfg.port}:5001"
           ];
           volumes = [
             "/var/run/docker.sock:/var/run/docker.sock"
