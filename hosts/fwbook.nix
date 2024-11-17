@@ -31,11 +31,6 @@ in
         crypto.enable = true;
       };
     };
-    server.arrs = {
-      enable = false;
-      rootDataDir = "/mnt/terra1/Data/apps/arrs";
-      prowlarr.enable = false;
-    };
   };
   services.displayManager.defaultSession = "plasmax11";
   # Firmware updater

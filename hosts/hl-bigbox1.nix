@@ -2,14 +2,20 @@
 { pkgs, config, ... }:
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
-  skyg.user.enable = true;
-  skyg.nixos.common.ssh-server.enable = true;
-  skyg.nixos.server.services.ai.enable = true;
-  skyg.nixos.server.services.jellyfin.enable = true;
-  skyg.nixos.desktop.enable = false;
-  skyg.server.admin.enable = true;
-  skyg.server.exporters.enable = true;
-  skyg.nixos.common.containers.openMetricsPort = true;
+  skyg = {
+    user.enable = true;
+    nixos = {
+      common.ssh-server.enable = true;
+      common.containers.openMetricsPort = true;
+      desktop.enable = false;
+      server.services = {
+        ai.enable = true;
+        jellyfin.enable = true;
+      };
+      server.admin.enable = true;
+      server.exporters.enable = true;
+    };
+  };
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater
   services.fwupd.enable = true;
@@ -22,7 +28,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.enable = true;
+  services.xserver.enable = false;
   #services.openssh.settings.X11Forwarding = true;
   #services.xserver.displayManager.gdm.autoLogin.delay = 0;
   #services.displayManager.autoLogin = {
