@@ -18,7 +18,6 @@
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater
   services.fwupd.enable = true;
-  virtualisation.docker.enableNvidia = true;
   hardware.nvidia-container-toolkit.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
