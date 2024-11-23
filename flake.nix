@@ -17,6 +17,8 @@
       inputs.nixpkgs.follows = "unstable";
       inputs.systems.follows = "systems";
     };
+    # Flatpak
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -44,6 +46,7 @@
     , nix-darwin
     , hyprland
     , nixos-cosmic
+    , nix-flatpak
     }:
     let
       user = {
@@ -87,6 +90,7 @@
           hlCommonSettings
           systems
           nixos-cosmic
+          nix-flatpak
           ;
         specialArgs = {
           inputs = {

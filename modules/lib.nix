@@ -4,6 +4,7 @@
 , systems
 , hlCommonSettings
 , nixos-cosmic
+, nix-flatpak
 , specialArgs
 }:
 let
@@ -43,6 +44,7 @@ let
           }
           nixos-cosmic.nixosModules.default
           home-manager.nixosModules.default
+          nix-flatpak.nixosModules.nix-flatpak
         ];
       });
     };

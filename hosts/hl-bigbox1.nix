@@ -4,16 +4,15 @@
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg = {
     user.enable = true;
+    server.admin.enable = true;
+    server.exporters.enable = true;
     nixos = {
       common.ssh-server.enable = true;
       common.containers.openMetricsPort = true;
-      desktop.enable = false;
       server.services = {
         ai.enable = true;
         jellyfin.enable = true;
       };
-      server.admin.enable = true;
-      server.exporters.enable = true;
     };
   };
   users.users.ari.extraGroups = [ "input" ];
@@ -26,15 +25,15 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Wake on Lan
+  networking.interfaces.enp4s0.wakeOnLan.enable = true;
+  networking.interfaces.lo.wakeOnLan.enable = true;
+  networking.interfaces.tailscale0.wakeOnLan.enable = true;
+  # Suspend
+  services.autosuspend.enable = false;
+  services.xserver.displayManager.gdm.autoSuspend = false;
   # Nvidia Settings
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.enable = false;
-  #services.openssh.settings.X11Forwarding = true;
-  #services.xserver.displayManager.gdm.autoLogin.delay = 0;
-  #services.displayManager.autoLogin = {
-  #  enable = true;
-  #  user = config.skyg.user.name;
-  #};
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
   #hardware.opengl.enable = true;
@@ -46,30 +45,10 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  # Steam Settings
-  users.users.steam = {
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    description = "Steam User";
-    extraGroups = [ "wheel" "input" ];
-  };
-  # Sunshine Service
-  services.sunshine = {
-    enable = true;
-    autoStart = true;
-    capSysAdmin = true;
-    openFirewall = true;
-  };
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-  };
   environment.systemPackages = with pkgs; [
-    steam-tui
-    steam-run
-    steamPackages.steamcmd
+    # steam-tui
+    # steam-run
+    # steamPackages.steamcmd
     ollama
     jellyfin
     jellyfin-web

@@ -83,9 +83,15 @@ in
     libusb1
     # Web
     chromium
-  ]) ++ (with unstable; [
-    dbeaver-bin
   ]);
+  services.flatpak.packages = [
+    "com.slack.Slack"
+    "com.spotify.Client"
+    "com.cassidyjames.butler"
+    "dev.zed.Zed"
+    "io.dbeaver.DBeaverCommunity"
+    "io.github.zen_browser.zen"
+  ];
   # # Opengl
   hardware.opengl = {
     driSupport = true;

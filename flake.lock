@@ -294,6 +294,22 @@
         "type": "github"
       }
     },
+    "nix-flatpak": {
+      "locked": {
+        "lastModified": 1731698554,
+        "narHash": "sha256-5kTDLWpsMaKSEnekip2rUBfzuHNS9Fafp5Y7n4Y7hr8=",
+        "owner": "gmodena",
+        "repo": "nix-flatpak",
+        "rev": "8db1648a95446d41e97ace7caf54e172669810ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gmodena",
+        "ref": "main",
+        "repo": "nix-flatpak",
+        "type": "github"
+      }
+    },
     "nixos-cosmic": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -410,6 +426,7 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "nix-darwin": "nix-darwin",
+        "nix-flatpak": "nix-flatpak",
         "nixos-cosmic": "nixos-cosmic",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
