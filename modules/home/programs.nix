@@ -40,8 +40,8 @@
   alacritty = {
     enable = true;
     settings = {
-      import = [
-        "${pkgs.alacritty-theme}/nord.toml"
+      general.import = [
+        "${pkgs.alacritty-theme}/ayu_dark.toml"
       ];
       window = {
         title = "Terminal";
@@ -52,12 +52,12 @@
         bold = { family = "Fira Code"; style = "Bold"; };
         italic = { family = "Fira Code"; style = "Italic"; };
       };
-      shell = {
+      terminal.shell = {
         program = "/home/${user.name}/.nix-profile/bin/zsh";
         args = [
           "-l"
           "-c"
-          "tmux attach || tmux"
+          "tmux"
         ];
       };
     };

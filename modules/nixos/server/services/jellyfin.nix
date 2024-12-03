@@ -1,7 +1,5 @@
 { config, lib, ... }:
 
-with lib;
-
 let
   cfg = config.skyg.nixos.server.services.jellyfin;
   user = "jellyfin";
@@ -10,12 +8,12 @@ in
 {
   options = {
     skyg.nixos.server.services.jellyfin = {
-      enable = mkEnableOption
+      enable = lib.mkEnableOption
         "Enable Jellyfish";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     users.users.${user} = {
       uid = 7777;
       isSystemUser = true;
@@ -33,9 +31,9 @@ in
     services.jellyfin = {
       inherit user group;
       enable = true;
-			dataDir = "/mnt/apps/jellyfin/data";
-			cacheDir = "/mnt/apps/jellyfin/cache";
-			configDir = "/mnt/apps/jellyfin/config";
+      dataDir = "/mnt/apps/jellyfin/data";
+      cacheDir = "/mnt/apps/jellyfin/cache";
+      configDir = "/mnt/apps/jellyfin/config";
       openFirewall = true;
     };
     fileSystems."/mnt/apps/jellyfin" = {

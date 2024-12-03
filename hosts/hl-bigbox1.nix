@@ -11,14 +11,13 @@
       common.containers.openMetricsPort = true;
       server.services = {
         ai.enable = true;
-        jellyfin.enable = true;
+        jellyfin.enable = false;
       };
     };
   };
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater
   services.fwupd.enable = true;
-  hardware.nvidia-container-toolkit.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -32,10 +31,11 @@
   services.autosuspend.enable = false;
   services.xserver.displayManager.gdm.autoSuspend = false;
   # Nvidia Settings
+  hardware.nvidia-container-toolkit.enable = true;
+  virtualisation.docker.enableNvidia = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
-  #hardware.opengl.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;

@@ -5,7 +5,7 @@
     systems.url = "github:nix-systems/default";
     # Nixpkgs
     unstable.url = "github:NixOS/nixpkgs/master";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     # Cosmic
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
@@ -21,7 +21,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     unstable-home-manager = {
@@ -54,7 +54,7 @@
         fullName = "Ari Sosnovsky";
         email = "ariel@sosnovsky.ca";
       };
-      homeManagerVersion = "24.05";
+      homeManagerVersion = "24.11";
       # Local Services
       localNixCaches = {
         urls = [
@@ -116,10 +116,6 @@
             "hl-minipc1"
             "hl-minipc2"
             "hl-terra1"
-          ];
-        }) // (unstableLib.makeHLServices {
-          user = user;
-          nodeNames = [
             "hl-bigbox1"
           ];
         })

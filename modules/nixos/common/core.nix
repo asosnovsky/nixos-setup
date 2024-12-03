@@ -14,6 +14,9 @@
 
     # system utils
     nfs-utils
+    lm_sensors
+    hwinfo
+    dig
 
     # misc
     glib-networking
@@ -22,6 +25,7 @@
 
     # printer
     system-config-printer
+
   ];
   services.xserver.excludePackages = with pkgs; [
     xterm

@@ -93,9 +93,7 @@ in
     "io.github.zen_browser.zen"
   ];
   # # Opengl
-  hardware.opengl = {
-    driSupport = true;
-    driSupport32Bit = true;
+  hardware.graphics = {
     extraPackages = [ pkgs.amdvlk ];
     extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   };
@@ -117,8 +115,9 @@ in
   # Ollama
   services.ollama = {
     enable = true;
+    host = "0.0.0.0";
+    port = 11434;
     acceleration = "rocm";
-    listenAddress = "0.0.0.0:11434";
     package = unstable.ollama;
   };
   # # Brother Printer
