@@ -5,6 +5,8 @@
     ./fancontrol.nix
     ./sound.nix
     ./laptop-power.nix
+    ./nvidia.nix
+    ./amdgpu.nix
   ];
   # Firmware Updater
   services.fwupd.enable = true;

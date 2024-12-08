@@ -1,5 +1,5 @@
 { ... }:
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg = {
@@ -9,6 +9,10 @@
     nixos = {
       common.ssh-server.enable = true;
       common.containers.openMetricsPort = true;
+      common.hardware = {
+        nvidia.enable = true;
+        amdgpu.enable = true;
+      };
       server.services = {
         ai.enable = true;
         jellyfin.enable = false;
@@ -22,7 +26,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_hardened;
   # Wake on Lan
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
   networking.interfaces.lo.wakeOnLan.enable = true;
@@ -30,20 +34,7 @@
   # Suspend
   services.autosuspend.enable = false;
   services.xserver.displayManager.gdm.autoSuspend = false;
-  # Nvidia Settings
-  # hardware.nvidia-container-toolkit.enable = true;
-  virtualisation.docker.enableNvidia = true;
-  hardware.graphics.enable32Bit = true;
-  hardware.graphics.enable = true;
-  hardware.nvidia = {
-    # datacenter.enable = true;
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
+
   environment.systemPackages = with pkgs; [
     # steam-tui
     # steam-run

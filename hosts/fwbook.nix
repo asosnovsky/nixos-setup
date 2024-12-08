@@ -19,6 +19,7 @@ in
       common.hardware = {
         sound.enable = true;
         laptop-power-mgr.enable = true;
+        hardware.amdgpu.enable = true;
       };
       desktop = {
         enable = true;
@@ -32,7 +33,7 @@ in
       };
     };
   };
-  services.displayManager.defaultSession = "plasmax11";
+  services.displayManager.defaultSession = "plasma";
   # Firmware updater
   services.fwupd.enable = true;
   services.fwupd.package = (import
@@ -57,15 +58,6 @@ in
   boot.tmp.useTmpfs = true;
   # Packages
   environment.systemPackages = (with pkgs; [
-    # Amd GPU Support
-    rocmPackages.rocm-smi
-    rocmPackages.rpp
-    rocmPackages.rocm-core
-    rocmPackages.rocm-runtime
-    rocmPackages.hipblas
-    rocmPackages.llvm.clang
-    amdgpu_top
-    amdctl
     # python
     python312
     # Work
@@ -76,11 +68,6 @@ in
     # Util
     libusb1
   ]);
-  # # Opengl
-  hardware.graphics = {
-    extraPackages = [ pkgs.amdvlk ];
-    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
-  };
   # # Gaming
   programs.steam = {
     enable = true;
@@ -108,10 +95,9 @@ in
   hardware.sane.brscan5.enable = true;
   # # Display Managers
   services.xserver.videoDrivers =
-    [ "modesetting" "amdgpu" "fbdev" ];
+    [ "modesetting" "fbdev" ];
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.initrd.kernelModules = [ "amdgpu" ];
   # Add Functions
   home-manager.users.${user.name}.programs.zsh.initExtra = ''
     source ${zshFunctions}
