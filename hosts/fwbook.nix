@@ -68,30 +68,14 @@ in
     amdctl
     # python
     python312
-    # skype
-    skypeforlinux
     # Work
     postgresql
     dvc-with-remotes
     google-cloud-sdk
     awscli
-    google-chrome
-    # Photo Editing
-    krita
-    gimp-with-plugins
     # Util
     libusb1
-    # Web
-    chromium
   ]);
-  services.flatpak.packages = [
-    "com.slack.Slack"
-    "com.spotify.Client"
-    "com.cassidyjames.butler"
-    "dev.zed.Zed"
-    "io.dbeaver.DBeaverCommunity"
-    "io.github.zen_browser.zen"
-  ];
   # # Opengl
   hardware.graphics = {
     extraPackages = [ pkgs.amdvlk ];

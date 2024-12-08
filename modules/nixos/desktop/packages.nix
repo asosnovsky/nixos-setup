@@ -31,13 +31,11 @@ in
       xclip
 
       # socials
-      #slack
       zoom-us
       betterdiscordctl
       discord
       signal-desktop
-      whatsapp-for-linux
-      caprine-bin # facebook messenger
+      skypeforlinux
 
       # development
       vscode
@@ -66,6 +64,24 @@ in
 
       # Video recording
       obs-studio
+
+      # Browser
+      chromium
+      google-chrome
+
+      # Photo Editing
+      krita
+      gimp-with-plugins
+    ];
+    services.flatpak.packages = [
+      "com.slack.Slack"
+      "com.spotify.Client"
+      "com.cassidyjames.butler"
+      "dev.zed.Zed"
+      "io.dbeaver.DBeaverCommunity"
+      "it.fabiodistasio.AntaresSQL"
+      "io.github.zen_browser.zen"
+      "com.github.sdv43.whaler"
     ];
     programs.firefox = {
       enable = true;

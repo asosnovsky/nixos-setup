@@ -31,12 +31,12 @@
   services.autosuspend.enable = false;
   services.xserver.displayManager.gdm.autoSuspend = false;
   # Nvidia Settings
-  hardware.nvidia-container-toolkit.enable = true;
+  # hardware.nvidia-container-toolkit.enable = true;
   virtualisation.docker.enableNvidia = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
   hardware.nvidia = {
+    # datacenter.enable = true;
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
