@@ -90,6 +90,7 @@ in
     port = 11434;
     acceleration = "rocm";
     package = unstable.ollama;
+    rocmOverrideGfx = "11.0.2";
   };
   # # Brother Printer
   hardware.sane.brscan5.enable = true;
