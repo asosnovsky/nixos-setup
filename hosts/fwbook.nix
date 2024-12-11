@@ -19,7 +19,7 @@ in
       common.hardware = {
         sound.enable = true;
         laptop-power-mgr.enable = true;
-        hardware.amdgpu.enable = true;
+        amdgpu.enable = true;
       };
       desktop = {
         enable = true;

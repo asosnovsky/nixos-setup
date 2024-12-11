@@ -31,6 +31,14 @@
       theme = "robbyrussell";
     };
   };
+  zellij = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+    settings = {
+      theme = "ayu_dark";
+    };
+  };
   tmux = {
     enable = true;
     clock24 = true;
@@ -57,7 +65,7 @@
         args = [
           "-l"
           "-c"
-          "tmux"
+          "zellij"
         ];
       };
     };
