@@ -67,6 +67,9 @@ in
     awscli
     # Util
     libusb1
+
+    libsForQt5.xdg-desktop-portal-kde
+    kdePackages.xdg-desktop-portal-kde
   ]);
   # # Gaming
   programs.steam = {
