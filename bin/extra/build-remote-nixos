@@ -5,7 +5,7 @@ ROOT_FOLDER=$(realpath $0 | xargs dirname)
 . $ROOT_FOLDER/common.sh
 # Bootstrap
 
-export NIX_SSHOPTS="-o RequestTTY=force"
+# export NIX_SSHOPTS="-o RequestTTY=force"
 
 target=${1}
 target_host=root@$target.lab.internal

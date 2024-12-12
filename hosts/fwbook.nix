@@ -24,7 +24,7 @@ in
       desktop = {
         enable = true;
         kde.enable = true;
-        cosmic.enable = true;
+        cosmic.enable = false;
         hyprland = {
           enable = false;
           useNWG = false;
@@ -33,7 +33,7 @@ in
       };
     };
   };
-  services.displayManager.defaultSession = "plasma";
+  services.displayManager.defaultSession = "plasmax11";
   # Firmware updater
   services.fwupd.enable = true;
   services.fwupd.package = (import

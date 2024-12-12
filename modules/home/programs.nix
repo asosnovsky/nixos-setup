@@ -36,7 +36,7 @@
     enableZshIntegration = true;
     enableBashIntegration = true;
     settings = {
-      theme = "ayu_dark";
+      theme = "nord";
     };
   };
   tmux = {
