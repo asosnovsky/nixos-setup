@@ -4,6 +4,10 @@
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
   skyg.server.admin.enable = true;
+  skyg.networkDrives.options = [
+    "x-systemd.automount"
+    "auto"
+  ];
 
   # firmware updater
   services.fwupd.enable = true;

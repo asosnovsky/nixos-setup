@@ -32,6 +32,13 @@ in
         crypto.enable = true;
       };
     };
+    networkDrives = {
+      enable = true;
+      options = [
+        "x-systemd.automount"
+        "noauto"
+      ];
+    };
   };
   services.displayManager.defaultSession = "plasmax11";
   # Firmware updater

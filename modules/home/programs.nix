@@ -33,17 +33,19 @@
   };
   zellij = {
     enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = true;
     settings = {
       theme = "nord";
+      session_serialization = false;
     };
   };
   tmux = {
     enable = true;
     clock24 = true;
     mouse = true;
-    plugins = with pkgs.tmuxPlugins; [ nord cpu battery sidebar ];
+    plugins = with pkgs.tmuxPlugins; [ nord cpu sidebar ];
+    extraConfig = ''
+      set -g status-right '#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage} | %a %h-%d %H:%M '
+    '';
   };
   alacritty = {
     enable = true;
@@ -62,11 +64,6 @@
       };
       terminal.shell = {
         program = "/home/${user.name}/.nix-profile/bin/zsh";
-        args = [
-          "-l"
-          "-c"
-          "zellij"
-        ];
       };
     };
   };

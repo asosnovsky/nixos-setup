@@ -18,6 +18,7 @@
         jellyfin.enable = false;
       };
     };
+    networkDrives.enable = true;
   };
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater

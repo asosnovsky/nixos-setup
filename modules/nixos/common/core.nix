@@ -4,6 +4,11 @@
   services.hydra.useSubstitutes = true;
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;
+  nixpkgs.config.allowUnfree = true;
+  nix = {
+    optimise.automatic = true;
+    settings.experimental-features = [ "nix-command" "flakes" ];
+  };
   environment.systemPackages = with pkgs; [
     # nix utils
     appimage-run
@@ -26,6 +31,14 @@
     # printer
     system-config-printer
 
+    # nix utils
+    nix-index
+    nil
+    cachix
+    nixpkgs-fmt
+    nvd
+    # shell tools
+    wget
   ];
   services.xserver.excludePackages = with pkgs; [
     xterm

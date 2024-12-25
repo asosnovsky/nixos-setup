@@ -6,6 +6,9 @@
   skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.common.containers.openMetricsPort = true;
   skyg.server.exporters.enable = true;
+  skyg.networkDrives = {
+    enable = true;
+  };
 
   # firmware updater
   services.fwupd.enable = true;

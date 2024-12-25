@@ -15,8 +15,11 @@ in
   skyg.nixos.common.containers.openMetricsPort = true;
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
+  skyg.networkDrives = {
+    enable = true;
+  };
 
-  # Nix Stores
+  # # Nix Stores
   services.nix-serve = {
     enable = true;
     secretKeyFile = "/var/keys/cache-priv-key.pem";
@@ -25,16 +28,16 @@ in
   # firmware updater
   services.fwupd.enable = true;
 
-  # Bootloader.
+  # # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # Data
+  # # Data
   fileSystems."/mnt/Data" = {
     device = "/dev/disk/by-uuid/ee4a60a8-b0d1-4f5c-a554-1d1d84c89e34";
     fsType = "ext4";
-    options = [ "nofail" ];
+    options = [ "defaults" ];
   };
-  # Services
+  # # Services
   skyg.nixos.server.services.audiobookshelf = {
     enable = true;
     host = "0.0.0.0";

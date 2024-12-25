@@ -69,7 +69,6 @@
         system = "x86_64-linux";
         user = user;
         localNixCaches = localNixCaches;
-        enableNetworkDrives = true;
         homeManagerVersion = homeManagerVersion;
         os = {
           enable = true;
@@ -167,7 +166,6 @@
           localNixCaches = localNixCaches;
           localDockerRegistries = localDockerRegistries;
           homeManagerVersion = homeManagerVersion;
-          enableNetworkDrives = true;
           desktop = {
             enable = true;
             user = user;
