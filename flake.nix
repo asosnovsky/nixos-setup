@@ -59,9 +59,11 @@
       localNixCaches = {
         urls = [
           "http://minipc1.lab.internal:5000"
+          "http://hl-minipc1.tailb683c.ts.net:5000"
         ];
         keys = [
           "minipc1.lab.internal:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
+          "hl-minipc1.tailb683c.ts.net:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
         ];
       };
       localDockerRegistries = [ "minipc1.lab.internal:5001" ];
