@@ -16,9 +16,9 @@ in
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
   skyg.networkDrives = {
-    enable = true;
+    enable = false;
   };
-
+  skyg.core.tailscaleRouting = "both";
   # # Nix Stores
   services.nix-serve = {
     enable = true;
