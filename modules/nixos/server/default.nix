@@ -7,5 +7,6 @@
     ./arrs
     ./k8s
     ./services
+    ./timers
   ];
 }

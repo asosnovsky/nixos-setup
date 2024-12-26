@@ -7,32 +7,38 @@ in {
         script = lib.mkOption {
           type = lib.types.str;
         };
-        timerConfig = lib.mkOption {
-          type = lib.types.submodule;
+        OnCalendar = lib.mkOption {
+          type = lib.types.str;
+          default = "daily";
         };
       });
       default = { };
     };
   };
-  config = lib.mkIf cfg.enable {
-    systemd.timers."backup-jellyfin" = {
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "daily";
-        Persistent = true;
-        Unit = "backup-jellyfin.service";
-      };
-    };
+  config = {
+    systemd.timers = builtins.mapAttrs
+      (
+        name: value: {
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = value.OnCalendar;
+            Persistent = true;
+            Unit = "${name}.service";
+          };
+        }
+      )
+      cfg;
 
-    systemd.services."backup-jellyfin" = {
-      script = ''
-        set -eu
-        ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/jellyfin /mnt/terra1/Data/apps/
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root";
-      };
-    };
+    systemd.services = builtins.mapAttrs
+      (
+        name: value: {
+          script = value.script;
+          serviceConfig = {
+            Type = "oneshot";
+            User = "root";
+          };
+        }
+      )
+      cfg;
   };
 }

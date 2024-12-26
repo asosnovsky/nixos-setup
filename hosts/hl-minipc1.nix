@@ -16,7 +16,7 @@ in
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
   skyg.networkDrives = {
-    enable = false;
+    enable = true;
   };
   skyg.core.tailscaleRouting = "both";
   # # Nix Stores
@@ -38,13 +38,20 @@ in
     options = [ "defaults" ];
   };
   # # Services
-  skyg.nixos.server.services.audiobookshelf = {
-    enable = true;
-    host = "0.0.0.0";
-    openFirewall = true;
-    port = 8000;
-    configDir = "/mnt/Data/audiobookshelf/config";
-    metadtaDir = "/mnt/Data/audiobookshelf/metadata";
+  skyg.nixos.server.services = {
+    audiobookshelf = {
+      enable = true;
+      host = "0.0.0.0";
+      openFirewall = true;
+      port = 8000;
+      configDir = "/mnt/Data/audiobookshelf/config";
+      metadtaDir = "/mnt/Data/audiobookshelf/metadata";
+    };
+    dockge = {
+      enable = true;
+      openFirewall = true;
+      port = 5002;
+    };
   };
   services.dockerRegistry = {
     enable = true;

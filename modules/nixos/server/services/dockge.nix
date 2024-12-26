@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.skyg.nixos.server.services.dockge;
@@ -7,19 +7,7 @@ in
   options = {
     skyg.nixos.server.services.dockge = {
       enable = lib.mkEnableOption
-        "Enable Scrypted";
-      stacksDir = lib.mkOption {
-        description =
-          "Path to where the stacks are stored";
-        default = "/opt/dockge/stacks";
-        type = lib.types.str;
-      };
-      dataDir = lib.mkOption {
-        description =
-          "Path to where the data dir is stored";
-        default = "/opt/dockge/data";
-        type = lib.types.str;
-      };
+        "Enable Dockge";
       openFirewall = lib.mkOption {
         description =
           "Open ports in the firewall for the Audiobookshelf web interface.";
@@ -40,6 +28,30 @@ in
         allowedTCPPorts = [ cfg.port ];
         allowedUDPPorts = [ cfg.port ];
       };
+    system.activationScripts = {
+      dockge-create-volume-stacks = {
+        text = ''
+          ${pkgs.docker}/bin/docker volume create \
+            --driver local \
+            --opt type=nfs \
+            --opt o=addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
+            --opt device=:/mnt/Data/apps/arrs/dockge/stacks \
+            dockge-stacks
+        '';
+        deps = [ ];
+      };
+      dockge-create-volume-data = {
+        text = ''
+          ${pkgs.docker}/bin/docker volume create \
+            --driver local \
+            --opt type=nfs \
+            --opt o=addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
+            --opt device=:/mnt/Data/apps/arrs/dockge/data \
+            dockge-data
+        '';
+        deps = [ ];
+      };
+    };
     virtualisation.oci-containers = {
       containers = {
         dockge = {
@@ -50,8 +62,8 @@ in
           ];
           volumes = [
             "/var/run/docker.sock:/var/run/docker.sock"
-            "${cfg.dataDir}:/app/data"
-            "${cfg.stacksDir}:/opt/stacks"
+            ''dockge-data:/app/data''
+            ''dockge-stacks:/opt/stacks''
           ];
           environment = {
             DOCKGE_STACKS_DIR = "/opt/stacks";
