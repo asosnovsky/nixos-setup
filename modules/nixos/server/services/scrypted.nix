@@ -25,11 +25,22 @@ in
         deps = [ ];
       };
     };
-    skyg.server.timers.scrypted-backups = {
-      script = ''
-        set -eu
-        ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/homelab/scrypted /mnt/terra1/Data/apps/
-      '';
+    skyg.server.timers = {
+      scrypted-backups = {
+        OnCalendar = "daily";
+        script = ''
+          set -eu
+          ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/homelab/scrypted /mnt/terra1/Data/apps/
+        '';
+      };
+      scrypted-autoupdate = {
+        OnCalendar = "weekly";
+        script = ''
+          set -eu
+          ${pkgs.docker}/bin/docker pull ghcr.io/koush/scrypted
+          systemctl restart docker-scrypted.service
+        '';
+      };
     };
     virtualisation.oci-containers = {
       containers = {

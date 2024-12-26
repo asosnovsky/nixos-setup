@@ -1,5 +1,7 @@
 { user }:
-{ ... }:
+{ pkgs
+, ...
+}:
 {
   imports = [ ./hl-minipc2.hardware-configuration.nix ];
   skyg.user.enable = true;

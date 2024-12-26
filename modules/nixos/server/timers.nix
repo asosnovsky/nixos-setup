@@ -4,12 +4,14 @@ in {
   options = {
     skyg.server.timers = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule {
-        script = lib.mkOption {
-          type = lib.types.str;
-        };
-        OnCalendar = lib.mkOption {
-          type = lib.types.str;
-          default = "daily";
+        options = {
+          script = lib.mkOption {
+            type = lib.types.str;
+          };
+          OnCalendar = lib.mkOption {
+            type = lib.types.str;
+            default = "daily";
+          };
         };
       });
       default = { };
