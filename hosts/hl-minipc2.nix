@@ -19,8 +19,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   # Disable firewall
   networking.firewall.enable = false;
-  # Special udev rule for google's coral tpu
-  skyg.nixos.server.udevrules.coraltpu.enable = true;
 
   # Services
   skyg.nixos.server.services = {
@@ -28,7 +26,16 @@
     dockge = {
       enable = true;
       openFirewall = true;
-      port = 5002;
+      volumes = {
+        stacks = {
+          nfsServer = "terra1.lab.internal";
+          share = "/mnt/Data/apps/arrs/dockge/stacks";
+        };
+        data = {
+          nfsServer = "terra1.lab.internal";
+          share = "/mnt/Data/apps/arrs/dockge/data";
+        };
+      };
     };
   };
 }

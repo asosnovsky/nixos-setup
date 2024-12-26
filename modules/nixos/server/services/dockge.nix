@@ -2,22 +2,38 @@
 
 let
   cfg = config.skyg.nixos.server.services.dockge;
+  volumeOptions = with lib; types.submodule {
+    options = {
+      nfsServer = mkOption {
+        type = types.str;
+      };
+      share = mkOption {
+        type = types.str;
+      };
+    };
+  };
 in
 {
   options = {
-    skyg.nixos.server.services.dockge = {
-      enable = lib.mkEnableOption
+    skyg.nixos.server.services.dockge = with lib; {
+      enable = mkEnableOption
         "Enable Dockge";
-      openFirewall = lib.mkOption {
+      openFirewall = mkOption {
         description =
-          "Open ports in the firewall for the Audiobookshelf web interface.";
+          "Open ports in the firewall for the dockge web interface.";
         default = false;
-        type = lib.types.bool;
+        type = types.bool;
       };
-      port = lib.mkOption {
-        description = "The TCP port Audiobookshelf will listen on.";
+      port = mkOption {
+        description = "The TCP port dockge will listen on.";
         default = 5001;
-        type = lib.types.port;
+        type = types.port;
+      };
+      volumes = types.submodule {
+        options = {
+          stacks = volumeOptions;
+          data = volumeOptions;
+        };
       };
     };
   };
@@ -34,8 +50,8 @@ in
           ${pkgs.docker}/bin/docker volume create \
             --driver local \
             --opt type=nfs \
-            --opt o=addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
-            --opt device=:/mnt/Data/apps/arrs/dockge/stacks \
+            --opt o=addr=${cfg.volume.stacks.nfsServer},rw,nfsvers=4.0,nolock,hard,noatime \
+            --opt device=:${cfg.volume.stacks.share} \
             dockge-stacks
         '';
         deps = [ ];
@@ -45,8 +61,8 @@ in
           ${pkgs.docker}/bin/docker volume create \
             --driver local \
             --opt type=nfs \
-            --opt o=addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
-            --opt device=:/mnt/Data/apps/arrs/dockge/data \
+            --opt o=addr=${cfg.volume.data.nfsServer},rw,nfsvers=4.0,nolock,hard,noatime \
+            --opt device=:${cfg.volume.data.share} \
             dockge-data
         '';
         deps = [ ];

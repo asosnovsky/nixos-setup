@@ -24,14 +24,30 @@
       common.hardware = {
         nvidia.enable = true;
         amdgpu.enable = true;
+        udevrules.coraltpu.enable = true;
       };
       server.services = {
         ai.enable = true;
         jellyfin.enable = false;
+        dockge = {
+          enable = true;
+          openFirewall = true;
+          volumes = {
+            stacks = {
+              nfsServer = "terra1.lab.internal";
+              share = "/mnt/Data/apps/bigbox/dockge/stacks";
+            };
+            data = {
+              nfsServer = "terra1.lab.internal";
+              share = "/mnt/Data/apps/bigbox/dockge/data";
+            };
+          };
+        };
       };
     };
     networkDrives.enable = true;
   };
+
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater
   services.fwupd.enable = true;

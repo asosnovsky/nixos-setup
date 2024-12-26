@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ./coral-tpu-udev.nix
     ./exporters.nix
     ./admin.nix
     ./arrs

@@ -7,6 +7,7 @@
     ./laptop-power.nix
     ./nvidia.nix
     ./amdgpu.nix
+    ./coral-tpu-udev.nix
   ];
   # Firmware Updater
   services.fwupd.enable = true;
