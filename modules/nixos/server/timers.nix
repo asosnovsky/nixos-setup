@@ -12,6 +12,10 @@ in {
             type = lib.types.str;
             default = "daily";
           };
+          wantedBy = lib.mkOption {
+            type = lib.types.listOf lib.types.str;
+            default = [ ];
+          };
         };
       });
       default = { };
@@ -21,7 +25,10 @@ in {
     systemd.timers = builtins.mapAttrs
       (
         name: value: {
-          wantedBy = [ "timers.target" ];
+          wantedBy = builtins.concatLists [
+            [ "timers.target" ]
+            value.wantedBy
+          ];
           timerConfig = {
             OnCalendar = value.OnCalendar;
             Persistent = true;

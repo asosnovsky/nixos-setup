@@ -28,6 +28,9 @@ in
     skyg.server.timers = {
       scrypted-backups = {
         OnCalendar = "daily";
+        wantedBy = [
+          "mnt-terra1-Data-apps.mount"
+        ];
         script = ''
           set -eu
           ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/homelab/scrypted /mnt/terra1/Data/apps/

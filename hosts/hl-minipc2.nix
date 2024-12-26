@@ -25,6 +25,11 @@
   # Services
   skyg.nixos.server.services = {
     scrypted.enable = true;
+    dockge = {
+      enable = true;
+      openFirewall = true;
+      port = 5002;
+    };
   };
 }
 

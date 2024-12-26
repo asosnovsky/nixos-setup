@@ -39,12 +39,12 @@ in
     fileSystems."/mnt/apps/jellyfin" = {
       device = "terra1.lab.internal:/mnt/Data/apps/jellyfin";
       fsType = "nfs";
-      options = [ "x-systemd.automount" "noauto" ];
+      options = [ "x-systemd.automount" "auto" ];
     };
     fileSystems."/family-videos" = {
       device = "tnas1.lab.internal:/mnt/EightTerra/FamilyStorage/Video";
       fsType = "nfs";
-      options = [ "x-systemd.automount" "noauto" ];
+      options = [ "x-systemd.automount" "auto" ];
     };
   };
 }

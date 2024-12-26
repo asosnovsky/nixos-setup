@@ -6,6 +6,18 @@
     user.enable = true;
     server.admin.enable = true;
     server.exporters.enable = true;
+    server.timers = {
+      jellyfin-backups = {
+        OnCalendar = "daily";
+        wantedBy = [
+          "mnt-terra1-Data-apps.mount"
+        ];
+        script = ''
+          set -eu
+          ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/jellyfin /mnt/terra1/Data/apps/
+        '';
+      };
+    };
     nixos = {
       common.ssh-server.enable = true;
       common.containers.openMetricsPort = true;
@@ -45,24 +57,4 @@
     jellyfin-web
     jellyfin-ffmpeg
   ];
-
-  systemd.timers."backup-jellyfin" = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "daily";
-      Persistent = true;
-      Unit = "backup-jellyfin.service";
-    };
-  };
-
-  systemd.services."backup-jellyfin" = {
-    script = ''
-      set -eu
-      ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/jellyfin /mnt/terra1/Data/apps/
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-    };
-  };
 }

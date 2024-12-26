@@ -47,11 +47,6 @@ in
       configDir = "/mnt/Data/audiobookshelf/config";
       metadtaDir = "/mnt/Data/audiobookshelf/metadata";
     };
-    dockge = {
-      enable = true;
-      openFirewall = true;
-      port = 5002;
-    };
   };
   services.dockerRegistry = {
     enable = true;
