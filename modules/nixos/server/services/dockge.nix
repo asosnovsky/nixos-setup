@@ -2,13 +2,15 @@
 
 let
   cfg = config.skyg.nixos.server.services.dockge;
-  volumeOptions = with lib; types.submodule {
-    options = {
-      nfsServer = mkOption {
-        type = types.str;
-      };
-      share = mkOption {
-        type = types.str;
+  volumeOptions = with lib; mkOption {
+    type = types.submodule {
+      options = {
+        nfsServer = mkOption {
+          type = types.str;
+        };
+        share = mkOption {
+          type = types.str;
+        };
       };
     };
   };
@@ -29,10 +31,12 @@ in
         default = 5001;
         type = types.port;
       };
-      volumes = types.submodule {
-        options = {
-          stacks = volumeOptions;
-          data = volumeOptions;
+      volumes = mkOption {
+        type = types.submodule {
+          options = {
+            stacks = volumeOptions;
+            data = volumeOptions;
+          };
         };
       };
     };
@@ -50,8 +54,8 @@ in
           ${pkgs.docker}/bin/docker volume create \
             --driver local \
             --opt type=nfs \
-            --opt o=addr=${cfg.volume.stacks.nfsServer},rw,nfsvers=4.0,nolock,hard,noatime \
-            --opt device=:${cfg.volume.stacks.share} \
+            --opt o=addr=${cfg.volumes.stacks.nfsServer},rw,nfsvers=4.0,nolock,hard,noatime \
+            --opt device=:${cfg.volumes.stacks.share} \
             dockge-stacks
         '';
         deps = [ ];
@@ -61,8 +65,8 @@ in
           ${pkgs.docker}/bin/docker volume create \
             --driver local \
             --opt type=nfs \
-            --opt o=addr=${cfg.volume.data.nfsServer},rw,nfsvers=4.0,nolock,hard,noatime \
-            --opt device=:${cfg.volume.data.share} \
+            --opt o=addr=${cfg.volumes.data.nfsServer},rw,nfsvers=4.0,nolock,hard,noatime \
+            --opt device=:${cfg.volumes.data.share} \
             dockge-data
         '';
         deps = [ ];
