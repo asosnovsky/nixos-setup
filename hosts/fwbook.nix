@@ -74,9 +74,6 @@ in
     awscli
     # Util
     libusb1
-
-    libsForQt5.xdg-desktop-portal-kde
-    kdePackages.xdg-desktop-portal-kde
   ]);
   # # Gaming
   programs.steam = {
@@ -138,4 +135,17 @@ in
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
+  # random dev work
+  networking.hosts = {
+    "0.0.0.0" = [
+      "auth.me.internal"
+      "me.internal"
+      "me.local"
+    ];
+    "127.0.0.1" = [
+      "auth.me.internal"
+      "me.internal"
+      "me.local"
+    ];
+  };
 }

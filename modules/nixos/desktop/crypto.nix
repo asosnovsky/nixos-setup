@@ -16,6 +16,7 @@ in
       trezor-suite
       trezord
       ledger-live-desktop
+      sparrow
     ];
     # udev rules for crypto wallets
     services.udev.packages = with pkgs; [

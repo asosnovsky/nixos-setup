@@ -1,6 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 let
   cfg = config.skyg.nixos.desktop;
+  ghostty = inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   config = lib.mkIf cfg.enable {
@@ -8,17 +9,13 @@ in
     services.flatpak.enable = true;
     services.flatpak.remotes = [
       {
-        name = "flathub-beta";
-        location = "https://flathub.org/beta-repo/flathub-beta.flatpakrepo";
-      }
-      {
         name = "flathub";
         location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
       }
     ];
     # Mobile Connect
     programs.kdeconnect.enable = true;
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = [ ghostty ] ++ (with pkgs; [
       # General utils
       busybox
       gcc
@@ -72,7 +69,7 @@ in
       # Photo Editing
       krita
       gimp-with-plugins
-    ];
+    ]);
     services.flatpak.packages = [
       "com.slack.Slack"
       "com.spotify.Client"
