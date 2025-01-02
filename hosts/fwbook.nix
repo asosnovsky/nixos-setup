@@ -141,11 +141,13 @@ in
       "auth.me.internal"
       "me.internal"
       "me.local"
+      "api.me.internal"
     ];
     "127.0.0.1" = [
       "auth.me.internal"
       "me.internal"
       "me.local"
+      "api.me.internal"
     ];
   };
 }

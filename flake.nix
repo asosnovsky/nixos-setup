@@ -9,7 +9,8 @@
     # Cosmic
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "unstable";
     };
     # Hyprland
     hyprland = {
