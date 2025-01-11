@@ -4,7 +4,6 @@ let
 in
 {
   imports = [
-    ./hyprland
     ./kde.nix
     ./cosmic.nix
     ./wayland.nix
@@ -20,12 +19,16 @@ in
     };
   };
   config = lib.mkIf cfg.desktop.enable {
-    services.displayManager.sddm.enable = false;
-    services.displayManager.sddm.wayland.enable = false;
-    services.xserver.displayManager.gdm.enable = true;
+    services.displayManager.enable = true;
+    services.displayManager.sddm.enable = true;
+    services.displayManager.sddm.wayland.enable = true;
+    services.displayManager.sddm.wayland.compositor = "kwin";
+    # security.pam.services.<name>.kwallet.enable = true;
+
+    services.xserver.displayManager.gdm.enable = false;
     services.xserver.displayManager.gdm.autoSuspend = false;
     services.xserver.displayManager.gdm.banner = ''Ari's PC'';
-    services.xserver.displayManager.gdm.wayland = true;
+    services.xserver.displayManager.gdm.wayland = false;
     xdg = {
       autostart.enable = true;
       mime.enable = true;
@@ -35,16 +38,15 @@ in
       terminal-exec.enable = true;
       portal = {
         enable = true;
-        wlr.enable = true;
-        xdgOpenUsePortal = true;
-        config = {
-          common.default = [ "gtk" ];
-          hyprland.default = [ "gtk" "hyprland" ];
-          plasma6.default = [ "gtk" "kde" ];
-        };
-        extraPortals = [
-          pkgs.xdg-desktop-portal-gtk
-        ];
+        # wlr.enable = true;
+        # xdgOpenUsePortal = true;
+        # config = {
+        #   common.default = [ "*" ];
+        #   plasma6.default = [ "gtk" "kde" ];
+        # };
+        # extraPortals = [
+        #   pkgs.xdg-desktop-portal-gtk
+        # ];
       };
     };
   };

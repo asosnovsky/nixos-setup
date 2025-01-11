@@ -12,12 +12,6 @@
       inputs.nixpkgs-stable.follows = "nixpkgs";
       inputs.nixpkgs.follows = "unstable";
     };
-    # Hyprland
-    hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "unstable";
-      inputs.systems.follows = "systems";
-    };
     # Terminal
     ghostty = {
       url = "github:ghostty-org/ghostty";
@@ -49,7 +43,6 @@
     , home-manager
     , unstable-home-manager
     , nix-darwin
-    , hyprland
     , nixos-cosmic
     , nix-flatpak
     , ghostty
@@ -101,7 +94,6 @@
           inputs = {
             inherit
               ghostty
-              hyprland
               unstable;
           };
         };

@@ -25,10 +25,6 @@ in
         enable = true;
         kde.enable = true;
         cosmic.enable = false;
-        hyprland = {
-          enable = false;
-          useNWG = false;
-        };
         crypto.enable = true;
       };
     };
