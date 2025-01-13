@@ -15,13 +15,14 @@ in
       "net.core.bpf_jit_harden" = 1; # https://github.com/NVIDIA/libnvidia-container/issues/176#issuecomment-2101166824
     };
     # Nvidia Settings
+    programs.nix-required-mounts.presets.nvidia-gpu.enable = true;
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia-container-toolkit.enable = true;
-    virtualisation.docker.enableNvidia = true;
+    virtualisation.docker.daemon.settings.features.cdi = true;
     hardware.graphics.enable32Bit = true;
     hardware.graphics.enable = true;
     hardware.nvidia = {
-      # datacenter.enable = true;
+      # datacenter.enable = true; 
       modesetting.enable = true;
       powerManagement.enable = false;
       powerManagement.finegrained = false;

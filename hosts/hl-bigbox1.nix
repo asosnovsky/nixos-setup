@@ -19,6 +19,7 @@
       };
     };
     nixos = {
+      desktop.enable = false;
       common.ssh-server.enable = true;
       common.containers.openMetricsPort = true;
       common.hardware = {
