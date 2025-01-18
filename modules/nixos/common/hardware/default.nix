@@ -4,6 +4,7 @@
     ./fan2go.nix
     ./fancontrol.nix
     ./sound.nix
+    ./pipewire.nix
     ./laptop-power.nix
     ./nvidia.nix
     ./amdgpu.nix
