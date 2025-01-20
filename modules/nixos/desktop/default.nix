@@ -4,8 +4,8 @@ let
 in
 {
   imports = [
-    ./kde.nix
     ./cosmic.nix
+    ./kde.nix
     ./wayland.nix
     ./x11.nix
     ./packages.nix
@@ -20,15 +20,6 @@ in
   };
   config = lib.mkIf cfg.desktop.enable {
     services.displayManager.enable = true;
-    services.displayManager.sddm.enable = true;
-    services.displayManager.sddm.wayland.enable = true;
-    services.displayManager.sddm.wayland.compositor = "kwin";
-    # security.pam.services.<name>.kwallet.enable = true;
-
-    services.xserver.displayManager.gdm.enable = false;
-    services.xserver.displayManager.gdm.autoSuspend = false;
-    services.xserver.displayManager.gdm.banner = ''Ari's PC'';
-    services.xserver.displayManager.gdm.wayland = false;
     xdg = {
       autostart.enable = true;
       mime.enable = true;

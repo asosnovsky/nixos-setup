@@ -1,4 +1,4 @@
-{ user, unstable }:
+{ user }:
 { pkgs, ... }:
 let
   zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
@@ -18,13 +18,14 @@ in
     nixos = {
       common.hardware = {
         sound.enable = true;
+        pipewire.enable = true;
         laptop-power-mgr.enable = true;
         amdgpu.enable = true;
       };
       desktop = {
         enable = true;
-        kde.enable = true;
-        cosmic.enable = false;
+        cosmic.enable = true;
+        # kde.enable = true;
         crypto.enable = true;
       };
     };
@@ -36,7 +37,16 @@ in
       ];
     };
   };
-  services.displayManager.defaultSession = "plasmax11";
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+  # services.displayManager.sddm.wayland.compositor = "kwin";
+
+  # services.xserver.displayManager.gdm.enable = false;
+  # services.xserver.displayManager.gdm.autoSuspend = false;
+  # services.xserver.displayManager.gdm.banner = ''Ari's PC'';
+  # services.xserver.displayManager.gdm.wayland = false;
+
+  # services.displayManager.defaultSession = "plasmax11";
   # Firmware updater
   services.fwupd.enable = true;
   services.fwupd.package = (import
@@ -92,7 +102,6 @@ in
     host = "0.0.0.0";
     port = 11434;
     acceleration = "rocm";
-    package = unstable.ollama;
     rocmOverrideGfx = "11.0.2";
   };
   # # Brother Printer

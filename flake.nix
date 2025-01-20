@@ -4,14 +4,9 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
     # Nixpkgs
-    unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     # Cosmic
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
-      inputs.nixpkgs.follows = "unstable";
-    };
+    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     # Terminal
     ghostty = {
       url = "github:ghostty-org/ghostty";
@@ -22,10 +17,6 @@
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    unstable-home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "unstable";
     };
     # Macos
     nix-darwin = {
@@ -39,9 +30,7 @@
     , nixos-hardware
     , nixpkgs
     , systems
-    , unstable
     , home-manager
-    , unstable-home-manager
     , nix-darwin
     , nixos-cosmic
     , nix-flatpak
@@ -93,8 +82,7 @@
         specialArgs = {
           inputs = {
             inherit
-              ghostty
-              unstable;
+              ghostty;
           };
         };
       };
@@ -102,10 +90,6 @@
       lib = (import modules/lib.nix ({
         nixpkgs = nixpkgs;
         home-manager = home-manager;
-      } // libConfig));
-      unstableLib = (import modules/lib.nix ({
-        nixpkgs = unstable;
-        home-manager = unstable-home-manager;
       } // libConfig));
       homelabServices = (
         (lib.makeHLServices {
@@ -191,7 +175,6 @@
               nixos-hardware.nixosModules.framework-13-7040-amd
               (import ./hosts/fwbook.nix {
                 user = user;
-                unstable = unstableLib.pkgs.x86_64-linux;
               })
             ];
           };

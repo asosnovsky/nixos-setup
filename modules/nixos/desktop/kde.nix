@@ -23,6 +23,10 @@ in
       kdePackages.plasma-browser-integration
       kdePackages.xdg-desktop-portal-kde
       konsave # save configs
+      # kdePackages.kwayland
+      # kdePackages.kwayland-integration
+      libsForQt5.kwayland
+      libsForQt5.kwayland-integration
     ];
     services.desktopManager.plasma6.notoPackage = pkgs.fira-code;
   };
