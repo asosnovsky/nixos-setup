@@ -25,7 +25,7 @@ in
       desktop = {
         enable = true;
         cosmic.enable = true;
-        # kde.enable = true;
+        kde.enable = true;
         crypto.enable = true;
       };
     };
@@ -37,9 +37,10 @@ in
       ];
     };
   };
-  # services.displayManager.sddm.enable = true;
-  # services.displayManager.sddm.wayland.enable = true;
-  # services.displayManager.sddm.wayland.compositor = "kwin";
+  services.displayManager.cosmic-greeter.enable = false;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.wayland.compositor = "kwin";
 
   # services.xserver.displayManager.gdm.enable = false;
   # services.xserver.displayManager.gdm.autoSuspend = false;

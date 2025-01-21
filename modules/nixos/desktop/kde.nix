@@ -11,22 +11,22 @@ in
   };
   config = lib.mkIf cfg.enable {
     services.desktopManager.plasma6.enable = true;
-    services.desktopManager.plasma6.enableQt5Integration = true;
+    security.rtkit.enable = true;
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
       konsole # terminal
       elisa # media player
       kate # text editor
       gwenview # image viewer
     ];
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
+    xdg.portal.extraPortals = [
+      pkgs.xdg-desktop-portal-kde
+      pkgs.kdePackages.kwallet
+    ];
     environment.systemPackages = with pkgs; [
       kdePackages.plasma-browser-integration
       kdePackages.xdg-desktop-portal-kde
       konsave # save configs
-      # kdePackages.kwayland
-      # kdePackages.kwayland-integration
-      libsForQt5.kwayland
-      libsForQt5.kwayland-integration
+      kdePackages.kwayland
     ];
     services.desktopManager.plasma6.notoPackage = pkgs.fira-code;
   };
