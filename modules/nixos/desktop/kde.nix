@@ -19,14 +19,14 @@ in
       gwenview # image viewer
     ];
     xdg.portal.extraPortals = [
-      pkgs.xdg-desktop-portal-kde
-      pkgs.kdePackages.kwallet
+      pkgs.kdePackages.xdg-desktop-portal-kde
+      #   pkgs.kdePackages.kwallet
     ];
     environment.systemPackages = with pkgs; [
       kdePackages.plasma-browser-integration
       kdePackages.xdg-desktop-portal-kde
       konsave # save configs
-      kdePackages.kwayland
+      # kdePackages.kwayland
     ];
     services.desktopManager.plasma6.notoPackage = pkgs.fira-code;
   };
