@@ -27,7 +27,7 @@ in
         ollama = {
           autoStart = true;
           image = "ollama/ollama";
-          extraOptions = [ "--gpus" "all" ];
+          extraOptions = [ "--device=nvidia.com/gpu=all" ];
           ports = [ "11434:11434" ];
           volumes = [ "ollama:/root/.ollama" ];
         };

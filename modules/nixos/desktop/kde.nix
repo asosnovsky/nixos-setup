@@ -23,10 +23,7 @@ in
       #   pkgs.kdePackages.kwallet
     ];
     environment.systemPackages = with pkgs; [
-      kdePackages.plasma-browser-integration
-      kdePackages.xdg-desktop-portal-kde
       konsave # save configs
-      # kdePackages.kwayland
     ];
     services.desktopManager.plasma6.notoPackage = pkgs.fira-code;
   };
