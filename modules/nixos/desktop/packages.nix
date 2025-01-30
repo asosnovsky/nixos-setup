@@ -67,18 +67,9 @@ in
       "com.slack.Slack"
       "com.spotify.Client"
       "com.cassidyjames.butler"
-      "dev.zed.Zed"
       "io.dbeaver.DBeaverCommunity"
       "it.fabiodistasio.AntaresSQL"
-      "io.github.zen_browser.zen"
       "com.github.sdv43.whaler"
     ];
-    programs.firefox = {
-      enable = true;
-    };
-    home-manager.users.${config.skyg.user.name}.home.shellAliases = {
-      open-image = "feh";
-      open-file = "nautilus";
-    };
   };
 }
