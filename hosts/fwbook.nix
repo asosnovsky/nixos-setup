@@ -37,11 +37,13 @@ in
       ];
     };
   };
+  # Desktop Env
   services.displayManager.cosmic-greeter.enable = false;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.wayland.compositor = "kwin";
   services.displayManager.defaultSession = "plasma";
+  programs.kdeconnect.enable = true;
   # Firmware updater
   services.fwupd.enable = true;
   services.fprintd.enable = true;
@@ -66,9 +68,54 @@ in
     dvc-with-remotes
     google-cloud-sdk
     awscli
+
     # Util
     libusb1
+
+    # wine
+    wineWowPackages.stable
+    winetricks
+    wineWowPackages.waylandFull
+
+    # Video recording
+    obs-studio
+
+    # Browser
+    chromium
+    google-chrome
+
+    # Photo Editing
+    krita
+    gimp-with-plugins
+
+    # socials
+    zoom-us
+    betterdiscordctl
+    discord
+    signal-desktop
+    skypeforlinux
+
+    # development
+    vscode
+
+    # mail
+    thunderbird
+
+    # password
+    bitwarden-desktop
+
+    # documents
+    onlyoffice-bin_latest
+
   ]);
+  services.flatpak.packages = [
+    "com.slack.Slack"
+    "com.spotify.Client"
+    "com.cassidyjames.butler"
+    "io.dbeaver.DBeaverCommunity"
+    "it.fabiodistasio.AntaresSQL"
+    "com.github.sdv43.whaler"
+  ];
   # Gaming
   programs.steam = {
     enable = true;

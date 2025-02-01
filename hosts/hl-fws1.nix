@@ -1,5 +1,9 @@
 { user }:
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  scriptsFolder = builtins.filterSource (p: t: true) ./scripts/fw1;
+in
+{
   imports = [ ./hl-fws1.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
@@ -19,12 +23,27 @@
   boot.tmp.useTmpfs = true;
 
   # Game Engine
-  programs.steam = {
-    enable = true;
-    extest.enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
+  boot.kernelPackages = pkgs.linuxPackages; # (this is the default) some amdgpu issues on 6.10
+  programs = {
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
+    steam = {
+      enable = true;
+      gamescopeSession.enable = true;
+      extest.enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      localNetworkGameTransfers.openFirewall = true;
+    };
+  };
+  services.getty.autologinUser = "ari";
+  environment = {
+    systemPackages = with pkgs;[ mangohud ];
+    loginShellInit = ''
+      [[ "$(tty)" = "/dev/tty1" ]] && ${scriptsFolder}/gs.sh
+    '';
   };
 }
 

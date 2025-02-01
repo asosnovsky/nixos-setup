@@ -29,15 +29,6 @@ in
       terminal-exec.enable = true;
       portal = {
         enable = true;
-        # wlr.enable = true;
-        # xdgOpenUsePortal = true;
-        # config = {
-        #   common.default = [ "*" ];
-        #   plasma6.default = [ "gtk" "kde" ];
-        # };
-        # extraPortals = [
-        #   pkgs.xdg-desktop-portal-gtk
-        # ];
       };
     };
   };
