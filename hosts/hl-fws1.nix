@@ -1,5 +1,5 @@
 { user }:
-{ pkgs, lib, config, ... }:
+{ pkgs, ... }:
 let
   scriptsFolder = builtins.filterSource (p: t: true) ./scripts/fw1;
 in
@@ -23,27 +23,26 @@ in
   boot.tmp.useTmpfs = true;
 
   # Game Engine
-  boot.kernelPackages = pkgs.linuxPackages; # (this is the default) some amdgpu issues on 6.10
-  programs = {
-    gamescope = {
-      enable = true;
-      capSysNice = true;
-    };
-    steam = {
-      enable = true;
-      gamescopeSession.enable = true;
-      extest.enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      localNetworkGameTransfers.openFirewall = true;
-    };
-  };
-  services.getty.autologinUser = "ari";
-  environment = {
-    systemPackages = with pkgs;[ mangohud ];
-    loginShellInit = ''
-      [[ "$(tty)" = "/dev/tty1" ]] && ${scriptsFolder}/gs.sh
-    '';
-  };
+  # programs = {
+  #   gamescope = {
+  #     enable = true;
+  #     capSysNice = true;
+  #   };
+  #   steam = {
+  #     enable = true;
+  #     gamescopeSession.enable = true;
+  #     extest.enable = true;
+  #     remotePlay.openFirewall = true;
+  #     dedicatedServer.openFirewall = true;
+  #     localNetworkGameTransfers.openFirewall = true;
+  #   };
+  # };
+  # services.getty.autologinUser = "ari";
+  # environment = {
+  #   systemPackages = with pkgs;[ mangohud ];
+  #   loginShellInit = ''
+  #     [[ "$(tty)" = "/dev/tty1" ]] && ${scriptsFolder}/gs.sh
+  #   '';
+  # };
 }
 

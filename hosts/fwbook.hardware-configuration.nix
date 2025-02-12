@@ -11,7 +11,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-	security.protectKernelImage = false;
+  security.protectKernelImage = false;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/3fbf3ccf-655a-4040-b898-b97a1d555912";
@@ -32,10 +32,10 @@
 
   swapDevices =
     [
-      { device = "/dev/disk/by-uuid/5175a4b0-0067-47c6-b7da-35acb247f134"; }
+      # { device = "/dev/disk/by-uuid/5175a4b0-0067-47c6-b7da-35acb247f134"; }
       {
         device = "/swapfile";
-        size = 16 * 1024; # 16GB
+        size = 48 * 1024; # 48GB
       }
     ];
 

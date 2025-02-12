@@ -6,6 +6,9 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules =
     [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ ];
@@ -21,7 +24,12 @@
     device = "/dev/disk/by-uuid/01FE-EDCC";
     fsType = "vfat";
   };
-
+  # Data
+  fileSystems."/mnt/Data" = {
+    device = "/dev/disk/by-uuid/ee4a60a8-b0d1-4f5c-a554-1d1d84c89e34";
+    fsType = "ext4";
+    options = [ "defaults" ];
+  };
   swapDevices = [ ];
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
