@@ -20,6 +20,7 @@ in
   };
   config = lib.mkIf cfg.desktop.enable {
     services.displayManager.enable = true;
+    services.libinput.enable = true;
     xdg = {
       autostart.enable = true;
       mime.enable = true;
