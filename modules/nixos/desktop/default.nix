@@ -21,6 +21,9 @@ in
   config = lib.mkIf cfg.desktop.enable {
     services.displayManager.enable = true;
     services.libinput.enable = true;
+    environment.systemPackages = with pkgs; [
+      libinput
+    ];
     xdg = {
       autostart.enable = true;
       mime.enable = true;

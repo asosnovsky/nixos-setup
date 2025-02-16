@@ -21,7 +21,11 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
-
+  services.k3s = {
+    enable = true;
+    environmentFile = /mnt/EightTerra/k3s-cluster/k3s.env;
+    role = "server";
+  };
   # Game Engine
   # programs = {
   #   gamescope = {

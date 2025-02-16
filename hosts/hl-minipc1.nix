@@ -19,6 +19,11 @@ in
     enable = true;
   };
   skyg.core.tailscaleRouting = "both";
+  services.k3s = {
+    enable = true;
+    environmentFile = /mnt/EightTerra/k3s-cluster/k3s.env;
+    role = "server";
+  };
   # # Nix Stores
   services.nix-serve = {
     enable = true;
@@ -30,7 +35,7 @@ in
   # # Services
   skyg.nixos.server.services = {
     audiobookshelf = {
-      enable = true;
+      enable = false;
       host = "0.0.0.0";
       openFirewall = true;
       port = 8000;
@@ -39,7 +44,7 @@ in
     };
   };
   services.dockerRegistry = {
-    enable = true;
+    enable = false;
     storagePath = "/mnt/Data/docker-registry";
     port = 5001;
     openFirewall = true;
