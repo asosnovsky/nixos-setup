@@ -10,6 +10,14 @@ in
     skyg.networkDrives = {
       enable = lib.mkEnableOption
         "Network Drives";
+      tnasHost = lib.mkOption {
+        type = lib.types.str;
+        default = "tnas1.lab.internal";
+      };
+      terraHost = lib.mkOption {
+        type = lib.types.str;
+        default = "terra1.lab.internal";
+      };
       options = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [ "defaults" ];
@@ -18,25 +26,25 @@ in
   };
   config = lib.mkIf cfg.enable {
     fileSystems."/torrents" = {
-      device = "tnas1.lab.internal:/mnt/EightTerra/DownloadedTorrents";
+      device = "${cfg.tnasHost}:/mnt/EightTerra/DownloadedTorrents";
       fsType = "nfs";
       options = cfg.options;
     };
 
     fileSystems."/mnt/EightTerra/k3s-cluster" = {
-      device = "tnas1.lab.internal:/mnt/EightTerra/k3s-cluster";
+      device = "${cfg.tnasHost}:/mnt/EightTerra/k3s-cluster";
       fsType = "nfs";
       options = cfg.options;
     };
 
     fileSystems."/mnt/EightTerra/NVR" = {
-      device = "tnas1.lab.internal:/mnt/EightTerra/NVR";
+      device = "${cfg.tnasHost}:/mnt/EightTerra/NVR";
       fsType = "nfs";
       options = cfg.options;
     };
 
     fileSystems."/mnt/terra1/Data/apps" = {
-      device = "terra1.lab.internal:/mnt/Data/apps";
+      device = "${cfg.terraHost}:/mnt/Data/apps";
       fsType = "nfs";
       options = cfg.options;
     };
