@@ -20,7 +20,12 @@ in
       };
       options = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [ "defaults" ];
+        default = [
+          "x-systemd.automount"
+          "auto"
+          "nofail"
+          "_netdev"
+        ];
       };
     };
   };

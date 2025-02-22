@@ -19,6 +19,8 @@ in
   };
 
   config =
+    let openPorts = [ 6443 80 443 ];
+    in
     lib.mkIf cfg.enable {
       system.activationScripts.k3sEnv = ''
         set -e
@@ -31,6 +33,14 @@ in
         enable = true;
         environmentFile = "/var/lib/k3s/.env";
         role = cfg.role;
+        extraFlags = [
+          "--disable servicelb"
+          "write-kubeconfig-mode 640"
+          "--write-kubeconfig-group users"
+          "--disable-helm-controller"
+        ];
       };
+      networking.firewall.allowedUDPPorts = openPorts;
+      networking.firewall.allowedTCPPorts = openPorts;
     };
 }

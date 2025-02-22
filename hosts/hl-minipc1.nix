@@ -1,10 +1,15 @@
 { user }:
 { ... }:
 let
+  ports = {
+    audiobookshelf = 8000;
+    nixServe = 5000;
+    dockerRegistry = 5001;
+  };
   openPorts = [
-    5000
-    5001
-    8000
+    ports.nixServe
+    ports.dockerRegistry
+    ports.audiobookshelf
     22
   ];
 in
@@ -15,20 +20,16 @@ in
   skyg.nixos.common.containers.openMetricsPort = true;
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
+  skyg.nixos.server.k3s.enable = true;
   skyg.networkDrives = {
     enable = true;
   };
   skyg.core.tailscaleRouting = "both";
-  services.k3s = {
-    enable = false;
-    environmentFile = "/mnt/EightTerra/k3s-cluster/configs/k3s.env";
-    role = "server";
-  };
   # # Nix Stores
   services.nix-serve = {
     enable = true;
     secretKeyFile = "/var/keys/cache-priv-key.pem";
-    port = 5000;
+    port = ports.nixServe;
   };
   # firmware updater
   services.fwupd.enable = true;
@@ -38,15 +39,15 @@ in
       enable = true;
       host = "0.0.0.0";
       openFirewall = true;
-      port = 8000;
+      port = ports.dockerRegistry;
       configDir = "/mnt/Data/audiobookshelf/config";
       metadtaDir = "/mnt/Data/audiobookshelf/metadata";
     };
   };
   services.dockerRegistry = {
-    enable = true;
+    enable = false;
     storagePath = "/mnt/Data/docker-registry";
-    port = 5001;
+    port = ports.audiobookshelf;
     openFirewall = true;
     listenAddress = "0.0.0.0";
     enableDelete = true;
