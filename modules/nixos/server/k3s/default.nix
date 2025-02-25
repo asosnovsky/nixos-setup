@@ -19,7 +19,17 @@ in
   };
 
   config =
-    let openPorts = [ 6443 80 443 ];
+    let
+      openPorts = [
+        6443 # api server
+        80
+        443
+        10250 # metrics
+        8472 # flannel
+        51820 # wireguard
+        10251 # scheduler
+        10252 # control manager
+      ];
     in
     lib.mkIf cfg.enable {
       system.activationScripts.k3sEnv = ''

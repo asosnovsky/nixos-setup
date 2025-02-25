@@ -39,7 +39,7 @@ in
       enable = true;
       host = "0.0.0.0";
       openFirewall = true;
-      port = ports.dockerRegistry;
+      port = ports.audiobookshelf;
       configDir = "/mnt/Data/audiobookshelf/config";
       metadtaDir = "/mnt/Data/audiobookshelf/metadata";
     };
@@ -47,7 +47,7 @@ in
   services.dockerRegistry = {
     enable = false;
     storagePath = "/mnt/Data/docker-registry";
-    port = ports.audiobookshelf;
+    port = ports.dockerRegistry;
     openFirewall = true;
     listenAddress = "0.0.0.0";
     enableDelete = true;
