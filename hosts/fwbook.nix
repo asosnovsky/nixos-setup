@@ -142,6 +142,9 @@ in
     acceleration = "rocm";
     rocmOverrideGfx = "11.0.2";
   };
+  environment.sessionVariables = {
+    # TMPDIR = "/tmp";
+  };
   # # Brother Printer
   hardware.sane.brscan5.enable = true;
   # # Display Managers
@@ -178,6 +181,10 @@ in
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
+  networking.firewall.extraCommands = ''
+    iptables -I INPUT 1 -s 172.16.0.0/12 -p tcp -d 172.17.0.1 -j ACCEPT
+    iptables -I INPUT 2 -s 172.16.0.0/12 -p udp -d 172.17.0.1 -j ACCEPT
+  '';
   # random dev work
   networking.hosts = {
     "0.0.0.0" = [
