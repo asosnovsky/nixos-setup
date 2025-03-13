@@ -9,5 +9,6 @@
     ./fonts.nix
     ./ssh-server.nix
     ./qemu.nix
+    ./pritunl
   ];
 }

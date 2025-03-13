@@ -11,6 +11,7 @@ in
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+  environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   skyg = {
     user.enable = true;
     server.admin.enable = true;
@@ -22,6 +23,7 @@ in
         laptop-power-mgr.enable = true;
         amdgpu.enable = true;
       };
+      common.pritunl.enable = true;
       desktop = {
         enable = true;
         cosmic.enable = true;
