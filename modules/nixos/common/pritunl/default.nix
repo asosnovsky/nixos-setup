@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.skyg.common.pritunl;
+  cfg = config.skyg.nixos.common.pritunl;
 in
 {
   options = {
-    skyg.common.pritunl = {
+    skyg.nixos.common.pritunl = {
       enable = lib.mkEnableOption "Enable Pritunl";
     };
   };

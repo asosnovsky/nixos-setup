@@ -105,6 +105,7 @@ in
 
     # password
     bitwarden-desktop
+    bitwarden-cli
 
     # documents
     onlyoffice-bin_latest
@@ -143,9 +144,6 @@ in
     port = 11434;
     acceleration = "rocm";
     rocmOverrideGfx = "11.0.2";
-  };
-  environment.sessionVariables = {
-    # TMPDIR = "/tmp";
   };
   # # Brother Printer
   hardware.sane.brscan5.enable = true;
