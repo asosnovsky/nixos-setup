@@ -27,7 +27,7 @@ in
       desktop = {
         enable = true;
         cosmic.enable = true;
-        kde.enable = true;
+        kde.enable = false;
         crypto.enable = true;
       };
     };
@@ -44,8 +44,8 @@ in
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.wayland.compositor = "kwin";
-  services.displayManager.defaultSession = "plasma";
-  programs.kdeconnect.enable = true;
+  services.displayManager.defaultSession = "cosmic";
+  programs.kdeconnect.enable = false;
   # Firmware updater
   services.fwupd.enable = true;
   services.fprintd.enable = true;

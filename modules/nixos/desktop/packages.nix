@@ -11,7 +11,6 @@ in
       # General utils
       busybox
       gcc
-      rofimoji # emoji picker
       feh # image viewer
 
       # copy to clipboard

@@ -14,5 +14,7 @@ in
       pkgs.cosmic-icons
     ];
     services.desktopManager.cosmic.enable = true;
+    hardware.system76.enableAll = true;
+    hardware.system76.power-daemon.enable = true;
   };
 }

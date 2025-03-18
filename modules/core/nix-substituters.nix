@@ -38,5 +38,9 @@ in
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
     ] ++ cfg.keys;
     nix.settings.trusted-users = [ "root" skygUser.name ];
+    nix.extraOptions = ''
+      # Ensure we can still build when missing-server is not accessible
+      fallback = true
+    '';
   };
 }

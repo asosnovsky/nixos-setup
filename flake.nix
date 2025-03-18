@@ -45,12 +45,12 @@
       homeManagerVersion = "24.11";
       # Local Services
       localNixCaches = {
-        urls = [
-          "http://minipc1.lab.internal:5000"
-        ];
-        keys = [
-          "minipc1.lab.internal:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
-        ];
+        # urls = [
+        #   "http://minipc1.lab.internal:5000"
+        # ];
+        # keys = [
+        #   "minipc1.lab.internal:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
+        # ];
       };
       localDockerRegistries = [ "minipc1.lab.internal:5001" ];
       hlCommonSettings = {
