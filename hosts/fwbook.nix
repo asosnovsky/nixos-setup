@@ -40,12 +40,10 @@ in
     };
   };
   # Desktop Env
-  services.displayManager.cosmic-greeter.enable = false;
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.displayManager.sddm.wayland.compositor = "kwin";
+  services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.sddm.enable = false;
+  services.displayManager.sddm.wayland.enable = false;
   services.displayManager.defaultSession = "cosmic";
-  programs.kdeconnect.enable = false;
   # Firmware updater
   services.fwupd.enable = true;
   services.fprintd.enable = true;
@@ -78,6 +76,7 @@ in
     wineWowPackages.stable
     winetricks
     wineWowPackages.waylandFull
+    lshw
 
     # Video recording
     obs-studio

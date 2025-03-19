@@ -21,7 +21,7 @@
   skyg.user = user;
   skyg.core.hostName = hostName;
   skyg.home-manager.version = homeManagerVersion;
-  skyg.core.substituters = localNixCaches;
+  # skyg.core.substituters = localNixCaches;
   skyg.nixos.common.containers = (if os.enable then os.containers else { });
   skyg.nixos.server.k8s = {
     masterIP = "10.0.10.6";
