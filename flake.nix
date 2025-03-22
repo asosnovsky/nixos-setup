@@ -6,10 +6,14 @@
     # Nixpkgs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     # Cosmic
-    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
+    };
     # Terminal
     ghostty = {
       url = "github:ghostty-org/ghostty";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
