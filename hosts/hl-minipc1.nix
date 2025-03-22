@@ -20,7 +20,7 @@ in
   skyg.nixos.common.containers.openMetricsPort = true;
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
-  skyg.nixos.server.k3s.enable = true;
+  skyg.nixos.server.k3s.enable = false;
   skyg.networkDrives = {
     enable = true;
   };
