@@ -27,3 +27,7 @@ function clean-k8s-install() {
 function fix-nix-store() {
     sudo nix-store --verify --check-contents --repair
 }
+
+function start-sibli-vpn() {
+    pritunl-client start ee73mkzn4i5ymbax -p  $(bw get item "Pritunl (Sibli)" | jq -r '.fields[0].value')$(bw get totp "Pritunl (Sibli)") && watch -n1 "pritunl-client list"
+}

@@ -60,56 +60,67 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   # Packages
-  environment.systemPackages = (with pkgs; [
-    # python
-    python312
-    # Work
-    postgresql
-    dvc-with-remotes
-    google-cloud-sdk
-    awscli
+  environment.systemPackages =
+    let
+      gdk = pkgs.google-cloud-sdk.withExtraComponents
+        (with pkgs.google-cloud-sdk.components; [
+          gke-gcloud-auth-plugin
+          kubectl
+        ]);
+    in
+    (with pkgs; [
+      # python
+      python312
+      # Work
+      postgresql
+      dvc-with-remotes
+      google-cloud-sdk
+      awscli
 
-    # Util
-    libusb1
+      # Util
+      libusb1
 
-    # wine
-    wineWowPackages.stable
-    winetricks
-    wineWowPackages.waylandFull
-    lshw
+      # wine
+      wineWowPackages.stable
+      winetricks
+      wineWowPackages.waylandFull
+      lshw
 
-    # Video recording
-    obs-studio
+      # Video recording
+      obs-studio
 
-    # Browser
-    chromium
-    google-chrome
+      # Browser
+      chromium
+      google-chrome
 
-    # Photo Editing
-    krita
-    gimp-with-plugins
+      # Photo Editing
+      krita
+      gimp-with-plugins
 
-    # socials
-    zoom-us
-    betterdiscordctl
-    discord
-    signal-desktop
-    skypeforlinux
+      # socials
+      zoom-us
+      betterdiscordctl
+      discord
+      signal-desktop
+      skypeforlinux
 
-    # development
-    vscode
+      # development
+      vscode
 
-    # mail
-    thunderbird
+      # mail
+      thunderbird
 
-    # password
-    bitwarden-desktop
-    bitwarden-cli
+      # password
+      bitwarden-desktop
+      bitwarden-cli
 
-    # documents
-    onlyoffice-bin_latest
+      # documents
+      onlyoffice-bin_latest
 
-  ]);
+      # Work
+      gdk
+
+    ]);
   services.flatpak.packages = [
     "com.slack.Slack"
     "com.spotify.Client"
