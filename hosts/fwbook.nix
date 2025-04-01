@@ -44,9 +44,9 @@ in
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.defaultSession = "cosmic";
-  # services.xserver.desktopManager.enlightenment.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.desktopManager.cinnamon.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
   # Firmware updater
   services.fwupd.enable = true;
   services.fprintd.enable = true;
@@ -123,7 +123,14 @@ in
       # Work
       gdk
 
+      # IPhone Tethering
+      libimobiledevice
+      ifuse
+
+      # Iphone Management
+      idevicerestore # optional, to mount using 'ifuse'
     ]);
+  services.usbmuxd.enable = true;
   services.flatpak.packages = [
     "com.slack.Slack"
     "com.spotify.Client"
