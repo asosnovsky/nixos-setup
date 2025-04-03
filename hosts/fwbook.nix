@@ -94,7 +94,6 @@ in
 
       # Browser
       chromium
-      google-chrome
 
       # Photo Editing
       krita
@@ -136,8 +135,7 @@ in
     "com.spotify.Client"
     "com.cassidyjames.butler"
     "io.dbeaver.DBeaverCommunity"
-    "it.fabiodistasio.AntaresSQL"
-    "com.github.sdv43.whaler"
+    "com.google.Chrome"
   ];
   # Gaming
   programs.steam = {
