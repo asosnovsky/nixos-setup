@@ -25,10 +25,16 @@
     fsType = "vfat";
   };
   # Data
-  fileSystems."/mnt/Data" = {
+  # fileSystems."/mnt/Data" = {
+  #   device = "/dev/disk/by-uuid/ee4a60a8-b0d1-4f5c-a554-1d1d84c89e34";
+  #   fsType = "ext4";
+  #   options = [ "defaults" ];
+  # };
+  fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/ee4a60a8-b0d1-4f5c-a554-1d1d84c89e34";
     fsType = "ext4";
-    options = [ "defaults" ];
+    neededForBoot = true;
+    options = [ "noatime" ];
   };
   swapDevices = [ ];
   networking.useDHCP = lib.mkDefault true;

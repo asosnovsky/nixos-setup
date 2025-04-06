@@ -28,7 +28,7 @@ in
   # # Nix Stores
   services.nix-serve = {
     enable = true;
-    secretKeyFile = "/var/keys/cache-priv-key.pem";
+    secretKeyFile = "/home/ari/cache-priv-key.pem";
     port = ports.nixServe;
   };
   # firmware updater
@@ -36,7 +36,7 @@ in
   # # Services
   skyg.nixos.server.services = {
     audiobookshelf = {
-      enable = true;
+      enable = false;
       host = "0.0.0.0";
       openFirewall = true;
       port = ports.audiobookshelf;

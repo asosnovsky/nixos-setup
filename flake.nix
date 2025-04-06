@@ -48,19 +48,19 @@
       };
       homeManagerVersion = "24.11";
       # Local Services
-      # localNixCaches = {
-      #   # urls = [
-      #   #   "http://minipc1.lab.internal:5000"
-      #   # ];
-      #   # keys = [
-      #   #   "minipc1.lab.internal:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
-      #   # ];
-      # };
+      localNixCaches = {
+        #   # urls = [
+        #   #   "http://minipc1.lab.internal:5000"
+        #   # ];
+        #   # keys = [
+        #   #   "minipc1.lab.internal:eIoib1JgcBEd0YKdW95QlRA2eCKDs+WxNhWhkA1wffc="
+        #   # ];
+      };
       localDockerRegistries = [ "minipc1.lab.internal:5001" ];
       hlCommonSettings = {
         system = "x86_64-linux";
         user = user;
-        # localNixCaches = localNixCaches;
+        localNixCaches = localNixCaches;
         homeManagerVersion = homeManagerVersion;
         os = {
           enable = true;
