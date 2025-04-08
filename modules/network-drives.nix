@@ -42,8 +42,8 @@ in
       options = cfg.options;
     };
 
-    fileSystems."/mnt/EightTerra/NVR" = {
-      device = "${cfg.tnasHost}:/mnt/EightTerra/NVR";
+    fileSystems."/mnt/OneT/NVR" = {
+      device = "${cfg.tnasHost}:/mnt/OneT/NVR";
       fsType = "nfs";
       options = cfg.options;
     };

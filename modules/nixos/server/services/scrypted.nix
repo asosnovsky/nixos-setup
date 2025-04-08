@@ -19,7 +19,7 @@ in
             --driver local \
             --opt type=nfs \
             --opt o=addr=tnas1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
-            --opt device=:/mnt/EightTerra/NVR \
+            --opt device=:/mnt/OneT/NVR \
             scrypted-nvr
         '';
         deps = [ ];

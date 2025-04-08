@@ -28,7 +28,7 @@ in
   # # Nix Stores
   services.nix-serve = {
     enable = true;
-    secretKeyFile = "/home/ari/cache-priv-key.pem";
+    secretKeyFile = "/home/ari/cache-keys/minipc1.lab.internal.private";
     port = ports.nixServe;
   };
   # firmware updater
