@@ -1,0 +1,19 @@
+{ user }:
+{ pkgs
+, ...
+}:
+{
+  imports = [ ./hl-minipc3.hardware-configuration.nix ];
+  skyg.user.enable = true;
+  skyg.nixos.common.ssh-server.enable = true;
+  skyg.nixos.common.containers.openMetricsPort = true;
+  skyg.server.exporters.enable = true;
+  # firmware updater
+  services.fwupd.enable = true;
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # Disable firewall
+  networking.firewall.enable = false;
+}
+
