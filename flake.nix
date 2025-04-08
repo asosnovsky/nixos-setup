@@ -101,6 +101,7 @@
           nodeNames = [
             "hl-minipc1"
             "hl-minipc2"
+            "hl-minipc3"
             "hl-terra1"
             "hl-bigbox1"
           ];

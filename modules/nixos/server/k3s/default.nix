@@ -13,7 +13,6 @@ in
       };
       envPath = lib.mkOption {
         type = lib.types.str;
-        default = "/mnt/EightTerra/k3s-cluster/configs/k3s.env";
       };
     };
   };
@@ -32,16 +31,9 @@ in
       ];
     in
     lib.mkIf cfg.enable {
-      system.activationScripts.k3sEnv = ''
-        set -e
-        mkdir -p /var/lib/k3s
-        cp ${cfg.envPath} /var/lib/k3s/.env 
-        chmod 0644 /var/lib/k3s/.env
-        chown root:root /var/lib/k3s/.env
-      '';
       services.k3s = {
         enable = true;
-        environmentFile = "/var/lib/k3s/.env";
+        environmentFile = cfg.envPath;
         role = cfg.role;
         extraFlags = [
           "--disable servicelb"
