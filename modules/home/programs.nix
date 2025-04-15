@@ -23,11 +23,12 @@
     enable = true;
     autosuggestion.enable = true;
     initExtra = ''
+      export RPS1='$KUBE_PS1_SYMBOL_DEFAULT $(kubectx_prompt_info)/$(kubens -c)'
       export PROMPT='%(!.%{%F{yellow}%}.)$USER@%{$fg[white]%}%M %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
     '';
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "sudo" ];
+      plugins = [ "git" "sudo" "kubectx" "kube-ps1" ];
       theme = "robbyrussell";
     };
   };
@@ -48,7 +49,7 @@
     '';
   };
   alacritty = {
-    enable = true;
+    enable = false;
     settings = {
       general.import = [
         "${pkgs.alacritty-theme}/ayu_dark.toml"

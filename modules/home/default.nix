@@ -53,12 +53,13 @@ in
             nnn
             thefuck
             fastfetch
+            kubectl
+            kubectx
           ]
           ++ (if enableDevelopmentKit then [
             devenv
             devbox
             terraform
-            kubectl
           ] else
             [ ]);
       };
