@@ -29,5 +29,11 @@ function fix-nix-store() {
 }
 
 function start-sibli-vpn() {
+    export BW_SESSION="$(bw unlock --raw)"
+    bw unlock --check
+    if [ "$?" -eq 1 ]; then
+        echo "Failed bw auth"
+        return 1
+    fi
     pritunl-client start ee73mkzn4i5ymbax -p  $(bw get item "Pritunl (Sibli)" | jq -r '.fields[0].value')$(bw get totp "Pritunl (Sibli)") && watch -n1 "pritunl-client list"
 }
