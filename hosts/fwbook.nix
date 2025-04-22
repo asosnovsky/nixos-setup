@@ -196,6 +196,10 @@ in
   nix.extraOptions = ''
     	  builders-use-substitutes = true
     	'';
+  programs.nh = {
+    enable = true;
+    flake = "/home/ari/nixos-setup";
+  };
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
