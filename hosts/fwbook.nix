@@ -41,11 +41,21 @@ in
   };
   # Desktop Env
   services.displayManager.cosmic-greeter.enable = false;
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+
+  services.displayManager.sddm.enable = false;
+  services.displayManager.sddm.wayland.enable = false;
+
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = true;
+
   services.displayManager.defaultSession = "cosmic";
-  services.xserver.desktopManager.cinnamon.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.cinnamon.enable = false;
+  services.xserver.desktopManager.gnome.enable = true;
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    gnome-text-editor
+    gnome-console
+  ];
 
   # Firmware updater
   services.fwupd.enable = true;
@@ -199,6 +209,7 @@ in
   programs.nh = {
     enable = true;
     flake = "/home/ari/nixos-setup";
+    clean.enable = true;
   };
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;

@@ -37,7 +37,7 @@ in
         role = cfg.role;
         extraFlags = [
           "--disable servicelb"
-          "write-kubeconfig-mode 640"
+          "--write-kubeconfig-mode 640"
           "--write-kubeconfig-group users"
           "--disable-helm-controller"
         ];
