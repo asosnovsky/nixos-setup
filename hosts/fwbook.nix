@@ -40,16 +40,9 @@ in
     };
   };
   # Desktop Env
-  services.displayManager.cosmic-greeter.enable = false;
-
-  services.displayManager.sddm.enable = false;
-  services.displayManager.sddm.wayland.enable = false;
-
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
-
-  services.displayManager.defaultSession = "cosmic";
-  services.xserver.desktopManager.cinnamon.enable = false;
+  # services.displayManager.defaultSession = "cosmic";
   services.xserver.desktopManager.gnome.enable = true;
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
