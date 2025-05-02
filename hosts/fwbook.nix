@@ -29,6 +29,7 @@ in
         cosmic.enable = true;
         kde.enable = false;
         crypto.enable = true;
+        gnome.enable = true;
       };
     };
     networkDrives = {
@@ -42,13 +43,7 @@ in
   # Desktop Env
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
-  # services.displayManager.defaultSession = "cosmic";
-  services.xserver.desktopManager.gnome.enable = true;
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-text-editor
-    gnome-console
-  ];
+  services.displayManager.defaultSession = "cosmic";
 
   # Firmware updater
   services.fwupd.enable = true;

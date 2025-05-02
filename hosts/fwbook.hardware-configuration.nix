@@ -18,6 +18,11 @@
       options = [ "subvol=@root" "compress=zstd" ];
     };
 
+  fileSystems."/root-btrfs" =
+    { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
+      fsType = "btrfs";
+    };
+
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
       fsType = "btrfs";
@@ -29,6 +34,13 @@
       fsType = "btrfs";
       options = [ "subvol=@nix" "compress=zstd" "noatime" ];
     };
+    
+  fileSystems."/swap" =
+    { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
+      fsType = "btrfs";
+      options = [ "subvol=@swap" "noatime" ];
+    };
+    
   fileSystems."/mnt/Data" = {
     device = "/dev/disk/by-uuid/239db4ac-762d-4d76-8297-ccd37bcdfd8b";
     fsType = "ext4";
@@ -39,7 +51,7 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-
+  swapDevices = [ { device = "/swap/swapfile"; } ];
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = 
