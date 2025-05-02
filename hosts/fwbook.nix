@@ -10,6 +10,7 @@ in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
+  environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = "true";
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
   environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   skyg = {
@@ -119,6 +120,7 @@ in
 
       # Work
       gdk
+      slack
 
       # IPhone Tethering
       libimobiledevice
@@ -129,7 +131,6 @@ in
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [
-    "com.slack.Slack"
     "com.spotify.Client"
     "com.cassidyjames.butler"
     "io.dbeaver.DBeaverCommunity"

@@ -13,7 +13,14 @@ let
 in
 {
   makeRootUser = { hostName }: { pkgs, ... }: {
-    home = homeModule;
+    home = homeModule // {
+      packages = with pkgs; [
+        jq
+        kubectl
+        kubectx
+            htop
+      ];
+    };
     programs = (programsModule {
       pkgs = pkgs;
       user = {
@@ -50,8 +57,6 @@ in
             ipfetch
             nixd
             htop
-            nnn
-            thefuck
             fastfetch
             kubectl
             kubectx
