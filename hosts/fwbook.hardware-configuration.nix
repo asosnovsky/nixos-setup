@@ -6,54 +6,98 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = 
+  boot.initrd.availableKernelModules =
     [ "nvme" "xhci_pci" "thunderbolt" "uas" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
+    {
+      device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
       fsType = "btrfs";
       options = [ "subvol=@root" "compress=zstd" ];
     };
 
   fileSystems."/root-btrfs" =
-    { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
+    {
+      device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
       fsType = "btrfs";
     };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
+    {
+      device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
       fsType = "btrfs";
       options = [ "subvol=@home" "compress=zstd" ];
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
+    {
+      device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
       fsType = "btrfs";
       options = [ "subvol=@nix" "compress=zstd" "noatime" ];
     };
-    
+
   fileSystems."/swap" =
-    { device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
+    {
+      device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
       fsType = "btrfs";
       options = [ "subvol=@swap" "noatime" ];
     };
-    
+
   fileSystems."/mnt/Data" = {
     device = "/dev/disk/by-uuid/239db4ac-762d-4d76-8297-ccd37bcdfd8b";
     fsType = "ext4";
     options = [ "users" "exec" "nofail" ];
   };
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/0559-4C2D";
+    {
+      device = "/dev/disk/by-uuid/0559-4C2D";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-  swapDevices = [ { device = "/swap/swapfile"; } ];
+  swapDevices = [{ device = "/swap/swapfile"; }];
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = 
+  hardware.cpu.amd.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # BTRFS Stuff
+  services.btrfs.autoScrub.enable = true;
+  services.snapper = {
+    persistentTimer = true;
+    snapshotRootOnBoot = true;
+    configs =
+      let
+        defaultSettings = {
+          TIMELINE_CREATE = true;
+          TIMELINE_CLEANUP = true;
+          TIMELINE_LIMIT_HOURLY = "10";
+          TIMELINE_LIMIT_DAILY = "7";
+          TIMELINE_LIMIT_WEEKLY = "0";
+          TIMELINE_LIMIT_MONTHLY = "0";
+          TIMELINE_LIMIT_YEARLY = "0";
+          BACKGROUND_COMPARISON = "yes";
+          NUMBER_CLEANUP = "no";
+          NUMBER_MIN_AGE = "1800";
+          NUMBER_LIMIT = "10";
+          NUMBER_LIMIT_IMPORTANT = "10";
+          EMPTY_PRE_POST_CLEANUP = "yes";
+          EMPTY_PRE_POST_MIN_AGE = "1800";
+        };
+      in
+      {
+        root = defaultSettings // {
+          SUBVOLUME = "/";
+        };
+        home = defaultSettings // {
+          SUBVOLUME = "/home";
+        };
+      };
+  };
+  environment.systemPackages = [
+    pkgs.snapper
+    pkgs.snapper-gui
+  ];
 }
