@@ -10,6 +10,7 @@ in
     ./x11.nix
     ./packages.nix
     ./crypto.nix
+    ./gnome.nix
   ];
 
   options = {

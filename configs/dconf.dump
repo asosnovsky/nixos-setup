@@ -1,0 +1,522 @@
+[com/saivert/pwvucontrol]
+is-maximized=true
+window-height=640
+window-width=820
+
+[com/uploadedlobster/peek]
+persist-window-geometry=(523, 232, 1046, 612)
+
+[org/blueman/general]
+window-properties=[1016, 1098, 0, 0]
+
+[org/blueman/plugins/powermanager]
+auto-power-on=@mb true
+
+[org/blueman/plugins/recentconns]
+recent-connections=[{'adapter': '14:AC:60:29:85:4E', 'address': 'EC:28:D3:5A:16:A7', 'alias': 'Lëva’s iPhone 14', 'icon': 'phone', 'name': 'Audio and input profiles', 'uuid': '00000000-0000-0000-0000-000000000000', 'time': '1715626835.8059006', 'device': '/org/bluez/hci0/dev_EC_28_D3_5A_16_A7'}, {'adapter': '14:AC:60:29:85:4E', 'address': 'F0:70:4F:54:F3:F1', 'alias': '[TV] Samsung The Frame 50', 'icon': 'audio-card', 'name': 'Audio and input profiles', 'uuid': '00000000-0000-0000-0000-000000000000', 'time': '1715626829.8273003'}, {'adapter': '14:AC:60:29:85:4E', 'address': '18:3F:70:75:BD:56', 'alias': 'Ari’s AirPods Pro - Find My', 'icon': 'audio-headphones', 'name': 'Audio and input profiles', 'uuid': '00000000-0000-0000-0000-000000000000', 'time': '1724678333.4814482', 'device': '/org/bluez/hci0/dev_18_3F_70_75_BD_56'}]
+
+[org/cinnamon]
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:separator@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:6:systray@cinnamon.org:3', 'panel1:right:7:xapp-status@cinnamon.org:4', 'panel1:right:8:notifications@cinnamon.org:5', 'panel1:right:9:printers@cinnamon.org:6', 'panel1:right:10:removable-drives@cinnamon.org:7', 'panel1:right:11:keyboard@cinnamon.org:8', 'panel1:right:12:favorites@cinnamon.org:9', 'panel1:right:13:network@cinnamon.org:10', 'panel1:right:14:sound@cinnamon.org:11', 'panel1:right:15:power@cinnamon.org:12', 'panel1:right:16:calendar@cinnamon.org:13', 'panel1:right:17:cornerbar@cinnamon.org:14', 'panel1:right:4:expo@cinnamon.org:16', 'panel1:right:1:windows-quick-list@cinnamon.org:19']
+favorite-apps=['cinnamon-settings.desktop', 'com.mitchellh.ghostty.desktop', 'nemo.desktop']
+next-applet-id=21
+window-effect-speed=1
+
+[org/cinnamon/cinnamon-session]
+prefer-hybrid-sleep=false
+suspend-then-hibernate=true
+
+[org/cinnamon/desktop/applications/calculator]
+exec='gnome-calculator'
+
+[org/cinnamon/desktop/applications/terminal]
+exec='ghostty'
+exec-arg='--'
+
+[org/cinnamon/desktop/background]
+picture-uri='file:///mnt/Data/Pictures/LockScreen.jpg'
+
+[org/cinnamon/desktop/background/slideshow]
+delay=15
+image-source='directory:///mnt/Data/Pictures'
+
+[org/cinnamon/desktop/interface]
+cursor-blink-time=1200
+cursor-theme='Bibata-Modern-Classic'
+gtk-theme='Nordic-darker'
+icon-theme='Cosmic'
+
+[org/cinnamon/desktop/keybindings/media-keys]
+terminal=['<Super>t']
+www=['<Super>b']
+
+[org/cinnamon/desktop/keybindings/wm]
+close=['<Super>q']
+maximize=['<Super>m']
+minimize=['<Super>n']
+push-tile-left=@as []
+push-tile-right=@as []
+switch-to-workspace-left=['<Super>Left']
+switch-to-workspace-right=['<Super>Right']
+
+[org/cinnamon/desktop/media-handling]
+autorun-never=false
+
+[org/cinnamon/desktop/peripherals/keyboard]
+delay=uint32 500
+repeat-interval=uint32 30
+
+[org/cinnamon/desktop/sound]
+event-sounds=false
+
+[org/cinnamon/desktop/wm/preferences]
+num-workspaces=5
+workspace-names=@as []
+
+[org/cinnamon/gestures]
+swipe-down-2='PUSH_TILE_DOWN::end'
+swipe-down-3='TOGGLE_OVERVIEW::end'
+swipe-down-4='VOLUME_DOWN::end'
+swipe-left-2='PUSH_TILE_LEFT::end'
+swipe-left-3='WORKSPACE_NEXT::end'
+swipe-left-4='WINDOW_WORKSPACE_PREVIOUS::end'
+swipe-right-2='PUSH_TILE_RIGHT::end'
+swipe-right-3='WORKSPACE_PREVIOUS::end'
+swipe-right-4='WINDOW_WORKSPACE_NEXT::end'
+swipe-up-2='PUSH_TILE_UP::end'
+swipe-up-3='TOGGLE_EXPO::end'
+swipe-up-4='VOLUME_UP::end'
+tap-3='MEDIA_PLAY_PAUSE::end'
+
+[org/cinnamon/settings-daemon/peripherals/keyboard]
+numlock-state='off'
+
+[org/cinnamon/settings-daemon/plugins/power]
+lid-close-ac-action='suspend'
+lid-close-battery-action='suspend'
+sleep-display-ac=1800
+sleep-display-battery=1800
+sleep-inactive-ac-timeout=0
+sleep-inactive-battery-timeout=2700
+
+[org/cinnamon/settings-daemon/plugins/xsettings]
+buttons-have-icons=true
+
+[org/cinnamon/theme]
+name='Nordic-darker'
+
+[org/gnome/Connections]
+first-run=false
+
+[org/gnome/Console]
+last-window-size=(652, 481)
+
+[org/gnome/Snapshot]
+is-maximized=true
+window-height=640
+window-width=800
+
+[org/gnome/clocks/state/window]
+maximized=false
+panel-id='world'
+size=(870, 690)
+
+[org/gnome/control-center]
+last-panel='multitasking'
+window-state=(980, 649, true)
+
+[org/gnome/desktop/a11y]
+always-show-text-caret=false
+
+[org/gnome/desktop/a11y/applications]
+screen-keyboard-enabled=false
+screen-reader-enabled=false
+
+[org/gnome/desktop/a11y/mouse]
+dwell-click-enabled=false
+dwell-threshold=10
+dwell-time=1.2
+secondary-click-enabled=false
+secondary-click-time=1.2
+
+[org/gnome/desktop/app-folders]
+folder-children=['Utilities', 'YaST']
+
+[org/gnome/desktop/app-folders/folders/Utilities]
+apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Connections.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.eog.desktop', 'org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'vinagre.desktop']
+categories=['X-GNOME-Utilities']
+name='X-GNOME-Utilities.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[org/gnome/desktop/background]
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///home/ari/.local/share/backgrounds/2025-04-24-12-23-30-IMG_2776.JPEG'
+picture-uri-dark='file:///home/ari/.local/share/backgrounds/2025-04-24-12-23-30-IMG_2776.JPEG'
+primary-color='#000000000000'
+secondary-color='#000000000000'
+
+[org/gnome/desktop/input-sources]
+current=uint32 0
+show-all-sources=false
+sources=[('xkb', 'us')]
+xkb-options=['terminate:ctrl_alt_bksp']
+
+[org/gnome/desktop/interface]
+can-change-accels=false
+clock-show-date=false
+clock-show-seconds=false
+color-scheme='prefer-dark'
+cursor-blink=true
+cursor-blink-time=1200
+cursor-blink-timeout=10
+cursor-size=24
+cursor-theme='default'
+enable-animations=true
+font-antialiasing='grayscale'
+font-hinting='slight'
+font-name='Fira Code,  10'
+font-rgba-order='rgb'
+gtk-color-palette='black:white:gray50:red:purple:blue:light blue:green:yellow:orange:lavender:brown:goldenrod4:dodger blue:pink:light green:gray10:gray30:gray75:gray90'
+gtk-color-scheme=''
+gtk-enable-primary-paste=true
+gtk-im-module=''
+gtk-im-preedit-style='callback'
+gtk-im-status-style='callback'
+gtk-key-theme='Default'
+gtk-theme='Nordic-darker'
+gtk-timeout-initial=200
+gtk-timeout-repeat=20
+icon-theme='breeze-dark'
+menubar-accel='F10'
+menubar-detachable=false
+menus-have-tearoff=false
+scaling-factor=uint32 1
+show-battery-percentage=true
+text-scaling-factor=1.0
+toolbar-detachable=false
+toolbar-icons-size='large'
+toolbar-style='text'
+toolkit-accessibility=false
+
+[org/gnome/desktop/notifications]
+application-children=['gnome-power-panel', 'org-gnome-console', 'code', 'firefox', 'zoom', 'org-gnome-nautilus', 'org-gnome-settings', 'gnome-network-panel', 'discord', 'org-gnome-characters', 'com-slack-slack', 'chromium-browser', 'org-gnome-software', 'xdg-desktop-portal-gnome']
+
+[org/gnome/desktop/notifications/application/chromium-browser]
+application-id='chromium-browser.desktop'
+
+[org/gnome/desktop/notifications/application/code]
+application-id='code.desktop'
+
+[org/gnome/desktop/notifications/application/com-slack-slack]
+application-id='com.slack.Slack.desktop'
+
+[org/gnome/desktop/notifications/application/discord]
+application-id='discord.desktop'
+
+[org/gnome/desktop/notifications/application/firefox]
+application-id='firefox.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-network-panel]
+application-id='gnome-network-panel.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-power-panel]
+application-id='gnome-power-panel.desktop'
+
+[org/gnome/desktop/notifications/application/io-dbeaver-dbeavercommunity]
+application-id='io.dbeaver.DBeaverCommunity.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-characters]
+application-id='org.gnome.Characters.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-console]
+application-id='org.gnome.Console.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-evolution-alarm-notify]
+application-id='org.gnome.Evolution-alarm-notify.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-settings]
+application-id='org.gnome.Settings.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-software]
+application-id='org.gnome.Software.desktop'
+
+[org/gnome/desktop/notifications/application/xdg-desktop-portal-gnome]
+application-id='xdg-desktop-portal-gnome.desktop'
+
+[org/gnome/desktop/notifications/application/zoom]
+application-id='Zoom.desktop'
+
+[org/gnome/desktop/peripherals/mouse]
+accel-profile='default'
+double-click=400
+drag-threshold=8
+left-handed=false
+middle-click-emulation=false
+natural-scroll=false
+speed=0.0
+
+[org/gnome/desktop/peripherals/touchpad]
+two-finger-scrolling-enabled=true
+
+[org/gnome/desktop/privacy]
+disable-camera=false
+disable-microphone=false
+disable-sound-output=false
+old-files-age=uint32 30
+recent-files-max-age=7
+remember-recent-files=true
+remove-old-temp-files=false
+remove-old-trash-files=false
+
+[org/gnome/desktop/screensaver]
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///home/ari/.local/share/backgrounds/2025-04-24-12-23-30-IMG_2776.JPEG'
+primary-color='#000000000000'
+secondary-color='#000000000000'
+
+[org/gnome/desktop/search-providers]
+sort-order=['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
+
+[org/gnome/desktop/session]
+idle-delay=uint32 0
+
+[org/gnome/desktop/sound]
+event-sounds=false
+input-feedback-sounds=false
+theme-name='ocean'
+
+[org/gnome/desktop/wm/keybindings]
+close=['<Super>q']
+maximize=['<Super>m']
+move-to-monitor-right=@as []
+move-to-workspace-last=['<Shift><Alt><Super>Right']
+move-to-workspace-left=['<Alt><Super>Left']
+move-to-workspace-right=['<Alt><Super>Right']
+switch-to-workspace-left=['<Super>Left']
+switch-to-workspace-right=['<Super>Right']
+
+[org/gnome/desktop/wm/preferences]
+action-double-click-titlebar='toggle-maximize'
+action-middle-click-titlebar='lower'
+action-right-click-titlebar='menu'
+audible-bell=false
+auto-raise=false
+auto-raise-delay=500
+button-layout=':minimize,maximize,close'
+disable-workarounds=false
+focus-mode='click'
+focus-new-windows='smart'
+mouse-button-modifier='<Alt>'
+num-workspaces=5
+raise-on-click=true
+resize-with-right-button=true
+theme='Mint-Y'
+titlebar-font='Ubuntu Medium 10'
+titlebar-uses-system-font=false
+visual-bell=false
+visual-bell-type='fullscreen-flash'
+workspace-names=@as []
+
+[org/gnome/epiphany]
+ask-for-default=false
+
+[org/gnome/evolution-data-server]
+migrated=true
+
+[org/gnome/evolution-data-server/calendar]
+notify-window-height=242
+notify-window-paned-position=48
+notify-window-width=194
+notify-window-x=30
+notify-window-y=26
+reminders-past=['b72277e711224ae4765073a5ac53cf503e932d57\n223d73c43dcc22ce96bf4d63ed8250f57c2698c2\t20250502T170000Z\n1746203700\n1746205200\n1746208800\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250502T130000\r\nDTEND;TZID=America/Toronto:20250502T140000\r\nRRULE:FREQ=WEEKLY\r\nDTSTAMP:20250326T040300Z\r\nUID:e0dbo79v8occet29fkk0v8tcvs@google.com\r\nCREATED:20250326T040300Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250326T040300Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Cal Mom\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63878644980\r\nRECURRENCE-ID:20250502T170000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT25M\r\nX-EVOLUTION-ALARM-UID:223d73c43dcc22ce96bf4d63ed8250f57c2698c2\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n1cfae0823613b0a42a090aefd1fdbf3e2f081b45\t20250502T160000Z\n1746201000\n1746201600\n1746203400\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250502T120000\r\nDTEND;TZID=America/Toronto:20250502T123000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nEXDATE;TZID=America/Toronto:20250505T120000\r\nEXDATE;TZID=America/Toronto:20250506T120000\r\nDTSTAMP:20250429T191437Z\r\nUID:8ibimu2obksnd1vomhud98dhgs@google.com\r\nCREATED:20241213T022136Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250429T191437Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:3\r\nSTATUS:CONFIRMED\r\nSUMMARY:Baby\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881637277\r\nRECURRENCE-ID:20250502T160000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:1cfae0823613b0a42a090aefd1fdbf3e2f081b45\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n262962d13209942a3c0a62b5f2df1b158570cb81\t20250502T160000\n1746193800\n1746194400\n1746198000\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Amsterdam:20250502T160000\r\nDTEND;TZID=Europe/Amsterdam:20250502T170000\r\nDTSTAMP:20250430T142914Z\r\nORGANIZER;CN=Adriaan Bol:mailto:adriaan.bol@opoint.co\r\nUID:\r\n 040000008200E00074C5B7101A82E00800000000001C30E6EAB9DB01000000000000000010\r\n 000000DCC30878781EFC4B84926000757278D8\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=Roland Lopes;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=Peter Jones;X-NUM-GUESTS=0:mailto:peter@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=OPT-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=Alik Sokolov;X-NUM-GUESTS=0:mailto:alik@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=Adriaan Bol;X-NUM-GUESTS=0:mailto:adriaan.bol@opoint.co\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=OPT-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=Toby Cook;X-NUM-GUESTS=0:mailto:toby.cook@opoint.co\r\nCREATED:20250430T142838Z\r\nDESCRIPTION:API set-up\\nrate limits\\ndevelopment/test API\\nSibli use \r\n case\\n____________________________________________________________________\r\n ___________\\nMicrosoft Teams Need help?<https:\r\n //aka.ms/JoinTeamsMeeting?omkt=en-US>\\nJoin the meeting now<https:\r\n //teams.microsoft.com/l/meetup-join/19%3ameeting_NjVjNTU3MzAtZTk1Yi00NGI2L\r\n WJjNDItYmQ2MmE0MDc3MmE5%40thread.v2/0?context=%7b%22Tid%22%3a%22e66074a4-d\r\n ad5-454c-8f0e-f55dc95f5919%22%2c%22Oid%22%3a%22a4968f8e-2a64-42c7-b0d7-fb3\r\n e42cf037a%22%7d>\\nMeeting ID: 364 740 902 756 0\\nPasscode: \r\n 2LM9sa3R\\n________________________________\\nFor organizers: Meeting \r\n options<https:\r\n //teams.microsoft.com/meetingOptions/?organizerId=a4968f8e-2a64-42c7-b0d7-\r\n fb3e42cf037a&tenantId=e66074a4-dad5-454c-8f0e-f55dc95f5919&threadId=19_mee\r\n ting_NjVjNTU3MzAtZTk1Yi00NGI2LWJjNDItYmQ2MmE0MDc3MmE5@thread.v2&messageId=\r\n 0&language=en-US>\\n_______________________________________________________\r\n _________________________\\n\\n\r\nLAST-MODIFIED:20250430T142914Z\r\nLOCATION:Microsoft Teams Meeting\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Meeting Opoint<> Sibli\r\nTRANSP:OPAQUE\r\nX-MICROSOFT-CDO-ALLDAYEVENT:FALSE\r\nX-MICROSOFT-CDO-APPT-SEQUENCE:0\r\nX-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE\r\nX-MICROSOFT-CDO-IMPORTANCE:1\r\nX-MICROSOFT-CDO-INSTTYPE:0\r\nX-MICROSOFT-CDO-INTENDEDSTATUS:BUSY\r\nX-MICROSOFT-CDO-OWNERAPPTID:840845289\r\nX-MICROSOFT-DISALLOW-COUNTER:FALSE\r\nX-MICROSOFT-DONOTFORWARDMEETING:FALSE\r\nX-MICROSOFT-ISRESPONSEREQUESTED:TRUE\r\nX-MICROSOFT-LOCATIONS:[ { "DisplayName" : "Microsoft Teams Meeting", \r\n "LocationAnnotation" : "", "LocationSource" : 0, "Unresolved" : false, \r\n "LocationUri" : "" } ]\r\nX-MICROSOFT-REQUESTEDATTENDANCEMODE:DEFAULT\r\nX-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https:\r\n //api.scheduler.teams.microsoft.com/teams/e66074a4-dad5-454c-8f0e-f55dc95f\r\n 5919/a4968f8e-2a64-42c7-b0d7-fb3e42cf037a/19_meeting_NjVjNTU3MzAtZTk1Yi00N\r\n GI2LWJjNDItYmQ2MmE0MDc3MmE5@thread.v2/0\r\nX-MICROSOFT-SKYPETEAMSMEETINGURL:https:\r\n //teams.microsoft.com/l/meetup-join/19%3ameeting_NjVjNTU3MzAtZTk1Yi00NGI2L\r\n WJjNDItYmQ2MmE0MDc3MmE5%40thread.v2/0?context=%7b%22Tid%22%3a%22e66074a4-d\r\n ad5-454c-8f0e-f55dc95f5919%22%2c%22Oid%22%3a%22a4968f8e-2a64-42c7-b0d7-fb3\r\n e42cf037a%22%7d\r\nX-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:\r\n meeting_NjVjNTU3MzAtZTk1Yi00NGI2LWJjNDItYmQ2MmE0MDc3MmE5@thread.v2","priva\r\n te":true,"type":0,"mid":0,"rid":0,"uid":null}\r\nX-EVOLUTION-CALDAV-ETAG:63881706554\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:262962d13209942a3c0a62b5f2df1b158570cb81\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\nafa6c994952183e8919a2cf40d8ab9663e6129f3\t20250502T131500Z\n1746191100\n1746191700\n1746193500\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250502T091500\r\nDTEND;TZID=America/Toronto:20250502T094500\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250430T182821Z\r\nORGANIZER;CN=omar@sibli.ai:mailto:omar@sibli.ai\r\nUID:0kq6sq4baiu3lat2jmnloo36t2@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=alik@sibli.ai;X-NUM-GUESTS=0:mailto:alik@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=fatiha@sibli.ai;X-NUM-GUESTS=0:mailto:fatiha@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=omar@sibli.ai;X-NUM-GUESTS=0:mailto:omar@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=daria@sibli.ai;X-NUM-GUESTS=0:mailto:daria@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=All Technology Teams;X-NUM-GUESTS=0:mailto:technology@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/nzj-qbfo-bwh\r\nCREATED:20250430T121239Z\r\nDESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https:\r\n //meet.google.com/nzj-qbfo-bwh\\nOr dial: (CA) +1 587-688-7219 PIN: \r\n 980014279#\\nMore phone numbers: https:\r\n //tel.meet/nzj-qbfo-bwh?pin=2636904471406&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250430T182821Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:1\r\nSTATUS:CONFIRMED\r\nSUMMARY:Ray Standup\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881720901\r\nRECURRENCE-ID:20250502T131500Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:afa6c994952183e8919a2cf40d8ab9663e6129f3\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'b72277e711224ae4765073a5ac53cf503e932d57\n82f0fe6ca9e1e90236951b2a1febab226f05c5db\t20250502\n1746142500\n1746144000\n1746230400\nBEGIN:VEVENT\r\nDTSTART;VALUE=DATE:20250502\r\nDTEND;VALUE=DATE:20250503\r\nDTSTAMP:20250326T031923Z\r\nUID:plucjfcnqqk0pi758gjdllijf8@google.com\r\nCREATED:20250326T031923Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250326T031923Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Vita work\r\nTRANSP:TRANSPARENT\r\nX-EVOLUTION-CALDAV-ETAG:63878642363\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT25M\r\nX-EVOLUTION-ALARM-UID:82f0fe6ca9e1e90236951b2a1febab226f05c5db\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\t20250501T210000Z\n1746132600\n1746133200\n1746135000\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250501T170000\r\nDTEND;TZID=America/Toronto:20250501T173000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250228T211718Z\r\nUID:79k78kfh0a3u7purooj24lahvn@google.com\r\nCREATED:20250228T211657Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250228T211718Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Daycare pick up\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63876460638\r\nRECURRENCE-ID:20250501T210000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n1cfae0823613b0a42a090aefd1fdbf3e2f081b45\t20250501T160000Z\n1746114600\n1746115200\n1746117000\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250501T120000\r\nDTEND;TZID=America/Toronto:20250501T123000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nEXDATE;TZID=America/Toronto:20250505T120000\r\nEXDATE;TZID=America/Toronto:20250506T120000\r\nDTSTAMP:20250429T191437Z\r\nUID:8ibimu2obksnd1vomhud98dhgs@google.com\r\nCREATED:20241213T022136Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250429T191437Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:3\r\nSTATUS:CONFIRMED\r\nSUMMARY:Baby\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881637277\r\nRECURRENCE-ID:20250501T160000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:1cfae0823613b0a42a090aefd1fdbf3e2f081b45\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\nafa6c994952183e8919a2cf40d8ab9663e6129f3\t20250501T131500Z\n1746104700\n1746105300\n1746107100\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250501T091500\r\nDTEND;TZID=America/Toronto:20250501T094500\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250430T182821Z\r\nORGANIZER;CN=omar@sibli.ai:mailto:omar@sibli.ai\r\nUID:0kq6sq4baiu3lat2jmnloo36t2@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=alik@sibli.ai;X-NUM-GUESTS=0:mailto:alik@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=fatiha@sibli.ai;X-NUM-GUESTS=0:mailto:fatiha@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=omar@sibli.ai;X-NUM-GUESTS=0:mailto:omar@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=daria@sibli.ai;X-NUM-GUESTS=0:mailto:daria@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=All Technology Teams;X-NUM-GUESTS=0:mailto:technology@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/nzj-qbfo-bwh\r\nCREATED:20250430T121239Z\r\nDESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https:\r\n //meet.google.com/nzj-qbfo-bwh\\nOr dial: (CA) +1 587-688-7219 PIN: \r\n 980014279#\\nMore phone numbers: https:\r\n //tel.meet/nzj-qbfo-bwh?pin=2636904471406&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250430T182821Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:1\r\nSTATUS:CONFIRMED\r\nSUMMARY:Ray Standup\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881720901\r\nRECURRENCE-ID:20250501T131500Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:afa6c994952183e8919a2cf40d8ab9663e6129f3\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n928f677b1c2d4ab0b2b8638ac08123579b5b1c63\t20250501T090000\n1746103800\n1746104400\n1746106200\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250501T090000\r\nDTEND;TZID=America/Toronto:20250501T093000\r\nDTSTAMP:20250424T152908Z\r\nORGANIZER;CN=alik@sibli.ai:mailto:alik@sibli.ai\r\nUID:7gu55p8v1qkkj9l8l0aqu1819d_R20250417T130000@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=alik@sibli.ai;X-NUM-GUESTS=0:mailto:alik@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=team;X-NUM-GUESTS=0:mailto:team@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/epm-eurh-wdq\r\nRECURRENCE-ID;TZID=America/Toronto:20250501T090000\r\nCREATED:20240717T133057Z\r\nDESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https:\r\n //meet.google.com/epm-eurh-wdq\\nOr dial: (CA) +1 613-778-5233 PIN: \r\n 143196125#\\nMore phone numbers: https:\r\n //tel.meet/epm-eurh-wdq?pin=9395407437643&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250424T152908Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Sibli All-Hands\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881191748\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:928f677b1c2d4ab0b2b8638ac08123579b5b1c63\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\t20250430T210000Z\n1746046200\n1746046800\n1746048600\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250430T170000\r\nDTEND;TZID=America/Toronto:20250430T173000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250228T211718Z\r\nUID:79k78kfh0a3u7purooj24lahvn@google.com\r\nCREATED:20250228T211657Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250228T211718Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Daycare pick up\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63876460638\r\nRECURRENCE-ID:20250430T210000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'b72277e711224ae4765073a5ac53cf503e932d57\n72451b93ea8d6bae7ac822b991788e04a0993b2a\t20250429\n1745883300\n1745884800\n1745971200\nBEGIN:VEVENT\r\nDTSTART;VALUE=DATE:20250429\r\nDTEND;VALUE=DATE:20250430\r\nDTSTAMP:20250326T031915Z\r\nUID:tkhd2gglss0snu4pctqvfmikm8@google.com\r\nCREATED:20250326T031915Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250326T031915Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Vita work\r\nTRANSP:TRANSPARENT\r\nX-EVOLUTION-CALDAV-ETAG:63878642355\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT25M\r\nX-EVOLUTION-ALARM-UID:72451b93ea8d6bae7ac822b991788e04a0993b2a\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\t20250428T210000Z\n1745873400\n1745874000\n1745875800\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T170000\r\nDTEND;TZID=America/Toronto:20250428T173000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250228T211718Z\r\nUID:79k78kfh0a3u7purooj24lahvn@google.com\r\nCREATED:20250228T211657Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250228T211718Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Daycare pick up\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63876460638\r\nRECURRENCE-ID:20250428T210000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\nc821a747f2a7f0827b251875001afa4ea50e94f5\t20250428T161500\n1745870700\n1745871300\n1745873100\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T161500\r\nDTEND;TZID=America/Toronto:20250428T164500\r\nDTSTAMP:20250425T183929Z\r\nORGANIZER;CN=ariel@sibli.ai:mailto:ariel@sibli.ai\r\nUID:45k8snc1b60hrdmphsqr4gjp26@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=peter@sibli.ai;X-NUM-GUESTS=0:mailto:peter@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/fpo-apjh-jac\r\nCREATED:20250425T183538Z\r\nDESCRIPTION:~-~-~   Prepare for this meeting with Fellow~-~-~\\n\\n-::~:~::\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::\r\n ~:~::-\\nJoin with Google Meet: https://meet.google.com/fpo-apjh-jac\\nOr \r\n dial: (CA) +1 587-688-4134 PIN: 587252983#\\nMore phone numbers: https:\r\n //tel.meet/fpo-apjh-jac?pin=3265347787142&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250425T183929Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Entity Store Followup & planning\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881289569\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:c821a747f2a7f0827b251875001afa4ea50e94f5\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\naafa26f546d617b1adfca29057b043c320bf16cd\t20250428T100000\n1745864400\n1745865000\n1745868600\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T143000\r\nDTEND;TZID=America/Toronto:20250428T153000\r\nDTSTAMP:20250425T191145Z\r\nORGANIZER;CN=roland@sibli.ai:mailto:roland@sibli.ai\r\nUID:56f6pv0deqfm4tvdgn71hlk8g3_R20250421T140000@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=omar@sibli.ai;X-NUM-GUESTS=0:mailto:omar@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=fatiha@sibli.ai;X-NUM-GUESTS=0:mailto:fatiha@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=alik@sibli.ai;X-NUM-GUESTS=0:mailto:alik@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/qgk-pdwj-psg\r\nRECURRENCE-ID;TZID=America/Toronto:20250428T100000\r\nCREATED:20250407T161308Z\r\nDESCRIPTION:~-~-~<br/>📆 <a href="https://fellow.link/aofAmv1Y">Prepare \r\n for this meeting with Fellow</a><br/>~-~-~<br/><b><u>Meeting \r\n Agenda</u></b><br><br><u>Sales<br></u>- Upcoming engagements<br>- \r\n Upcoming demos<br><br><u>Client</u><br>- Upcoming client work<br>- Status \r\n of current client work<br><br><u>App<br></u>- Priorities for the \r\n week<br><br><u>DS/ML<br></u>- Priorities for the \r\n week<br><br><u>Ops</u><br>- Priorities for the week\\n\\n-::~:~::~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::\r\n -\\nJoin with Google Meet: https://meet.google.com/qgk-pdwj-psg\\nOr dial: \r\n (CA) +1 647-735-7109 PIN: 565820047#\\nMore phone numbers: https:\r\n //tel.meet/qgk-pdwj-psg?pin=8837685409908&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250425T191145Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:2\r\nSTATUS:CONFIRMED\r\nSUMMARY:Leadership Sync\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881291505\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:aafa26f546d617b1adfca29057b043c320bf16cd\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n39b97fec868ac1dc4d6e821d5df69b498a596f4b\t20250428T133000\n1745860800\n1745861400\n1745864400\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T133000\r\nDTEND;TZID=America/Toronto:20250428T142000\r\nDTSTAMP:20250425T154403Z\r\nUID:mk5iqbd8nipctbe83h0sdfah4o@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nCREATED:20250423T150001Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250425T154403Z\r\nLOCATION:MediOne Physicians Yonge & Steeles Family Medicine and Walk-In \r\n Clinic (Thornhill)\\, 100 Steeles Ave W #11\\, Thornhill\\, ON L4J 7Y1\\, \r\n Canada\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Dr appointment\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881279043\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:39b97fec868ac1dc4d6e821d5df69b498a596f4b\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\na4d6f76a009821d4d50f52b7aa90d83deffa6521\t20250428T160000Z\n1745855400\n1745856000\n1745857800\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T120000\r\nDTEND;TZID=America/Toronto:20250428T123000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250421T144939Z\r\nUID:8ibimu2obksnd1vomhud98dhgs@google.com\r\nCREATED:20241213T022136Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250421T144939Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:3\r\nSTATUS:CONFIRMED\r\nSUMMARY:Baby\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63880930179\r\nRECURRENCE-ID:20250428T160000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:a4d6f76a009821d4d50f52b7aa90d83deffa6521\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n7660a8cac32db73f8a1a27d5e2780eb151c362ac\t20250428T150000Z\n1745851800\n1745852400\n1745854200\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T110000\r\nDTEND;TZID=America/Toronto:20250428T113000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO\r\nDTSTAMP:20250416T010645Z\r\nORGANIZER;CN=ariel@sibli.ai:mailto:ariel@sibli.ai\r\nUID:0fucv6f86ui67qmrpm5ula03vl_R20250421T150000@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=omar@sr-ai.co;X-NUM-GUESTS=0:mailto:omar@sr-ai.co\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/xgd-efhr-ssv\r\nCREATED:20241126T143856Z\r\nDESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https:\r\n //meet.google.com/xgd-efhr-ssv\\nOr dial: (CA) +1 647-732-5498 PIN: \r\n 479647947#\\nMore phone numbers: https:\r\n //tel.meet/xgd-efhr-ssv?pin=3664079073420&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250416T010645Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:1\r\nSTATUS:CONFIRMED\r\nSUMMARY:Omar <> Ari\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63880448805\r\nRECURRENCE-ID:20250428T150000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:7660a8cac32db73f8a1a27d5e2780eb151c362ac\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n4041dd9b09724e815d040841776e5eff90c42769\t20250428T091500\n1745845500\n1745846100\n1745847900\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T091500\r\nDTEND;TZID=America/Toronto:20250428T094500\r\nDTSTAMP:20250424T152910Z\r\nORGANIZER;CN=ariel@sibli.ai:mailto:ariel@sibli.ai\r\nUID:um6pt5nrjo5mlvjk5n2g0ie9kd_R20250424T131500@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=alik@sibli.ai;X-NUM-GUESTS=0:mailto:alik@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=OPT-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=daria@sibli.ai;X-NUM-GUESTS=0:mailto:daria@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=technology;X-NUM-GUESTS=0:mailto:technology@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=fatiha@sibli.ai;X-NUM-GUESTS=0:mailto:fatiha@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/fhr-jgnm-bsu\r\nRECURRENCE-ID;TZID=America/Toronto:20250428T091500\r\nCREATED:20250129T164212Z\r\nDESCRIPTION:<br/><br/><br/>\\n\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: \r\n https://meet.google.com/fhr-jgnm-bsu\\nOr dial: (CA) +1 647-735-2224 PIN: \r\n 652543291#\\nMore phone numbers: https:\r\n //tel.meet/fhr-jgnm-bsu?pin=6922540857961&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250424T152910Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:2\r\nSTATUS:CONFIRMED\r\nSUMMARY:Ray Standup\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881271469\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:4041dd9b09724e815d040841776e5eff90c42769\r\nEND:VALARM\r\nEND:VEVENT\r\n', '28c3c971f233fe8b9d7d7dd7d626dba498a2ca9f\n02b852d631518a70a42859cd1317a41321263a04\t20250428T113000Z\n1745838300\n1745839800\n1745843400\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250428T073000\r\nDTEND;TZID=America/Toronto:20250428T083000\r\nRRULE:FREQ=WEEKLY;WKST=SU\r\nDTSTAMP:20241107T225821Z\r\nUID:gkjm4suqo4l4i9pas4bhflqn48@google.com\r\nCREATED:20180911T152536Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20241107T225821Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:2\r\nSTATUS:CONFIRMED\r\nSUMMARY:Water Plant\r\nTRANSP:OPAQUE\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nX-MOZ-GENERATION:3\r\nX-MOZ-GOOGLE-HTML-DESCRIPTION:true\r\nX-MOZ-LASTACK:20241107T225821Z\r\nX-EVOLUTION-CALDAV-ETAG:63866703501\r\nRECURRENCE-ID:20250428T113000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT25M\r\nX-EVOLUTION-ALARM-UID:02b852d631518a70a42859cd1317a41321263a04\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\t20250425T210000Z\n1745614200\n1745614800\n1745616600\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250425T170000\r\nDTEND;TZID=America/Toronto:20250425T173000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250228T211718Z\r\nUID:79k78kfh0a3u7purooj24lahvn@google.com\r\nCREATED:20250228T211657Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250228T211718Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Daycare pick up\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63876460638\r\nRECURRENCE-ID:20250425T210000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\ne44d500cf02559fa284723064f6ca0982205ac67\t20250425T133000\n1745601600\n1745602200\n1745605800\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250425T133000\r\nDTEND;TZID=America/Toronto:20250425T143000\r\nDTSTAMP:20250424T183107Z\r\nORGANIZER;CN=peter@sibli.ai:mailto:peter@sibli.ai\r\nUID:0io63v8r20lt418le038t3cttn@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=peter@sibli.ai;X-NUM-GUESTS=0:mailto:peter@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/axp-sjnv-nqy\r\nCREATED:20250424T182306Z\r\nDESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https:\r\n //meet.google.com/axp-sjnv-nqy\\nOr dial: (CA) +1 587-687-9244 PIN: \r\n 746466369#\\nMore phone numbers: https:\r\n //tel.meet/axp-sjnv-nqy?pin=3400770549572&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250424T183107Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:entitstore org<->document flow revisit\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881202667\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:e44d500cf02559fa284723064f6ca0982205ac67\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'b72277e711224ae4765073a5ac53cf503e932d57\n223d73c43dcc22ce96bf4d63ed8250f57c2698c2\t20250425T170000Z\n1745598900\n1745600400\n1745604000\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250425T130000\r\nDTEND;TZID=America/Toronto:20250425T140000\r\nRRULE:FREQ=WEEKLY\r\nDTSTAMP:20250326T040300Z\r\nUID:e0dbo79v8occet29fkk0v8tcvs@google.com\r\nCREATED:20250326T040300Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250326T040300Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Cal Mom\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63878644980\r\nRECURRENCE-ID:20250425T170000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT25M\r\nX-EVOLUTION-ALARM-UID:223d73c43dcc22ce96bf4d63ed8250f57c2698c2\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\na4d6f76a009821d4d50f52b7aa90d83deffa6521\t20250425T160000Z\n1745596200\n1745596800\n1745598600\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250425T120000\r\nDTEND;TZID=America/Toronto:20250425T123000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250421T144939Z\r\nUID:8ibimu2obksnd1vomhud98dhgs@google.com\r\nCREATED:20241213T022136Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250421T144939Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:3\r\nSTATUS:CONFIRMED\r\nSUMMARY:Baby\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63880930179\r\nRECURRENCE-ID:20250425T160000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:a4d6f76a009821d4d50f52b7aa90d83deffa6521\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\nfd4964cb5caebdce81deb6ced84976cf8173669e\t20250425T100219\n1745589139\n1745589739\n1745590639\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250425T100219\r\nDTEND;TZID=America/Toronto:20250425T101719\r\nDTSTAMP:20250425T140220Z\r\nORGANIZER;CN=ariel@sibli.ai:mailto:ariel@sibli.ai\r\nUID:2prqdjno78k4lv6vned74391t4@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=paul@sibli.ai;X-NUM-GUESTS=0:mailto:paul@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/ave-eurs-gwv\r\nCREATED:20250425T140219Z\r\nDESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https:\r\n //meet.google.com/ave-eurs-gwv\\nOr dial: (CA) +1 289-949-6687 PIN: \r\n 104791581#\\nMore phone numbers: https:\r\n //tel.meet/ave-eurs-gwv?pin=9087300622379&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250425T140220Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Instant meeting\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881272940\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:fd4964cb5caebdce81deb6ced84976cf8173669e\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n392164733be53fb7ddb82db032868953b2bd9ee0\t20250425T094608\n1745588168\n1745588768\n1745589668\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250425T094608\r\nDTEND;TZID=America/Toronto:20250425T100108\r\nDTSTAMP:20250425T134900Z\r\nORGANIZER;CN=ariel@sibli.ai:mailto:ariel@sibli.ai\r\nUID:vg8is7vktc9hbfq61oj7n8vsq0@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=fatiha@sibli.ai;X-NUM-GUESTS=0:mailto:fatiha@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/kmd-chjy-den\r\nCREATED:20250425T134609Z\r\nDESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https:\r\n //meet.google.com/kmd-chjy-den\\nOr dial: (CA) +1 613-916-8406 PIN: \r\n 856479462#\\nMore phone numbers: https:\r\n //tel.meet/kmd-chjy-den?pin=4631681587207&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250425T134900Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Instant meeting\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881272140\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:392164733be53fb7ddb82db032868953b2bd9ee0\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n8982ddcbc06c8916ae19d553b20ca30dcc548dd9\t20250425T091500\n1745586300\n1745586900\n1745588700\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250425T091500\r\nDTEND;TZID=America/Toronto:20250425T094500\r\nDTSTAMP:20250424T152910Z\r\nORGANIZER;CN=ariel@sibli.ai:mailto:ariel@sibli.ai\r\nUID:um6pt5nrjo5mlvjk5n2g0ie9kd_R20250424T131500@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=alik@sibli.ai;X-NUM-GUESTS=0:mailto:alik@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=OPT-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=daria@sibli.ai;X-NUM-GUESTS=0:mailto:daria@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=technology;X-NUM-GUESTS=0:mailto:technology@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=fatiha@sibli.ai;X-NUM-GUESTS=0:mailto:fatiha@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/fhr-jgnm-bsu\r\nRECURRENCE-ID;TZID=America/Toronto:20250425T091500\r\nCREATED:20250129T164212Z\r\nDESCRIPTION:<br/><br/><br/>\\n\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: \r\n https://meet.google.com/fhr-jgnm-bsu\\nOr dial: (CA) +1 647-735-2224 PIN: \r\n 652543291#\\nMore phone numbers: https:\r\n //tel.meet/fhr-jgnm-bsu?pin=6922540857961&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250424T152910Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:2\r\nSTATUS:CONFIRMED\r\nSUMMARY:Ray Standup\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881191750\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:8982ddcbc06c8916ae19d553b20ca30dcc548dd9\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'b72277e711224ae4765073a5ac53cf503e932d57\n7912aa707e8f691c09d2a81942beb350c29a33c2\t20250425\n1745537700\n1745539200\n1745625600\nBEGIN:VEVENT\r\nDTSTART;VALUE=DATE:20250425\r\nDTEND;VALUE=DATE:20250426\r\nDTSTAMP:20250326T031905Z\r\nUID:0tl9aloidq1snci4k9c5kjds2k@google.com\r\nCREATED:20250326T031905Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250326T031905Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Vita work\r\nTRANSP:TRANSPARENT\r\nX-EVOLUTION-CALDAV-ETAG:63878642345\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT25M\r\nX-EVOLUTION-ALARM-UID:7912aa707e8f691c09d2a81942beb350c29a33c2\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\t20250424T210000Z\n1745527800\n1745528400\n1745530200\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250424T170000\r\nDTEND;TZID=America/Toronto:20250424T173000\r\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\r\nDTSTAMP:20250228T211718Z\r\nUID:79k78kfh0a3u7purooj24lahvn@google.com\r\nCREATED:20250228T211657Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for DESCRIPTION \r\n property. Removing entire property:\r\nLAST-MODIFIED:20250228T211718Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Daycare pick up\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63876460638\r\nRECURRENCE-ID:20250424T210000Z\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:9d9d6c1e1c90d6eb0a2f01b2883de469d07a13dc\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\n7d4ead0fdaea7cd3026df1e08baca7656068d85e\t20250424T160000\n1745524200\n1745524800\n1745526600\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250424T160000\r\nDTEND;TZID=America/Toronto:20250424T163000\r\nDTSTAMP:20250424T185655Z\r\nORGANIZER;CN=roland@sibli.ai:mailto:roland@sibli.ai\r\nUID:5q56tu03p6o6u5f2j4mt0bk9qs@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=peter@sibli.ai;X-NUM-GUESTS=0:mailto:peter@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/gxx-ctfm-giu\r\nCREATED:20250424T180017Z\r\nDESCRIPTION:~-~-~<br/>📆 <a href="https://fellow.link/ZauJPsCi">This \r\n meeting has notes on Fellow</a><br/>~-~-~<br/>\\n\\n-::~:~::~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin \r\n with Google Meet: https://meet.google.com/gxx-ctfm-giu\\nOr dial: (CA) +1 \r\n 613-916-5231 PIN: 873847006#\\nMore phone numbers: https:\r\n //tel.meet/gxx-ctfm-giu?pin=1395791387575&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250424T185655Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Mini Backlog Grooming\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881204215\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:7d4ead0fdaea7cd3026df1e08baca7656068d85e\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\nfdd61d5d6e651c9442bb045c5f62e5f1f4b525ce\t20250424T153000\n1745522400\n1745523000\n1745524800\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250424T153000\r\nDTEND;TZID=America/Toronto:20250424T160000\r\nDTSTAMP:20250424T143125Z\r\nORGANIZER;CN=roland@sibli.ai:mailto:roland@sibli.ai\r\nUID:44r55bjubsjbv694ma91qg704k@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=peter@sibli.ai;X-NUM-GUESTS=0:mailto:peter@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=omar@sibli.ai;X-NUM-GUESTS=0:mailto:omar@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/ujz-gukg-ptv\r\nCREATED:20250423T221143Z\r\nDESCRIPTION:~-~-~<br/>📆 <a href="https://fellow.link/XfQJBzVQ">Prepare \r\n for this meeting with Fellow</a><br/>~-~-~<br/>\\n\\n-::~:~::~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin \r\n with Google Meet: https://meet.google.com/ujz-gukg-ptv\\nOr dial: (CA) +1 \r\n 613-778-3283 PIN: 163601257#\\nMore phone numbers: https:\r\n //tel.meet/ujz-gukg-ptv?pin=8835397876611&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250424T143125Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:Build pipeline: Faster\\, Stronger\\, Better\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881188285\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:fdd61d5d6e651c9442bb045c5f62e5f1f4b525ce\r\nEND:VALARM\r\nEND:VEVENT\r\n', 'ec6cceb1e4519bd39697cf2cd5e48b11335bff40\nf31cad533494e847ca4a15d88d4da7302ba4561c\t20250424T150000\n1745520600\n1745521200\n1745523000\nBEGIN:VEVENT\r\nDTSTART;TZID=America/Toronto:20250424T150000\r\nDTEND;TZID=America/Toronto:20250424T153000\r\nDTSTAMP:20250423T221119Z\r\nORGANIZER;CN=ariel@sibli.ai:mailto:ariel@sibli.ai\r\nUID:5170fh29aemmlu726v19s15j4e@google.com\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=ariel@sibli.ai;X-NUM-GUESTS=0:mailto:ariel@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;\r\n CN=omar@sibli.ai;X-NUM-GUESTS=0:mailto:omar@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=roland@sibli.ai;X-NUM-GUESTS=0:mailto:roland@sibli.ai\r\nATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;\r\n CN=peter@sibli.ai;X-NUM-GUESTS=0:mailto:peter@sibli.ai\r\nX-GOOGLE-CONFERENCE:https://meet.google.com/fmr-fvgt-qyk\r\nCREATED:20250422T135335Z\r\nDESCRIPTION:~-~-~   Prepare for this meeting with Fellow~-~-~\\n\\n-::~:~::\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::\r\n ~:~::-\\nJoin with Google Meet: https://meet.google.com/fmr-fvgt-qyk\\nOr \r\n dial: (CA) +1 226-317-6183 PIN: 240236156#\\nMore phone numbers: https:\r\n //tel.meet/fmr-fvgt-qyk?pin=1286958280450&hs=7\\n\\nLearn more about Meet \r\n at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not \r\n edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:\r\n ~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\r\nLAST-MODIFIED:20250423T221119Z\r\nX-LIC-ERROR;X-LIC-ERRORTYPE=VALUE-PARSE-ERROR:No value for LOCATION \r\n property. Removing entire property:\r\nSEQUENCE:0\r\nSTATUS:CONFIRMED\r\nSUMMARY:How to onboard\r\nTRANSP:OPAQUE\r\nX-EVOLUTION-CALDAV-ETAG:63881129479\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:This is an event reminder\r\nTRIGGER:-PT10M\r\nX-EVOLUTION-ALARM-UID:f31cad533494e847ca4a15d88d4da7302ba4561c\r\nEND:VALARM\r\nEND:VEVENT\r\n']
+
+[org/gnome/file-roller/listing]
+list-mode='as-folder'
+name-column-width=59
+show-path=false
+sort-method='name'
+sort-type='ascending'
+
+[org/gnome/file-roller/ui]
+sidebar-width=200
+window-height=480
+window-width=600
+
+[org/gnome/gnome-screenshot]
+delay=0
+include-pointer=false
+last-save-directory='file:///mnt/Data/Pictures'
+
+[org/gnome/gnome-system-monitor]
+maximized=true
+network-total-in-bits=false
+show-dependencies=false
+show-whose-processes='user'
+window-state=(620, 639, 0, 0)
+
+[org/gnome/gnome-system-monitor/disktreenew]
+col-6-visible=true
+col-6-width=0
+
+[org/gnome/libgnomekbd/desktop]
+default-group=0
+group-per-window=false
+
+[org/gnome/mutter]
+dynamic-workspaces=true
+edge-tiling=true
+workspaces-only-on-primary=true
+
+[org/gnome/mutter/keybindings]
+toggle-tiled-left=@as []
+toggle-tiled-right=@as []
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+migrated-gtk-settings=true
+search-filter-time-type='last_modified'
+
+[org/gnome/nautilus/window-state]
+initial-size=(890, 550)
+initial-size-file-chooser=(890, 550)
+maximized=true
+
+[org/gnome/nm-applet]
+disable-connected-notifications=true
+
+[org/gnome/nm-applet/eap/128585b8-875c-427c-a277-abbccdfe98d0]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/nm-applet/eap/6b0e934d-5024-4b6d-aab1-991bf62242e0]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/nm-applet/eap/8f44c2cc-65f3-3f8f-acac-eafba11f53c3]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/nm-applet/eap/e5fb15dc-3632-4d34-920f-b49eb33615e0]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/nm-applet/eap/fd780a2a-04f9-4301-846d-25103e925a32]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/portal/filechooser/com.slack.Slack]
+last-folder-path='/home/ari/Downloads'
+
+[org/gnome/settings-daemon/plugins/color]
+night-light-enabled=false
+night-light-schedule-automatic=false
+
+[org/gnome/settings-daemon/plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+www=['<Super>b']
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Super>t'
+command='ghostty'
+name='Terminal'
+
+[org/gnome/settings-daemon/plugins/power]
+ambient-enabled=true
+idle-dim=true
+power-button-action='hibernate'
+sleep-inactive-ac-timeout=1800
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-type='suspend'
+
+[org/gnome/shell]
+disabled-extensions=['window-list@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com']
+enabled-extensions=['system-monitor@paradoxxx.zero.gmail.com', 'Vitals@CoreCoding.com', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com']
+favorite-apps=['org.gnome.Geary.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop']
+last-selected-power-profile='power-saver'
+welcome-dialog-last-shown-version='44.2'
+
+[org/gnome/shell/keybindings]
+screenshot=@as []
+show-screenshot-ui=['<Super>s']
+toggle-message-tray=@as []
+toggle-quick-settings=@as []
+
+[org/gnome/shell/world-clocks]
+locations=@av []
+
+[org/gnome/software]
+check-timestamp=int64 1745511825
+first-run=false
+flatpak-purge-timestamp=int64 1745372590
+install-timestamp=int64 1745506592
+update-notification-timestamp=int64 1745511730
+
+[org/gtk/settings/color-chooser]
+custom-colors=[(0.0, 0.0, 0.0, 0.0), (0.62352941176470589, 0.88235294117647056, 0.90588235294117647, 1.0)]
+selected-color=(true, 0.59999999999999998, 0.75686274509803919, 0.94509803921568625, 1.0)
+
+[org/gtk/settings/file-chooser]
+date-format='with-time'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=297
+sort-column='modified'
+sort-directories-first=true
+sort-order='ascending'
+type-format='category'
+window-position=(20, 20)
+window-size=(956, 995)
+
+[org/nemo/desktop]
+home-icon-visible=false
+network-icon-visible=true
+trash-icon-visible=true
+volumes-visible=true
+
+[org/nemo/window-state]
+geometry='800x550+25+25'
+maximized=false
+sidebar-bookmark-breakpoint=0
+start-with-sidebar=true
+
+[org/x/apps/favorites]
+list=['file:///home/ari/Downloads::inode/directory']
+
+[org/x/apps/portal]
+color-scheme='prefer-dark'
+
+[org/x/editor/plugins]
+active-plugins=['bracketcompletion', 'time', 'textsize', 'docinfo', 'spell', 'sort', 'open-uri-context-menu', 'modelines', 'filebrowser', 'joinlines']
+
+[org/x/editor/plugins/filebrowser/on-load]
+root='file:///'
+tree-view=true
+virtual-root='file:///run/media/ari'
+
+[org/x/editor/preferences/ui]
+statusbar-visible=true
+
+[org/x/editor/state/window]
+bottom-panel-size=140
+side-panel-active-page=827629879
+side-panel-size=200
+size=(1124, 698)
+state=43904
+
+[org/x/warpinator/preferences]
+ask-for-send-permission=true
+autostart=false
+connect-id='FWBOOK-4384B8711BD07498225A'
+no-overwrite=true
