@@ -27,7 +27,7 @@ in
       common.pritunl.enable = true;
       desktop = {
         enable = true;
-        cosmic.enable = true;
+        cosmic.enable = false;
         kde.enable = false;
         crypto.enable = true;
         gnome.enable = true;
@@ -44,7 +44,7 @@ in
   # Desktop Env
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
-  services.displayManager.defaultSession = "cosmic";
+  services.displayManager.defaultSession = "gnome";
 
   # Firmware updater
   services.fwupd.enable = true;

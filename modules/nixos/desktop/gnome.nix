@@ -16,6 +16,8 @@ in
       gnome-text-editor
       gnome-console
     ];
+    environment.sessionVariables.GSK_RENDERER = "gl"; # fix blackbars around wayland windows
+    environment.systemPackages = with pkgs; [ gnomeExtensions.pop-shell ];
     programs.dconf.enable = true;
     home-manager.users.${config.skyg.user.name}.dconf.settings = {
       "org/gnome/desktop/wm/keybindings" = {
