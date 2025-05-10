@@ -193,8 +193,8 @@ in
   nix.distributedBuilds = true;
   # optional, useful when the builder has a faster internet connection than yours
   nix.extraOptions = ''
-    	  builders-use-substitutes = true
-    	'';
+    builders-use-substitutes = true
+  '';
   programs.nh = {
     enable = true;
     flake = "/home/ari/nixos-setup";
