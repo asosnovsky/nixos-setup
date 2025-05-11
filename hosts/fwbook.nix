@@ -103,7 +103,6 @@ in
       betterdiscordctl
       discord
       signal-desktop
-      skypeforlinux
 
       # development
       vscode
