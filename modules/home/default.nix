@@ -18,7 +18,7 @@ in
         jq
         kubectl
         kubectx
-            htop
+        htop
       ];
     };
     programs = (programsModule {
@@ -38,8 +38,7 @@ in
   };
 
   makeCommonUser =
-    { enableDevelopmentKit ? false
-    , fullName
+    { fullName
     , email
     , extraGitConfigs ? [ ]
     , name
@@ -60,13 +59,8 @@ in
             fastfetch
             kubectl
             kubectx
-          ]
-          ++ (if enableDevelopmentKit then [
-            devenv
-            devbox
             terraform
-          ] else
-            [ ]);
+          ];
       };
       programs = (programsModule {
         inherit pkgs user;

@@ -32,10 +32,6 @@ in
         });
         default = [ ];
       };
-      enableDevelopmentKit = mkOption {
-        type = types.bool;
-        default = false;
-      };
     };
   };
 

@@ -123,7 +123,6 @@
                 nixd
               ];
               shellHook = ''
-                export PS1="<nixos-setup> $PS1"
                 export PATH=$PATH:$(pwd)/bin
               '';
             };
@@ -135,8 +134,7 @@
       # None-NIXOS LINUX Setups
       # -------------
       homeConfigurations."${user.name}" = lib.makeHomeManagerUsers {
-        user = user // { enableDevelopmentKit = true; };
-        homeManagerVersion = homeManagerVersion;
+        inherit user homeManagerVersion;
       };
 
       # NIXOS LINUX Setups
@@ -146,9 +144,7 @@
         # -------------
         fwbook = lib.makeNixOsModule {
           system = "x86_64-linux";
-          user = user // {
-            enableDevelopmentKit = true;
-          };
+          user = user;
           systemStateVersion = "23.11";
           hostName = "fwbook";
           # localNixCaches = localNixCaches;

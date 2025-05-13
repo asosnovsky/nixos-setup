@@ -14,23 +14,57 @@
       statix
     ];
   };
-  direnv.enable = true;
+  direnv = {
+    enable = true;
+    enableNushellIntegration = true;
+  };
   lsd = {
     enable = true;
     enableAliases = true;
   };
+  starship = {
+    enable = true;
+    enableNushellIntegration = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    settings = {
+      kubernetes = {
+        disabled = false;
+      };
+      nix_shell = {
+        disabled = false;
+      };
+      localip = {
+        disabled = false;
+        ssh_only = false;
+      };
+      hostname = {
+        disabled = false;
+        ssh_only = false;
+      };
+      direnv = {
+        disabled = false;
+      };
+      gcloud = {
+        disabled = true;
+      };
+      sudo = {
+        disabled = false;
+      };
+    };
+  };
+  nushell = {
+    enable = true;
+  };
+  carapace = {
+    enable = true;
+    enableNushellIntegration = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
   zsh = {
     enable = true;
     autosuggestion.enable = true;
-    initExtra = ''
-      export RPS1='$KUBE_PS1_SYMBOL_DEFAULT $(kubectx_prompt_info)/$(kubens -c)'
-      export PROMPT='%(!.%{%F{yellow}%}.)$USER@%{$fg[white]%}%M %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
-    '';
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "sudo" "kubectx" "kube-ps1" ];
-      theme = "robbyrussell";
-    };
   };
   zellij = {
     enable = true;
@@ -64,7 +98,7 @@
         italic = { family = "Fira Code"; style = "Italic"; };
       };
       terminal.shell = {
-        program = "/home/${user.name}/.nix-profile/bin/zsh";
+        program = "/home/${user.name}/.nix-profile/bin/nu";
       };
     };
   };
