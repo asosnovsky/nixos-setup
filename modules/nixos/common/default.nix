@@ -11,4 +11,7 @@
     ./qemu.nix
     ./pritunl
   ];
+  config = {
+    environment.sessionVariables.EDITOR = "vi";
+  };
 }

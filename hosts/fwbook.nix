@@ -48,7 +48,9 @@ in
 
   # Firmware updater
   services.fwupd.enable = true;
+  hardware.framework.enableKmod = true;
   services.fprintd.enable = true;
+  hardware.framework.amd-7040.preventWakeOnAC = true;
   # Yubikey
   services.yubikey-agent.enable = true;
   # Enable CUPS to print documents.

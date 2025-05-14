@@ -62,12 +62,13 @@ function run-update() {
     :  Usage: skyg update {name-of-input}
     input_name=${1}
     if [ ! -z $input_name ]; then
-        cmd="nix flake lock --update-input $input_name"
+        cmd="nix flake update $input_name"
     else
         cmd="nix flake update"
     fi
     echo $cmd
     $cmd
+    git diff flake.lock
 }
 
 function run-diff() {
