@@ -20,7 +20,8 @@
   };
   lsd = {
     enable = true;
-    enableAliases = true;
+		enableBashIntegration = true;
+		enableZshIntegration = true;
   };
   starship = {
     enable = true;
@@ -28,6 +29,10 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
     settings = {
+			env_var = {
+				variable = "SHELL";
+				default = "unknown shell";
+			};
       kubernetes = {
         disabled = false;
       };
@@ -51,6 +56,9 @@
       sudo = {
         disabled = false;
       };
+			memory_usage = {
+        disabled = false;
+			};
     };
   };
   nushell = {
@@ -67,7 +75,15 @@
   };
   zsh = {
     enable = true;
-    autosuggestion.enable = true;
+    autosuggestion = {
+			enable = true;
+			strategy = [
+				"match_prev_cmd"
+				"history"
+				"completion"
+			];
+		};
+		syntaxHighlighting.enable = true;
   };
   zellij = {
     enable = true;

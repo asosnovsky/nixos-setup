@@ -32,15 +32,15 @@ in
         switch-to-workspace-left = [ "<Super>Left" ];
         switch-to-workspace-right = [ "<Super>Right" ];
       };
-      # "org/gnome/shell" = {
-      #   disable-user-extensions = false;
-      #   enabled-extensions = with pkgs.gnomeExtensions; [
-      #     gsconnect.extensionUuid
-      #     pop-shell.extensionUuid
-      #     docker.extensionUuid
-      #     krypto.extensionUuid
-      #   ];
-      # };
+      "org/gnome/shell" = {
+        disable-user-extensions = false;
+        enabled-extensions = with pkgs.gnomeExtensions; [
+          gsconnect.extensionUuid
+          pop-shell.extensionUuid
+          docker.extensionUuid
+          krypto.extensionUuid
+        ];
+      };
     };
   };
 }

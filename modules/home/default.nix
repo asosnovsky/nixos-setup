@@ -19,6 +19,7 @@ in
         kubectl
         kubectx
         htop
+				duf
       ];
     };
     programs = (programsModule {

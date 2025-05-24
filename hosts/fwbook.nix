@@ -5,6 +5,7 @@ let
   zshFunctions = zshFWBook + "/functions.sh";
   openPorts = [
     8000
+		8001
   ];
 in
 {
@@ -24,7 +25,6 @@ in
         laptop-power-mgr.enable = true;
         amdgpu.enable = true;
       };
-      common.pritunl.enable = true;
       desktop = {
         enable = true;
         cosmic.enable = false;
@@ -171,7 +171,7 @@ in
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
   # Add Functions
-  home-manager.users.${user.name}.programs.zsh.initExtra = ''
+  home-manager.users.${user.name}.programs.zsh.initContent = ''
     source ${zshFunctions}
   '';
   environment.localBinInPath = true;
@@ -217,6 +217,7 @@ in
       "api.me.internal"
     ];
     "127.0.0.1" = [
+			"fwbook"
       "auth.me.internal"
       "me.internal"
       "me.local"

@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 {
   users.users.root = {
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
   };
   users.users.${config.skyg.user.name} = {
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
     isNormalUser = true;
     description = config.skyg.user.name;
     extraGroups = [
