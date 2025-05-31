@@ -24,7 +24,11 @@ in
   skyg.networkDrives = {
     enable = true;
   };
-  skyg.core.tailscaleRouting = "both";
+  services.tailscale.enable = true;
+  services.tailscale.disableTaildrop = true;
+  services.tailscale.useRoutingFeatures = "both";
+  services.tailscale.openFirewall = true;
+
   # # Nix Stores
   services.nix-serve = {
     enable = true;

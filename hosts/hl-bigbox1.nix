@@ -27,6 +27,10 @@
         amdgpu.enable = true;
         udevrules.coraltpu.enable = true;
       };
+      server.k3s = {
+        enable = true;
+        envPath = "/opt/k3s/k3s.env";
+      };
       server.services = {
         ai.enable = true;
         jellyfin.enable = false;
@@ -48,7 +52,7 @@
     };
     networkDrives.enable = true;
   };
-
+  networking.firewall.enable = false;
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater
   services.fwupd.enable = true;
@@ -65,13 +69,13 @@
   services.autosuspend.enable = false;
   services.xserver.displayManager.gdm.autoSuspend = false;
 
-  environment.systemPackages = with pkgs; [
-    # steam-tui
-    # steam-run
-    # steamPackages.steamcmd
-    ollama
-    jellyfin
-    jellyfin-web
-    jellyfin-ffmpeg
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   # steam-tui
+  #   # steam-run
+  #   # steamPackages.steamcmd
+  #   # ollama
+  #   # jellyfin
+  #   # jellyfin-web
+  #   # jellyfin-ffmpeg
+  # ];
 }

@@ -5,7 +5,7 @@ let
   zshFunctions = zshFWBook + "/functions.sh";
   openPorts = [
     8000
-		8001
+    8001
   ];
 in
 {
@@ -41,6 +41,10 @@ in
       ];
     };
   };
+
+
+  # Tailscale
+  services.tailscale.enable = true;
   # Desktop Env
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
@@ -108,6 +112,9 @@ in
 
       # development
       vscode
+
+      # Run macos apps
+      darling-dmg
 
       # mail
       thunderbird
@@ -217,7 +224,7 @@ in
       "api.me.internal"
     ];
     "127.0.0.1" = [
-			"fwbook"
+      "fwbook"
       "auth.me.internal"
       "me.internal"
       "me.local"

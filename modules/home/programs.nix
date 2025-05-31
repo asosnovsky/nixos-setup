@@ -20,8 +20,8 @@
   };
   lsd = {
     enable = true;
-		enableBashIntegration = true;
-		enableZshIntegration = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
   };
   starship = {
     enable = true;
@@ -29,10 +29,10 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
     settings = {
-			env_var = {
-				variable = "SHELL";
-				default = "unknown shell";
-			};
+      env_var = {
+        variable = "SHELL";
+        default = "unknown shell";
+      };
       kubernetes = {
         disabled = false;
       };
@@ -56,9 +56,9 @@
       sudo = {
         disabled = false;
       };
-			memory_usage = {
+      memory_usage = {
         disabled = false;
-			};
+      };
     };
   };
   nushell = {
@@ -76,20 +76,21 @@
   zsh = {
     enable = true;
     autosuggestion = {
-			enable = true;
-			strategy = [
-				"match_prev_cmd"
-				"history"
-				"completion"
-			];
-		};
-		syntaxHighlighting.enable = true;
+      enable = true;
+      strategy = [
+        "match_prev_cmd"
+        "history"
+        "completion"
+      ];
+    };
+    syntaxHighlighting.enable = true;
   };
   zellij = {
     enable = true;
     settings = {
       theme = "nord";
       session_serialization = false;
+      show_startup_tips = false;
     };
   };
   tmux = {
