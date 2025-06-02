@@ -69,13 +69,10 @@
   services.autosuspend.enable = false;
   services.xserver.displayManager.gdm.autoSuspend = false;
 
-  # environment.systemPackages = with pkgs; [
-  #   # steam-tui
-  #   # steam-run
-  #   # steamPackages.steamcmd
-  #   # ollama
-  #   # jellyfin
-  #   # jellyfin-web
-  #   # jellyfin-ffmpeg
-  # ];
+  environment.systemPackages = with pkgs; [
+    nvidia-container-toolkit
+    libnvidia-container
+    docker
+    runc
+  ];
 }
