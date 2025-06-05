@@ -5,9 +5,9 @@ let
     # nfs
     111
     2049
-    4000
-    4001
-    4002
+    4000 # statdPort
+    4001 # lockdPort
+    4002 # mountdPort;
     20048
     # ssh
     22
@@ -19,6 +19,7 @@ in
   imports = [ ./hl-terra1.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
+  skyg.nixos.desktop.enable = false;
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
 

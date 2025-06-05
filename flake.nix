@@ -5,11 +5,6 @@
     systems.url = "github:nix-systems/default";
     # Nixpkgs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    # Cosmic
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
-    };
     # Terminal
     ghostty = {
       url = "github:ghostty-org/ghostty";
@@ -36,7 +31,6 @@
     , systems
     , home-manager
     , nix-darwin
-    , nixos-cosmic
     , nix-flatpak
     , ghostty
     }:
@@ -80,7 +74,6 @@
           nix-darwin
           hlCommonSettings
           systems
-          nixos-cosmic
           nix-flatpak
           ;
         specialArgs = {

@@ -1,7 +1,6 @@
 { pkgs, config, ... }:
 {
   # System Packages
-  services.dbus.enable = true;
   services.hydra.useSubstitutes = true;
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;

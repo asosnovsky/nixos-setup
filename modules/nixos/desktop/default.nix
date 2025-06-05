@@ -20,6 +20,7 @@ in
     };
   };
   config = lib.mkIf cfg.desktop.enable {
+    services.dbus.enable = true;
     services.displayManager.enable = true;
     services.libinput.enable = true;
     environment.systemPackages = with pkgs; [

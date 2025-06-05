@@ -3,7 +3,6 @@
 , nix-darwin
 , systems
 , hlCommonSettings
-, nixos-cosmic
 , nix-flatpak
 , specialArgs
 }:
@@ -42,7 +41,6 @@ let
               trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
             };
           }
-          nixos-cosmic.nixosModules.default
           home-manager.nixosModules.default
           nix-flatpak.nixosModules.nix-flatpak
         ];

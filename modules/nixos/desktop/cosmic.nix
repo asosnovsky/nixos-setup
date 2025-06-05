@@ -14,8 +14,8 @@ in
       pkgs.cosmic-icons
     ];
     services.desktopManager.cosmic.enable = true;
-    hardware.system76.enableAll = true;
-    hardware.system76.power-daemon.enable = true;
+    # hardware.system76.enableAll = true;
+    # hardware.system76.power-daemon.enable = true;
     home-manager.users.${config.skyg.user.name}.xdg.configFile = {
       "cosmic/com.system76.CosmicSettings.Shortcuts/v1/system_actions" = {
         enable = true;
