@@ -8,6 +8,8 @@ let
     stateVersion = stateVersion;
     shellAliases = {
       cat = "bat";
+      ls = "eza";
+      du = "dust";
     };
   };
 in
@@ -19,7 +21,7 @@ in
         kubectl
         kubectx
         htop
-				duf
+        duf
       ];
     };
     programs = (programsModule {
@@ -61,6 +63,7 @@ in
             kubectl
             kubectx
             terraform
+            dust
           ];
       };
       programs = (programsModule {

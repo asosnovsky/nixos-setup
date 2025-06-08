@@ -19,7 +19,19 @@
     enableNushellIntegration = true;
   };
   lsd = {
+    enable = false;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    colors = "auto";
+    # git = true;
+    icons = "always";
+  };
+  fastfetch = {
     enable = true;
+  };
+  eza = {
+    enable = true;
+    enableNushellIntegration = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
   };
