@@ -7,7 +7,7 @@ in
     ./cosmic.nix
     ./kde.nix
     ./wayland.nix
-    ./x11.nix
+    ./x11
     ./packages.nix
     ./crypto.nix
     ./gnome.nix

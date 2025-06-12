@@ -1,14 +1,15 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.skyg.nixos.desktop;
+  cfg = config.skyg.nixos.desktop.x11;
 in
 {
-  config = lib.mkIf cfg.enable {
-    services.xserver = {
-      enable = true;
-      xkb.layout = "us";
-      xkb.variant = "";
+  options = {
+    skyg.nixos.desktop.x11 = {
+      enableLibGestures = lib.mkEnableOption
+        "Enable Desktop";
     };
+  };
+  config = lib.mkIf cfg.enableLibGestures {
     users.users.${config.skyg.user.name}.extraGroups = [ "input" ];
     environment.systemPackages = with pkgs; [
       # These are used to handle touchpad gestures
