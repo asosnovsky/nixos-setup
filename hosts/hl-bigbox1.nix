@@ -1,5 +1,5 @@
 { ... }:
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg = {
@@ -19,7 +19,10 @@
       };
     };
     nixos = {
-      desktop.enable = false;
+      desktop = {
+        enable = true;
+        gnome.enable = true;
+      };
       common.ssh-server.enable = true;
       common.containers.openMetricsPort = true;
       common.hardware = {
@@ -28,7 +31,7 @@
         udevrules.coraltpu.enable = true;
       };
       server.k3s = {
-        enable = true;
+        enable = false;
         envPath = "/opt/k3s/k3s.env";
       };
       server.services = {
@@ -52,6 +55,32 @@
     };
     networkDrives.enable = true;
   };
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = true;
+  services.autosuspend.enable = false;
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = config.skyg.user.name;
+  };
+  # Disable auto-suspend
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
+  services.xserver.displayManager.gdm.autoSuspend = false;
+  services.xserver.displayManager.gdm.autoLogin.delay = 0;
+  # Remote Desktop
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "${pkgs.gnome-session}/bin/gnome-session";
+  services.xrdp.openFirewall = true;
+
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+  services.displayManager.defaultSession = "gnome";
   networking.firewall.enable = false;
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater
@@ -64,11 +93,7 @@
   # Wake on Lan
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
   networking.interfaces.lo.wakeOnLan.enable = true;
-  networking.interfaces.tailscale0.wakeOnLan.enable = true;
-  # Suspend
-  services.autosuspend.enable = false;
-  services.xserver.displayManager.gdm.autoSuspend = false;
-
+  # Extra Packages
   environment.systemPackages = with pkgs; [
     nvidia-container-toolkit
     libnvidia-container

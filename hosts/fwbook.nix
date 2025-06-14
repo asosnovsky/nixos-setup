@@ -51,6 +51,14 @@ in
   services.displayManager.defaultSession = "gnome";
   programs.niri.enable = true;
 
+  # Sunshine
+  services.sunshine = {
+    enable = true;
+    autoStart = false;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+
   # Firmware updater
   services.fwupd.enable = true;
   hardware.framework.enableKmod = true;
