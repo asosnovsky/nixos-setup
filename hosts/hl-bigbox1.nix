@@ -55,6 +55,7 @@
     };
     networkDrives.enable = true;
   };
+  services.displayManager.defaultSession = "gnome";
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
   services.autosuspend.enable = false;
@@ -62,6 +63,8 @@
     enable = true;
     user = config.skyg.user.name;
   };
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
   # Disable auto-suspend
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
@@ -73,14 +76,20 @@
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "${pkgs.gnome-session}/bin/gnome-session";
   services.xrdp.openFirewall = true;
-
+  # Sunshine
   services.sunshine = {
     enable = true;
     autoStart = true;
     capSysAdmin = true;
     openFirewall = true;
   };
-  services.displayManager.defaultSession = "gnome";
+  # security.wrappers.sunshine = {
+  #   owner = "root";
+  #   group = "root";
+  #   capabilities = "cap_sys_admin+p";
+  #   source = "${pkgs.sunshine}/bin/sunshine";
+  # };
+  #  Firewall & permissions
   networking.firewall.enable = false;
   users.users.ari.extraGroups = [ "input" ];
   # firmware updater
@@ -100,4 +109,12 @@
     docker
     runc
   ];
+  # Steam
+  programs.steam = {
+    enable = true;
+    extest.enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
 }

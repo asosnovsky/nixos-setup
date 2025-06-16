@@ -152,6 +152,7 @@ in
     "com.cassidyjames.butler"
     "io.dbeaver.DBeaverCommunity"
     "com.google.Chrome"
+    "dev.deedles.Trayscale"
   ];
   # Gaming
   programs.steam = {
