@@ -31,6 +31,7 @@ in
         kde.enable = false;
         crypto.enable = true;
         gnome.enable = true;
+        tiler.enable = true;
       };
     };
     networkDrives = {

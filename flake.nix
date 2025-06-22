@@ -22,6 +22,11 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Anyrun launcher
+    anyrun = {
+      url = "github:anyrun-org/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -33,6 +38,7 @@
     , nix-darwin
     , nix-flatpak
     , ghostty
+    , anyrun
     }:
     let
       user = {
@@ -79,6 +85,7 @@
         specialArgs = {
           inputs = {
             inherit
+              anyrun
               ghostty;
           };
         };
