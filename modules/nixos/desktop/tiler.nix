@@ -1,6 +1,5 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 let
-  anyrun = inputs.anyrun.packages.${pkgs.stdenv.hostPlatform.system}.anyrun;
   cfg = config.skyg.nixos.desktop.tiler;
 in
 {
@@ -15,7 +14,10 @@ in
       mako
       libnotify
       fuzzel
-      anyrun
+      waybar
+      pavucontrol
+      sfwbar
+      xwayland-satellite
     ];
   };
 }
