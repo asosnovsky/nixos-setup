@@ -12,7 +12,8 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       mako
-      libnotify
+      brightnessctl
+			libnotify
       fuzzel
       waybar
       pavucontrol
