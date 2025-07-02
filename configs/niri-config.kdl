@@ -8,7 +8,7 @@ input {
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "ghostty"
 spawn-at-startup "mako"
-spawn-at-startup "sfwbar"
+//spawn-at-startup "sfwbar"
 
 environment {
   QT_QPA_PLATFORM "wayland"
@@ -27,7 +27,13 @@ output "eDP-1" {
     transform "normal"
     position x=0 y=0
 }
-
+// Portable Azopa
+output "PNP(GWD) ARZOPA \\x15\\xd9F\\x1675US0000" {
+  mode "1920x1080@60"
+  scale 1 
+  transform "normal"
+  position x=-1920 y=0
+}
 // Two Screens in Office
 output "Samsung Electric Company S22R35x H4TR604392" {
   mode "1920x1080@60.000"
