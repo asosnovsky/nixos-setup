@@ -1,13 +1,12 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.skyg.nixos.desktop;
-  ghostty = inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   config = lib.mkIf cfg.enable {
     # Flatpak
     services.flatpak.enable = true;
-    environment.systemPackages = [ ghostty ] ++ (with pkgs; [
+    environment.systemPackages = (with pkgs; [
       # General utils
       busybox
       gcc
@@ -19,6 +18,9 @@ in
 
       # video
       vlc
+
+      # terminal
+      ghostty
     ]);
   };
 }

@@ -8,7 +8,9 @@ input {
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "ghostty"
 spawn-at-startup "mako"
-//spawn-at-startup "sfwbar"
+spawn-at-startup "nm-applet --indicator"
+spawn-at-startup "waybar"
+spawn-at-startup "waybar -c /home/ari/.config/waybar/bottom-config.jsonc"
 
 environment {
   QT_QPA_PLATFORM "wayland"
@@ -55,6 +57,7 @@ output "Samsung Electric Company S22R35x H4TR503886" {
 layout {
     gaps 8
     center-focused-column "never"
+    tab-indicator
     preset-column-widths {
         proportion 0.33333
         proportion 0.5
@@ -79,7 +82,14 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id="org.pulseaudio.pavucontrol"
+    match app-id="Rofi"
+    match app-id="nm-connection-editor"
+    match app-id=".blueman-manager-wrapped"
     open-floating true
+    default-floating-position x=0 y=25 relative-to="top"
+    default-window-height { proportion 0.5; }
+    default-column-width { proportion 0.25; }
 }
 window-rule {
     match is-active=false
@@ -89,14 +99,9 @@ window-rule {
     match app-id=r#"^Slack$"#
     match app-id=r#"^code$"# 
     exclude app-id=r#"^code$"# title=r#"^Visual Studio Code$"#
-    open-maximized true
     open-fullscreen true
     open-floating false
 }
-//window-rule {
-//  match app-id=r#"^code$"# title=r#"^Visual Studio Code$"#
-//  open-floating true
-//}
 // =========================
 // General Stuff 
 // =========================
@@ -121,8 +126,9 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
-    XF86MonBrightnessUp { spawn "brightnessctl set 10%+"; }
-    XF86MonBrightnessDown { spawn "brightnessctl set 10%-"; }
+    XF86MonBrightnessUp { spawn "brightnessctl" "set" "10%+"; }
+    XF86MonBrightnessDown { spawn "brightnessctl" "set" "10%-"; }
+    Mod+Alt+L { spawn "/run/current-system/sw/bin/makoctl" "dismiss" "-a"; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-workspace-down; }
@@ -156,4 +162,31 @@ binds {
     
     Ctrl+Alt+Delete { quit; }
     Mod+Q { close-window; }
+
+    Mod+Ctrl+W { spawn "waybar"; }
+    Mod+Ctrl+B { spawn "waybar" "-c" "/home/ari/.config/waybar/bottom-config.jsonc"; }
+}
+
+
+/// Com Apps
+workspace "chat" {
+    open-on-output "eDP-1"
+}
+spawn-at-startup "slack"
+spawn-at-startup "signal-desktop"
+spawn-at-startup "gnome-calendar"
+window-rule {
+    match app-id=r#"^Slack$"#
+    match app-id=r#"^signal$"#
+    match app-id=r#"^org.gnome.Calendar$"#
+    open-on-workspace "chat"
+    open-fullscreen true
+}
+
+/// Coding
+workspace "code" 
+window-rule {
+    match app-id=r#"^code$"#
+    match app-id=r#"^DBeaver$"#
+    open-on-workspace "code"
 }

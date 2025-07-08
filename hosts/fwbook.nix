@@ -139,7 +139,7 @@ in
       # Work
       gdk
       slack
-			google-chrome
+      google-chrome
 
       # IPhone Tethering
       libimobiledevice

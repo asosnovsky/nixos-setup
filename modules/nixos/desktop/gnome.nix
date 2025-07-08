@@ -1,6 +1,11 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.skyg.nixos.desktop.gnome;
+  gnomeExtensions = with pkgs.gnomeExtensions; [
+    pop-shell
+    docker
+    krypto
+  ];
 in
 {
   options = {
@@ -17,7 +22,7 @@ in
       gnome-console
     ];
     environment.sessionVariables.GSK_RENDERER = "gl"; # fix blackbars around wayland windows
-    environment.systemPackages = with pkgs; [ gnomeExtensions.pop-shell ];
+    environment.systemPackages = gnomeExtensions;
     programs.dconf.enable = true;
     home-manager.users.${config.skyg.user.name}.dconf.settings = {
       "org/gnome/desktop/wm/keybindings" = {
@@ -34,12 +39,7 @@ in
       };
       "org/gnome/shell" = {
         disable-user-extensions = false;
-        enabled-extensions = with pkgs.gnomeExtensions; [
-          gsconnect.extensionUuid
-          pop-shell.extensionUuid
-          docker.extensionUuid
-          krypto.extensionUuid
-        ];
+        enabled-extensions = lib.forEach gnomeExtensions (ext: ext.extensionUuid);
       };
     };
   };

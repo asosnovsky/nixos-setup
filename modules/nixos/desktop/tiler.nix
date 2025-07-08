@@ -10,15 +10,26 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
+    users.users.${config.skyg.user.name} = {
+      extraGroups = [
+        "input"
+      ];
+    };
+    # services.blueman.enable = true;
+    # programs.nm-applet.enable = true;
     environment.systemPackages = with pkgs; [
       mako
       brightnessctl
-			libnotify
+      libnotify
       fuzzel
       waybar
       pavucontrol
-      sfwbar
       xwayland-satellite
+      wofi
+      rofi
+      rofi-wayland
+      networkmanagerapplet
+      blueman
     ];
   };
 }

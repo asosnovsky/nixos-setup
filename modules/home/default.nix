@@ -21,6 +21,7 @@ in
         kubectl
         kubectx
         htop
+        btop
         duf
       ];
     };
@@ -59,6 +60,7 @@ in
             ipfetch
             nixd
             htop
+            btop
             fastfetch
             kubectl
             kubectx

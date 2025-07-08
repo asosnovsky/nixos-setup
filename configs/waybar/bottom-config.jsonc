@@ -1,0 +1,23 @@
+{
+    "layer": "top",
+    "position": "bottom", // Waybar at bottom layer
+    "height": 32,
+    "margin-top": 4,
+    "margin-left": 4,
+    "margin-right": 4,
+    "spacing": 0,
+    "modules-left": [
+        "niri/workspaces",
+    ],
+    "modules-center": [
+        "wlr/taskbar"
+    ],
+    "modules-right": [],
+		"niri/workspaces": {
+			"format": "{icon}",
+			"format-icons": {
+				"code": "💻",
+				"chat": "💬"
+			}
+		}
+}

@@ -6,10 +6,6 @@
     # Nixpkgs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     # Terminal
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
-    };
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
@@ -32,7 +28,6 @@
     , home-manager
     , nix-darwin
     , nix-flatpak
-    , ghostty
     ,
     }:
     let
@@ -78,10 +73,7 @@
           nix-flatpak
           ;
         specialArgs = {
-          inputs = {
-            inherit
-              ghostty;
-          };
+          inputs = { };
         };
       };
       # Libs
