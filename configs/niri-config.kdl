@@ -86,6 +86,7 @@ window-rule {
     match app-id="Rofi"
     match app-id="nm-connection-editor"
     match app-id=".blueman-manager-wrapped"
+    match app-id=r#"^org.gnome.Calendar$"#
     open-floating true
     default-floating-position x=0 y=25 relative-to="top"
     default-window-height { proportion 0.5; }
@@ -174,11 +175,9 @@ workspace "chat" {
 }
 spawn-at-startup "slack"
 spawn-at-startup "signal-desktop"
-spawn-at-startup "gnome-calendar"
 window-rule {
     match app-id=r#"^Slack$"#
     match app-id=r#"^signal$"#
-    match app-id=r#"^org.gnome.Calendar$"#
     open-on-workspace "chat"
     open-fullscreen true
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "label": "Sleep",
+    "exec": "systemctl suspend",
+    "icon": "/home/ari/.config/nwg-bar/images/system-suspend.svg"
+  },
+  {
+    "label": "Hibernate",
+    "exec": "systemctl hibernate",
+    "icon": "/home/ari/.config/nwg-bar/images/system-hibernate.svg"
+  },
+  {
+    "label": "Logout",
+    "exec": "niri msg action quit",
+    "icon": "/home/ari/.config/nwg-bar/images/system-log-out.svg"
+  },
+  {
+    "label": "Reboot",
+    "exec": "systemctl reboot",
+    "icon": "/home/ari/.config/nwg-bar/images/system-reboot.svg"
+  },
+  {
+    "label": "Shutdown",
+    "exec": "systemctl -i poweroff",
+    "icon": "/home/ari/.config/nwg-bar/images/system-shutdown.svg"
+  }
+]

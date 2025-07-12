@@ -30,6 +30,7 @@ in
       rofi-wayland
       networkmanagerapplet
       blueman
+      nwg-bar
     ];
   };
 }

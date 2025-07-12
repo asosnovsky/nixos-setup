@@ -12,11 +12,7 @@
         "clock"
     ],
     "modules-right": [
-        "cpu",
-        "memory",
-        "temperature",
-        "network",
-        "keyboard-state",
+        "group/controls",
         "battery",
         "group/sound",
         "group/backlight",
@@ -56,15 +52,18 @@
     "custom/logout": {
         "format": "⏻",
         "tooltip": true,
-        "on-click": "niri msg action quit"
+        "on-click": "nwg-bar"
     },
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
-        "format": "{name} {icon}",
         "format-icons": {
             "locked": "",
             "unlocked": ""
+        },
+        "format": {
+            "numlock": "N {icon}",
+            "capslock": "C {icon}"
         }
     },
     "niri/window": {
@@ -79,12 +78,33 @@
         }
     },
     "tray": {
-        // "icon-size": 21,
         "spacing": 10
+    },
+    "custom/controls": {
+        "format": "🎛️",
+        "tooltip": true
+    },
+    "group/controls": {
+        "click-to-reveal": true,
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/controls",
+            "network",
+            "cpu",
+            "memory",
+            "temperature",
+            "idle_inhibitor",
+            "keyboard-state"
+        ]
     },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%e %B %H:%M}"
+        "format": "{:%e %B %H:%M}",
+        "on-click": "gnome-calendar"
     },
     "cpu": {
         "format": "{usage}% ",
@@ -94,10 +114,7 @@
         "format": "{}% "
     },
     "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
         "format-icons": [
             "",
@@ -106,8 +123,7 @@
         ]
     },
     "backlight": {
-        // "device": "acpi_video1",
-        "format": "{percent}% {icon}",
+        "format": "{icon}",
         "format-icons": [
             "",
             "",
@@ -138,22 +154,13 @@
             ""
         ]
     },
-    "battery#bat2": {
-        "bat": "BAT2"
-    },
     "network": {
         "format": "{ifname} {essid}",
         "tooltip-format": "{ifname} {ipaddr}/{cidr} {essid} {icon} {frequency} {signaldBm}",
-        // "format-wifi": "",
-        // "format-ethernet": "",
-        // "tooltip-format": "{ifname} via {gwaddr} ",
-        // "format-linked": "",
-        // "format-disconnected": "⚠",
-        // "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "on-click": "nmcli device wifi rescan && ghostty -e nmtui"
     },
     "pulseaudio": {
-        "format": "{volume}% {icon}",
+        "format": "{icon}",
         "format-bluetooth": "{volume}% {icon}",
         "format-bluetooth-muted": " {icon}",
         "format-muted": "",
@@ -173,17 +180,5 @@
             ]
         },
         "on-click": "pavucontrol"
-    },
-    "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     }
 }
