@@ -5,11 +5,6 @@
     "icon": "/home/ari/.config/nwg-bar/images/system-suspend.svg"
   },
   {
-    "label": "Hibernate",
-    "exec": "systemctl hibernate",
-    "icon": "/home/ari/.config/nwg-bar/images/system-hibernate.svg"
-  },
-  {
     "label": "Logout",
     "exec": "niri msg action quit",
     "icon": "/home/ari/.config/nwg-bar/images/system-log-out.svg"

@@ -17,6 +17,7 @@ environment {
   QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
   NIXOS_OZONE_WL "1"
   DISPLAY ":0"
+  ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
 
 
@@ -49,6 +50,12 @@ output "Samsung Electric Company S22R35x H4TR503886" {
   scale 1 
   transform "normal"
   position x=980 y=-1080
+}
+
+// Office 
+output "Dell Inc. DELL SE3223Q 1WDWKK3" {
+  scale 2
+  position x=0 y=-1080
 }
 
 // =========================
@@ -87,6 +94,14 @@ window-rule {
     match app-id="nm-connection-editor"
     match app-id=".blueman-manager-wrapped"
     match app-id=r#"^org.gnome.Calendar$"#
+    match app-id=r#"^gcr-prompter$"#
+    match app-id=r#"^xdg-desktop-portal-gnome$"#
+    match app-id=r#"^nm-applet$"#
+    match app-id=r#"^chrome-.*"#
+    match title="$Huddle:.*" app-id="Slack"
+    match title="Visual Studio Code" app-id="code"
+
+    open-focused true
     open-floating true
     default-floating-position x=0 y=25 relative-to="top"
     default-window-height { proportion 0.5; }
@@ -98,10 +113,12 @@ window-rule {
 }
 window-rule {
     match app-id=r#"^Slack$"#
-    match app-id=r#"^code$"# 
+    match app-id="code" 
     exclude app-id=r#"^code$"# title=r#"^Visual Studio Code$"#
-    open-fullscreen true
+    open-fullscreen false
     open-floating false
+    open-maximized true
+    open-focused true
 }
 // =========================
 // General Stuff 
@@ -143,6 +160,7 @@ binds {
     Mod+Ctrl+Up { move-window-to-workspace-up; }
     Mod+Ctrl+Down { move-window-to-workspace-down; }
 
+    Mod+W { toggle-column-tabbed-display; }
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
     Mod+Ctrl+F { reset-window-height; }
@@ -174,18 +192,9 @@ workspace "chat" {
     open-on-output "eDP-1"
 }
 spawn-at-startup "slack"
-spawn-at-startup "signal-desktop"
 window-rule {
     match app-id=r#"^Slack$"#
     match app-id=r#"^signal$"#
     open-on-workspace "chat"
-    open-fullscreen true
-}
-
-/// Coding
-workspace "code" 
-window-rule {
-    match app-id=r#"^code$"#
-    match app-id=r#"^DBeaver$"#
-    open-on-workspace "code"
+    open-focused true
 }

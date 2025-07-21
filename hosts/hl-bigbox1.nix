@@ -20,8 +20,8 @@
     };
     nixos = {
       desktop = {
-        enable = true;
-        gnome.enable = true;
+        enable = false;
+        gnome.enable = false;
       };
       common.ssh-server.enable = true;
       common.containers.openMetricsPort = true;
@@ -56,8 +56,8 @@
     networkDrives.enable = true;
   };
   services.displayManager.defaultSession = "gnome";
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = true;
+  services.xserver.displayManager.gdm.enable = false;
+  services.xserver.displayManager.gdm.wayland = false;
   services.autosuspend.enable = false;
   services.displayManager.autoLogin = {
     enable = true;
@@ -78,8 +78,8 @@
   services.xrdp.openFirewall = true;
   # Sunshine
   services.sunshine = {
-    enable = true;
-    autoStart = true;
+    enable = false;
+    autoStart = false;
     capSysAdmin = true;
     openFirewall = true;
   };
@@ -111,7 +111,7 @@
   ];
   # Steam
   programs.steam = {
-    enable = true;
+    enable = false;
     extest.enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
