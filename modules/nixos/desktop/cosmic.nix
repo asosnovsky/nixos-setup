@@ -49,14 +49,14 @@ in
                       Super,
                   ],
                   key: "b",
-              ): Spawn("chromium --profile-directory=\'Profile 1\'"),
+              ): Spawn("chromium --profile-directory=ProfilePersonal"),
               (
                   modifiers: [
                       Super,
                       Alt,
                   ],
                   key: "b",
-              ): Spawn("chromium --profile-directory=\'Default\'"),
+              ): Spawn("chromium --profile-directory=ProfileWork"),
               (
                   modifiers: [
                       Super,

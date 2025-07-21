@@ -138,7 +138,8 @@ binds {
     Mod+Shift+H { show-hotkey-overlay; }
     Mod+T { spawn "ghostty"; }
     Mod+Space { spawn "fuzzel"; }
-    Mod+B { spawn "chromium"; }
+    Mod+B { spawn "chromium" "--profile-directory=ProfilePersonal"; }
+    Mod+Alt+B { spawn "chromium" "--profile-directory=ProfileWork"; }
     Mod+E { spawn "wofi-emoji"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
