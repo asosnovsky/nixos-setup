@@ -5,7 +5,12 @@
     systems.url = "github:nix-systems/default";
     # Nixpkgs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    # Terminal
+    # Hyprland
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
@@ -22,6 +27,8 @@
 
   outputs =
     { self
+    , hyprland
+    , hyprland-plugins
     , nixos-hardware
     , nixpkgs
     , systems
@@ -73,11 +80,14 @@
           nix-flatpak
           ;
         specialArgs = {
-          inputs = { };
+          inputs = {
+            inherit
+              hyprland hyprland-plugins;
+          };
         };
       };
       # Libs
-      lib = (import modules/lib.nix ({
+      lib = (importmodules/lib.nix ({
         nixpkgs = nixpkgs;
         home-manager = home-manager;
       } // libConfig));

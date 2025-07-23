@@ -32,6 +32,7 @@ in
         crypto.enable = true;
         gnome.enable = true;
         tiler.enable = true;
+        hyprland.enable = true;
       };
     };
     networkDrives = {
@@ -51,10 +52,20 @@ in
   services.xserver.displayManager.gdm.wayland = true;
   services.displayManager.defaultSession = "gnome";
   programs.niri.enable = true;
+  # home manager
+  home-manager.users.${user.name} = {
+    programs.hyprpanel = {
+      enable = true;
+    };
+    # Add Functions
+    programs.zsh.initContent = ''
+      source ${zshFunctions}
+    '';
+  };
 
   # Sunshine
   services.sunshine = {
-    enable = true;
+    enable = false;
     autoStart = false;
     capSysAdmin = true;
     openFirewall = true;
@@ -189,10 +200,7 @@ in
     [ "modesetting" "fbdev" ];
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  # Add Functions
-  home-manager.users.${user.name}.programs.zsh.initContent = ''
-    source ${zshFunctions}
-  '';
+
   environment.localBinInPath = true;
   # Family Storage
   fileSystems."/mnt/EightTerra/FamilyStorage" = {
