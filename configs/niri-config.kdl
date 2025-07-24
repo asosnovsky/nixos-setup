@@ -24,8 +24,8 @@ environment {
 // =========================
 // Outputs
 // =========================
-output "eDP-1" {
-    mode "1920x1080@120.030"
+output "BOE 0x0BCA Unknown" {
+    mode "2256x1504@60"
     scale 1
     transform "normal"
     position x=0 y=0
@@ -39,14 +39,14 @@ output "PNP(GWD) ARZOPA \\x15\\xd9F\\x1675US0000" {
 }
 // Two Screens in Office
 output "Samsung Electric Company S22R35x H4TR604392" {
-  mode "1920x1080@60.000"
+  mode "1920x1080@74.973"
   scale 1 
   transform "normal"
   position x=-960 y=-1080
 }
 
 output "Samsung Electric Company S22R35x H4TR503886" {
-  mode "1920x1080@60.000"
+  mode "1920x1080@74.973"
   scale 1 
   transform "normal"
   position x=980 y=-1080
@@ -165,7 +165,8 @@ binds {
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
     Mod+Ctrl+F { reset-window-height; }
-
+    Mod+V       { toggle-window-floating; }
+    
     Mod+C { center-column; }
 
     Mod+Minus { set-column-width "-10%"; }
@@ -174,7 +175,6 @@ binds {
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
 
-    Mod+V       { toggle-window-floating; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     
     Print { screenshot; }

@@ -1,0 +1,12 @@
+{
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
+  "scalingPriority": "both",
+  "menus.power.lowBatteryNotification": true,
+  "menus.dashboard.shortcuts.enabled": false,
+  "menus.clock.time.military": true,
+  "menus.clock.weather.location": "Toronto",
+  "menus.clock.weather.unit": "imperial",
+  "theme.bar.menus.switch.puck": "#99c1f1"
+}

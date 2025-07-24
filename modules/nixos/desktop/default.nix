@@ -12,6 +12,7 @@ in
     ./crypto.nix
     ./gnome.nix
     ./tiler.nix
+    ./hyprland.nix
   ];
 
   options = {

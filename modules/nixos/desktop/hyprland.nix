@@ -1,12 +1,12 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.skyg.nixos.desktop.hyprland;
-  hyprPluginPkgs = inputs.hyprland-plugins.packages.${pkgs.system};
   hypr-plugin-dir = pkgs.symlinkJoin {
     name = "hyrpland-plugins";
-    paths = with hyprPluginPkgs; [
+    paths = with pkgs.hyprlandPlugins; [
       hyprexpo
-      #...plugins
+      hyprbars
+      hyprspace
     ];
   };
 in
@@ -24,6 +24,11 @@ in
       withUWSM = true;
     };
     programs.uwsm.enable = true;
-    environment.sessionVariables = { HYPR_PLUGIN_DIR = hypr-plugin-dir; };
+    environment.systemPackages = with pkgs; [
+      hyprls
+    ];
+    environment.sessionVariables = {
+      HYPR_PLUGIN_DIR = hypr-plugin-dir;
+    };
   };
 }
