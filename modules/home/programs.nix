@@ -78,6 +78,11 @@
     extraConfig = ''
       $env.config.show_banner = false
     '';
+    plugins = with pkgs.nushellPlugins; [
+      polars
+      net
+      highlight
+    ];
   };
   carapace = {
     enable = true;

@@ -30,5 +30,10 @@ in
     environment.sessionVariables = {
       HYPR_PLUGIN_DIR = hypr-plugin-dir;
     };
+    home-manager.users.${config.skyg.user.name} = {
+      programs.hyprpanel = {
+        enable = true;
+      };
+    };
   };
 }

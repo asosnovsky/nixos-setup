@@ -32,7 +32,8 @@ in
         crypto.enable = true;
         gnome.enable = true;
         tiler.enable = true;
-        hyprland.enable = true;
+        hyprland.enable = false;
+        niri.enable = true;
       };
     };
     networkDrives = {
@@ -50,13 +51,9 @@ in
   # Desktop Env
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
-  services.displayManager.defaultSession = "gnome";
-  programs.niri.enable = true;
+  services.displayManager.defaultSession = "niri";
   # home manager
   home-manager.users.${user.name} = {
-    programs.hyprpanel = {
-      enable = true;
-    };
     # Add Functions
     programs.zsh.initContent = ''
       source ${zshFunctions}
