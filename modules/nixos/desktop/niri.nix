@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, skygUtils, ... }:
 let
   cfg = config.skyg.nixos.desktop.niri;
 in
@@ -13,11 +13,13 @@ in
     skyg.nixos.desktop.tiler.enable = true;
     programs.niri = {
       enable = true;
-      withUWSM = true;
     };
-    programs.niri.enable = true;
     environment.systemPackages = with pkgs; [
       hypridle
     ];
+    system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
+      filePath = "niri.kdl";
+      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs/niri";
+    };
   };
 }

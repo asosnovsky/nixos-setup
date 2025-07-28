@@ -13,6 +13,7 @@ in
     ./gnome.nix
     ./tiler.nix
     ./hyprland.nix
+    ./niri.nix
   ];
 
   options = {

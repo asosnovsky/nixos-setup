@@ -7,6 +7,7 @@
 , specialArgs
 }:
 let
+  skygUtils = import ./skyg-utils.nix;
   makeImports =
     { attrs
     , extraConfiguration ? [ ]
@@ -29,7 +30,7 @@ let
     in
     nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
-        inherit system;
+        inherit system skygUtils;
       };
       system = system;
       modules = (makeImports {
