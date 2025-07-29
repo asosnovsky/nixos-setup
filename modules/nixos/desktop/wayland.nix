@@ -9,6 +9,7 @@ in
       environment.systemPackages = with pkgs; [
         wayland-utils
         wofi-emoji
+        wl-clipboard
       ];
       programs.xwayland.enable = true;
       xdg.portal = {
