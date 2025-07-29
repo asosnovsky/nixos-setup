@@ -3,6 +3,10 @@ let
   cfg = config.skyg.nixos.desktop.tiler;
 in
 {
+  imports = [
+    ./hyprland.nix
+    ./niri.nix
+  ];
   options = {
     skyg.nixos.desktop.tiler = {
       enable = lib.mkEnableOption

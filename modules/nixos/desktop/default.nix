@@ -11,9 +11,7 @@ in
     ./packages.nix
     ./crypto.nix
     ./gnome.nix
-    ./tiler.nix
-    ./hyprland.nix
-    ./niri.nix
+    ./tiler
   ];
 
   options = {

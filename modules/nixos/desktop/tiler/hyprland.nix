@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.skyg.nixos.desktop.hyprland;
+  cfg = config.skyg.nixos.desktop.tiler.hyprland;
   hypr-plugin-dir = pkgs.symlinkJoin {
     name = "hyrpland-plugins";
     paths = with pkgs.hyprlandPlugins; [
@@ -12,7 +12,7 @@ let
 in
 {
   options = {
-    skyg.nixos.desktop.hyprland = {
+    skyg.nixos.desktop.tiler.hyprland = {
       enable = lib.mkEnableOption
         "hyprland";
     };

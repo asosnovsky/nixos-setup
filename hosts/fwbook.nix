@@ -31,9 +31,11 @@ in
         kde.enable = false;
         crypto.enable = true;
         gnome.enable = true;
-        tiler.enable = true;
-        hyprland.enable = false;
-        niri.enable = true;
+        tiler = {
+          enable = true;
+          hyprland.enable = false;
+          niri.enable = true;
+        };
       };
     };
     networkDrives = {
