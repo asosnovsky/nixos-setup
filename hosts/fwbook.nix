@@ -45,6 +45,7 @@ in
     };
   };
 
+  virtualisation.waydroid.enable = true;
 
   # Tailscale
   services.tailscale.enable = true;
