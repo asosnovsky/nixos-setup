@@ -46,7 +46,7 @@ function run-switch() {
         fi
     fi
     
-    sudo nixos-rebuild switch --flake .
+    sudo nixos-rebuild switch --flake . --show-trace --print-build-logs --verbose
     unlock
     
 }

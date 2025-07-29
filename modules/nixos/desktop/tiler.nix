@@ -18,19 +18,28 @@ in
     # services.blueman.enable = true;
     # programs.nm-applet.enable = true;
     environment.systemPackages = with pkgs; [
-      mako
-      brightnessctl
-      libnotify
-      fuzzel
-      waybar
-      pavucontrol
+      # Protocols and libraries
       xwayland-satellite
+      libnotify
+      # Notifications
+      mako
       wofi
       rofi
       rofi-wayland
+      # Control Tools
+      pavucontrol
+      brightnessctl
       networkmanagerapplet
       blueman
+      # Apps
+      fuzzel
+      waybar
       nwg-bar
+      # Screen capture and recording tools
+      grim
+      slurp
+      satty
+      wf-recorder
     ];
   };
 }

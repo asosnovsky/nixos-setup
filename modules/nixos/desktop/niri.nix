@@ -18,8 +18,8 @@ in
       hypridle
     ];
     system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
-      filePath = "niri.kdl";
-      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs/niri";
+      filePath = "niri";
+      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
     };
   };
 }

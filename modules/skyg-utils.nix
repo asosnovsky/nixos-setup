@@ -10,7 +10,10 @@
     ''
       rm -f "${homePath}"
       if [[ ! -h "$HOME/.config/${filePath}" ]]; then
-        ln -s "${sourcePath}" "${homePath}"
+        ln -s "${sourcePath}" "${homePath}" || {
+          echo "Failed to create symlink for ${filePath} at ${homePath}"
+          exit 1
+        }
       fi
     '';
 }

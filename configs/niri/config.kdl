@@ -5,13 +5,8 @@ input {
         natural-scroll
     }
 }
-spawn-at-startup "hypridle"
-spawn-at-startup "xwayland-satellite"
-spawn-at-startup "ghostty"
-spawn-at-startup "mako"
-spawn-at-startup "nm-applet --indicator"
-spawn-at-startup "waybar"
-spawn-at-startup "waybar -c /home/ari/.config/waybar/bottom-config.jsonc"
+
+spawn-at-startup "/home/ari/.config/niri/startup.sh"
 
 environment {
   QT_QPA_PLATFORM "wayland"
@@ -34,26 +29,26 @@ output "BOE 0x0BCA Unknown" {
 // Portable Azopa
 output "PNP(GWD) ARZOPA \\x15\\xd9F\\x1675US0000" {
   mode "1920x1080@60"
-  scale 1 
+  scale 1
   transform "normal"
   position x=-1920 y=0
 }
 // Two Screens in Office
 output "Samsung Electric Company S22R35x H4TR604392" {
   mode "1920x1080@74.973"
-  scale 1 
+  scale 1
   transform "normal"
   position x=-960 y=-1080
 }
 
 output "Samsung Electric Company S22R35x H4TR503886" {
   mode "1920x1080@74.973"
-  scale 1 
+  scale 1
   transform "normal"
   position x=980 y=-1080
 }
 
-// Office 
+// Office
 output "Dell Inc. DELL SE3223Q 1WDWKK3" {
   scale 2
   position x=0 y=-1080
@@ -114,7 +109,7 @@ window-rule {
 }
 window-rule {
     match app-id=r#"^Slack$"#
-    match app-id="code" 
+    match app-id="code"
     exclude app-id=r#"^code$"# title=r#"^Visual Studio Code$"#
     open-fullscreen false
     open-floating false
@@ -122,9 +117,9 @@ window-rule {
     open-focused true
 }
 // =========================
-// General Stuff 
+// General Stuff
 // =========================
-switch-events { 
+switch-events {
   lid-close { spawn "notify-send" "The laptop lid is closed!"; }
   lid-open { spawn "notify-send" "The laptop lid is open!"; }
 }
@@ -167,7 +162,7 @@ binds {
     Mod+Shift+F { fullscreen-window; }
     Mod+Ctrl+F { reset-window-height; }
     Mod+V       { toggle-window-floating; }
-    
+
     Mod+C { center-column; }
 
     Mod+Minus { set-column-width "-10%"; }
@@ -177,10 +172,11 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-    
-    Print { screenshot; }
-    Mod+P { screenshot; }
-    
+
+    Print { spawn "grim" "-g" "\"$(slurp)\"" "-" "|" "satty" "-f" "-"; }
+    Mod+P { spawn "grim" "-g" "\"$(slurp)\"" "-" "|" "satty" "-f" "-"; }
+    Mod+R { spawn "/home/ari/.config/niri/screen-record.sh"; }
+
     Ctrl+Alt+Delete { quit; }
     Mod+Q { close-window; }
 
