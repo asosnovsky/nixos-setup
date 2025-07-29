@@ -10,6 +10,8 @@ let
       cat = "bat";
       ls = "eza";
       du = "dust";
+      df = "duf";
+      open = "xdg-open";
     };
   };
 in

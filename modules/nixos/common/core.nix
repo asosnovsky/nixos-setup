@@ -22,6 +22,7 @@
     lm_sensors
     hwinfo
     dig
+    iperf
 
     # misc
     glib-networking
