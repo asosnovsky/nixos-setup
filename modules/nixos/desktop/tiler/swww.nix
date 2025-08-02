@@ -22,10 +22,12 @@ in
       description = "SWWW Background Manager";
       path = [ pkgs.swww ];
       script = ''
-        ${pkgs.swww}/bin/swww-daemon &
-        ${pkgs.swww}/bin/swww img ${cfg.background.imagePath} --resize no
+        ${pkgs.swww}/bin/swww-daemon
       '';
       wantedBy = [ "graphical-session.target" ];
+      serviceConfig = {
+        ExecStartPost = "${pkgs.swww}/bin/swww img ${cfg.background.imagePath} --resize no";
+      };
     };
   };
 }
