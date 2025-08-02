@@ -2,7 +2,6 @@
 { pkgs, ... }:
 let
   zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
-  backgroundImage = builtins.filterSource (p: t: true) ./extra/fwbook/wallpaper.gif;
   zshFunctions = zshFWBook + "/functions.sh";
   openPorts = [
     8000
@@ -38,7 +37,6 @@ in
           niri.enable = true;
           background = {
             enable = true;
-            imagePath = backgroundImage;
           };
         };
       };

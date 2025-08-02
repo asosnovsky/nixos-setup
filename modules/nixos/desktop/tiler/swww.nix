@@ -7,26 +7,22 @@ in
     skyg.nixos.desktop.tiler.background = {
       enable = lib.mkEnableOption
         "Enable background management for tiling window managers";
-      imagePath = lib.mkOption {
-        type = lib.types.path;
-        description = "Path to the background image for tiling window managers.";
-      };
     };
   };
   config = lib.mkIf cfg.background.enable {
     environment.systemPackages = with pkgs; [
       swww
-      waytrogen
+      waypaper
     ];
-    systemd.user.services.swww = {
-      description = "SWWW Background Manager";
+    systemd.user.services.waypaper = {
+      description = "Waypaper Background Manager";
       path = [ pkgs.swww ];
       script = ''
-        ${pkgs.swww}/bin/swww-daemon
+        ${pkgs.waypaper}/bin/waypaper --restore
       '';
       wantedBy = [ "graphical-session.target" ];
       serviceConfig = {
-        ExecStartPost = "${pkgs.swww}/bin/swww img ${cfg.background.imagePath} --resize no";
+        Type = "oneshot";
       };
     };
   };

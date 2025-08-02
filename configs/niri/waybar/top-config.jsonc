@@ -9,7 +9,8 @@
         "niri/window"
     ],
     "modules-center": [
-        "clock"
+        "privacy",
+        "clock",
     ],
     "modules-right": [
         "group/controls",

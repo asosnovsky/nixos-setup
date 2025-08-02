@@ -13,11 +13,11 @@
         "wlr/taskbar"
     ],
     "modules-right": [],
-		"niri/workspaces": {
-			"format": "{icon}",
-			"format-icons": {
-				"code": "💻",
-				"chat": "💬"
-			}
-		}
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "code": "💻",
+            "chat": "💬"
+        }
+    }
 }

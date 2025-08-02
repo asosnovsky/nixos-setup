@@ -89,6 +89,16 @@ window-rule {
     geometry-corner-radius 6
     tiled-state true
 }
+animations {
+    window-movement {
+        duration-ms 500
+        curve "ease-out-expo"
+    }
+    workspace-switch {
+        duration-ms 500
+        curve "ease-out-expo"
+    }
+}
 
 // =========================
 // Screen Shots
@@ -110,6 +120,7 @@ window-rule {
     match app-id=r#"^xdg-desktop-portal-gnome$"#
     match app-id=r#"^nm-applet$"#
     match app-id=r#"^chrome-.*"#
+    match app-id="waypaper"
     match title="$Huddle:.*" app-id="Slack"
     match title="Visual Studio Code" app-id="code"
 
