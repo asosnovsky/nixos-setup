@@ -6,8 +6,6 @@ input {
     }
 }
 
-spawn-at-startup "/home/ari/.config/niri/startup.sh"
-
 environment {
   QT_QPA_PLATFORM "wayland"
   QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
@@ -60,7 +58,17 @@ output "Dell Inc. DELL SE3223Q 1WDWKK3" {
 layout {
     gaps 8
     center-focused-column "never"
-    tab-indicator
+    tab-indicator  {
+        width 8
+        gap 8
+        length total-proportion=1.0
+        hide-when-single-tab
+        position "top"
+        place-within-column
+    }
+    shadow {
+        on
+    }
     preset-column-widths {
         proportion 0.33333
         proportion 0.5
@@ -69,9 +77,17 @@ layout {
     default-column-width { proportion 0.5; }
     focus-ring {
         width 4
-        active-color "#7fc8ff"
+        active-gradient from="#f00f" to="#0f05" angle=45 in="oklch longer hue"
         inactive-color "#505050"
     }
+    border {
+        off
+    }
+}
+prefer-no-csd
+window-rule {
+    geometry-corner-radius 6
+    tiled-state true
 }
 
 // =========================
@@ -189,7 +205,6 @@ binds {
 workspace "chat" {
     open-on-output "eDP-1"
 }
-spawn-at-startup "slack"
 window-rule {
     match app-id=r#"^Slack$"#
     match app-id=r#"^signal$"#
