@@ -14,16 +14,5 @@ in
       swww
       waypaper
     ];
-    systemd.user.services.waypaper = {
-      description = "Waypaper Background Manager";
-      path = [ pkgs.swww ];
-      script = ''
-        ${pkgs.waypaper}/bin/waypaper --restore
-      '';
-      wantedBy = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-      };
-    };
   };
 }

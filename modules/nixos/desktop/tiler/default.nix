@@ -34,6 +34,7 @@ in
         rofi-wayland
         # Control Tools
         pavucontrol
+        playerctl
         brightnessctl
         networkmanagerapplet
         blueman
