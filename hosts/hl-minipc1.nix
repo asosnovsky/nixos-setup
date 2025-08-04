@@ -5,11 +5,15 @@ let
     audiobookshelf = 8000;
     nixServe = 5000;
     dockerRegistry = 5001;
+    gitea.http = 3000;
+    gitea.ssh = 2222;
   };
   openPorts = [
     ports.nixServe
     ports.dockerRegistry
     ports.audiobookshelf
+    ports.gitea.ssh
+    ports.gitea.http
     22
   ];
 in
@@ -55,6 +59,19 @@ in
     openFirewall = true;
     listenAddress = "0.0.0.0";
     enableDelete = true;
+  };
+  services.gitea = {
+    enable = true;
+    appName = "Sosnovsky gitea";
+    stateDir = "/var/lib/sosnovsky/gitea";
+    settings = {
+      server = {
+        DOMAIN = "minipc1.lab.internal";
+        HTTP_PORT = ports.gitea.http;
+        SSH_PORT = ports.gitea.ssh;
+        DISABLE_REGISTRATION = true;
+      };
+    };
   };
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
