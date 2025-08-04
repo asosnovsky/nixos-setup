@@ -5,15 +5,20 @@ let
     audiobookshelf = 8000;
     nixServe = 5000;
     dockerRegistry = 5001;
-    gitea.http = 3000;
-    gitea.ssh = 2222;
+  };
+  gitea = {
+    user = "gitea";
+    group = "gitea";
+    stateDir = "/var/lib/sosnovsky/gitea";
+    sshPort = 2222;
+    httpPort = 3000;
   };
   openPorts = [
     ports.nixServe
     ports.dockerRegistry
     ports.audiobookshelf
-    ports.gitea.ssh
-    ports.gitea.http
+    gitea.sshPort
+    gitea.httpPort
     22
   ];
 in
@@ -63,15 +68,29 @@ in
   services.gitea = {
     enable = true;
     appName = "Sosnovsky gitea";
-    stateDir = "/var/lib/sosnovsky/gitea";
+    stateDir = gitea.stateDir;
+    user = gitea.user;
+    group = gitea.group;
     settings = {
       server = {
+        SSH_USER = gitea.user;
         DOMAIN = "minipc1.lab.internal";
-        HTTP_PORT = ports.gitea.http;
-        SSH_PORT = ports.gitea.ssh;
+        HTTP_PORT = gitea.httpPort;
+        SSH_PORT = gitea.sshPort;
+        DISABLE_SSH = false;
+      };
+      service = {
         DISABLE_REGISTRATION = true;
       };
     };
+  };
+  users.groups.${gitea.group} = { };
+  users.users.${gitea.user} = {
+    isSystemUser = true;
+    useDefaultShell = true;
+    group = gitea.group;
+    extraGroups = [ gitea.group ];
+    home = gitea.stateDir;
   };
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
