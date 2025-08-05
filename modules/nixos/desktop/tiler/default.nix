@@ -40,7 +40,6 @@ in
         blueman
         # Apps
         sherlock-launcher
-        fuzzel
         waybar
         nwg-bar
         # Screen capture and recording tools
