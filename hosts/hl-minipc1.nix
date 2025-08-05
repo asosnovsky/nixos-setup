@@ -12,6 +12,7 @@ let
     stateDir = "/var/lib/sosnovsky/gitea";
     sshPort = 2222;
     httpPort = 3000;
+    sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPXJ3NWIHsFMKhNp5FUSJcZU4eevhKyfcHR9dyCSbo19 ari@fwbook";
   };
   openPorts = [
     ports.nixServe
@@ -83,14 +84,6 @@ in
         DISABLE_REGISTRATION = true;
       };
     };
-  };
-  users.groups.${gitea.group} = { };
-  users.users.${gitea.user} = {
-    isSystemUser = true;
-    useDefaultShell = true;
-    group = gitea.group;
-    extraGroups = [ gitea.group ];
-    home = gitea.stateDir;
   };
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;

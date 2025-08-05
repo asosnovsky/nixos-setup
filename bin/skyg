@@ -9,45 +9,19 @@ ROOT_FOLDER=$(realpath $0 | xargs dirname | xargs dirname)
 # Bootstrap
 
 MENAME=$(basename $0)
-LOCKS_FOLDER=/tmp/skyg/$ROOT_FOLDER/.tmp/.locks
-LOCK_FILE=$LOCKS_FOLDER/.built_via_skg
 
 mkdir -p $LOCKS_FOLDER
-
-function lock() {
-    touch $LOCK_FILE
-}
-function unlock() {
-    rm -f $LOCK_FILE
-}
 
 function run-build() {
     : Run nixos build and emits difference
     :
-    unlock
-    echo "sudo nixos-rebuild build --flake ."
-    sudo nixos-rebuild build --flake .
-    lock
-    run-diff
+    nh os build --flake . --show-trace --print-build-logs --verbose
 }
 
 function run-switch() {
     : Runs nixos switch and ensures that we actually saw a build\'s difference
     :
-    if [ ! -f $LOCK_FILE ]; then
-        run-build
-        echo "Do you want to continue? (y/N)"
-        read -r answer
-        if [[ $answer =~ ^[yY]$ ]]; then
-            echo "Continuing..."
-        else
-            echo "Exiting."
-            exit 1
-        fi
-    fi
-    
-    sudo nixos-rebuild switch --flake . --show-trace --print-build-logs --verbose
-    unlock
+    nh os switch --flake . --show-trace --print-build-logs --verbose
     
 }
 
