@@ -39,6 +39,7 @@ in
         networkmanagerapplet
         blueman
         # Apps
+        sherlock-launcher
         fuzzel
         waybar
         nwg-bar

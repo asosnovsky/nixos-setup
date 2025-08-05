@@ -164,7 +164,7 @@ hotkey-overlay {
 binds {
     Mod+Shift+H { show-hotkey-overlay; }
     Mod+T { spawn "ghostty"; }
-    Mod+Space { spawn "fuzzel"; }
+    Mod+Space { spawn "sherlock"; }
     Mod+B { spawn "chromium" "--profile-directory=ProfilePersonal"; }
     Mod+Alt+B { spawn "chromium" "--profile-directory=ProfileWork"; }
     Mod+E { spawn "wofi-emoji"; }
