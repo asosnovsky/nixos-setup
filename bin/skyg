@@ -10,8 +10,6 @@ ROOT_FOLDER=$(realpath $0 | xargs dirname | xargs dirname)
 
 MENAME=$(basename $0)
 
-mkdir -p $LOCKS_FOLDER
-
 function run-build() {
     : Run nixos build and emits difference
     :

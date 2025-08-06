@@ -106,6 +106,10 @@
               packages = with pkgs; [
                 nixpkgs-fmt
                 nixd
+                nh
+                just
+                just-formatter
+                just-lsp
               ];
               shellHook = ''
                 export PATH=$PATH:$(pwd)/bin

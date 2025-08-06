@@ -136,6 +136,8 @@ in
 
       # development
       vscode
+      devenv
+      just
 
       # Run macos apps
       darling-dmg

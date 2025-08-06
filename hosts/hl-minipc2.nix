@@ -23,20 +23,6 @@
   # Services
   skyg.nixos.server.services = {
     scrypted.enable = true;
-    dockge = {
-      enable = true;
-      openFirewall = true;
-      volumes = {
-        stacks = {
-          nfsServer = "terra1.lab.internal";
-          share = "/mnt/Data/apps/arrs/dockge/stacks";
-        };
-        data = {
-          nfsServer = "terra1.lab.internal";
-          share = "/mnt/Data/apps/arrs/dockge/data";
-        };
-      };
-    };
   };
 }
 
