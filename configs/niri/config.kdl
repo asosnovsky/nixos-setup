@@ -7,9 +7,6 @@ input {
 }
 
 
-spawn-at-startup "waypaper --restore"
-spawn-at-startup "blueman-tray"
-
 environment {
   QT_QPA_PLATFORM "wayland"
   QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
@@ -18,6 +15,33 @@ environment {
   ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
 
+// =========================
+// Programs to start on startup
+// =========================
+
+spawn-at-startup "waypaper --restore"
+spawn-at-startup "blueman-tray"
+
+
+/// Com Apps
+workspace "chat" {
+    open-on-output "eDP-1"
+}
+window-rule {
+    match app-id=r#"^Slack$"#
+    match app-id=r#"^signal$"#
+    open-on-workspace "chat"
+    open-focused true
+}
+
+// Nix Setup
+workspace "nix-setup" {
+    open-on-output "eDP-1"
+}
+
+workspace "homelab" {
+    open-on-output "eDP-1"
+}
 
 // =========================
 // Outputs
@@ -70,9 +94,7 @@ layout {
         position "top"
         place-within-column
     }
-    shadow {
-        on
-    }
+    shadow {}
     preset-column-widths {
         proportion 0.33333
         proportion 0.5
@@ -95,12 +117,13 @@ window-rule {
 }
 animations {
     window-movement {
-        duration-ms 500
-        curve "ease-out-expo"
+        duration-ms 250
     }
     workspace-switch {
-        duration-ms 500
-        curve "ease-out-expo"
+        duration-ms 250
+    }
+    horizontal-view-movement {
+        duration-ms 250
     }
 }
 
@@ -126,7 +149,7 @@ window-rule {
     match app-id=r#"^chrome-.*"#
     match app-id="waypaper"
     match title="$Huddle:.*" app-id="Slack"
-    match title="Visual Studio Code" app-id="code"
+    // match title="Visual Studio Code" app-id="code"
 
     open-focused true
     open-floating true
@@ -146,6 +169,7 @@ window-rule {
     open-floating false
     open-maximized true
     open-focused true
+    opacity 0.95
 }
 // =========================
 // General Stuff
@@ -215,14 +239,3 @@ binds {
     Mod+Ctrl+B { spawn "waybar" "-c" "/home/ari/.config/waybar/bottom-config.jsonc"; }
 }
 
-
-/// Com Apps
-workspace "chat" {
-    open-on-output "eDP-1"
-}
-window-rule {
-    match app-id=r#"^Slack$"#
-    match app-id=r#"^signal$"#
-    open-on-workspace "chat"
-    open-focused true
-}

@@ -42,11 +42,11 @@ in
       path = [ pkgs.nwg-bar pkgs.niri ];
       script = ''
         ${pkgs.waybar}/bin/waybar \
-          --config /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/top-config.jsonc \
-          --style /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/style.css &
+          --config /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/top-bar.jsonc \
+          --style /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/top-bar.css &
         ${pkgs.waybar}/bin/waybar \
-          --config /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/bottom-config.jsonc \
-          --style /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/style.css
+          --config /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/bottom-bar.jsonc \
+          --style /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/bottom-bar.css
       '';
     };
     systemd.user.services.niri-xwayland = makeNiriSystemdService {

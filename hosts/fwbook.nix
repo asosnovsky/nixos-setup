@@ -49,6 +49,7 @@ in
       ];
     };
   };
+  users.users.ari.extraGroups = [ "input" "disk" ];
 
   virtualisation.waydroid.enable = true;
 
@@ -138,6 +139,7 @@ in
       vscode
       devenv
       just
+      rpi-imager
 
       # Run macos apps
       darling-dmg

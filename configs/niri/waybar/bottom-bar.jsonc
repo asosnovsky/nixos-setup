@@ -16,8 +16,9 @@
     "niri/workspaces": {
         "format": "{icon}",
         "format-icons": {
-            "code": "💻",
-            "chat": "💬"
+            "chat": "💬",
+            "nix-setup": "🧠",
+            "homelab": "🏠"
         }
     }
 }
