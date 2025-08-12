@@ -49,7 +49,7 @@ in
       ];
     };
   };
-  users.users.ari.extraGroups = [ "input" "disk" ];
+  users.users.ari.extraGroups = [ "input" "disk" "wheel" "tty" "dialout" ];
 
   virtualisation.waydroid.enable = true;
 

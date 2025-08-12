@@ -90,8 +90,10 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
   };
+  # environment.pathsToLink = [ "/share/zsh" ];
   zsh = {
     enable = true;
+    enableCompletion = true;
     autosuggestion = {
       enable = true;
       strategy = [
