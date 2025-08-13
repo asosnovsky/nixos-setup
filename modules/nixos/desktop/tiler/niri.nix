@@ -32,6 +32,7 @@ in
     };
     environment.systemPackages = with pkgs; [
       hypridle
+      swayosd
     ];
     system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
       filePath = "niri";
@@ -59,6 +60,12 @@ in
       description = "Niri's hypridle";
       script = ''
         ${pkgs.hypridle}/bin/hypridle
+      '';
+    };
+    systemd.user.services.niri-swayosd = makeNiriSystemdService {
+      description = "Niri's swayosd";
+      script = ''
+        ${pkgs.swayosd}/bin/swayosd-server
       '';
     };
   };

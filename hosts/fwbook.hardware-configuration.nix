@@ -11,7 +11,21 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.plymouth = {
+    enable = true;
+    theme = "proxzima";
+    themePackages = [ pkgs.plymouth-proxzima-theme ];
+  };
 
+  boot.consoleLogLevel = 3;
+  boot.initrd.verbose = false;
+  boot.kernelParams = [
+    "quiet"
+    "splash"
+    "boot.shell_on_fail"
+    "udev.log_priority=3"
+    "rd.systemd.show_status=auto"
+  ];
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";

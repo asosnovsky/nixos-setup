@@ -65,8 +65,8 @@ in
     programs.zsh.initContent = ''
       source ${zshFunctions}
     '';
+    services.blueman-applet.enable = true;
   };
-
   # Sunshine
   services.sunshine = {
     enable = false;

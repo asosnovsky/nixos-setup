@@ -8,4 +8,7 @@
 		"nixpkgs",
 		"pkgs"
 	],
+	"search.exclude": {
+		"system-special-links": true,
+	}
 }

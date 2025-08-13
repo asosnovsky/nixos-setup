@@ -1,4 +1,5 @@
 {
+    "reload_style_on_change": true,
     "layer": "top", // Waybar at top layer
     "height": 32, // Waybar height (to be removed for auto height)
     "margin-top": 4,
