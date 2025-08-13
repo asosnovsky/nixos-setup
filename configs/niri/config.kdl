@@ -19,10 +19,6 @@ environment {
 // Programs to start on startup
 // =========================
 
-spawn-at-startup "waypaper --restore"
-spawn-at-startup "blueman-tray"
-
-
 /// Com Apps
 workspace "chat" {
     open-on-output "eDP-1"
@@ -239,7 +235,6 @@ binds {
     Ctrl+Alt+Delete { quit; }
     Mod+Q { close-window; }
 
-    Mod+Ctrl+W { spawn "waybar"; }
-    Mod+Ctrl+B { spawn "waybar" "-c" "/home/ari/.config/waybar/bottom-config.jsonc"; }
+    Mod+Ctrl+P { spawn "waypaper" "--restore"; }
 }
 
