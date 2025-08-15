@@ -1,4 +1,5 @@
 { nixpkgs
+, determinate
 , home-manager
 , nix-darwin
 , systems
@@ -33,7 +34,9 @@ let
         inherit system skygUtils;
       };
       system = system;
-      modules = (makeImports {
+      modules = [
+        determinate.nixosModules.default
+      ] ++ (makeImports {
         attrs = joinedttrs;
         extraConfiguration = [
           {

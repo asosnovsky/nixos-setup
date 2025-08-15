@@ -4,7 +4,8 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
     # Nixpkgs
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
@@ -21,6 +22,7 @@
 
   outputs =
     { self
+    , determinate
     , nixos-hardware
     , nixpkgs
     , systems
@@ -66,6 +68,7 @@
       # Lib Config
       libConfig = {
         inherit
+          determinate
           nix-darwin
           hlCommonSettings
           systems
