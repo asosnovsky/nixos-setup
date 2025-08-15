@@ -149,7 +149,6 @@ window-rule {
     match app-id=r#"^chrome-.*"#
     match app-id="waypaper"
     match title="$Huddle:.*" app-id="Slack"
-    // match title="Visual Studio Code" app-id="code"
 
     open-focused true
     open-floating true
@@ -164,7 +163,9 @@ window-rule {
 window-rule {
     match app-id=r#"^Slack$"#
     match app-id="code"
+    match app-id="org.shotcut.Shotcut"
     exclude app-id=r#"^code$"# title=r#"^Visual Studio Code$"#
+
     open-fullscreen false
     open-floating false
     open-maximized true

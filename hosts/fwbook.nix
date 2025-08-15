@@ -125,9 +125,10 @@ in
       # Browser
       chromium
 
-      # Photo Editing
+      # Photo/video Editing
       krita
       gimp-with-plugins
+      shotcut
 
       # socials
       zoom-us
@@ -140,6 +141,8 @@ in
       devenv
       just
       rpi-imager
+      rpiboot
+      code-cursor-fhs
 
       # Run macos apps
       darling-dmg
