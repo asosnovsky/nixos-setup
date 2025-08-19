@@ -5,8 +5,14 @@ let
     inherit description script path;
     enable = true;
     requires = [ "niri.service" ];
-    reloadIfChanged = true;
-    restartIfChanged = true;
+    restartTriggers = [
+      script
+      path
+    ];
+    reloadTriggers = [
+      script
+      path
+    ];
     after = [ "niri.service" ];
     partOf = [ "niri.service" ];
     bindsTo = [ "niri.service" ];
@@ -33,6 +39,7 @@ in
     environment.systemPackages = with pkgs; [
       hypridle
       swayosd
+      xwayland-satellite
     ];
     system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
       filePath = "niri";
