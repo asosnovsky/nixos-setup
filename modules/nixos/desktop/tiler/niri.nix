@@ -13,10 +13,10 @@ let
       script
       path
     ];
-    after = [ "niri.service" ];
+    after = [ "niri.service" "xdg-desktop-portal.service" ];
     partOf = [ "niri.service" ];
     bindsTo = [ "niri.service" ];
-    wants = [ "niri.service" ];
+    wants = [ "niri.service" "xdg-desktop-portal.service" ];
     wantedBy = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "simple";
@@ -40,6 +40,8 @@ in
       hypridle
       swayosd
       xwayland-satellite
+      adwaita-icon-theme
+      papirus-icon-theme
     ];
     system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
       filePath = "niri";
