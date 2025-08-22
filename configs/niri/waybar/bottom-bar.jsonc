@@ -4,11 +4,12 @@
     "position": "bottom", // Waybar at bottom layer
     "height": 42,
     "margin-top": 4,
+    "margin-bottom": 4,
     "margin-left": 4,
     "margin-right": 4,
     "spacing": 0,
     "modules-left": [
-        "niri/workspaces",
+        "niri/workspaces"
     ],
     "modules-center": [
         "wlr/taskbar"

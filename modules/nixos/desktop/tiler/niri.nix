@@ -14,13 +14,16 @@ let
       path
     ];
     after = [ "niri.service" "xdg-desktop-portal.service" ];
-    partOf = [ "niri.service" ];
+    partOf = [ "niri.service" "tray.target" ];
     bindsTo = [ "niri.service" ];
     wants = [ "niri.service" "xdg-desktop-portal.service" ];
-    wantedBy = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" "tray.target" ];
     serviceConfig = {
       Type = "simple";
       Restart = "on-failure";
+      ExecReload = "${pkgs.coreutils}/bin/kill -SIGUSR2 $MAINPID";
+      KillMode = "mixed";
+      ConditionEnvironment = "WAYLAND_DISPLAY";
     };
   };
 in
