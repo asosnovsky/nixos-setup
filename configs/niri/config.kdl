@@ -5,7 +5,14 @@ input {
         natural-scroll
     }
 }
-
+overview {
+    backdrop-color "#777777"
+}
+cursor {
+    // xcursor-theme "breeze_cursors"
+    xcursor-size 48
+    hide-when-typing
+}
 
 environment {
   QT_QPA_PLATFORM "wayland"
@@ -29,6 +36,8 @@ window-rule {
     open-on-workspace "chat"
     open-focused true
 }
+
+spawn-at-startup "waypaper" "--restore" 
 
 // =========================
 // Outputs

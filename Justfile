@@ -14,12 +14,12 @@ rollback:
 
 update input_name="":
     if [ ! -z {{input_name}} ]; then \
-        cmd="nix flake update {{input_name}}"; \
+        echo "just updating... {{input_name}}"; \
+        nix flake update {{input_name}}; \
     else \
-        cmd="nix flake update"; \
+        echo "updating all..."; \
+        nix flake update; \
     fi
-    echo $cmd
-    # $cmd
     git diff flake.lock
 
 remote cmd target:
