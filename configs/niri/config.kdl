@@ -30,15 +30,6 @@ window-rule {
     open-focused true
 }
 
-// Nix Setup
-workspace "nix-setup" {
-    open-on-output "eDP-1"
-}
-
-workspace "homelab" {
-    open-on-output "eDP-1"
-}
-
 // =========================
 // Outputs
 // =========================
