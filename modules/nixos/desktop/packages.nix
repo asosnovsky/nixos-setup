@@ -11,6 +11,7 @@ in
       busybox
       gcc
       feh # image viewer
+      eog # image viewer
 
       # copy to clipboard
       wl-clipboard-x11

@@ -42,7 +42,7 @@ in
       };
     };
     networkDrives = {
-      enable = true;
+      enable = false;
       options = [
         "x-systemd.automount"
         "noauto"
