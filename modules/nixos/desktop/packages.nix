@@ -10,7 +10,6 @@ in
       # General utils
       busybox
       gcc
-      feh # image viewer
       eog # image viewer
 
       # copy to clipboard
