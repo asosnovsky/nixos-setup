@@ -49,8 +49,19 @@ in
       ];
     };
   };
-  users.users.ari.extraGroups = [ "input" "disk" "wheel" "tty" "dialout" ];
-
+  users.users.ari.extraGroups = [
+    "input"
+    "disk"
+    "wheel"
+    "tty"
+    "dialout"
+    "plugdev"
+    "uucp"
+  ];
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+  };
   virtualisation.waydroid.enable = true;
 
   # Tailscale
