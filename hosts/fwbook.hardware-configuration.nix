@@ -2,7 +2,6 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
-
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -13,8 +12,10 @@
   boot.extraModulePackages = [ ];
   boot.plymouth = {
     enable = true;
-    theme = "proxzima";
-    themePackages = [ pkgs.plymouth-proxzima-theme ];
+    theme = "catppuccin-mocha";
+    themePackages = with pkgs; [
+      (catppuccin-plymouth.override { variant = "mocha"; })
+    ];
   };
 
   boot.consoleLogLevel = 3;

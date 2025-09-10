@@ -11,7 +11,7 @@ in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
-  environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = "true";
+  environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
   environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   skyg = {
@@ -60,7 +60,7 @@ in
   ];
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
   };
   virtualisation.waydroid.enable = true;
 
@@ -115,6 +115,7 @@ in
     (with pkgs; [
       # python
       python312
+
       # Work
       postgresql
       dvc-with-remotes
@@ -154,6 +155,7 @@ in
       rpi-imager
       rpiboot
       code-cursor-fhs
+      nix-prefetch
 
       # Run macos apps
       darling-dmg
