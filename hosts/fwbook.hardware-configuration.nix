@@ -9,13 +9,10 @@
     [ "nvme" "xhci_pci" "thunderbolt" "uas" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
+
   boot.extraModulePackages = [ ];
   boot.plymouth = {
     enable = true;
-    theme = "catppuccin-mocha";
-    themePackages = with pkgs; [
-      (catppuccin-plymouth.override { variant = "mocha"; })
-    ];
   };
 
   boot.consoleLogLevel = 3;
@@ -27,6 +24,9 @@
     "udev.log_priority=3"
     "rd.systemd.show_status=auto"
   ];
+  boot.extraModprobeConfig = ''
+    options snd_hda_intel power_save=0
+  '';
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/adaad601-f79c-4342-ba3a-9eab53ec4cd1";
