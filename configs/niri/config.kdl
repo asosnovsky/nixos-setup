@@ -137,6 +137,15 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // =========================
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
+    match app-id="org.pipewire.Helvum"
+
+    open-focused true
+    open-floating true
+    default-floating-position x=0 y=25 relative-to="top"
+    default-window-height { proportion 0.8; }
+    default-column-width { proportion 0.75; }
+}
+window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     match app-id="org.pulseaudio.pavucontrol"
     match app-id="Rofi"

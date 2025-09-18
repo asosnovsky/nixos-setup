@@ -19,6 +19,9 @@
         "group/sound",
         "group/backlight",
         "tray",
+        "mpd",
+        // "jack",
+        // "wireplumber",
         "custom/logout"
     ],
     // Modules configuration
@@ -49,7 +52,7 @@
     "pulseaudio/slider": {
         "min": 0,
         "max": 100,
-        "orientation": "horizontal"
+        "orientation": "horizontal",
     },
     "custom/logout": {
         "format": "⏻",
@@ -181,6 +184,7 @@
                 ""
             ]
         },
-        "on-click": "pavucontrol"
+        "on-click": "/run/current-system/sw/bin/flatpak run org.pipewire.Helvum"
+        // "on-click": "/run/current-system/sw/bin/pavucontrol"
     }
 }

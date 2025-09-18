@@ -152,6 +152,7 @@ in
       vscode
       devenv
       just
+      uv
       rpi-imager
       rpiboot
       code-cursor-fhs
@@ -184,11 +185,13 @@ in
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [
+    "io.github.kolunmi.Bazaar"
     "com.spotify.Client"
     "com.cassidyjames.butler"
     "io.dbeaver.DBeaverCommunity"
     "com.google.Chrome"
     "dev.deedles.Trayscale"
+    "org.pipewire.Helvum"
   ];
   # Gaming
   programs.steam = {

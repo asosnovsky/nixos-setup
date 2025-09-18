@@ -2,27 +2,23 @@
 let
   cfg = config.skyg.nixos.desktop.tiler.niri;
   makeNiriSystemdService = { description, script, path ? [ ] }: {
-    inherit description script path;
-    enable = true;
-    requires = [ "niri.service" ];
-    restartTriggers = [
-      script
-      path
-    ];
-    reloadTriggers = [
-      script
-      path
-    ];
-    after = [ "niri.service" "xdg-desktop-portal.service" ];
-    partOf = [ "niri.service" "tray.target" ];
-    bindsTo = [ "niri.service" ];
-    wants = [ "niri.service" "xdg-desktop-portal.service" ];
-    wantedBy = [ "graphical-session.target" "tray.target" ];
-    serviceConfig = {
+    Unit = {
+      Description = description;
+      After = [ "niri.service" "xdg-desktop-portal.service" ];
+      PartOf = [ "niri.service" "tray.target" ];
+      BindsTo = [ "niri.service" ];
+      Wants = [ "niri.service" "xdg-desktop-portal.service" ];
+      WantedBy = [
+        "graphical-session.target"
+        # "tray.target"
+      ];
+      Requires = [ "niri.service" ];
+    };
+    Service = {
       Type = "simple";
+      KillMode = "mixed";
       Restart = "on-failure";
       ExecReload = "${pkgs.coreutils}/bin/kill -SIGUSR2 $MAINPID";
-      KillMode = "mixed";
       ConditionEnvironment = "WAYLAND_DISPLAY";
     };
   };
@@ -50,7 +46,7 @@ in
       filePath = "niri";
       configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
     };
-    systemd.user.services.niri-waybar = makeNiriSystemdService {
+    users.users.${config.skyg.user.name}.systemd.user.services.niri-waybar = makeNiriSystemdService {
       description = "Niri's Top Waybar";
       path = [ pkgs.nwg-bar pkgs.niri ];
       script = ''
@@ -62,19 +58,19 @@ in
           --style /home/${config.skyg.user.name}/nixos-setup/configs/niri/waybar/bottom-bar.css
       '';
     };
-    systemd.user.services.niri-xwayland = makeNiriSystemdService {
+    users.users.${config.skyg.user.name}.systemd.user.services.niri-xwayland = makeNiriSystemdService {
       description = "Niri's xwayland-satellite";
       script = ''
         ${pkgs.xwayland-satellite}/bin/xwayland-satellite
       '';
     };
-    systemd.user.services.niri-hypridle = makeNiriSystemdService {
+    users.users.${config.skyg.user.name}.systemd.user.services.niri-hypridle = makeNiriSystemdService {
       description = "Niri's hypridle";
       script = ''
         ${pkgs.hypridle}/bin/hypridle
       '';
     };
-    systemd.user.services.niri-swayosd = makeNiriSystemdService {
+    users.users.${config.skyg.user.name}.systemd.user.services.niri-swayosd = makeNiriSystemdService {
       description = "Niri's swayosd";
       script = ''
         ${pkgs.swayosd}/bin/swayosd-server
