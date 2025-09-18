@@ -246,5 +246,10 @@ binds {
     Mod+Q { close-window; }
 
     Mod+Ctrl+P { spawn "waypaper" "--restore"; }
+
+    Mod+Ctrl+W {
+        spawn "sh" "-c" "/home/ari/.config/niri/waybar/start-up-script.sh";
+    }
 }
 
+spawn-at-startup "/home/ari/.config/niri/waybar/start-up-script.sh"
