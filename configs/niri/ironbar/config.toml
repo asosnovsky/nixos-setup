@@ -1,0 +1,78 @@
+anchor_to_edges = true
+position = "top"
+icon_theme = "Paper"
+
+
+[[end]]
+type = "volume"
+format = "{icon} {percentage}%"
+max_volume = 100
+
+[end.icons]
+volume_high = "󰕾"
+volume_medium = "󰖀"
+volume_low = "󰕿"
+muted = "󰝟"
+
+[[end]]
+type = "clipboard"
+max_items = 3
+
+[end.truncate]
+mode = "end"
+length = 50
+
+[[end]]
+type = "custom"
+class = "power-menu"
+tooltip = "Up: {{30000:uptime -p | cut -d ' ' -f2-}}"
+
+[[end.bar]]
+type = "button"
+name = "power-btn"
+label = ""
+on_click = "popup:toggle"
+
+[[end.popup]]
+type = "box"
+orientation = "vertical"
+
+[[end.popup.widgets]]
+type = "label"
+name = "header"
+label = "Power menu"
+
+[[end.popup.widgets]]
+type = "box"
+
+[[end.popup.widgets.widgets]]
+type = "button"
+class = "power-btn"
+label = "<span font-size='40pt'></span>"
+on_click = "!shutdown now"
+
+[[end.popup.widgets.widgets]]
+type = "button"
+class = "power-btn"
+label = "<span font-size='40pt'></span>"
+on_click = "!reboot"
+
+[[end.popup.widgets]]
+type = "label"
+name = "uptime"
+label = "Uptime: {{30000:uptime -p | cut -d ' ' -f2-}}"
+
+[[end]]
+type = "clock"
+
+[[end]]
+type = "notifications"
+show_count = true
+
+[end.icons]
+closed_none = "󰍥"
+closed_some = "󱥂"
+closed_dnd = "󱅯"
+open_none = "󰍡"
+open_some = "󱥁"
+open_dnd = "󱅮"
