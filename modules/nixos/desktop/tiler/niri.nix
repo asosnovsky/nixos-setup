@@ -1,6 +1,10 @@
-{ config, lib, pkgs, skygUtils, ... }:
+{ config, lib, pkgs, skygUtils, system, nixpkgs-unstable, ... }:
 let
   cfg = config.skyg.nixos.desktop.tiler.niri;
+  # unstable = import nixpkgs-unstable {
+  #   inherit system;
+  #   config.allowUnfree = true;
+  # };
 in
 {
   options = {
@@ -20,6 +24,7 @@ in
       xwayland-satellite
       adwaita-icon-theme
       papirus-icon-theme
+      # unstable.niriswitcher
     ];
     system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
       filePath = "niri";

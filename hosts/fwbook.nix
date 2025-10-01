@@ -78,6 +78,15 @@ in
     '';
     services.blueman-applet.enable = true;
   };
+  # Network
+  # networking.nameservers = [ "9.9.9.9" "1.1.1.1" ];
+
+  # services.resolved = {
+  #   enable = true;
+  #   dnssec = "true";
+  #   fallbackDns = [ "9.9.9.9" "1.1.1.1" ];
+  #   dnsovertls = "true";
+  # };
   # Sunshine
   services.sunshine = {
     enable = false;

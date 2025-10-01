@@ -33,7 +33,7 @@ let
       specialArgs = specialArgs // {
         inherit system skygUtils;
       };
-      system = system;
+      inherit system;
       modules = [
         determinate.nixosModules.default
       ] ++ (makeImports {

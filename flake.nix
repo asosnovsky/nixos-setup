@@ -6,6 +6,7 @@
     # Nixpkgs
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
@@ -13,6 +14,7 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Theme for niri
     # Macos
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -22,6 +24,7 @@
 
   outputs =
     { self
+    , nixpkgs-unstable
     , determinate
     , nixos-hardware
     , nixpkgs
@@ -75,7 +78,11 @@
           nix-flatpak
           ;
         specialArgs = {
-          inputs = { };
+          inputs =
+            {
+              inherit
+                nixpkgs-unstable;
+            };
         };
       };
       # Libs
@@ -142,14 +149,6 @@
           # localNixCaches = localNixCaches;
           localDockerRegistries = localDockerRegistries;
           homeManagerVersion = homeManagerVersion;
-          desktop = {
-            enable = true;
-            user = user;
-            enableKDE = true;
-            enableHypr = false;
-            enableX11 = true;
-            enableWine = true;
-          };
           os = {
             enable = true;
             firewall = { enable = false; };
