@@ -54,8 +54,8 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "* 23 * * *       root    nix-collect-garbage --delete-older-than 1d"
-      "* 23 * * *       ${config.skyg.user.name}   nix-collect-garbage --delete-older-than 1d"
+      "* 23 * * *       root    nix-collect-garbage --delete-older-than 7d"
+      "* 23 * * *       ${config.skyg.user.name}   nix-collect-garbage --delete-older-than 7d"
     ];
   };
 }
