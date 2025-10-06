@@ -166,12 +166,14 @@ in
       rpiboot
       code-cursor-fhs
       nix-prefetch
+      python313
+      rust-analyzer
+      cargo
+      rustc
+      go
 
       # Run macos apps
       darling-dmg
-
-      # mail
-      thunderbird
 
       # password
       bitwarden-desktop
