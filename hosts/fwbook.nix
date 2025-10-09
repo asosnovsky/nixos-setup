@@ -130,6 +130,9 @@ in
       dvc-with-remotes
       google-cloud-sdk
       awscli
+      openfortivpn
+      openfortivpn-webview
+      openfortivpn-webview-qt
 
       # Util
       libusb1
@@ -204,6 +207,8 @@ in
     "dev.deedles.Trayscale"
     "org.pipewire.Helvum"
   ];
+  # Phone
+  programs.kdeconnect.enable = true;
   # Gaming
   programs.steam = {
     enable = true;
