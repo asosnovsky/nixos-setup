@@ -183,6 +183,18 @@
           };
           systemStateVersion = "24.05";
         };
+        # NIXOS Framework Desktop
+        # -------------
+        hl-fwdesk = lib.makeHLService {
+          hostName = "hl-fwdesk";
+          configuration = { ... }: {
+            imports = [
+              nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+              (import (./hosts/hl-fwdesk.nix) { user = user; })
+            ];
+          };
+          systemStateVersion = "25.05";
+        };
       } // homelabServices;
     };
 }
