@@ -174,6 +174,7 @@ in
       cargo
       rustc
       go
+      pipx
 
       # Run macos apps
       darling-dmg

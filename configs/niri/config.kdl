@@ -37,7 +37,7 @@ window-rule {
     open-focused true
 }
 
-spawn-at-startup "waypaper" "--restore" 
+spawn-at-startup "waypaper" "--restore"
 
 // =========================
 // Outputs
@@ -199,8 +199,9 @@ binds {
     Mod+Shift+H { show-hotkey-overlay; }
     Mod+T { spawn "ghostty"; }
     Mod+Space { spawn "sherlock"; }
-    Mod+B { spawn "chromium" "--profile-directory=ProfilePersonal"; }
-    Mod+Alt+B { spawn "chromium" "--profile-directory=ProfileWork"; }
+    Mod+B { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    //Mod+B { spawn "chromium" "--profile-directory=ProfilePersonal"; }
+    //Mod+Alt+B { spawn "chromium" "--profile-directory=ProfileWork"; }
     Mod+E { spawn "wofi-emoji"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "lower"; }
