@@ -1,7 +1,7 @@
 { ... }:
 { pkgs, ... }:
 {
-  imports = [ ./fwdesk.hardware-configuration.nix ];
+  imports = [ ./hl-fwdesk.hardware-configuration.nix ];
   # Skyg
   environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
   environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
