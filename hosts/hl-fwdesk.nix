@@ -42,6 +42,9 @@
     enable = true;
     nssmdns4 = true;
   };
+  # Boot
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   # Tailscale
   services.tailscale.enable = true;
   # Desktop Env
