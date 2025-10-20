@@ -52,13 +52,13 @@
   services.xserver.displayManager.gdm.wayland = true;
   services.displayManager.defaultSession = "niri";
   # Network
-  networking.nameservers = [ "9.9.9.9" "1.1.1.1" ];
-  services.resolved = {
-    enable = true;
-    dnssec = "true";
-    fallbackDns = [ "9.9.9.9" "1.1.1.1" ];
-    dnsovertls = "true";
-  };
+  # networking.nameservers = [ "10.0.0.1" "9.9.9.9" "1.1.1.1" ];
+  # services.resolved = {
+  #   enable = true;
+  #   dnssec = "true";
+  #   fallbackDns = [ "10.0.0.1" "9.9.9.9" "1.1.1.1" ];
+  #   dnsovertls = "true";
+  # };
   # Firmware updater
   services.fwupd.enable = true;
   # Bluetooth
@@ -77,6 +77,7 @@
       uv
 
       # development
+      zed-editor-fhs
       vscode
       nix-prefetch
     ]);
