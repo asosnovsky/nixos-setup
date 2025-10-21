@@ -1,0 +1,74 @@
+#!/usr/bin/env nu
+
+# Ensure we are located at the bin folder
+const current_folder = path self | path dirname
+cd $current_folder
+
+def valid_profiles [] {
+    nix flake show --json err> /dev/null | from json | 
+        select nixosConfigurations | 
+        flatten | transpose | 
+        select column0 | rename name
+}
+
+def is-valid-profile [name: string] {
+    (valid_profiles | where name == $name | length) == 1 
+}
+
+def main [] {
+    help main
+}
+
+# Build configuration
+def "main build" [] {
+    nh os build | print
+}
+
+# Switch configuration
+def "main switch" [] {
+    nh os switch | print
+}
+
+# test configuration
+def "main test" [] {
+    nh os test | print
+}
+
+# rollback configuration
+def "main rollback" [] {
+    sudo nixos-rebuild switch --rollback
+}
+
+# update some flakes
+def "main update" [input_name:string = ""] {
+    if $input_name == "" {
+        print "Updating all flakes..."
+        nix flake update | print
+    } else {
+        print "Updating flake: $input_name"
+        nix flake update $input_name | print
+    }
+    git diff flake.lock | print
+}
+
+# Deploy to remote machine
+def "main remote" [cmd:string, target:string = ""] {
+    mut target_host = $"root@($target).lab.internal"
+    mut profile = $"hl-($target)"
+    if not (is-valid-profile $profile) {
+        print $"Invalid Profile ($profile), please select one of:"
+        return valid_profiles
+    }
+    $"Using [($profile)]" | print
+    const valid_cmds = [
+        "test" , "dry-activate" , "run" , "switch" , "build"
+    ]
+    if not ($cmd in $valid_cmds) {
+        print $"Invalid command ($cmd), please select one of"
+        return $valid_cmds
+    }
+    $"($cmd) on ($target_host) with ($profile)" | print
+    mut runcmd = $"nixos-rebuild --target-host ($target_host) --use-remote-sudo ($cmd) --flake .#($profile)"
+    $runcmd | print
+    bash -c $runcmd
+}

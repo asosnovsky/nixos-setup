@@ -78,7 +78,6 @@
 
       # development
       zed-editor-fhs
-      vscode
       nix-prefetch
     ]);
   services.usbmuxd.enable = true;

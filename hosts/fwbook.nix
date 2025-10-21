@@ -114,8 +114,6 @@ in
         ]);
     in
     (with pkgs; [
-      # python
-      python312
 
       # Work
       postgresql
@@ -152,21 +150,25 @@ in
       discord
       signal-desktop
 
-      # development
-      vscode
-      devenv
-      just
-      uv
-      rpi-imager
-      rpiboot
-      code-cursor-fhs
-      nix-prefetch
+      # Languages
+      python312
       python313
-      rust-analyzer
+      uv
       cargo
       rustc
       go
       pipx
+      rust-analyzer
+
+      # development
+      vscode
+      zed-editor-fhs
+      devenv
+      just
+      rpi-imager
+      rpiboot
+      code-cursor-fhs
+      nix-prefetch
 
       # Run macos apps
       darling-dmg
