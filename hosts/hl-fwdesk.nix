@@ -1,11 +1,11 @@
 { ... }:
 { pkgs, ... }:
 let
-	ports = {
-	tabby = 11029;
-	ollama = 11434;
-};
-	openPorts = [ports.ollama ports.tabby];
+  ports = {
+    tabby = 11029;
+    ollama = 11434;
+  };
+  openPorts = [ ports.ollama ports.tabby ];
 in
 {
   imports = [ ./hl-fwdesk.hardware-configuration.nix ];
