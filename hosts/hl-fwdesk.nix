@@ -1,5 +1,12 @@
 { ... }:
 { pkgs, ... }:
+let
+	ports = {
+	tabby = 11029;
+	ollama = 11434;
+};
+	openPorts = [ports.ollama ports.tabby];
+in
 {
   imports = [ ./hl-fwdesk.hardware-configuration.nix ];
   # Skyg
@@ -51,14 +58,6 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
   services.displayManager.defaultSession = "niri";
-  # Network
-  # networking.nameservers = [ "10.0.0.1" "9.9.9.9" "1.1.1.1" ];
-  # services.resolved = {
-  #   enable = true;
-  #   dnssec = "true";
-  #   fallbackDns = [ "10.0.0.1" "9.9.9.9" "1.1.1.1" ];
-  #   dnsovertls = "true";
-  # };
   # Firmware updater
   services.fwupd.enable = true;
   # Bluetooth
@@ -90,18 +89,26 @@
     localNetworkGameTransfers.openFirewall = true;
   };
   # Ollama
+  services.open-webui.enable = true;
   services.ollama = {
     enable = true;
     host = "0.0.0.0";
-    port = 11434;
+    port = ports.ollama;
     acceleration = "rocm";
-    rocmOverrideGfx = "11.0.2";
   };
-  # # Brother Printer
+  # Tabby
+  services.tabby = {
+    enable = true;
+    acceleration = "rocm";
+    host = "0.0.0.0";
+    port = ports.tabby;
+  };
   environment.localBinInPath = true;
   programs.nh = {
     enable = true;
     flake = "/home/ari/nixos-setup";
     clean.enable = true;
   };
+  networking.firewall.allowedUDPPorts = openPorts;
+  networking.firewall.allowedTCPPorts = openPorts;
 }
