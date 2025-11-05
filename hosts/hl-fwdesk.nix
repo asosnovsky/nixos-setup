@@ -67,7 +67,6 @@ in
   environment.systemPackages =
     (with pkgs; [
       # languages
-      python312
       python313
       cargo
       rustc

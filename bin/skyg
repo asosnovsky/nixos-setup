@@ -5,14 +5,14 @@ const current_folder = path self | path dirname
 cd $current_folder
 
 def valid_profiles [] {
-    nix flake show --json err> /dev/null | from json | 
-        select nixosConfigurations | 
-        flatten | transpose | 
+    nix flake show --json err> /dev/null | from json |
+        select nixosConfigurations |
+        flatten | transpose |
         select column0 | rename name
 }
 
 def is-valid-profile [name: string] {
-    (valid_profiles | where name == $name | length) == 1 
+    (valid_profiles | where name == $name | length) == 1
 }
 
 def main [] {

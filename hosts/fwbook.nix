@@ -104,6 +104,9 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "python3.12-ecdsa-0.19.1"
+  ];
   # Packages
   environment.systemPackages =
     let
@@ -151,8 +154,8 @@ in
       signal-desktop
 
       # Languages
-      python312
       python313
+      python314
       uv
       cargo
       rustc

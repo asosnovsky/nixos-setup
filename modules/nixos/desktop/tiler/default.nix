@@ -43,6 +43,7 @@ in
         waybar
         nwg-bar
         # Screen capture and recording tools
+        (flameshot.override { enableWlrSupport = true; })
         grim
         slurp
         satty
