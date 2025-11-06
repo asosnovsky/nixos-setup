@@ -22,6 +22,7 @@ in
         ];
       };
       # services.blueman.enable = true;
+      programs.hyprlock.enable = true;
       programs.nm-applet.enable = true;
       environment.systemPackages = with pkgs; [
         # Protocols and libraries
@@ -42,6 +43,7 @@ in
         sherlock-launcher
         waybar
         nwg-bar
+        gnome-calendar
         # Screen capture and recording tools
         (flameshot.override { enableWlrSupport = true; })
         grim

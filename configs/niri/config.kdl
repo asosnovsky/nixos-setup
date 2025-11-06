@@ -26,14 +26,9 @@ environment {
 // Programs to start on startup
 // =========================
 
-/// Com Apps
-workspace "chat" {
-    open-on-output "eDP-1"
-}
 window-rule {
     match app-id=r#"^Slack$"#
     match app-id=r#"^signal$"#
-    open-on-workspace "chat"
     open-focused true
 }
 

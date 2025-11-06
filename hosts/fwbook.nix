@@ -30,7 +30,7 @@ in
         cosmic.enable = false;
         kde.enable = false;
         crypto.enable = true;
-        gnome.enable = true;
+        gnome.enable = false;
         tiler = {
           enable = true;
           hyprland.enable = false;
