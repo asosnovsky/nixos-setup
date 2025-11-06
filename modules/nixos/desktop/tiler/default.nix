@@ -44,6 +44,7 @@ in
         waybar
         nwg-bar
         gnome-calendar
+        nautilus
         # Screen capture and recording tools
         (flameshot.override { enableWlrSupport = true; })
         grim
