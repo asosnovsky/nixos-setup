@@ -40,7 +40,7 @@ in
         networkmanagerapplet
         blueman
         # Apps
-        sherlock-launcher
+        walker
         waybar
         nwg-bar
         gnome-calendar

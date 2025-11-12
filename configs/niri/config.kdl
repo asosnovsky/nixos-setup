@@ -32,8 +32,6 @@ window-rule {
     open-focused true
 }
 
-spawn-at-startup "waypaper" "--restore"
-spawn-at-startup "flameshot"
 
 // =========================
 // Outputs
@@ -166,6 +164,17 @@ window-rule {
     opacity 0.85
 }
 window-rule {
+    match app-id="satty"
+    open-focused true
+    open-floating true
+    min-width 800
+    min-height 400
+    default-floating-position x=-200 y=200 relative-to="top"
+
+    default-window-height { proportion 0.75; }
+    default-column-width { proportion 0.75; }
+}
+window-rule {
     match app-id=r#"^Slack$"#
     match app-id="code"
     match app-id="org.shotcut.Shotcut"
@@ -194,10 +203,13 @@ hotkey-overlay {
 binds {
     Mod+Shift+H { show-hotkey-overlay; }
     Mod+T { spawn "ghostty"; }
-    Mod+Space { spawn "sherlock"; }
-    Mod+B { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    // Mod+Space { spawn-sh "/run/current-system/sw/bin/rofi -show drun -theme $HOME/.config/rofi-collection/nord/nord.rasi"; }
+    Mod+Space { spawn "walker"; }
+    // Mod+Space { spawn-sh "rofi -show drun -theme $HOME/.config/rofi-collection/nord/nord.rasi"; }
+    // Mod+Space { spawn-sh "/run/current-system/sw/bin/sherlock"; }
+    Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     //Mod+B { spawn "chromium" "--profile-directory=ProfilePersonal"; }
-    //Mod+Alt+B { spawn "chromium" "--profile-directory=ProfileWork"; }
+    Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "lower"; }
@@ -244,11 +256,9 @@ binds {
     Ctrl+Alt+Delete { quit; }
     Mod+Q { close-window; }
 
-    Mod+Ctrl+P { spawn "waypaper" "--restore"; }
-
     Mod+Ctrl+W {
-        spawn "sh" "-c" "/home/ari/.config/niri/waybar/start-up-script.sh";
+        spawn "sh" "-c" "/home/ari/.config/niri/start-up-script.sh";
     }
 }
 
-spawn-at-startup "/home/ari/.config/niri/waybar/start-up-script.sh"
+spawn-at-startup "/home/ari/.config/niri/start-up-script.sh"

@@ -11,6 +11,8 @@ killall -q hypridle
 hypridle &
 
 killall -q swayosd-server
-swayosd-server
+swayosd-server &
+killall -q walker
+walker --gapplication-service &
 
 notify-send "Niri Startup Script" "Completed 🎉"

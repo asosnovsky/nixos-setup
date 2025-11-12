@@ -1,0 +1,88 @@
+* {
+    font-family: "Fira Code", "SF Pro Display", sans-serif;
+    font-size: 10px;
+}
+
+window#waybar {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/* === Reset button styles === */
+
+/* button {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+button:hover {
+    background: none;
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+    -gtk-icon-effect: none;
+    -gtk-icon-shadow: none;
+} */
+
+/* === Workspaces as a tray === */
+/* #workspaces {
+    margin: 0 10px;
+    padding: 0 4px;
+    background: transparent;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+#workspaces button {
+    background: transparent;
+    color: #ffffff;
+    margin: 0 6px;
+    padding: 6px 10px;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+}
+
+#workspaces button:hover {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+#workspaces button.focused {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+#workspaces button.urgent {
+    border-bottom: 2px solid #eb4d4b;
+} */
+
+/* === Taskbar as a tray === */
+/* #taskbar {
+    background: transparent;
+    margin: 0 10px;
+    padding: 0 4px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+#taskbar button {
+    color: #f0f0ff;
+    margin: 0 6px;
+    padding: 6px 10px;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+}
+
+#taskbar button:hover {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+#taskbar button.active {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+#taskbar button.active:hover {
+    border-bottom: 2px solid rgba(255, 255, 255, 1.0);
+} */

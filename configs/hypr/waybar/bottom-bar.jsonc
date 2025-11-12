@@ -1,0 +1,20 @@
+{
+	"reload_style_on_change": true,
+	"layer": "top",
+	"position": "bottom",
+	"height": 10,
+	"margin-top": 0,
+	"margin-bottom": 4,
+	"margin-left": 4,
+	"margin-right": 4,
+	"spacing": 0,
+	"modules-left": ["hyprland/workspaces"],
+	"modules-center": ["wlr/taskbar"],
+	"modules-right": [],
+	"niri/workspaces": {},
+	"wlr/taskbar": {
+		"tooltip": true,
+		"tooltip-format": "{title}",
+		"on-click": "activate",
+	},
+}

@@ -1,0 +1,190 @@
+{
+    "reload_style_on_change": true,
+    "layer": "top", // Waybar at top layer
+    "height": 32, // Waybar height (to be removed for auto height)
+    "margin-top": 4,
+    "margin-left": 4,
+    "margin-right": 4,
+    "spacing": 0, // Gaps between modules (4px)
+    "modules-left": [
+        "niri/window"
+    ],
+    "modules-center": [
+        "privacy",
+        "clock",
+    ],
+    "modules-right": [
+        "group/controls",
+        "battery",
+        "group/sound",
+        "group/backlight",
+        "tray",
+        "mpd",
+        // "jack",
+        // "wireplumber",
+        "custom/logout"
+    ],
+    // Modules configuration
+    "group/sound": {
+        "click-to-reveal": true,
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true
+        },
+        "modules": [
+            "pulseaudio",
+            "pulseaudio/slider"
+        ]
+    },
+    "group/backlight": {
+        "click-to-reveal": true,
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true
+        },
+        "modules": [
+            "backlight",
+            "backlight/slider"
+        ]
+    },
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal",
+    },
+    "custom/logout": {
+        "format": "⏻",
+        "tooltip": true,
+        "on-click": "nwg-bar"
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        },
+        "format": {
+            "numlock": "N {icon}",
+            "capslock": "C {icon}"
+        }
+    },
+    "niri/window": {
+        "icon": true,
+        "format": "{app_id}/{title}"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "custom/controls": {
+        "format": "🎛️",
+        "tooltip": true
+    },
+    "group/controls": {
+        "click-to-reveal": true,
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/controls",
+            "network",
+            "cpu",
+            "memory",
+            "temperature",
+            "idle_inhibitor",
+            "keyboard-state"
+        ]
+    },
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%e %B %H:%M}",
+        "on-click": "gnome-calendar"
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "{}% "
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ]
+    },
+    "backlight": {
+        "format": "{icon}",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "network": {
+        "format": "{ifname} {essid}",
+        "tooltip-format": "{ifname} {ipaddr}/{cidr} {essid} {icon} {frequency} {signaldBm}",
+        "on-click": "nmcli device wifi rescan && ghostty -e nmtui"
+    },
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-bluetooth-muted": " {icon}",
+        "format-muted": "",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": "/run/current-system/sw/bin/flatpak run org.pipewire.Helvum"
+        // "on-click": "/run/current-system/sw/bin/pavucontrol"
+    }
+}

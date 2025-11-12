@@ -27,13 +27,13 @@ in
       };
       desktop = {
         enable = true;
-        cosmic.enable = false;
+        cosmic.enable = true;
         kde.enable = false;
         crypto.enable = true;
         gnome.enable = false;
         tiler = {
           enable = true;
-          hyprland.enable = false;
+          hyprland.enable = true;
           niri.enable = true;
           background = {
             enable = true;
