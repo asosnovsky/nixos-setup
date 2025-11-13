@@ -32,13 +32,12 @@ in
         enable = true;
         extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     };
-    # environment.sessionVariables = {
-    #   HYPR_PLUGIN_DIR = hypr-plugin-dir;
-    # };
-    # home-manager.users.${config.skyg.user.name} = {
-    #   programs.hyprpanel = {
-    #     enable = true;
-    #   };
-    # };
+    home-manager.users."${config.skyg.user.name}".wayland.windowManager.hyprland = {
+		     enable = true;
+		     plugins = with pkgs; [
+						hyprlandPlugins.hyprexpo
+         		hyprlandPlugins.hyprbars
+       ];
+    };
   };
 }

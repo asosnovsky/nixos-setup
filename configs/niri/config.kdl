@@ -203,12 +203,8 @@ hotkey-overlay {
 binds {
     Mod+Shift+H { show-hotkey-overlay; }
     Mod+T { spawn "ghostty"; }
-    // Mod+Space { spawn-sh "/run/current-system/sw/bin/rofi -show drun -theme $HOME/.config/rofi-collection/nord/nord.rasi"; }
     Mod+Space { spawn "walker"; }
-    // Mod+Space { spawn-sh "rofi -show drun -theme $HOME/.config/rofi-collection/nord/nord.rasi"; }
-    // Mod+Space { spawn-sh "/run/current-system/sw/bin/sherlock"; }
     Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
-    //Mod+B { spawn "chromium" "--profile-directory=ProfilePersonal"; }
     Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
