@@ -33,11 +33,11 @@ in
       extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     };
     home-manager.users."${config.skyg.user.name}".wayland.windowManager.hyprland = {
-		     enable = true;
-		     plugins = with pkgs; [
-						hyprlandPlugins.hyprexpo
-         		hyprlandPlugins.hyprbars
-       ];
+      enable = true;
+      plugins = with pkgs; [
+        hyprlandPlugins.hyprexpo
+        hyprlandPlugins.hyprbars
+      ];
     };
   };
 }
