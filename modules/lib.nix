@@ -6,6 +6,7 @@
 , hlCommonSettings
 , nix-flatpak
 , specialArgs
+, stylix
 }:
 let
   skygUtils = import ./skyg-utils.nix;
@@ -36,6 +37,7 @@ let
       inherit system;
       modules = [
         determinate.nixosModules.default
+        stylix.nixosModules.stylix
       ] ++ (makeImports {
         attrs = joinedttrs;
         extraConfiguration = [
@@ -57,6 +59,7 @@ let
         attrs = attrs;
         extraConfiguration = [
           home-manager.darwinModules.home-manager
+          stylix.darwinModules.stylix
         ];
       }) ++ [
         (import ./macos.nix {

@@ -29,8 +29,8 @@ in
       hyprls
     ];
     xdg.portal = {
-        enable = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     };
     home-manager.users."${config.skyg.user.name}".wayland.windowManager.hyprland = {
 		     enable = true;
