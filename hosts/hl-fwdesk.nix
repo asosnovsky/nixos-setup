@@ -22,6 +22,7 @@ in
       };
       desktop = {
         enable = true;
+        cosmic.enable = true;
         tiler = {
           enable = true;
           niri.enable = true;
