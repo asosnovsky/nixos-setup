@@ -12,6 +12,7 @@ in
     ./crypto.nix
     ./gnome.nix
     ./tiler
+    ./stylix
   ];
 
   options = {

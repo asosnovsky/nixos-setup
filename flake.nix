@@ -14,7 +14,11 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Theme for niri
+    # Themes
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Macos
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -32,7 +36,7 @@
     , home-manager
     , nix-darwin
     , nix-flatpak
-    ,
+    , stylix
     }:
     let
       user = {
@@ -76,6 +80,7 @@
           hlCommonSettings
           systems
           nix-flatpak
+          stylix
           ;
         specialArgs = {
           inputs =
