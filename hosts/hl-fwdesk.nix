@@ -21,11 +21,13 @@ in
         amdgpu.enable = true;
       };
       desktop = {
+	      stylix.enable = true;
         enable = true;
         cosmic.enable = true;
         tiler = {
           enable = true;
           niri.enable = true;
+          hyprland.enable = false;
         };
       };
     };

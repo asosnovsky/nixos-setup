@@ -29,8 +29,8 @@ in
       hyprls
     ];
     xdg.portal = {
-        enable = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     };
     # environment.sessionVariables = {
     #   HYPR_PLUGIN_DIR = hypr-plugin-dir;
