@@ -1,5 +1,5 @@
 { user }:
-{ pkgs, ... }:
+{ pkgs, hyprlauncher, system, ... }:
 let
   zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
   zshFunctions = zshFWBook + "/functions.sh";
@@ -147,6 +147,7 @@ in
       krita
       gimp-with-plugins
       shotcut
+      simple-scan # scanning photos
 
       # socials
       zoom-us
@@ -164,9 +165,9 @@ in
       pipx
       rust-analyzer
 
-      # development
+      # Development
       vscode
-      zed-editor-fhs
+      zed-editor
       devenv
       just
       rpi-imager
@@ -195,6 +196,9 @@ in
 
       # Iphone Management
       idevicerestore # optional, to mount using 'ifuse'
+
+      # Misc
+      # hyprlauncher.packages.${system}.hyprlauncher
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [

@@ -24,6 +24,8 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Hyprland
+    hyprlauncher.url = "github:hyprwm/hyprlauncher";
   };
 
   outputs =
@@ -37,6 +39,7 @@
     , nix-darwin
     , nix-flatpak
     , stylix
+    , hyprlauncher
     }:
     let
       user = {
@@ -86,6 +89,7 @@
           inputs =
             {
               inherit
+	              hyprlauncher
                 nixpkgs-unstable;
             };
         };
