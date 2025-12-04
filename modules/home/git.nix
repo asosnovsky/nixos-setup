@@ -7,21 +7,28 @@ let
     , userEmail
     , extraGitConfigs ? [ ]
     }: {
-      enable = true;
-      userName = userName;
-      userEmail = userEmail;
-      delta = { enable = true; };
-      extraConfig = {
-        color = { ui = "auto"; };
-        push = {
-          default = "upstream";
-          autoSetupRemote = true;
-        };
-        init = { defaultBranch = "main"; };
+      delta = {
+        enable = true;
+        enableGitIntegration = true;
       };
-      includes =
-        (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles)
-        ++ extraGitConfigs;
+      git = {
+        enable = true;
+        settings = {
+          user = {
+            name = userName;
+            email = userEmail;
+          };
+          color = { ui = "auto"; };
+          push = {
+            default = "upstream";
+            autoSetupRemote = true;
+          };
+          init = { defaultBranch = "main"; };
+        };
+        includes =
+          (builtins.map (f: { path = gitconfigs + "/" + f; }) gitconfigFiles)
+          ++ extraGitConfigs;
+      };
     };
 in
 {

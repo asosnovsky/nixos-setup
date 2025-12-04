@@ -58,8 +58,8 @@ in
   # Tailscale
   services.tailscale.enable = true;
   # Desktop Env
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.wayland = true;
   services.displayManager.defaultSession = "niri";
   # Firmware updater
   services.fwupd.enable = true;

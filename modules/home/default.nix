@@ -32,13 +32,11 @@ in
       user = {
         name = "root";
       };
-    }) // {
-      git = (makeCommonGitConfigs {
-        userName = "root";
-        userEmail = "root@${hostName}";
-        extraGitConfigs = [ ];
-      });
-    };
+    }) // (makeCommonGitConfigs {
+      userName = "root";
+      userEmail = "root@${hostName}";
+      extraGitConfigs = [ ];
+    });
     services = servicesModule { pkgs = pkgs; };
     fonts = fontsModule;
   };
@@ -71,13 +69,11 @@ in
       };
       programs = (programsModule {
         inherit pkgs user;
-      }) // {
-        git = (makeCommonGitConfigs {
-          userName = fullName;
-          userEmail = email;
-          extraGitConfigs = extraGitConfigs;
-        });
-      };
+      }) // (makeCommonGitConfigs {
+        userName = fullName;
+        userEmail = email;
+        extraGitConfigs = extraGitConfigs;
+      });
       services = servicesModule { pkgs = pkgs; };
     };
 }

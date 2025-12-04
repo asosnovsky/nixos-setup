@@ -67,8 +67,8 @@ in
   # Tailscale
   services.tailscale.enable = true;
   # Desktop Env
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.wayland = true;
   services.displayManager.defaultSession = "niri";
   # home manager
   home-manager.users.${user.name} = {
@@ -167,7 +167,7 @@ in
 
       # Development
       vscode
-      zed-editor
+      zed-editor-fhs
       devenv
       just
       rpi-imager
@@ -183,7 +183,7 @@ in
       bitwarden-cli
 
       # documents
-      onlyoffice-bin_latest
+      onlyoffice-desktopeditors
 
       # Work
       gdk

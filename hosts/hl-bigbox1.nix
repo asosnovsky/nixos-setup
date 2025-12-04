@@ -56,8 +56,8 @@
     networkDrives.enable = true;
   };
   services.displayManager.defaultSession = "gnome";
-  services.xserver.displayManager.gdm.enable = false;
-  services.xserver.displayManager.gdm.wayland = false;
+  services.displayManager.gdm.enable = false;
+  services.displayManager.gdm.wayland = false;
   services.autosuspend.enable = false;
   services.displayManager.autoLogin = {
     enable = true;
@@ -70,8 +70,8 @@
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
-  services.xserver.displayManager.gdm.autoSuspend = false;
-  services.xserver.displayManager.gdm.autoLogin.delay = 0;
+  services.displayManager.gdm.autoSuspend = false;
+  services.displayManager.gdm.autoLogin.delay = 0;
   # Remote Desktop
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "${pkgs.gnome-session}/bin/gnome-session";

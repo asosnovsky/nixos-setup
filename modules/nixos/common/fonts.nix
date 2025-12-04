@@ -9,10 +9,9 @@ let
     font-awesome
     mplus-outline-fonts.githubRelease
     jetbrains-mono
-    ubuntu_font_family
+    ubuntu-classic
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
     noto-fonts-color-emoji
   ];
 in
@@ -32,4 +31,3 @@ in
     };
   };
 }
-
