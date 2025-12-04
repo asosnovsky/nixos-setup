@@ -220,6 +220,7 @@ binds {
     Mod+Up    { focus-workspace-up; }
     Mod+Right { focus-column-right; }
 
+    Mod+Tab { toggle-overview; }
     Mod+Shift+Tab { focus-monitor-next; }
 
     Mod+Ctrl+Right { swap-window-right; }

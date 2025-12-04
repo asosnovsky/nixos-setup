@@ -23,11 +23,9 @@ in
       desktop = {
 	      stylix.enable = true;
         enable = true;
-        cosmic.enable = true;
         tiler = {
           enable = true;
           niri.enable = true;
-          hyprland.enable = false;
         };
       };
     };
@@ -80,16 +78,28 @@ in
       # development
       zed-editor-fhs
       nix-prefetch
+
+      # Steam
+      mangohud
     ]);
   services.usbmuxd.enable = true;
-  # Phone
+  # Steam
   programs.steam = {
     enable = true;
     extest.enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
+    gamescopeSession.enable = true;
   };
+  boot.kernelPackages = pkgs.linuxPackages; # (this is the default) some amdgpu issues on 6.10
+  programs = {
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
+  };
+  hardware.xone.enable = true; # support for the xbox controller USB dongle
   # Ollama
   services.open-webui.enable = true;
   services.ollama = {
