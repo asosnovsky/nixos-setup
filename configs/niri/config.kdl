@@ -97,7 +97,7 @@ layout {
     default-column-width { proportion 0.5; }
     focus-ring {
         width 4
-        active-gradient from="#f00f" to="#0f05" angle=45 in="oklch longer hue"
+        active-gradient from="#ff06" to="#af0f" angle=45 in="oklch longer hue"
         inactive-color "#505050"
     }
     border {
@@ -164,6 +164,10 @@ window-rule {
     opacity 0.85
 }
 window-rule {
+    match is-urgent=true
+    open-focused true
+}
+window-rule {
     match app-id="satty"
     open-focused true
     open-floating true
@@ -185,6 +189,20 @@ window-rule {
     open-maximized true
     open-focused true
     opacity 0.95
+}
+window-rule {
+		match app-id=r"Bitwarden"
+		match app-id="Sparrow"
+	  match title="Bitwarden"
+	 	block-out-from "screen-capture"
+	  shadow {
+        on
+    }
+    focus-ring {
+       width 4
+       active-color "#f00f"
+       inactive-color "#f00f"
+	  }
 }
 // =========================
 // General Stuff
@@ -259,3 +277,35 @@ binds {
 }
 
 spawn-at-startup "/home/ari/.config/niri/start-up-script.sh"
+
+
+recent-windows {
+    // off
+    debounce-ms 750
+
+    open-delay-ms 150
+
+    highlight {
+        active-color "#999999ff"
+        urgent-color "#ff9999ff"
+        padding 30
+        corner-radius 0
+    }
+
+    previews {
+        max-height 480
+        max-scale 0.5
+    }
+
+    binds {
+        Alt+Tab         { next-window; }
+        Alt+Shift+Tab   { previous-window; }
+        Alt+grave       { next-window     filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+
+        Mod+Tab         { next-window; }
+        Mod+Shift+Tab   { previous-window; }
+        Mod+grave       { next-window     filter="app-id"; }
+        Mod+Shift+grave { previous-window filter="app-id"; }
+    }
+}
