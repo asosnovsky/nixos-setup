@@ -1,0 +1,6 @@
+$terminal = ghostty
+$fileManager = dolphin
+$menu = walker
+$browser = chromium
+
+source = ~/.config/hypr/hyprland.d/*.conf

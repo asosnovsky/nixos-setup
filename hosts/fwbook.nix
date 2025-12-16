@@ -1,5 +1,10 @@
 { user }:
-{ pkgs, hyprlauncher, system, ... }:
+{
+  pkgs,
+  hyprlauncher,
+  system,
+  ...
+}:
 let
   zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
   zshFunctions = zshFWBook + "/functions.sh";
@@ -97,7 +102,9 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
   # Bluetooth
-  hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
+  hardware.bluetooth.settings.General = {
+    ControllerMode = "bredr";
+  };
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   # Bootloader.
@@ -110,11 +117,13 @@ in
   # Packages
   environment.systemPackages =
     let
-      gdk = pkgs.google-cloud-sdk.withExtraComponents
-        (with pkgs.google-cloud-sdk.components; [
+      gdk = pkgs.google-cloud-sdk.withExtraComponents (
+        with pkgs.google-cloud-sdk.components;
+        [
           gke-gcloud-auth-plugin
           kubectl
-        ]);
+        ]
+      );
     in
     (with pkgs; [
 
@@ -126,6 +135,7 @@ in
       openfortivpn
       openfortivpn-webview
       openfortivpn-webview-qt
+      nodejs
 
       # Util
       libusb1
@@ -246,8 +256,10 @@ in
   # # Brother Printer
   hardware.sane.brscan5.enable = true;
   # # Display Managers
-  services.xserver.videoDrivers =
-    [ "modesetting" "fbdev" ];
+  services.xserver.videoDrivers = [
+    "modesetting"
+    "fbdev"
+  ];
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -256,18 +268,36 @@ in
   fileSystems."/mnt/EightTerra/FamilyStorage" = {
     device = "tnas1.lab.internal:/mnt/EightTerra/FamilyStorage";
     fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" ];
+    options = [
+      "x-systemd.automount"
+      "noauto"
+    ];
+  };
+  fileSystems."/mnt/EightTerra/k3s-cluster" = {
+    device = "tnas1.lab.internal:/mnt/EightTerra/k3s-cluster";
+    fsType = "nfs";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+    ];
   };
   # Remote Builder
-  nix.buildMachines = [{
-    hostName = "root@bigbox1.lab.internal";
-    system = "x86_64-linux";
-    protocol = "ssh-ng";
-    maxJobs = 1;
-    speedFactor = 2;
-    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-    mandatoryFeatures = [ ];
-  }];
+  nix.buildMachines = [
+    {
+      hostName = "root@bigbox1.lab.internal";
+      system = "x86_64-linux";
+      protocol = "ssh-ng";
+      maxJobs = 1;
+      speedFactor = 2;
+      supportedFeatures = [
+        "nixos-test"
+        "benchmark"
+        "big-parallel"
+        "kvm"
+      ];
+      mandatoryFeatures = [ ];
+    }
+  ];
   nix.distributedBuilds = true;
   # optional, useful when the builder has a faster internet connection than yours
   nix.extraOptions = ''

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -25,11 +30,13 @@ in
         type = types.str;
       };
       extraGitConfigs = mkOption {
-        type = types.listOf (types.submodule {
-          path = mkOption {
-            type = types.str;
-          };
-        });
+        type = types.listOf (
+          types.submodule {
+            path = mkOption {
+              type = types.str;
+            };
+          }
+        );
         default = [ ];
       };
     };
@@ -37,18 +44,20 @@ in
 
   config =
     let
-      hm = (import ../home {
-        stateVersion = cfg.home-manager.version;
-      });
+      hm = (
+        import ../home {
+          stateVersion = cfg.home-manager.version;
+        }
+      );
     in
-    mkIf cfg.user.enable
-      {
-        programs.zsh.enable = true;
-        home-manager.users.root =
-          (hm.makeRootUser { hostName = config.skyg.core.hostName; }) { pkgs = pkgs; };
-        home-manager.users.${cfg.user.name} =
-          ((hm.makeCommonUser cfg.user) { pkgs = pkgs; }) // {
-            imports = cfg.home-manager.extraImports;
-          };
+    mkIf cfg.user.enable {
+      programs.zsh.enable = true;
+      home-manager.users.root = (hm.makeRootUser { hostName = config.skyg.core.hostName; }) {
+        pkgs = pkgs;
       };
+      home-manager.backupFileExtension = ".bak";
+      home-manager.users.${cfg.user.name} = ((hm.makeCommonUser cfg.user) { pkgs = pkgs; }) // {
+        imports = cfg.home-manager.extraImports;
+      };
+    };
 }
