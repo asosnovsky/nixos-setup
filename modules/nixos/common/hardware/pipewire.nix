@@ -1,6 +1,7 @@
-{ lib
-, config
-, ...
+{
+  lib,
+  config,
+  ...
 }:
 let
   cfg = config.skyg.nixos.common.hardware.pipewire;
@@ -18,6 +19,7 @@ in
       wireplumber.enable = true;
       pulse.enable = true;
       systemWide = false;
+      socketActivation = true;
     };
     services.jack = {
       alsa.enable = true;

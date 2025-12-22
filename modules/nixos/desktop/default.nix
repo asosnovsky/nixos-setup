@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.skyg.nixos;
 in
@@ -17,8 +22,7 @@ in
 
   options = {
     skyg.nixos.desktop = {
-      enable = lib.mkEnableOption
-        "Enable Desktop";
+      enable = lib.mkEnableOption "Enable Desktop";
     };
   };
   config = lib.mkIf cfg.desktop.enable {
@@ -37,9 +41,6 @@ in
       terminal-exec.enable = true;
       portal = {
         enable = true;
-        extraPortals = [
-          pkgs.kdePackages.xdg-desktop-portal-kde
-        ];
       };
     };
   };

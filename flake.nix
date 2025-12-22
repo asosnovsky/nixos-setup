@@ -29,17 +29,18 @@
   };
 
   outputs =
-    { self
-    , nixpkgs-unstable
-    , determinate
-    , nixos-hardware
-    , nixpkgs
-    , systems
-    , home-manager
-    , nix-darwin
-    , nix-flatpak
-    , stylix
-    , hyprlauncher
+    {
+      self,
+      nixpkgs-unstable,
+      determinate,
+      nixos-hardware,
+      nixpkgs,
+      systems,
+      home-manager,
+      nix-darwin,
+      nix-flatpak,
+      stylix,
+      hyprlauncher,
     }:
     let
       user = {
@@ -65,9 +66,13 @@
         homeManagerVersion = homeManagerVersion;
         os = {
           enable = true;
-          firewall = { enable = false; };
+          firewall = {
+            enable = false;
+          };
           enableFonts = true;
-          hardware = { enable = false; };
+          hardware = {
+            enable = false;
+          };
           enablePrometheusExporters = true;
           containers = {
             runtime = "docker";
@@ -86,19 +91,22 @@
           stylix
           ;
         specialArgs = {
-          inputs =
-            {
-              inherit
-	              hyprlauncher
-                nixpkgs-unstable;
-            };
+          inherit
+            hyprlauncher
+            nixpkgs-unstable
+            ;
         };
       };
       # Libs
-      lib = (import modules/lib.nix ({
-        nixpkgs = nixpkgs;
-        home-manager = home-manager;
-      } // libConfig));
+      lib = (
+        import modules/lib.nix (
+          {
+            nixpkgs = nixpkgs;
+            home-manager = home-manager;
+          }
+          // libConfig
+        )
+      );
       homelabServices = (
         (lib.makeHLServices {
           user = user;
@@ -115,26 +123,27 @@
     {
       # Dev Setups
       # -------------
-      devShells =
-        lib.eachSystem (system:
-          let pkgs = nixpkgs.legacyPackages.${system};
-          in
-          {
-            default = pkgs.mkShell {
-              name = "nixos-setup";
-              packages = with pkgs; [
-                nixpkgs-fmt
-                nixd
-                nh
-              ];
-              shellHook = ''
-                export PATH=$PATH:$(pwd)/bin
-              '';
-            };
-          });
+      devShells = lib.eachSystem (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            name = "nixos-setup";
+            packages = with pkgs; [
+              nixpkgs-fmt
+              nixd
+              nh
+            ];
+            shellHook = ''
+              export PATH=$PATH:$(pwd)/bin
+            '';
+          };
+        }
+      );
       lib = lib;
-      formatter =
-        lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+      formatter = lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       # None-NIXOS LINUX Setups
       # -------------
@@ -157,50 +166,61 @@
           homeManagerVersion = homeManagerVersion;
           os = {
             enable = true;
-            firewall = { enable = false; };
+            firewall = {
+              enable = false;
+            };
             enableFonts = true;
             enableNetworking = true;
             enableSSH = false;
-            hardware = { enable = true; };
+            hardware = {
+              enable = true;
+            };
             containers = {
               localDockerRegistries = localDockerRegistries;
               runtime = "docker";
             };
             enablePrometheusExporters = true;
           };
-          configuration = { ... }: {
-            imports = [
-              nixos-hardware.nixosModules.framework-13-7040-amd
-              (import ./hosts/fwbook.nix {
-                user = user;
-              })
-            ];
-          };
+          configuration =
+            { ... }:
+            {
+              imports = [
+                nixos-hardware.nixosModules.framework-13-7040-amd
+                (import ./hosts/fwbook.nix {
+                  user = user;
+                })
+              ];
+            };
         };
         # NIXOS Framework Homelab
         # -------------
         hl-fws1 = lib.makeHLService {
           hostName = "hl-fws1";
-          configuration = { ... }: {
-            imports = [
-              nixos-hardware.nixosModules.framework-11th-gen-intel
-              (import (./hosts/hl-fws1.nix) { user = user; })
-            ];
-          };
+          configuration =
+            { ... }:
+            {
+              imports = [
+                nixos-hardware.nixosModules.framework-11th-gen-intel
+                (import (./hosts/hl-fws1.nix) { user = user; })
+              ];
+            };
           systemStateVersion = "24.05";
         };
         # NIXOS Framework Desktop
         # -------------
         hl-fwdesk = lib.makeHLService {
           hostName = "hl-fwdesk";
-          configuration = { ... }: {
-            imports = [
-              nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
-              (import (./hosts/hl-fwdesk.nix) { user = user; })
-            ];
-          };
+          configuration =
+            { ... }:
+            {
+              imports = [
+                nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+                (import (./hosts/hl-fwdesk.nix) { user = user; })
+              ];
+            };
           systemStateVersion = "25.05";
         };
-      } // homelabServices;
+      }
+      // homelabServices;
     };
 }

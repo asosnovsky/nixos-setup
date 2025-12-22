@@ -3,6 +3,7 @@
   pkgs,
   hyprlauncher,
   system,
+  nixpkgs-unstable,
   ...
 }:
 let
@@ -12,6 +13,7 @@ let
     8000
     8001
   ];
+  unstable = nixpkgs-unstable.legacyPackages.${system};
 in
 {
   imports = [ ./fwbook.hardware-configuration.nix ];
@@ -32,7 +34,7 @@ in
       };
       desktop = {
         enable = true;
-        cosmic.enable = true;
+        cosmic.enable = false;
         kde.enable = false;
         crypto.enable = true;
         gnome.enable = false;
@@ -68,7 +70,18 @@ in
     nssmdns4 = true;
   };
   virtualisation.waydroid.enable = true;
-
+  services.pipewire = {
+    enable = true;
+    audio.enable = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal
+    ];
+  };
   # Tailscale
   services.tailscale.enable = true;
   # Desktop Env
@@ -184,6 +197,7 @@ in
       rpiboot
       code-cursor-fhs
       nix-prefetch
+      orca-slicer
 
       # Run macos apps
       darling-dmg
@@ -198,7 +212,6 @@ in
       # Work
       gdk
       slack
-      google-chrome
 
       # IPhone Tethering
       libimobiledevice
@@ -252,6 +265,7 @@ in
     port = 11434;
     acceleration = "rocm";
     rocmOverrideGfx = "11.0.2";
+    package = unstable.ollama-rocm;
   };
   # # Brother Printer
   hardware.sane.brscan5.enable = true;
