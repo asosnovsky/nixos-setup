@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.skyg.nixos.desktop.tiler.hyprland;
   # hypr-plugin-dir = pkgs.symlinkJoin {
@@ -13,8 +18,7 @@ in
 {
   options = {
     skyg.nixos.desktop.tiler.hyprland = {
-      enable = lib.mkEnableOption
-        "hyprland";
+      enable = lib.mkEnableOption "hyprland";
     };
   };
   config = lib.mkIf cfg.enable {
@@ -25,19 +29,19 @@ in
       xwayland.enable = true;
     };
     programs.uwsm.enable = true;
-    environment.systemPackages = with pkgs; [
-      hyprls
-    ];
+    # environment.systemPackages = with pkgs; [
+    #   hyprls
+    # ];
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     };
-    home-manager.users."${config.skyg.user.name}".wayland.windowManager.hyprland = {
-      enable = true;
-      plugins = with pkgs; [
-        hyprlandPlugins.hyprexpo
-        hyprlandPlugins.hyprbars
-      ];
-    };
+    # home-manager.users."${config.skyg.user.name}".wayland.windowManager.hyprland = {
+    #   enable = true;
+    #   plugins = with pkgs; [
+    #     hyprlandPlugins.hyprexpo
+    #     hyprlandPlugins.hyprbars
+    #   ];
+    # };
   };
 }

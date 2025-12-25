@@ -56,15 +56,19 @@ in
     systemd.sleep.extraConfig = "HibernateDelaySec=30m";
     # Logind
     services.logind = {
-      lidSwitchExternalPower = "suspend-then-hibernate";
-      lidSwitch = "suspend-then-hibernate";
-      powerKey = "lock";
-      extraConfig = ''
-        LidSwitchIgnoreInhibited=yes
-        HandlePowerKey=suspend-then-hibernate
-        IdleAction=suspend-then-hibernate
-        IdleActionSec=2m
-      '';
+      settings = {
+        Login = {
+          HandleLidSwitchExternalPower = "suspend-then-hibernate";
+          HandleLidSwitch = "suspend-then-hibernate";
+          HandlePowerKey = "lock";
+        };
+      };
+      # extraConfig = ''
+      #   LidSwitchIgnoreInhibited=yes
+      #   HandlePowerKey=suspend-then-hibernate
+      #   IdleAction=suspend-then-hibernate
+      #   IdleActionSec=2m
+      # '';
     };
   };
 }

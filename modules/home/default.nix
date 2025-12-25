@@ -16,68 +16,74 @@ let
   };
 in
 {
-  makeRootUser = { hostName }: { pkgs, ... }: {
-    home = homeModule // {
-      packages = with pkgs; [
-        jq
-        kubectl
-        kubectx
-        htop
-        btop
-        duf
-      ];
-    };
-    programs = (programsModule {
-      pkgs = pkgs;
-      user = {
-        name = "root";
+  makeRootUser =
+    { hostName }:
+    { pkgs, ... }:
+    {
+      home = homeModule // {
+        packages = with pkgs; [
+          jq
+          kubectl
+          kubectx
+          htop
+          btop
+          duf
+        ];
       };
-    }) // {
-      git = (makeCommonGitConfigs {
-        userName = "root";
-        userEmail = "root@${hostName}";
-        extraGitConfigs = [ ];
-      });
+      programs =
+        (programsModule {
+          pkgs = pkgs;
+          user = {
+            name = "root";
+          };
+        })
+        // (makeCommonGitConfigs {
+          userName = "root";
+          userEmail = "root@${hostName}";
+          extraGitConfigs = [ ];
+        });
+      services = servicesModule { pkgs = pkgs; };
+      fonts = fontsModule;
     };
-    services = servicesModule { pkgs = pkgs; };
-    fonts = fontsModule;
-  };
 
   makeCommonUser =
-    { fullName
-    , email
-    , extraGitConfigs ? [ ]
-    , name
-    , ...
-    }@user: { pkgs, ... }: {
+    {
+      fullName,
+      email,
+      extraGitConfigs ? [ ],
+      name,
+      ...
+    }@user:
+    { pkgs, ... }:
+    {
       fonts = fontsModule;
+      # xdg.configFile."mimeapps.list".force = true;
       home = homeModule // {
         username = name;
         homeDirectory = "/home/${name}";
-        packages = with pkgs;
-          [
-            jq
-            nixpkgs-fmt
-            ipfetch
-            nixd
-            htop
-            btop
-            fastfetch
-            kubectl
-            kubectx
-            terraform
-            dust
-          ];
+        packages = with pkgs; [
+          jq
+          nixpkgs-fmt
+          ipfetch
+          nixd
+          htop
+          btop
+          fastfetch
+          kubectl
+          kubectx
+          terraform
+          dust
+        ];
       };
-      programs = (programsModule {
-        inherit pkgs user;
-      }) // {
-        git = (makeCommonGitConfigs {
+      programs =
+        (programsModule {
+          inherit pkgs user;
+        })
+        // (makeCommonGitConfigs {
           userName = fullName;
           userEmail = email;
           extraGitConfigs = extraGitConfigs;
         });
-      };
       services = servicesModule { pkgs = pkgs; };
     };
 }

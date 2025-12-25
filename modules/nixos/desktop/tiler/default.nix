@@ -32,7 +32,6 @@ in
         mako
         wofi
         rofi
-        rofi-wayland
         # Control Tools
         pavucontrol
         playerctl

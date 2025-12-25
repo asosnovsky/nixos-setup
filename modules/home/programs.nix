@@ -80,7 +80,7 @@
     '';
     plugins = with pkgs.nushellPlugins; [
       polars
-      net
+      # net
       highlight
     ];
   };

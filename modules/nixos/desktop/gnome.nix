@@ -15,7 +15,7 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    services.xserver.desktopManager.gnome.enable = true;
+    services.desktopManager.gnome.enable = true;
     environment.gnome.excludePackages = with pkgs; [
       gnome-tour
       gnome-text-editor

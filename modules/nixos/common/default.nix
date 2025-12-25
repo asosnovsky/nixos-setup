@@ -13,6 +13,5 @@
   ];
   config = {
     environment.sessionVariables.EDITOR = "vi";
-    programs.thefuck.enable = true;
   };
 }
