@@ -26,7 +26,9 @@ in
         tiler = {
           enable = true;
           niri.enable = true;
+          hyprland.enable = true;
         };
+        cosmic.enable = true;
       };
     };
     networkDrives = {
