@@ -47,17 +47,15 @@ in
     };
 
   makeCommonUser =
-    {
-      fullName,
-      email,
-      extraGitConfigs ? [ ],
-      name,
-      ...
+    { fullName
+    , email
+    , extraGitConfigs ? [ ]
+    , name
+    , ...
     }@user:
     { pkgs, ... }:
     {
       fonts = fontsModule;
-      # xdg.configFile."mimeapps.list".force = true;
       home = homeModule // {
         username = name;
         homeDirectory = "/home/${name}";

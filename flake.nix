@@ -7,6 +7,11 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    # DankShell
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
@@ -41,6 +46,7 @@
       nix-flatpak,
       stylix,
       hyprlauncher,
+      dms,
     }:
     let
       user = {
@@ -94,6 +100,7 @@
           inherit
             hyprlauncher
             nixpkgs-unstable
+            dms
             ;
         };
       };

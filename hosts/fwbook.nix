@@ -42,9 +42,9 @@ in
           enable = true;
           hyprland.enable = true;
           niri.enable = true;
-          background = {
-            enable = true;
-          };
+          # background = {
+          #   enable = true;
+          # };
         };
       };
     };

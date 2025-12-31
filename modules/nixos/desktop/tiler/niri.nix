@@ -1,11 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  skygUtils,
-  system,
-  nixpkgs-unstable,
-  ...
+{ config
+, lib
+, pkgs
+, skygUtils
+, system
+, nixpkgs-unstable
+, ...
 }:
 let
   cfg = config.skyg.nixos.desktop.tiler.niri;

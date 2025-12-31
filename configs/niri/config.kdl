@@ -264,8 +264,6 @@ binds {
     Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
     Mod+P { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
 
-    //Print { spawn "sh" "-c" "flameshot gui"; }
-    //Mod+P { spawn "sh" "-c" "flameshot gui"; }
     Mod+R { spawn "/home/ari/.config/niri/screen-record.sh"; }
 
     Ctrl+Alt+Delete { quit; }
