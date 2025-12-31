@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 with lib;
@@ -52,12 +51,16 @@ in
     in
     mkIf cfg.user.enable {
       programs.zsh.enable = true;
-      home-manager.users.root = (hm.makeRootUser { hostName = config.skyg.core.hostName; }) {
-        pkgs = pkgs;
-      };
-      home-manager.backupFileExtension = ".bak";
-      home-manager.users.${cfg.user.name} = ((hm.makeCommonUser cfg.user) { pkgs = pkgs; }) // {
-        imports = cfg.home-manager.extraImports;
+      home-manager = {
+        backupFileExtension = ".bak";
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        users.root = (hm.makeRootUser { hostName = config.skyg.core.hostName; }) {
+          pkgs = pkgs;
+        };
+        users.${cfg.user.name} = ((hm.makeCommonUser cfg.user) { pkgs = pkgs; }) // {
+          imports = cfg.home-manager.extraImports;
+        };
       };
     };
 }
