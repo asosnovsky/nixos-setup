@@ -118,6 +118,8 @@
           hostName = "fwbook";
           systemStateVersion = "23.11";
           configuration = [
+            ./hosts/fwbook.nix
+            ./hosts/fwbook.hardware-configuration.nix
             nixos-hardware.nixosModules.framework-13-7040-amd
           ];
         }
@@ -140,18 +142,16 @@
           ];
         }
       ]);
-        # // {
-        # 	fwbook = lib.makeNixOs {
-        #   hostName = "fwbook";
-        #     systemStateVersion = "23.11";
-        #     configuration = [
-        # 					./hosts/fwbook.nix
-        # 				./hosts/fwbook.hardware-configuration.nix
+      # // {
+      # 	fwbook = lib.makeNixOs {
+      #   hostName = "fwbook";
+      #     systemStateVersion = "23.11";
+      #     configuration = [
+      #
 
-        # 					nixos-hardware.nixosModules.framework-13-7040-amd
-        #     ];
-        #  };
-        # }
-      random = ./hosts;
+      # 					nixos-hardware.nixosModules.framework-13-7040-amd
+      #     ];
+      #  };
+      # }
     };
 }
