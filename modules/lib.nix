@@ -8,7 +8,6 @@
 , nix-flatpak
 , stylix
 , specialArgs
-, hostFolder
 }:
 let
   skygUtils = import ./skyg-utils.nix;
@@ -108,14 +107,7 @@ in
           value = makeNixOs
             {
               inherit hostName;
-            } // attrs // {
-            configuration = [
-              import
-              (./hosts + "/${hostName}.nix")
-              import
-              (./hosts + "/${hostName}.hardware-configuration.nix")
-            ] ++ (if attrs.configuration then attrs.configuration else [ ]);
-          };
+            } // attrs;
         })
         nodes
     );

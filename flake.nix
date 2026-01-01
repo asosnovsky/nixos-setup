@@ -53,7 +53,6 @@
       lib =
         import modules/lib.nix
           {
-            hostFolder = builtins.toString ./hosts;
             user = {
               name = "ari";
               fullName = "Ari Sosnovsky";
@@ -113,45 +112,70 @@
 
       # NIXOS LINUX Setups
       # -------------
-      nixosConfigurations = (lib.makeNixosConfigurations [
+      nixosConfigurations =
         {
-          hostName = "fwbook";
-          systemStateVersion = "23.11";
-          configuration = [
-            ./hosts/fwbook.nix
-            ./hosts/fwbook.hardware-configuration.nix
-            nixos-hardware.nixosModules.framework-13-7040-amd
-          ];
+          fwbook = lib.makeNixOs {
+            hostName = "fwbook";
+            systemStateVersion = "23.11";
+            configuration = [
+              ./hosts/fwbook.nix
+              ./hosts/fwbook.hardware-configuration.nix
+              nixos-hardware.nixosModules.framework-13-7040-amd
+            ];
+          };
+          hl-fws1 = lib.makeNixOs {
+            hostName = "hl-fws1";
+            configuration = [
+              ./hosts/hl-fws1.nix
+              ./hosts/hl-fws1.hardware-configuration.nix
+              nixos-hardware.nixosModules.framework-11th-gen-intel
+            ];
+          };
+          hl-fwdesk = lib.makeNixOs {
+            hostName = "hl-fwdesk";
+            systemStateVersion = "25.05";
+            configuration = [
+              ./hosts/hl-fwdesk.nix
+              ./hosts/hl-fwdesk.hardware-configuration.nix
+              nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+            ];
+          };
+          hl-bigbox1 = lib.makeNixOs {
+            hostName = "hl-bigbox1";
+            configuration = [
+              ./hosts/hl-bigbox1.nix
+              ./hosts/hl-bigbox1.hardware-configuration.nix
+            ];
+          };
+          hl-minipc1 = lib.makeNixOs {
+            hostName = "hl-minipc1";
+            configuration = [
+              ./hosts/hl-minipc1.nix
+              ./hosts/hl-minipc1.hardware-configuration.nix
+            ];
+          };
+          hl-minipc2 = lib.makeNixOs {
+            hostName = "hl-minipc2";
+            configuration = [
+              ./hosts/hl-minipc2.nix
+              ./hosts/hl-minipc2.hardware-configuration.nix
+            ];
+          };
+          hl-minipc3 = lib.makeNixOs {
+            hostName = "hl-minipc3";
+            configuration = [
+              ./hosts/hl-minipc3.nix
+              ./hosts/hl-minipc3.hardware-configuration.nix
+            ];
+          };
+          hl-terra1 = lib.makeNixOs {
+            hostName = "hl-terra1";
+            configuration = [
+              ./hosts/hl-terra1.nix
+              ./hosts/hl-terra1.hardware-configuration.nix
+            ];
+          };
         }
-        { hostName = "hl-minipc1"; }
-        { hostName = "hl-minipc2"; }
-        { hostName = "hl-minipc3"; }
-        { hostName = "hl-terra1"; }
-        { hostName = "hl-bigbox1"; }
-        {
-          hostName = "hl-fwdesk";
-          systemStateVersion = "25.05";
-          configuration = [
-            nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
-          ];
-        }
-        {
-          hostName = "hl-fws1";
-          configuration = [
-            nixos-hardware.nixosModules.framework-11th-gen-intel
-          ];
-        }
-      ]);
-      # // {
-      # 	fwbook = lib.makeNixOs {
-      #   hostName = "fwbook";
-      #     systemStateVersion = "23.11";
-      #     configuration = [
-      #
-
-      # 					nixos-hardware.nixosModules.framework-13-7040-amd
-      #     ];
-      #  };
-      # }
+      ;
     };
 }
