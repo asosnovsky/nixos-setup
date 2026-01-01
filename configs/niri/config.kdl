@@ -225,12 +225,12 @@ binds {
     Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }
-    XF86AudioRaiseVolume allow-when-locked=true { spawn dms ipc call audio increment 10; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn dms ipc call audio decrement 10; }
-    XF86AudioMute allow-when-locked=true { spawn dms ipc call audio mute; }
-    XF86AudioMicMute allow-when-locked=true { spawn dms ipc call audio micmute; }
-    XF86MonBrightnessUp allow-when-locked=true { spawn dms ipc call brightness increment 10 ""; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn dms ipc call brightness decrement 10 ""; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "10"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "10"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "10" ""; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "10" ""; }
 
     // XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
     // XF86AudioLowerVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "lower"; }
