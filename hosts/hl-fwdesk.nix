@@ -15,6 +15,7 @@ in
   skyg = {
     user.enable = true;
     nixos = {
+	    common.ssh-server.enable = true;
       common.hardware = {
         sound.enable = true;
         pipewire.enable = true;
@@ -26,9 +27,7 @@ in
         tiler = {
           enable = true;
           niri.enable = true;
-          hyprland.enable = true;
         };
-        cosmic.enable = true;
       };
     };
     networkDrives = {
