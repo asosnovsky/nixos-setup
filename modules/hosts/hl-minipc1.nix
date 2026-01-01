@@ -1,4 +1,3 @@
-{ user }:
 { ... }:
 let
   ports = {
@@ -24,7 +23,6 @@ let
   ];
 in
 {
-  imports = [ ./hl-minipc1.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.common.containers.openMetricsPort = true;
@@ -89,4 +87,3 @@ in
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
 }
-

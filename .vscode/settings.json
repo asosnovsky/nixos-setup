@@ -2,13 +2,8 @@
 	"nix.enableLanguageServer": true,
 	"nix.serverPath": "nixd",
 	"nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
-	"cSpell.words": [
-		"nixd",
-		"nixos",
-		"nixpkgs",
-		"pkgs"
-	],
+	"cSpell.words": ["nixd", "nixos", "nixpkgs", "pkgs"],
 	"search.exclude": {
-		"system-special-links": true,
+		"system-special-links": true
 	}
 }

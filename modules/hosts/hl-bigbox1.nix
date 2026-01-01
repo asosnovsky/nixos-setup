@@ -1,7 +1,5 @@
-{ ... }:
 { pkgs, config, ... }:
 {
-  imports = [ ./hl-bigbox1.hardware-configuration.nix ];
   skyg = {
     user.enable = true;
     server.admin.enable = true;

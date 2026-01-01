@@ -18,6 +18,7 @@
       };
       localDockerRegistries = lib.mkOption {
         type = lib.types.listOf lib.types.str;
+        default = [ "minipc1.lab.internal:5001" ];
       };
       metricsPort = lib.mkOption {
         type = lib.types.number;

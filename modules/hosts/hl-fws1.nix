@@ -1,10 +1,5 @@
-{ user }:
 { pkgs, ... }:
-let
-  scriptsFolder = builtins.filterSource (p: t: true) ./scripts/fw1;
-in
 {
-  imports = [ ./hl-fws1.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.server.k3s.enable = true;
@@ -24,4 +19,3 @@ in
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
 }
-

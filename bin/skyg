@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 # Ensure we are located at the bin folder
-const current_folder = path self | path dirname
+const current_folder = path self | path dirname | path dirname
 cd $current_folder
 
 def valid_profiles [] {
@@ -16,6 +16,7 @@ def is-valid-profile [name: string] {
 }
 
 def main [] {
+		print $current_folder
     help main
 }
 
