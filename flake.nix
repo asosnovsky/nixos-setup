@@ -175,7 +175,6 @@
               ./hosts/hl-terra1.hardware-configuration.nix
             ];
           };
-        }
-      ;
+        };
     };
 }
