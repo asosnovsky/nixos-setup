@@ -221,7 +221,7 @@ hotkey-overlay {
 binds {
     Mod+Shift+H { show-hotkey-overlay; }
     Mod+T { spawn "ghostty"; }
-    Mod+Space { spawn "dms ipc call spotlight toggle"; }
+    Mod+Space { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
     Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }
