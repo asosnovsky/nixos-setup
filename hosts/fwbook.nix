@@ -1,10 +1,7 @@
-{ user }:
-{
-  pkgs,
-  hyprlauncher,
-  system,
-  nixpkgs-unstable,
-  ...
+{ pkgs
+, unstablePkgs
+, user
+, ...
 }:
 let
   zshFWBook = builtins.filterSource (p: t: true) ./scripts/fwbook;
@@ -13,10 +10,8 @@ let
     8000
     8001
   ];
-  unstable = nixpkgs-unstable.legacyPackages.${system};
 in
 {
-  imports = [ ./fwbook.hardware-configuration.nix ];
   # Skyg
   environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
@@ -265,7 +260,7 @@ in
     port = 11434;
     acceleration = "rocm";
     rocmOverrideGfx = "11.0.2";
-    package = unstable.ollama-rocm;
+    package = unstablePkgs.ollama-rocm;
   };
   # # Brother Printer
   hardware.sane.brscan5.enable = true;

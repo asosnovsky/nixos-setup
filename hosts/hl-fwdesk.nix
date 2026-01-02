@@ -1,5 +1,7 @@
-{ ... }:
-{ pkgs, ... }:
+{ pkgs
+, unstablePkgs
+, ...
+}:
 let
   ports = {
     tabby = 11029;
@@ -22,7 +24,7 @@ in
         amdgpu.enable = true;
       };
       desktop = {
-	      stylix.enable = true;
+        stylix.enable = true;
         enable = true;
         tiler = {
           enable = true;
@@ -108,6 +110,7 @@ in
     host = "0.0.0.0";
     port = ports.ollama;
     acceleration = "rocm";
+    package = unstablePkgs.ollama-rocm;
   };
   # Tabby
   services.tabby = {

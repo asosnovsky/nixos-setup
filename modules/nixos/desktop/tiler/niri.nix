@@ -2,13 +2,10 @@
 , lib
 , pkgs
 , skygUtils
-, system
-, nixpkgs-unstable
 , ...
 }:
 let
   cfg = config.skyg.nixos.desktop.tiler.niri;
-  unstable = nixpkgs-unstable.legacyPackages.${system};
 in
 {
   options = {

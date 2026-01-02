@@ -1,26 +1,43 @@
 { nixpkgs
+, nixpkgs-unstable
+, user
 , determinate
 , home-manager
 , nix-darwin
 , systems
-, hlCommonSettings
 , nix-flatpak
-, specialArgs
 , stylix
-,
+, specialArgs
 }:
 let
   skygUtils = import ./skyg-utils.nix;
-  makeImports =
-    { attrs
-    , extraConfiguration ? [ ]
-    ,
-    }:
-    (if (isNull attrs.configuration) then [ ] else [ attrs.configuration ])
-    ++ [
-      (import ./main.nix attrs)
-    ]
-    ++ extraConfiguration;
+  makeNixOs =
+    { system ? "x86_64-linux"
+    , hostName
+    , homeManagerVersion ? "24.11"
+    , systemStateVersion ? "24.05"
+    , configuration ? [ ]
+    }: nixpkgs.lib.nixosSystem {
+      specialArgs = specialArgs // {
+        inherit system skygUtils user;
+        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+      };
+      inherit system;
+      modules = [
+        determinate.nixosModules.default
+        stylix.nixosModules.stylix
+        home-manager.nixosModules.default
+        nix-flatpak.nixosModules.nix-flatpak
+        specialArgs.dms.nixosModules.dankMaterialShell
+        (import ./main.nix {
+          inherit
+            user
+            homeManagerVersion
+            hostName
+            systemStateVersion;
+        })
+      ] ++ configuration;
+    };
   eachSystem = nixpkgs.lib.genAttrs (import systems);
   allPkgs = eachSystem (
     system:
@@ -31,101 +48,67 @@ let
       };
     }
   );
-  makeNixOsModuleMaker =
-    masterAttrs:
-    { system ? masterAttrs.system ? "x86_64-linux"
-    , ...
-    }@attrs:
-    let
-      joinedttrs = masterAttrs // attrs;
-    in
-    nixpkgs.lib.nixosSystem {
-      specialArgs = specialArgs // {
-        inherit system skygUtils;
-      };
-      inherit system;
-      modules = [
-        determinate.nixosModules.default
-        stylix.nixosModules.stylix
-      ]
-      ++ (makeImports {
-        attrs = joinedttrs;
-        extraConfiguration = [
-          home-manager.nixosModules.default
-          nix-flatpak.nixosModules.nix-flatpak
-          specialArgs.dms.nixosModules.dankMaterialShell
-        ];
-      });
-    };
-  makeNixOsModule = makeNixOsModuleMaker { };
-  makeHLService = makeNixOsModuleMaker hlCommonSettings;
-  makeDarwinModule =
-    { system ? "x86_64-darwin"
-    , user
-    , ...
-    }@attrs:
-    nix-darwin.lib.darwinSystem {
-      modules =
-        (makeImports {
-          attrs = attrs;
-          extraConfiguration = [
-            home-manager.darwinModules.home-manager
-            stylix.darwinModules.stylix
-          ];
-        })
-        ++ [
-          (import ./macos.nix {
-            user = user;
-            system = system;
-          })
-        ];
-    };
-  makeHomeManagerUsers =
-    { modules ? [ ]
-    , homeManagerVersion
-    , user
-    , system ? "x86_64-linux"
-    ,
-    }:
-    let
-      hm = (
-        import ./home {
-          stateVersion = homeManagerVersion;
-        }
-      );
-      pkgs = allPkgs."${system}";
-    in
-    home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      modules = [
-        (hm.makeCommonUser user)
-      ]
-      ++ modules;
-    };
+  # makeDarwinModule =
+  #   { system ? "x86_64-darwin"
+  #   , user
+  #   , ...
+  #   }@attrs:
+  #   nix-darwin.lib.darwinSystem {
+  #     modules =
+  #       (makeImports {
+  #         attrs = attrs;
+  #         extraConfiguration = [
+  #           home-manager.darwinModules.home-manager
+  #           stylix.darwinModules.stylix
+  #         ];
+  #       })
+  #       ++ [
+  #         (import ./macos.nix {
+  #           user = user;
+  #           system = system;
+  #         })
+  #       ];
+  #   };
+  # makeHomeManagerUsers =
+  #   { modules ? [ ]
+  #   , homeManagerVersion
+  #   , user
+  #   , system ? "x86_64-linux"
+  #   ,
+  #   }:
+  #   let
+  #     hm = (
+  #       import ./home {
+  #         stateVersion = homeManagerVersion;
+  #       }makeHLServices
+  #     );
+  #     pkgs = allPkgs."${system}";
+  #   in
+  #   home-manager.lib.homeManagerConfiguration {
+  #     inherit pkgs;
+  #     modules = [
+  #       (hm.makeCommonUser user)
+  #     ]
+  #     ++ modules;
+  #   };
 in
 {
   eachSystem = eachSystem;
   pkgs = allPkgs;
-  makeNixOsModule = makeNixOsModule;
-  makeHLService = makeHLService;
-  makeDarwinModule = makeDarwinModule;
-  makeHomeManagerUsers = makeHomeManagerUsers;
-  makeHLServices =
-    { nodeNames ? [ ]
-    , systemStateVersion ? "24.05"
-    , user
-    ,
-    }:
+  makeNixOs = makeNixOs;
+  makeNixosConfigurations =
+    nodes:
     builtins.listToAttrs (
       builtins.map
-        (name: {
-          name = name;
-          value = makeHLService {
-            hostName = name;
-            configuration = (import (../hosts + "/${name}.nix") { user = user; });
-            systemStateVersion = systemStateVersion;
-          };
+        ({ hostName
+         , ...
+         }@attrs: {
+          name = hostName;
+          value = makeNixOs
+            {
+              inherit hostName;
+            } // attrs;
         })
-        nodeNames
+        nodes
     );
 }

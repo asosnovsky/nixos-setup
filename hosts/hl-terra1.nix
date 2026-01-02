@@ -1,4 +1,3 @@
-{ user }:
 { pkgs, ... }:
 let
   openPorts = [
@@ -16,7 +15,6 @@ let
   ];
 in
 {
-  imports = [ ./hl-terra1.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.desktop.enable = false;
@@ -46,4 +44,3 @@ in
     '';
   };
 }
-

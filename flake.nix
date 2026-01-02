@@ -34,98 +34,50 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs-unstable,
-      determinate,
-      nixos-hardware,
-      nixpkgs,
-      systems,
-      home-manager,
-      nix-darwin,
-      nix-flatpak,
-      stylix,
-      hyprlauncher,
-      dms,
+    { self
+    , nixpkgs-unstable
+    , determinate
+    , nixos-hardware
+    , nixpkgs
+    , systems
+    , home-manager
+    , nix-darwin
+    , nix-flatpak
+    , stylix
+    , hyprlauncher
+    , dms
+    ,
     }:
     let
-      user = {
-        name = "ari";
-        fullName = "Ari Sosnovsky";
-        email = "ariel@sosnovsky.ca";
-      };
-      homeManagerVersion = "24.11";
-      # Local Services
-      localNixCaches = {
-        urls = [
-          "http://minipc1.lab.internal:5000"
-        ];
-        keys = [
-          "minipc1.lab.internal:buUlsyg+xRqkUk0MWACmIyRUtHIOPQQzg7nc4qZCc4E="
-        ];
-      };
-      localDockerRegistries = [ "minipc1.lab.internal:5001" ];
-      hlCommonSettings = {
-        system = "x86_64-linux";
-        user = user;
-        localNixCaches = localNixCaches;
-        homeManagerVersion = homeManagerVersion;
-        os = {
-          enable = true;
-          firewall = {
-            enable = false;
-          };
-          enableFonts = true;
-          hardware = {
-            enable = false;
-          };
-          enablePrometheusExporters = true;
-          containers = {
-            runtime = "docker";
-            localDockerRegistries = localDockerRegistries;
-          };
-        };
-      };
-      # Lib Config
-      libConfig = {
-        inherit
-          determinate
-          nix-darwin
-          hlCommonSettings
-          systems
-          nix-flatpak
-          stylix
-          ;
-        specialArgs = {
-          inherit
-            hyprlauncher
-            nixpkgs-unstable
-            dms
-            ;
-        };
-      };
       # Libs
-      lib = (
-        import modules/lib.nix (
+      lib =
+        import modules/lib.nix
           {
-            nixpkgs = nixpkgs;
-            home-manager = home-manager;
+            user = {
+              name = "ari";
+              fullName = "Ari Sosnovsky";
+              email = "ariel@sosnovsky.ca";
+            };
+            inherit
+              nixpkgs
+              nixpkgs-unstable
+              home-manager
+              determinate
+              nix-darwin
+              systems
+              nix-flatpak
+              stylix
+              ;
+
+            specialArgs = {
+              inherit
+                hyprlauncher
+                nixpkgs-unstable
+                dms
+                ;
+            };
           }
-          // libConfig
-        )
-      );
-      homelabServices = (
-        (lib.makeHLServices {
-          user = user;
-          nodeNames = [
-            "hl-minipc1"
-            "hl-minipc2"
-            "hl-minipc3"
-            "hl-terra1"
-            "hl-bigbox1"
-          ];
-        })
-      );
+      ;
     in
     {
       # Dev Setups
@@ -154,80 +106,76 @@
 
       # None-NIXOS LINUX Setups
       # -------------
-      homeConfigurations."${user.name}" = lib.makeHomeManagerUsers {
-        inherit user homeManagerVersion;
-      };
+      # homeConfigurations."${user.name}" = lib.makeHomeManagerUsers {
+      #   inherit user homeManagerVersion;
+      # };
 
       # NIXOS LINUX Setups
       # -------------
-      nixosConfigurations = {
-        # NIXOS Framework Setups
-        # -------------
-        fwbook = lib.makeNixOsModule {
-          system = "x86_64-linux";
-          user = user;
-          systemStateVersion = "23.11";
-          hostName = "fwbook";
-          # localNixCaches = localNixCaches;
-          localDockerRegistries = localDockerRegistries;
-          homeManagerVersion = homeManagerVersion;
-          os = {
-            enable = true;
-            firewall = {
-              enable = false;
-            };
-            enableFonts = true;
-            enableNetworking = true;
-            enableSSH = false;
-            hardware = {
-              enable = true;
-            };
-            containers = {
-              localDockerRegistries = localDockerRegistries;
-              runtime = "docker";
-            };
-            enablePrometheusExporters = true;
+      nixosConfigurations =
+        {
+          fwbook = lib.makeNixOs {
+            hostName = "fwbook";
+            systemStateVersion = "23.11";
+            configuration = [
+              ./hosts/fwbook.nix
+              ./hosts/fwbook.hardware-configuration.nix
+              nixos-hardware.nixosModules.framework-13-7040-amd
+            ];
           };
-          configuration =
-            { ... }:
-            {
-              imports = [
-                nixos-hardware.nixosModules.framework-13-7040-amd
-                (import ./hosts/fwbook.nix {
-                  user = user;
-                })
-              ];
-            };
-        };
-        # NIXOS Framework Homelab
-        # -------------
-        hl-fws1 = lib.makeHLService {
-          hostName = "hl-fws1";
-          configuration =
-            { ... }:
-            {
-              imports = [
-                nixos-hardware.nixosModules.framework-11th-gen-intel
-                (import (./hosts/hl-fws1.nix) { user = user; })
-              ];
-            };
-          systemStateVersion = "24.05";
-        };
-        # NIXOS Framework Desktop
-        # -------------
-        hl-fwdesk = lib.makeHLService {
-          hostName = "hl-fwdesk";
-          configuration =
-            { ... }:
-            {
-              imports = [
-                nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
-                (import (./hosts/hl-fwdesk.nix) { user = user; })
-              ];
-            };
-          systemStateVersion = "25.05";
-        };
-      }
-      // homelabServices;
+          hl-fws1 = lib.makeNixOs {
+            hostName = "hl-fws1";
+            configuration = [
+              ./hosts/hl-fws1.nix
+              ./hosts/hl-fws1.hardware-configuration.nix
+              nixos-hardware.nixosModules.framework-11th-gen-intel
+            ];
+          };
+          hl-fwdesk = lib.makeNixOs {
+            hostName = "hl-fwdesk";
+            systemStateVersion = "25.05";
+            configuration = [
+              ./hosts/hl-fwdesk.nix
+              ./hosts/hl-fwdesk.hardware-configuration.nix
+              nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+            ];
+          };
+          hl-bigbox1 = lib.makeNixOs {
+            hostName = "hl-bigbox1";
+            configuration = [
+              ./hosts/hl-bigbox1.nix
+              ./hosts/hl-bigbox1.hardware-configuration.nix
+            ];
+          };
+          hl-minipc1 = lib.makeNixOs {
+            hostName = "hl-minipc1";
+            configuration = [
+              ./hosts/hl-minipc1.nix
+              ./hosts/hl-minipc1.hardware-configuration.nix
+            ];
+          };
+          hl-minipc2 = lib.makeNixOs {
+            hostName = "hl-minipc2";
+            configuration = [
+              ./hosts/hl-minipc2.nix
+              ./hosts/hl-minipc2.hardware-configuration.nix
+            ];
+          };
+          hl-minipc3 = lib.makeNixOs {
+            hostName = "hl-minipc3";
+            configuration = [
+              ./hosts/hl-minipc3.nix
+              ./hosts/hl-minipc3.hardware-configuration.nix
+            ];
+          };
+          hl-terra1 = lib.makeNixOs {
+            hostName = "hl-terra1";
+            configuration = [
+              ./hosts/hl-terra1.nix
+              ./hosts/hl-terra1.hardware-configuration.nix
+            ];
+          };
+        }
+      ;
     };
 }

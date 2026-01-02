@@ -1,9 +1,6 @@
-{ user }:
-{ pkgs
-, ...
+{ ...
 }:
 {
-  imports = [ ./hl-minipc3.hardware-configuration.nix ];
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.common.containers.openMetricsPort = true;
@@ -20,4 +17,3 @@
   # Disable firewall
   networking.firewall.enable = false;
 }
-
