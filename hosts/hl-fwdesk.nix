@@ -1,5 +1,6 @@
 { pkgs
 , unstablePkgs
+, lib
 , ...
 }:
 let
@@ -71,8 +72,7 @@ in
   environment.systemPackages =
     (with pkgs; [
       # languages
-      python313
-      cargo
+      # cargo
       rustc
       go
       pipx
@@ -84,6 +84,11 @@ in
 
       # Steam
       mangohud
+
+      # LLM Stuff
+      ollama-rocm
+      # stable-diffusion-cpp-rocm
+      lmstudio
     ]);
   services.usbmuxd.enable = true;
   # Steam
@@ -105,20 +110,25 @@ in
   hardware.xone.enable = true; # support for the xbox controller USB dongle
   # Ollama
   services.open-webui.enable = true;
+  users.users.ollama = {
+    enable = true;
+    home = "/var/lib/ollama";
+    extraGroups = [
+      "render"
+      "video"
+    ];
+  };
   services.ollama = {
     enable = true;
     host = "0.0.0.0";
     port = ports.ollama;
-    acceleration = "rocm";
-    package = unstablePkgs.ollama-rocm;
+    acceleration = "vulkan";
+    user = "ollama";
+    home = "/var/lib/ollama";
+    rocmOverrideGfx = "gfx1151";
   };
-  # Tabby
-  services.tabby = {
-    enable = true;
-    acceleration = "rocm";
-    host = "0.0.0.0";
-    port = ports.tabby;
-  };
+  hardware.graphics.enable = true;
+  hardware.amdgpu.opencl.enable = true;
   environment.localBinInPath = true;
   programs.nh = {
     enable = true;
