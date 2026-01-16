@@ -20,6 +20,7 @@ in
     # };
     environment.systemPackages = (with pkgs; [
       rocmPackages.rocm-smi
+      rocmPackages.rocminfo
       rocmPackages.rpp
       rocmPackages.rocm-core
       rocmPackages.rocm-runtime

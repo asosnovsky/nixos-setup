@@ -69,7 +69,7 @@ def "main remote" [cmd:string, target:string = ""] {
         return $valid_cmds
     }
     $"($cmd) on ($target_host) with ($profile)" | print
-    mut runcmd = $"nixos-rebuild --target-host ($target_host) --use-remote-sudo ($cmd) --flake .#($profile)"
+    mut runcmd = $"nixos-rebuild --target-host ($target_host) --sudo ($cmd) --flake .#($profile)"
     $runcmd | print
     bash -c $runcmd
 }
