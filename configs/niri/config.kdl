@@ -103,6 +103,10 @@ layout {
     border {
         off
     }
+    insert-hint {
+        color "#ffc87f80"
+        gradient from="#ffbb6680" to="#ffc88080" angle=45 relative-to="workspace-view"
+    }
 }
 prefer-no-csd
 window-rule {
@@ -179,7 +183,6 @@ window-rule {
     default-column-width { proportion 0.75; }
 }
 window-rule {
-    match app-id=r#"^Slack$"#
     match app-id="code"
     match app-id="org.shotcut.Shotcut"
     exclude app-id=r#"^code$"# title=r#"^Visual Studio Code$"#
@@ -315,3 +318,23 @@ recent-windows {
         Mod+Shift+grave { previous-window filter="app-id"; }
     }
 }
+
+// workspace "chat" {
+// 	layout {
+// 		gaps 4
+// 	  border {
+//         off
+//     }
+// 		focus-ring {
+//         width 4
+//         active-color "#ff0"
+//         inactive-color "#ff0"
+//     }
+// 		background-color "#ff0"
+// 	}
+// }
+
+// window-rule {
+//     match app-id=r#"^Slack$"#
+//     open-on-workspace "chat"
+// }
