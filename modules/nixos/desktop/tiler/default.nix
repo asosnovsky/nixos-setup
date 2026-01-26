@@ -1,6 +1,7 @@
 { config
 , lib
 , pkgs
+, unstablePkgs
 , ...
 }:
 let
@@ -24,8 +25,9 @@ in
       ];
     };
     # services.blueman.enable = true;
-    programs.dankMaterialShell = {
+    programs.dank-material-shell = {
       enable = true;
+      dgop.package = unstablePkgs.dgop;
       systemd = {
         enable = true; # Systemd service for auto-start
         restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes

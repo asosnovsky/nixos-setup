@@ -64,7 +64,7 @@ in
         stylix.nixosModules.stylix
         home-manager.nixosModules.default
         nix-flatpak.nixosModules.nix-flatpak
-        specialArgs.dms.nixosModules.dankMaterialShell
+        specialArgs.dms.nixosModules.dank-material-shell
         (import ./main.nix {
           inherit
             user

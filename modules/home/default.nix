@@ -71,6 +71,7 @@ in
           kubectx
           terraform
           dust
+          duf
         ];
       };
       programs =
