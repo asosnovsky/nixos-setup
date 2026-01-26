@@ -17,6 +17,7 @@ in
   environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   skyg = {
     user.enable = true;
+    core.qemu.enable = true;
     nixos = {
       common.ssh-server.enable = true;
       common.hardware = {
