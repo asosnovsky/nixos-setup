@@ -338,4 +338,3 @@ recent-windows {
 //     match app-id=r#"^Slack$"#
 //     open-on-workspace "chat"
 // }
-include "dms/binds.kdl"
