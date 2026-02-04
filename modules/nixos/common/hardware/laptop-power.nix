@@ -15,9 +15,9 @@ in
     powerManagement.powertop.enable = true;
     powerManagement.enable = true;
     services.thermald.enable = true;
-    services.power-profiles-daemon.enable = false;
+    services.power-profiles-daemon.enable = true;
     services.tlp = {
-      enable = true;
+      enable = false;
       settings = {
         TLP_DEFAULT_MODE = "BAT";
         TLP_PERSISTENT_DEFAULT = 1;
@@ -42,7 +42,7 @@ in
         STOP_CHARGE_THRESH_BAT0 = 97; # and above it stops charging
       };
     };
-    services.auto-cpufreq.enable = true;
+    services.auto-cpufreq.enable = false;
     services.auto-cpufreq.settings = {
       battery = {
         governor = "powersave";

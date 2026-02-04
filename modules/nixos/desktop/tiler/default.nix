@@ -50,16 +50,12 @@ in
       # networkmanagerapplet
       blueman
       # Apps
-      walker
-      # waybar
-      # nwg-bar
       gnome-calendar
       nautilus
       # Screen capture and recording tools
-      grim
-      slurp
-      satty
-      wf-recorder
+      # grim # replaced for now with dms
+      satty # image annotation
+      slurp wf-recorder # video capture
     ];
   };
 }

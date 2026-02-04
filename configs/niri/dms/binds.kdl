@@ -1,0 +1,16 @@
+binds {
+    Alt+Ctrl+Delete hotkey-overlay-title="Task Manager: Toggle" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
+    Mod+Alt+K hotkey-overlay-title="Notifications: Toggle" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+    Mod+Alt+P hotkey-overlay-title="Clipboard: Toggle" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+    Mod+Alt+Down hotkey-overlay-title="Move to Monitor Down" { move-column-to-monitor-down; }
+    Mod+Alt+Left hotkey-overlay-title="Move to Monitor Left" { move-column-to-monitor-left; }
+    Mod+Alt+Right hotkey-overlay-title="Move to Monitor Right" { move-column-to-monitor-right; }
+    Mod+Alt+Up hotkey-overlay-title="Move to Monitor Up" { move-column-to-monitor-up; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "10"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "10"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "10" ""; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "10" ""; }
+
+}

@@ -1,3 +1,6 @@
+include "dms/binds.kdl"
+include "dms/outputs.kdl"
+
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 input {
     touchpad {
@@ -228,19 +231,6 @@ binds {
     Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "10"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "10"; }
-    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
-    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
-    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "10" ""; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "10" ""; }
-
-    // XF86AudioRaiseVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "raise"; }
-    // XF86AudioLowerVolume allow-when-locked=true { spawn "swayosd-client" "--output-volume" "lower"; }
-    // XF86AudioMute allow-when-locked=true { spawn "swayosd-client" "--output-volume" "mute-toggle"; }
-    // XF86AudioMicMute allow-when-locked=true { spawn "swayosd-client" "--input-volume" "mute-toggle"; }
-    // XF86MonBrightnessUp allow-when-locked=true { spawn "swayosd-client" "--brightness" "raise"; }
-    // XF86MonBrightnessDown allow-when-locked=true { spawn "swayosd-client" "--brightness" "lower"; }
 
     Mod+Alt+L { spawn "/run/current-system/sw/bin/makoctl" "dismiss" "-a"; }
 
@@ -272,20 +262,16 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-    Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
-    Mod+P { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
+    // Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
+    // Mod+P { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
+    Print { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
+    Mod+P { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
 
     Mod+R { spawn "/home/ari/.config/niri/screen-record.sh"; }
 
-    Ctrl+Alt+Delete { quit; }
     Mod+Q { close-window; }
-
-    // Mod+Ctrl+W {
-    //     spawn "sh" "-c" "/home/ari/.config/niri/start-up-script.sh";
-    // }
 }
 
-// spawn-at-startup "/home/ari/.config/niri/start-up-script.sh"
 
 
 recent-windows {
@@ -318,24 +304,3 @@ recent-windows {
         Mod+Shift+grave { previous-window filter="app-id"; }
     }
 }
-
-// workspace "chat" {
-// 	layout {
-// 		gaps 4
-// 	  border {
-//         off
-//     }
-// 		focus-ring {
-//         width 4
-//         active-color "#ff0"
-//         inactive-color "#ff0"
-//     }
-// 		background-color "#ff0"
-// 	}
-// }
-
-// window-rule {
-//     match app-id=r#"^Slack$"#
-//     open-on-workspace "chat"
-// }
-include "dms/binds.kdl"
