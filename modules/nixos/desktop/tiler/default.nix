@@ -40,9 +40,8 @@ in
       xwayland-satellite
       libnotify
       # Notifications
-      mako
-      wofi
-      rofi
+			# wofi
+      # rofi
       # Control Tools
       pavucontrol
       playerctl

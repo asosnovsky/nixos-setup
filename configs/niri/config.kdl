@@ -232,7 +232,7 @@ binds {
     Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }
 
-    Mod+Alt+L { spawn "/run/current-system/sw/bin/makoctl" "dismiss" "-a"; }
+    // Mod+Alt+L { spawn "/run/current-system/sw/bin/makoctl" "dismiss" "-a"; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-workspace-down; }
