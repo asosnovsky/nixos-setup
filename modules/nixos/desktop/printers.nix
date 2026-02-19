@@ -1,7 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 {
   config = {
-    services.printing = lib.mkIf cfg.desktop.enable {
+    services.printing = lib.mkIf config.skyg.nixos.desktop.enable {
       enable = true;
       drivers = with pkgs; [
         gutenprint

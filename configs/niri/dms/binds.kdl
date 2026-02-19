@@ -1,5 +1,6 @@
 binds {
     Alt+Ctrl+Delete hotkey-overlay-title="Task Manager: Toggle" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
+    Mod+Alt+L hotkey-overlay-title="Notifications: Clear" { spawn "dms" "ipc" "notifications" "dismissAllPopups"; }
     Mod+Alt+K hotkey-overlay-title="Notifications: Toggle" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
     Mod+Alt+P hotkey-overlay-title="Clipboard: Toggle" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
     Mod+Alt+Down hotkey-overlay-title="Move to Monitor Down" { move-column-to-monitor-down; }

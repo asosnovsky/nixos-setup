@@ -42,6 +42,7 @@ in
       # Notifications
       # wofi
       # rofi
+      kdePackages.qtwebsockets
       # Control Tools
       pavucontrol
       playerctl
