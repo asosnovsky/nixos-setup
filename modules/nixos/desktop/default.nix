@@ -17,6 +17,7 @@ in
     ./gnome.nix
     ./tiler
     ./stylix
+    ./printers.nix
   ];
 
   options = {

@@ -107,8 +107,6 @@ in
   hardware.framework.amd-7040.preventWakeOnAC = true;
   # Yubikey
   services.yubikey-agent.enable = true;
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
   # Bluetooth
   hardware.bluetooth.settings.General = {
     ControllerMode = "bredr";

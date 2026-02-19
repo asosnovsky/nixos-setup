@@ -40,7 +40,7 @@ in
       xwayland-satellite
       libnotify
       # Notifications
-			# wofi
+      # wofi
       # rofi
       # Control Tools
       pavucontrol
@@ -54,7 +54,8 @@ in
       # Screen capture and recording tools
       # grim # replaced for now with dms
       satty # image annotation
-      slurp wf-recorder # video capture
+      slurp
+      wf-recorder # video capture
     ];
   };
 }
