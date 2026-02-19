@@ -57,7 +57,7 @@ in
     };
   };
   services.dockerRegistry = {
-    enable = false;
+    enable = true;
     storagePath = "/mnt/Data/docker-registry";
     port = ports.dockerRegistry;
     openFirewall = true;
