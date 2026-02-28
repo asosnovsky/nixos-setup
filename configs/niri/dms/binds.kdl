@@ -5,16 +5,23 @@ binds {
     Mod+Alt+N hotkey-overlay-title="Workspace: Rename" { spawn "dms" "ipc" "workspace-rename" "toggle"; }
     Mod+Alt+P hotkey-overlay-title="Clipboard: Toggle" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
     Mod+Shift+Space hotkey-overlay-title="PlayerCtrl: Toggle" { spawn "playerctl" "play-pause"; }
+
     Mod+Alt+Down hotkey-overlay-title="Move to Monitor Down" { move-column-to-monitor-down; }
     Mod+Alt+Left hotkey-overlay-title="Move to Monitor Left" { move-column-to-monitor-left; }
     Mod+Alt+Right hotkey-overlay-title="Move to Monitor Right" { move-column-to-monitor-right; }
     Mod+Alt+Up hotkey-overlay-title="Move to Monitor Up" { move-column-to-monitor-up; }
-    Mod+Shift+Up hotkey-overlay-title="PlayerCtrl: Volume Up" { spawn "playerctl" "volume" "0.1+"; }
-    Mod+Shift+Down hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "playerctl" "volume" "0.1-"; }
+
+    Mod+TouchpadScrollUp hotkey-overlay-title="Move Workspace to Monitor Down" { move-workspace-to-monitor-down; }
+    Mod+TouchpadScrollRight hotkey-overlay-title="Move Workspace to Monitor Left" { move-workspace-to-monitor-left; }
+    Mod+TouchpadScrollLeft hotkey-overlay-title="Move Workspace to Monitor Right" { move-workspace-to-monitor-right; }
+    Mod+TouchpadScrollDown hotkey-overlay-title="Move Workspace to Monitor Up" { move-workspace-to-monitor-up; }
+
+    Mod+Shift+Up hotkey-overlay-title="PlayerCtrl: Volume Up" { spawn "dms" "ipc" "audio" "increment" "1"; }
+    Mod+Shift+Down hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "dms" "ipc" "audio" "decrement" "1"; }
     Mod+Shift+Right hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "playerctl" "next"; }
     Mod+Shift+Left hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "playerctl" "previous"; }
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "playerctl" "volume" "0.1+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "playerctl" "volume" "0.1-"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "audio" "increment" "1"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "audio" "decrement" "1"; }
     XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
     XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
     XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "10" ""; }
