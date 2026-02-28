@@ -138,4 +138,23 @@ in
   };
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
+  services.wyoming = {
+    openwakeword = {
+      enable = true;
+    };
+    piper.servers.peta = {
+      enable = true;
+      uri = "tcp://0.0.0.0:10200";
+      voice = "en_US-danny-low";
+      streaming = true;
+    };
+    faster-whisper.servers.todd = {
+	   	enable = true;
+			uri = "tcp://0.0.0.0:10300";
+			model = "tiny.en";
+			language = "en";
+			device = "auto";
+    };
+  };
+
 }
