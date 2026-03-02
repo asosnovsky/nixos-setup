@@ -1,14 +1,21 @@
 { pkgs
-, unstablePkgs
-, lib
 , ...
 }:
 let
   ports = {
     tabby = 11029;
     ollama = 11434;
+    piper = 10200;
+    fastWhisper = 10300;
+    wyoming = 10400;
   };
-  openPorts = [ ports.ollama ports.tabby ];
+  openPorts = [
+  	ports.ollama
+    ports.tabby
+    ports.fastWhisper
+    ports.piper
+    ports.wyoming
+  ];
 in
 {
   imports = [ ./hl-fwdesk.hardware-configuration.nix ];
@@ -141,16 +148,17 @@ in
   services.wyoming = {
     openwakeword = {
       enable = true;
+      uri = "tcp://0.0.0.0:${toString ports.wyoming}";
     };
     piper.servers.peta = {
       enable = true;
-      uri = "tcp://0.0.0.0:10200";
+      uri = "tcp://0.0.0.0:${toString ports.piper}";
       voice = "en_US-danny-low";
       streaming = true;
     };
     faster-whisper.servers.todd = {
 	   	enable = true;
-			uri = "tcp://0.0.0.0:10300";
+			uri = "tcp://0.0.0.0:${toString ports.fastWhisper}";
 			model = "tiny.en";
 			language = "en";
 			device = "auto";
