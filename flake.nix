@@ -147,6 +147,14 @@
               ./hosts/hl-bigbox1.hardware-configuration.nix
             ];
           };
+          hl-bigbox2 = lib.makeNixOs {
+            hostName = "hl-bigbox2";
+            systemStateVersion = "25.05";
+            configuration = [
+              ./hosts/hl-bigbox2.nix
+              ./hosts/hl-bigbox2.hardware-configuration.nix
+            ];
+          };
           hl-minipc1 = lib.makeNixOs {
             hostName = "hl-minipc1";
             configuration = [
