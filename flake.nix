@@ -184,5 +184,16 @@
             ];
           };
         };
+
+      # Live ISO Configuration
+      # -------------
+      packages.x86_64-linux = {
+        installer-iso = lib.makeIso {
+          hostName = "skygnix";
+          configuration = [
+            ./hosts/iso.nix
+          ];
+        };
+      };
     };
 }

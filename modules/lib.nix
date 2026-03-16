@@ -74,6 +74,33 @@ in
         })
       ] ++ configuration;
     };
+  makeIso =
+    { system ? "x86_64-linux"
+    , hostName
+    , systemStateVersion ? "25.11"
+    , homeManagerVersion ? "25.11"
+    , configuration ? [ ]
+    }: nixpkgs.lib.nixosSystem {
+      specialArgs = specialArgs // {
+        inherit system skygUtils user;
+        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+      };
+      inherit system;
+      modules = [
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        determinate.nixosModules.default
+        stylix.nixosModules.stylix
+        nix-flatpak.nixosModules.nix-flatpak
+        (import ./main.nix {
+          inherit
+            user
+            hostName
+            systemStateVersion
+            homeManagerVersion
+          ;
+        })
+      ] ++ configuration;
+    };
   makeDarwinModule =
     { system ? "x86_64-darwin"
     , user
