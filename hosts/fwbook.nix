@@ -288,6 +288,14 @@ in
       "noauto"
     ];
   };
+  fileSystems."/mnt/EightTerra/DownloadedTorrents" = {
+    device = "tnas1.lab.internal:/mnt/EightTerra/DownloadedTorrents";
+    fsType = "nfs";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+    ];
+  };
   # Remote Builder
   nix.buildMachines = [
     {
