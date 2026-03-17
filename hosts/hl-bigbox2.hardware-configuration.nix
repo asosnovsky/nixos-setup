@@ -45,12 +45,6 @@
       options = [ "compress=zstd" "subvol=@data" ];
     };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/6f4b2adc-5818-41ea-a4ba-720fb96b8f98";
-      fsType = "btrfs";
-      options = [ "compress=zstd" "subvol=@home" ];
-    };
-
   fileSystems."/data/fourTerra" =
     { device = "/dev/sde1";
       fsType = "btrfs";
