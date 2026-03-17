@@ -11,7 +11,7 @@
   boot.extraModulePackages = [ ];
   boot.loader.grub = {
     enable  = true;
-    device  = "/dev/disk/by-uuid/dab0ee8d-44b9-4b1e-b19a-01929f509820";   # install GRUB to MBR
+    device  = "/dev/sdb1";   # install GRUB to MBR
     efiSupport = false;
   };
 
