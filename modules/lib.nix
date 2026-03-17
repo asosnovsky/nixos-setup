@@ -21,6 +21,13 @@ let
       };
     }
   );
+  osModules = [
+	  determinate.nixosModules.default
+	  stylix.nixosModules.stylix
+	  home-manager.nixosModules.default
+	  nix-flatpak.nixosModules.nix-flatpak
+	  specialArgs.dms.nixosModules.dank-material-shell
+  ];
   # makeHomeManagerUsers =
   #   { modules ? [ ]
   #   , homeManagerVersion
@@ -59,12 +66,7 @@ in
         unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
       };
       inherit system;
-      modules = [
-        determinate.nixosModules.default
-        stylix.nixosModules.stylix
-        home-manager.nixosModules.default
-        nix-flatpak.nixosModules.nix-flatpak
-        specialArgs.dms.nixosModules.dank-material-shell
+      modules = osModules ++ [
         (import ./main.nix {
           inherit
             user
@@ -86,11 +88,8 @@ in
         unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
       };
       inherit system;
-      modules = [
+      modules = osModules ++ [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-        determinate.nixosModules.default
-        stylix.nixosModules.stylix
-        nix-flatpak.nixosModules.nix-flatpak
         (import ./main.nix {
           inherit
             user

@@ -7,14 +7,20 @@
   # Networking
   networking.networkmanager.enable = true;
 
-  # SSH for remote installation
-  services.openssh.enable = true;
-  services.openssh.settings.PermitRootLogin = "yes";
+	# Skyg Settings
+  skyg = {
+    user.enable = true;
+    nixos.common = {
+      ssh-server.enable = true;
+    };
+  };
 
-  # GUI with lightweight desktop
-  services.xserver.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
+  # SSH for remote installation
+  services.openssh.settings.PermitRootLogin = "yes";
+  # # GUI with lightweight desktop
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.xfce.enable = true;
 
   # Core system packages
   environment.systemPackages = with pkgs; [
@@ -32,15 +38,11 @@
     wget
     git
     htop
-    tmux
+    zellij
 
     # Documentation
     man-pages
   ];
-
-  # Disable heavy services
-  services.printing.enable = lib.mkForce false;
-  sound.enable = lib.mkForce false;
 
   # Include documentation
   documentation.nixos.enable = true;
