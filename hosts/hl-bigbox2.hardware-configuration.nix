@@ -45,12 +45,6 @@
       options = [ "compress=zstd" "subvol=@data" ];
     };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/8cd6e560-4db9-4cf1-8048-27a7c6308965";
-      fsType = "btrfs";
-      options = [ "compress=zstd" "subvol=@nix" ];
-    };
-
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/6f4b2adc-5818-41ea-a4ba-720fb96b8f98";
       fsType = "btrfs";
