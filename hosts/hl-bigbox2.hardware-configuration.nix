@@ -15,6 +15,12 @@
     efiSupport = false;
   };
 
+  fileSystems."/" =
+    { device = "/dev/disk/by-label/nixos-root";
+      fsType = "btrfs";
+      options = [ "subvol=@root" "compress=zstd" "noatime" ];
+    };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/ccc80fd2-b38b-412b-9988-12a3194a5b57";
       fsType = "ext4";
