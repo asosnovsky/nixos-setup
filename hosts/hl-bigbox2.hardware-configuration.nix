@@ -45,12 +45,6 @@
       options = [ "compress=zstd" "subvol=@data" ];
     };
 
-  fileSystems."/data/fourTerra" =
-    { device = "/dev/sde1";
-      fsType = "btrfs";
-      options = [ "compress=zstd" "subvol=@data" ];
-    };
-
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
