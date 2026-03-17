@@ -11,25 +11,13 @@
   boot.extraModulePackages = [ ];
   boot.loader.grub = {
     enable  = true;
-    device  = "/dev/sdb1";   # install GRUB to MBR
+    device  = "/dev/sdb";   # install GRUB to MBR
     efiSupport = false;
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/6f050bcc-7579-48a9-b535-74076e78c5cd";
-      fsType = "btrfs";
-      options = [ "subvol=@root" ];
-    };
-
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/dab0ee8d-44b9-4b1e-b19a-01929f509820";
+    { device = "/dev/disk/by-uuid/ccc80fd2-b38b-412b-9988-12a3194a5b57";
       fsType = "ext4";
-    };
-
-  fileSystems."/var" =
-    { device = "/dev/disk/by-uuid/6f050bcc-7579-48a9-b535-74076e78c5cd";
-      fsType = "btrfs";
-      options = [ "compress=zstd" "subvol=@var" ];
     };
 
   fileSystems."/nix" =
