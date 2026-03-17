@@ -73,3 +73,9 @@ def "main remote" [cmd:string, target:string = ""] {
     $runcmd | print
     bash -c $runcmd
 }
+
+# Build ISO image
+def "main build-iso" [] {
+	nix build .#nixosConfigurations.iso.config.system.build.isoImage
+	ls -l result/iso
+}
