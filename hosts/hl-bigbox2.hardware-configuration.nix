@@ -16,7 +16,7 @@
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-label/nixos-root";
+    { device = "/dev/disk/by-uuid/5bf4a352-412f-47e1-9455-68f3aa629722";
       fsType = "btrfs";
       options = [ "subvol=@root" "compress=zstd" "noatime" ];
     };
@@ -24,6 +24,12 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/ccc80fd2-b38b-412b-9988-12a3194a5b57";
       fsType = "ext4";
+    };
+
+  fileSystems."/var" =
+    { device = "/dev/disk/by-uuid/5bf4a352-412f-47e1-9455-68f3aa629722";
+      fsType = "btrfs";
+      options = [ "compress=zstd" "subvol=@var" ];
     };
 
   fileSystems."/nix" =
