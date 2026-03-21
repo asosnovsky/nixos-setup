@@ -71,9 +71,9 @@ window-rule {
     opacity 0.95
 }
 window-rule {
-		match app-id=r"Bitwarden"
+//		match app-id=r"Bitwarden"
 		match app-id="Sparrow"
-	  match title="Bitwarden"
+//	  match title="Bitwarden"
 	 	block-out-from "screen-capture"
 		// opacity 1
 	  shadow {

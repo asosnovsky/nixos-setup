@@ -65,6 +65,7 @@ in
     nssmdns4 = true;
   };
   virtualisation.waydroid.enable = true;
+  services.upower.enable = true;
   services.pipewire = {
     enable = true;
     audio.enable = true;
@@ -79,6 +80,7 @@ in
   };
   # Tailscale
   services.tailscale.enable = true;
+  services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
   # Desktop Env
   services.displayManager.gdm.enable = true;
   services.displayManager.gdm.wayland = true;

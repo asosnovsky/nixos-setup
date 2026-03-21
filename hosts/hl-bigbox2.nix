@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
-
+let
+ports = {
+  nixServe = 5000;
+};
+in
 {
   skyg = {
     user.enable = true;
@@ -12,7 +16,11 @@
       enable = true;
     };
   };
-
+  services.nix-serve = {
+    enable = true;
+    secretKeyFile = "/home/ari/cache-keys/bigbox2.lab.internal.private";
+    port = ports.nixServe;
+  };
   # firmware updater
   services.fwupd.enable = true;
 }

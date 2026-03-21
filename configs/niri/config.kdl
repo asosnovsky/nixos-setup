@@ -27,6 +27,7 @@ environment {
 }
 
 
+// spawn-at-startup "/run/current-system/sw/bin/tailscale" "systray"
 
 
 // =========================
