@@ -29,11 +29,11 @@ in
       scrypted-backups = {
         OnCalendar = "daily";
         wantedBy = [
-          "mnt-terra1-Data-apps.mount"
+          "homelab-terra1-Data-apps.mount"
         ];
         script = ''
           set -eu
-          ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/homelab/scrypted /mnt/terra1/Data/apps/
+          ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/homelab/scrypted /homelab/terra1/Data/apps/
         '';
       };
       scrypted-autoupdate = {
@@ -48,7 +48,7 @@ in
     virtualisation.oci-containers = {
       containers = {
         scrypted = {
-          autoStart = false;
+          autoStart = true;
           image = "ghcr.io/koush/scrypted";
           extraOptions = [ "--network=host" ];
           volumes = [

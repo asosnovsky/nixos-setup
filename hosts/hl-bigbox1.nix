@@ -8,11 +8,11 @@
       jellyfin-backups = {
         OnCalendar = "daily";
         wantedBy = [
-          "mnt-terra1-Data-apps.mount"
+          "homelab-terra1-Data-apps.mount"
         ];
         script = ''
           set -eu
-          ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/jellyfin /mnt/terra1/Data/apps/
+          ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/jellyfin /homelab/terra1/Data/apps/
         '';
       };
     };

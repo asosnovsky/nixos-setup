@@ -6,8 +6,10 @@
   programs.nix-ld.enable = true;
   nixpkgs.config.allowUnfree = true;
   nix = {
+    enable = true;
     optimise.automatic = true;
     settings.experimental-features = [ "nix-command" "flakes" ];
+    clean.enable = true;
   };
   environment.systemPackages = with pkgs; [
     # nix utils

@@ -20,6 +20,9 @@ in
       settings.PasswordAuthentication = false;
       settings.KbdInteractiveAuthentication = false;
       settings.PermitRootLogin = "yes";
+      # Keep connections alive during large transfers
+      settings.ClientAliveInterval = 15;
+      settings.ClientAliveCountMax = 8;
     };
     users.users.${config.skyg.user.name}.openssh.authorizedKeys.keys = [
       cfg.masterPubKey
@@ -29,4 +32,3 @@ in
     ];
   };
 }
-

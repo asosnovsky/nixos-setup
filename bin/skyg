@@ -31,7 +31,7 @@ def "main build" [] {
 
 # Switch configuration
 def "main switch" [] {
-    nh os switch | print
+    nh os switch --ask | print
 }
 
 # test configuration
@@ -73,7 +73,7 @@ def "main remote" [cmd:string, target:string = ""] {
         return $valid_cmds
     }
     $"($cmd) on ($target_host) with ($profile)" | print
-    mut runcmd = $"nixos-rebuild ($cmd) --target-host ($target_host) --sudo --flake .#($profile)"
+    mut runcmd = $"nh os ($cmd) --target-host ($target_host) --ask .#($profile)"
     $runcmd | print
     bash -c $runcmd
 }
