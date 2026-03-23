@@ -42,11 +42,11 @@ in
       };
     };
     networkDrives = {
-      enable = false;
-      options = [
-        "x-systemd.automount"
-        "noauto"
-      ];
+      enable = true;
+      # options = [
+      #   "x-systemd.automount"
+      #   "noauto"
+      # ];
     };
   };
   users.users.ari.extraGroups = [
