@@ -18,6 +18,7 @@ in
     server.exporters.enable = true;
     networkDrives = {
       enable = true;
+      bigBox2.enable = false;
     };
   };
   # services.nix-serve = {

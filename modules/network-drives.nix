@@ -4,10 +4,13 @@
 }:
 let
   cfg = config.skyg.networkDrives;
-  makeCommonOption = {defaultHost, enabledByDefault ? true} : lib.mkOption {
+  makeCommonOption = {
+	  defaultHost,
+	  enabledByDefault ? true
+  } : lib.mkOption {
     type = lib.types.submodule {
       options = {
-        enabled = lib.mkOption {
+        enable = lib.mkOption {
           type = lib.types.bool;
           default = enabledByDefault;
         };
@@ -18,7 +21,7 @@ let
       };
     };
     default = {
-      enabled = enabledByDefault;
+      enable = enabledByDefault;
       host = defaultHost;
     };
   };
@@ -49,26 +52,32 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    fileSystems."/torrents" = lib.mkIf cfg.tnas1.enabled {
+    fileSystems."/homelab/tnas1/torrents" = lib.mkIf cfg.tnas1.enable {
       device = "${cfg.tnas1.host}:/mnt/EightTerra/DownloadedTorrents";
       fsType = "nfs";
       options = cfg.options;
     };
 
-    fileSystems."/mnt/EightTerra/k3s-cluster" = lib.mkIf cfg.tnas1.enabled {
+    fileSystems."/homelab/tnas1/EightTerra/k3s-cluster" = lib.mkIf cfg.tnas1.enable {
       device = "${cfg.tnas1.host}:/mnt/EightTerra/k3s-cluster";
       fsType = "nfs";
       options = cfg.options;
     };
 
-    fileSystems."/mnt/OneT/NVR" = lib.mkIf cfg.tnas1.enabled {
+    fileSystems."/homelab/tnas1/OneT/NVR" = lib.mkIf cfg.tnas1.enable {
       device = "${cfg.tnas1.host}:/mnt/OneT/NVR";
       fsType = "nfs";
       options = cfg.options;
     };
 
-    fileSystems."/mnt/terra1/Data/apps" = lib.mkIf cfg.terra1.enabled {
+    fileSystems."/homelab/terra1/Data/apps" = lib.mkIf cfg.terra1.enable {
       device = "${cfg.terra1.host}:/mnt/Data/apps";
+      fsType = "nfs";
+      options = cfg.options;
+    };
+
+    fileSystems."/homelab/bigbox2/data/fourTerra" = lib.mkIf cfg.bigBox2.enable {
+      device = "${cfg.terra1.host}:/data/fourTerra";
       fsType = "nfs";
       options = cfg.options;
     };
