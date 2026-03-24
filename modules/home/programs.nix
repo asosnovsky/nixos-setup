@@ -41,9 +41,16 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
     settings = {
+      add_newline = true;
       env_var = {
         variable = "SHELL";
         default = "unknown shell";
+      };
+      battery = {
+        disabled = false;
+      };
+      time = {
+        disabled = false;
       };
       kubernetes = {
         disabled = false;
@@ -120,25 +127,5 @@
     extraConfig = ''
       set -g status-right '#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage} | %a %h-%d %H:%M '
     '';
-  };
-  alacritty = {
-    enable = false;
-    settings = {
-      general.import = [
-        "${pkgs.alacritty-theme}/ayu_dark.toml"
-      ];
-      window = {
-        title = "Terminal";
-        blur = true;
-      };
-      font = {
-        normal = { family = "Fira Code"; style = "Regular"; };
-        bold = { family = "Fira Code"; style = "Bold"; };
-        italic = { family = "Fira Code"; style = "Italic"; };
-      };
-      terminal.shell = {
-        program = "/home/${user.name}/.nix-profile/bin/nu";
-      };
-    };
   };
 }
