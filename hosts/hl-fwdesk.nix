@@ -152,7 +152,6 @@ in
   hardware.enableAllFirmware = true;
   hardware.amdgpu = {
     opencl.enable = true;
-    amdvlk.enable = false; # Use radv (Mesa) — more stable on gfx1151
   };
   environment.localBinInPath = true;
   programs.nh = {
