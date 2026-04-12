@@ -57,6 +57,9 @@ in
     "dialout"
     "plugdev"
     "uucp"
+    "render"
+    "video"
+    "docker"
   ];
   services.avahi = {
     enable = true;
@@ -134,9 +137,23 @@ in
     user = "ollama";
     home = "/var/lib/ollama";
     rocmOverrideGfx = "gfx1151";
+    # rocmOverrideGfx = "11.5.1";
+
+    environmentVariables = {
+      # Stability fix — SDMA is buggy on Strix Halo unified memory
+      HSA_ENABLE_SDMA       = "0";
+      # Flash attention for better performance
+      OLLAMA_FLASH_ATTENTION = "1";
+      # Keep models loaded
+      OLLAMA_KEEP_ALIVE     = "24h";
+    };
   };
   hardware.graphics.enable = true;
-  hardware.amdgpu.opencl.enable = true;
+  hardware.enableAllFirmware = true;
+  hardware.amdgpu = {
+    opencl.enable = true;
+    amdvlk.enable = false; # Use radv (Mesa) — more stable on gfx1151
+  };
   environment.localBinInPath = true;
   programs.nh = {
     enable = true;
@@ -164,5 +181,11 @@ in
 			device = "auto";
     };
   };
-
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      # Allows containers to access /dev/kfd and /dev/dri
+      "default-runtime" = "runc";
+    };
+  };
 }
