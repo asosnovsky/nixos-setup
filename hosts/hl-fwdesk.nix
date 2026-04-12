@@ -8,6 +8,7 @@ let
     piper = 10200;
     fastWhisper = 10300;
     wyoming = 10400;
+    comfyui = 8188;
   };
   openPorts = [
   	ports.ollama
@@ -15,6 +16,7 @@ let
     ports.fastWhisper
     ports.piper
     ports.wyoming
+    ports.comfyui
   ];
 in
 {
