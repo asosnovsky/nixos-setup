@@ -23,7 +23,7 @@ in {
         type = types.str;
       };
 
-      metadtaDir = mkOption {
+      metadataDir = mkOption {
         description =
           "Path to Audiobookshelf config folder";
         type = types.str;
@@ -80,7 +80,7 @@ in {
         ExecStart =
           "${cfg.package}/bin/audiobookshelf --host ${cfg.host} --port ${
             toString cfg.port
-          } --config ${cfg.configDir} --metadata ${cfg.metadtaDir}";
+          } --config ${cfg.configDir} --metadata ${cfg.metadataDir}";
         Restart = "on-failure";
       };
     };

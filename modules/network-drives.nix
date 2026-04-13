@@ -4,27 +4,27 @@
 }:
 let
   cfg = config.skyg.networkDrives;
-  makeCommonOption = {
-	  defaultHost,
-	  enabledByDefault ? true
-  } : lib.mkOption {
-    type = lib.types.submodule {
-      options = {
-        enable = lib.mkOption {
-          type = lib.types.bool;
-          default = enabledByDefault;
-        };
-        host = lib.mkOption {
-          type = lib.types.str;
-          default = defaultHost;
+  makeCommonOption =
+    { defaultHost
+    , enabledByDefault ? true
+    }: lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          enable = lib.mkOption {
+            type = lib.types.bool;
+            default = enabledByDefault;
+          };
+          host = lib.mkOption {
+            type = lib.types.str;
+            default = defaultHost;
+          };
         };
       };
+      default = {
+        enable = enabledByDefault;
+        host = defaultHost;
+      };
     };
-    default = {
-      enable = enabledByDefault;
-      host = defaultHost;
-    };
-  };
 in
 {
   options = {
@@ -77,7 +77,7 @@ in
     };
 
     fileSystems."/homelab/bigbox2/data/fourTerra" = lib.mkIf cfg.bigBox2.enable {
-      device = "${cfg.terra1.host}:/data/fourTerra";
+      device = "${cfg.bigBox2.host}:/data/fourTerra";
       fsType = "nfs";
       options = cfg.options;
     };

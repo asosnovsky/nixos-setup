@@ -11,7 +11,7 @@ let
     comfyui = 8188;
   };
   openPorts = [
-  	ports.ollama
+    ports.ollama
     ports.tabby
     ports.fastWhisper
     ports.piper
@@ -143,11 +143,11 @@ in
 
     environmentVariables = {
       # Stability fix — SDMA is buggy on Strix Halo unified memory
-      HSA_ENABLE_SDMA       = "0";
+      HSA_ENABLE_SDMA = "0";
       # Flash attention for better performance
       OLLAMA_FLASH_ATTENTION = "1";
       # Keep models loaded
-      OLLAMA_KEEP_ALIVE     = "24h";
+      OLLAMA_KEEP_ALIVE = "24h";
     };
   };
   hardware.graphics.enable = true;
@@ -175,11 +175,11 @@ in
       streaming = true;
     };
     faster-whisper.servers.todd = {
-	   	enable = true;
-			uri = "tcp://0.0.0.0:${toString ports.fastWhisper}";
-			model = "tiny.en";
-			language = "en";
-			device = "auto";
+      enable = true;
+      uri = "tcp://0.0.0.0:${toString ports.fastWhisper}";
+      model = "tiny.en";
+      language = "en";
+      device = "auto";
     };
   };
   virtualisation.docker = {

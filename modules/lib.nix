@@ -22,11 +22,11 @@ let
     }
   );
   osModules = [
-	  determinate.nixosModules.default
-	  stylix.nixosModules.stylix
-	  home-manager.nixosModules.default
-	  nix-flatpak.nixosModules.nix-flatpak
-	  specialArgs.dms.nixosModules.dank-material-shell
+    determinate.nixosModules.default
+    stylix.nixosModules.stylix
+    home-manager.nixosModules.default
+    nix-flatpak.nixosModules.nix-flatpak
+    specialArgs.dms.nixosModules.dank-material-shell
   ];
   # makeHomeManagerUsers =
   #   { modules ? [ ]
@@ -96,7 +96,7 @@ in
             hostName
             systemStateVersion
             homeManagerVersion
-          ;
+            ;
         })
       ] ++ configuration;
     };

@@ -3,6 +3,11 @@
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
+    # Pre-commit hooks
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Nixpkgs
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
@@ -46,6 +51,7 @@
     , stylix
     , hyprlauncher
     , dms
+    , git-hooks
     ,
     }:
     let
@@ -86,6 +92,12 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
+          pre-commit-check = git-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              nixpkgs-fmt.enable = true;
+            };
+          };
         in
         {
           default = pkgs.mkShell {
@@ -97,6 +109,7 @@
             ];
             shellHook = ''
               export PATH=$PATH:$(pwd)/bin
+              ${pre-commit-check.shellHook}
             '';
           };
         }
@@ -183,12 +196,12 @@
               ./hosts/hl-terra1.hardware-configuration.nix
             ];
           };
-	        iso = lib.makeIso {
-	          hostName = "skygnix";
-	          configuration = [
-	            ./hosts/iso.nix
-	          ];
-	        };
+          iso = lib.makeIso {
+            hostName = "skygnix";
+            configuration = [
+              ./hosts/iso.nix
+            ];
+          };
         };
     };
 }

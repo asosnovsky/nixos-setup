@@ -193,6 +193,7 @@ in
       code-cursor-fhs
       nix-prefetch
       orca-slicer
+      devcontainer
 
       # Run macos apps
       darling-dmg

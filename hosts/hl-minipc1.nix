@@ -53,7 +53,7 @@ in
       openFirewall = true;
       port = ports.audiobookshelf;
       configDir = "/mnt/Data/audiobookshelf/config";
-      metadtaDir = "/mnt/Data/audiobookshelf/metadata";
+      metadataDir = "/mnt/Data/audiobookshelf/metadata";
     };
   };
   services.dockerRegistry = {

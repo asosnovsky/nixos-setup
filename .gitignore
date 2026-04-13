@@ -12,8 +12,7 @@ result.diff
 # direnv
 .direnv
 
-# pre-commit
-.pre-commit-config.yaml
+
 
 # nix build
 result

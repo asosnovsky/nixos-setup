@@ -7,7 +7,7 @@
   # Networking
   networking.networkmanager.enable = true;
 
-	# Skyg Settings
+  # Skyg Settings
   skyg = {
     user.enable = true;
     nixos.common = {
@@ -26,7 +26,7 @@
   environment.systemPackages = with pkgs; [
     # Disk tools
     parted
-    gparted              # GUI partitioner
+    gparted # GUI partitioner
     cryptsetup
     btrfs-progs
     dosfstools

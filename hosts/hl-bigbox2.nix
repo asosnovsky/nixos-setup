@@ -1,12 +1,12 @@
 { config, pkgs, ... }:
 let
-ports = {
-  nixServe = 5000;
-  lockdPort = 4001;
-  mountdPort = 4002;
-  statdPort = 4000;
-};
-openPorts = builtins.attrValues ports;
+  ports = {
+    nixServe = 5000;
+    lockdPort = 4001;
+    mountdPort = 4002;
+    statdPort = 4000;
+  };
+  openPorts = builtins.attrValues ports;
 in
 {
   skyg = {

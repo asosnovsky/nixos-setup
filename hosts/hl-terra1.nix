@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-	 openPorts = [
+  openPorts = [
     # nfs
     111
     2049
