@@ -9,14 +9,7 @@
     [ "nvme" "xhci_pci" "thunderbolt" "uas" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-
-  boot.extraModulePackages = [ ];
-  boot.plymouth = {
-    enable = true;
-  };
-
-  boot.consoleLogLevel = 3;
-  boot.initrd.verbose = false;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [
     "quiet"
     "splash"
@@ -24,6 +17,15 @@
     "udev.log_priority=3"
     "rd.systemd.show_status=auto"
   ];
+  boot.extraModulePackages = [ ];
+  boot.plymouth = {
+    enable = true;
+  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.tmp.useTmpfs = true;
+  boot.consoleLogLevel = 3;
+  boot.initrd.verbose = false;
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=0
   '';

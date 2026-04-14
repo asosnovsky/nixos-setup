@@ -117,13 +117,15 @@
       lib = lib;
       formatter = lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-      # None-NIXOS LINUX Setups
+      # Non-NixOS Linux Setups (standalone home-manager)
       # -------------
-      # homeConfigurations."${user.name}" = lib.makeHomeManagerUsers {
-      #   inherit user homeManagerVersion;
-      # };
+      homeConfigurations = {
+        "ari" = lib.makeHomeManagerUsers {
+          homeManagerVersion = "24.11";
+        };
+      };
 
-      # NIXOS LINUX Setups
+      # NixOS Linux Setups
       # -------------
       nixosConfigurations =
         {

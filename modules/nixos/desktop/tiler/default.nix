@@ -19,6 +19,7 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
+    environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     users.users.${config.skyg.user.name} = {
       extraGroups = [
         "input"

@@ -28,36 +28,43 @@ let
     nix-flatpak.nixosModules.nix-flatpak
     specialArgs.dms.nixosModules.dank-material-shell
   ];
-  # makeHomeManagerUsers =
-  #   { modules ? [ ]
-  #   , homeManagerVersion
-  #   , user
-  #   , system ? "x86_64-linux"
-  #   ,
-  #   }:
-  #   let
-  #     hm = (
-  #       import ./home {
-  #         stateVersion = homeManagerVersion;
-  #       }makeHLServices
-  #     );
-  #     pkgs = allPkgs."${system}";
-  #   in
-  #   home-manager.lib.homeManagerConfiguration {
-  #     inherit pkgs;
-  #     modules = [
-  #       (hm.makeCommonUser user)
-  #     ]
-  #     ++ modules;
-  #   };
+
+  # Shared function to create home-manager user configuration
+  makeHomeConfig = { stateVersion }: import ./home { stateVersion = stateVersion; };
 in
 {
   eachSystem = eachSystem;
   pkgs = allPkgs;
+
+  # Standalone home-manager configuration (for non-NixOS systems)
+  makeHomeManagerUsers =
+    { modules ? [ ]
+    , userConfig ? user
+    , system ? "x86_64-linux"
+    }:
+    let
+      hm = makeHomeConfig { };
+      pkgs = allPkgs.${system};
+    in
+    home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = specialArgs // {
+        inherit system skygUtils;
+        user = userConfig;
+        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+      };
+      modules = [
+        {
+          # Convert the attribute set to a proper home-manager module
+          config = (hm.makeCommonUser userConfig) { inherit pkgs; };
+        }
+        stylix.homeModules.stylix
+      ] ++ modules;
+    };
+
   makeNixOs =
     { system ? "x86_64-linux"
     , hostName
-    , homeManagerVersion ? "24.11"
     , systemStateVersion ? "24.05"
     , configuration ? [ ]
     }: nixpkgs.lib.nixosSystem {
@@ -70,12 +77,12 @@ in
         (import ./main.nix {
           inherit
             user
-            homeManagerVersion
             hostName
             systemStateVersion;
         })
       ] ++ configuration;
     };
+
   makeIso =
     { system ? "x86_64-linux"
     , hostName
@@ -100,6 +107,7 @@ in
         })
       ] ++ configuration;
     };
+
   makeDarwinModule =
     { system ? "x86_64-darwin"
     , user

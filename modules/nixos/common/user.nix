@@ -1,15 +1,27 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
+
+let
+  cfg = config.skyg.user;
+in
 {
-  users.users.root = {
-    shell = pkgs.zsh;
+  options.skyg.user.createSystemUser = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = "Whether to create the system user (separate from home-manager configuration)";
   };
-  users.users.${config.skyg.user.name} = {
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    description = config.skyg.user.name;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
+
+  config = lib.mkIf (cfg.name != "" && cfg.createSystemUser) {
+    users.users.root = {
+      shell = pkgs.zsh;
+    };
+    users.users.${cfg.name} = {
+      shell = pkgs.zsh;
+      isNormalUser = true;
+      description = cfg.fullName;
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
   };
 }

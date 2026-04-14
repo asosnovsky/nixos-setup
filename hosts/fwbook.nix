@@ -1,5 +1,6 @@
 { pkgs
-, unstablePkgs
+, config
+, lib
 , user
 , ...
 }:
@@ -13,9 +14,6 @@ let
 in
 {
   # Skyg
-  environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
-  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-  environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   skyg = {
     user.enable = true;
     server.admin.enable = true;
@@ -35,11 +33,8 @@ in
         gnome.enable = false;
         tiler = {
           enable = true;
-          hyprland.enable = true;
+          hyprland.enable = false;
           niri.enable = true;
-          # background = {
-          #   enable = true;
-          # };
         };
       };
     };
@@ -60,24 +55,7 @@ in
     "plugdev"
     "uucp"
   ];
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-  };
   virtualisation.waydroid.enable = true;
-  services.upower.enable = true;
-  services.pipewire = {
-    enable = true;
-    audio.enable = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal
-    ];
-  };
   # Tailscale
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
@@ -85,25 +63,15 @@ in
   services.displayManager.gdm.enable = true;
   services.displayManager.gdm.wayland = true;
   services.displayManager.defaultSession = "niri";
-  # home manager
-  home-manager.users.${user.name} = {
+  # home manager - only configure if skyg.user.enable is true
+  home-manager.users.${user.name} = lib.mkIf config.skyg.user.enable {
     # Add Functions
     programs.zsh.initContent = ''
       source ${zshFunctions}
     '';
     services.blueman-applet.enable = true;
   };
-  # Network
-  # networking.nameservers = [ "9.9.9.9" "1.1.1.1" ];
-
-  # services.resolved = {
-  #   enable = true;
-  #   dnssec = "true";
-  #   fallbackDns = [ "9.9.9.9" "1.1.1.1" ];
-  #   dnsovertls = "true";
-  # };
   # Firmware updater
-  services.fwupd.enable = true;
   hardware.framework.enableKmod = true;
   services.fprintd.enable = true;
   hardware.framework.amd-7040.preventWakeOnAC = true;
@@ -115,10 +83,6 @@ in
   };
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.tmp.useTmpfs = true;
   nixpkgs.config.permittedInsecurePackages = [
     "python3.12-ecdsa-0.19.1"
   ];
@@ -270,10 +234,6 @@ in
     "modesetting"
     "fbdev"
   ];
-  # Kernel
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-
-  environment.localBinInPath = true;
   # Family Storage
   fileSystems."/mnt/EightTerra/FamilyStorage" = {
     device = "tnas1.lab.internal:/mnt/EightTerra/FamilyStorage";
@@ -299,28 +259,6 @@ in
       "noauto"
     ];
   };
-  # Remote Builder
-  nix.buildMachines = [
-    {
-      hostName = "root@bigbox1.lab.internal";
-      system = "x86_64-linux";
-      protocol = "ssh-ng";
-      maxJobs = 1;
-      speedFactor = 2;
-      supportedFeatures = [
-        "nixos-test"
-        "benchmark"
-        "big-parallel"
-        "kvm"
-      ];
-      mandatoryFeatures = [ ];
-    }
-  ];
-  nix.distributedBuilds = true;
-  # optional, useful when the builder has a faster internet connection than yours
-  nix.extraOptions = ''
-    builders-use-substitutes = true
-  '';
   programs.nh = {
     enable = true;
     flake = "/home/ari/nixos-setup";

@@ -1,4 +1,4 @@
-{ stateVersion }:
+{ stateVersion ? "24.11" }:
 let
   makeCommonGitConfigs = (import ./git.nix).makeCommonGitConfigs;
   programsModule = (import ./programs.nix);
