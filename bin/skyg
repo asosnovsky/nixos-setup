@@ -5,14 +5,20 @@ const current_folder = path self | path dirname | path dirname
 cd $current_folder
 
 def valid_profiles [] {
-    nix flake show --json err> /dev/null | from json |
-        select nixosConfigurations |
-        flatten | transpose |
-        select column0 | rename name
+	nix eval .#nixosConfigurations --apply 'builtins.attrNames' --json err> /dev/null |
+        from json
 }
 
-def is-valid-profile [name: string] {
-    (valid_profiles | where name == $name | length) == 1
+def valid_remote_profiles [] {
+	(valid_profiles) | where {|$it | str starts-with "hl" }
+}
+
+def is-valid-profile [name: string, on_remote: bool = false] {
+    if $on_remote {
+        (valid_remote_profiles | where name == $name | length) == 1
+    } else {
+        (valid_profiles | where name == $name | length) == 1
+    }
 }
 
 def main [] {
@@ -20,8 +26,12 @@ def main [] {
     help main
 }
 
-def "main profiles" [] {
-    valid_profiles | print
+def "main profiles" [only_remote: bool = false] {
+    if $only_remote {
+        valid_remote_profiles | print
+    } else {
+        valid_profiles | print
+    }
 }
 
 # Build configuration
@@ -60,11 +70,11 @@ def "main update" [input_name:string = ""] {
 def "main remote" [cmd:string, target:string = ""] {
     mut target_host = $"root@($target).lab.internal"
     mut profile = $"hl-($target)"
-    # if not (is-valid-profile $profile) {
-    #     print $"Invalid Profile ($profile), please select one of:"
-    #     return valid_profiles
-    # }
-    $"Using [($profile)]" | print
+    if not (is-valid-profile $profile true) {
+        print $"Invalid Remote Profile '(ansi green_bold)($target)(ansi reset)', please select one of:"
+        return (valid_remote_profiles | each {|p| $p | str replace "hl-" ""})
+    }
+    $"Using [(ansi green_bold)($profile)(ansi reset)]" | print
     const valid_cmds = [
         "test" , "dry-activate" , "run" , "switch" , "build"
     ]

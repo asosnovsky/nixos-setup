@@ -13,6 +13,7 @@ in
       };
       envPath = lib.mkOption {
         type = lib.types.str;
+        default = "";
       };
     };
   };
@@ -33,7 +34,7 @@ in
     lib.mkIf cfg.enable {
       services.k3s = {
         enable = true;
-        environmentFile = cfg.envPath;
+        environmentFile = lib.mkIf (cfg.envPath != "") cfg.envPath;
         role = cfg.role;
         extraFlags = [
           "--disable servicelb"
