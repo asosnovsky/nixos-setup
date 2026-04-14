@@ -106,6 +106,7 @@
               nixpkgs-fmt
               nixd
               nh
+              home-manager.packages.${system}.home-manager
             ];
             shellHook = ''
               export PATH=$PATH:$(pwd)/bin
@@ -120,9 +121,7 @@
       # Non-NixOS Linux Setups (standalone home-manager)
       # -------------
       homeConfigurations = {
-        "ari" = lib.makeHomeManagerUsers {
-          homeManagerVersion = "24.11";
-        };
+        "ari" = lib.makeHomeManagerUsers { };
       };
 
       # NixOS Linux Setups

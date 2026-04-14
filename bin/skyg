@@ -83,3 +83,20 @@ def "main build-iso" [] {
 	nix build .#nixosConfigurations.iso.config.system.build.isoImage
 	ls -l result/iso
 }
+
+# Home Manager operations
+def "main hm" [action: string@hm-actions, profile: string = "ari"] {
+    let valid_actions = (hm-actions)
+    if not ($action in $valid_actions) {
+        error make {
+            msg: $"Invalid action '($action)'",
+            help: $"Valid actions are: ($valid_actions | str join ', ')"
+        }
+    }
+    $"Running home-manager ($action) for profile ($profile)" | print
+    home-manager $action --flake $".#($profile)"
+}
+
+def hm-actions [] {
+    ["switch", "build"]
+}

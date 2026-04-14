@@ -30,7 +30,7 @@ let
   ];
 
   # Shared function to create home-manager user configuration
-  makeHomeConfig = { stateVersion }: import ./home { stateVersion = stateVersion; };
+  makeHomeConfig = {}: import ./home { };
 in
 {
   eachSystem = eachSystem;
