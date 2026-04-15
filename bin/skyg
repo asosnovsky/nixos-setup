@@ -15,9 +15,9 @@ def valid_remote_profiles [] {
 
 def is-valid-profile [name: string, on_remote: bool = false] {
     if $on_remote {
-        (valid_remote_profiles | where name == $name | length) == 1
+        (valid_remote_profiles | where {|$it| $it == $name} | length) == 1
     } else {
-        (valid_profiles | where name == $name | length) == 1
+        (valid_profiles | where {|$it| $it == $name} | length) == 1
     }
 }
 

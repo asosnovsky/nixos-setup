@@ -102,6 +102,9 @@ in
       "d ${cfg.rocm.dataDir}/models/controlnet 0755 ${toString cfg.rocm.uid} ${toString cfg.rocm.gid} -"
       "d ${cfg.rocm.dataDir}/output 0755 ${toString cfg.rocm.uid} ${toString cfg.rocm.gid} -"
       "d ${cfg.rocm.dataDir}/custom_nodes 0755 ${toString cfg.rocm.uid} ${toString cfg.rocm.gid} -"
+      "d ${cfg.rocm.dataDir}/user 0755 ${toString cfg.rocm.uid} ${toString cfg.rocm.gid} -"
+      "d ${cfg.rocm.dataDir}/input 0755 ${toString cfg.rocm.uid} ${toString cfg.rocm.gid} -"
+      "d ${cfg.rocm.dataDir}/temp 0755 ${toString cfg.rocm.uid} ${toString cfg.rocm.gid} -"
     ];
 
     # Build script for the Docker image
@@ -152,6 +155,9 @@ in
 
       volumes = [
         "${cfg.rocm.dataDir}/custom_nodes:/workspace/ComfyUI/custom_nodes"
+        "${cfg.rocm.dataDir}/user:/workspace/ComfyUI/user"
+        "${cfg.rocm.dataDir}/input:/workspace/ComfyUI/input"
+        "${cfg.rocm.dataDir}/temp:/workspace/ComfyUI/temp"
       ] ++ (if cfg.rocm.modelsDir != null
       then [ "${cfg.rocm.modelsDir}:/workspace/ComfyUI/models" ]
       else [ "${cfg.rocm.dataDir}/models:/workspace/ComfyUI/models" ])
@@ -165,10 +171,6 @@ in
     systemd.services."docker-comfyui" = {
       after = [ "docker.service" ];
       requires = [ "docker.service" ];
-      serviceConfig = {
-        Restart = "on-failure";
-        RestartSec = "10s";
-      };
     };
   };
 }
