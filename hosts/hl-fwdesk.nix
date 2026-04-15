@@ -42,13 +42,17 @@ in
           niri.enable = true;
         };
       };
+      server.services.comfyui = {
+        enable = true;
+        mode = "rocm";
+        port = ports.comfyui;
+        rocm = {
+          dataDir = "/data/comfyui";
+        };
+      };
     };
     networkDrives = {
       enable = true;
-      # options = [
-      #   "x-systemd.automount"
-      #   "noauto"
-      # ];
     };
   };
   users.users.ari.extraGroups = [
