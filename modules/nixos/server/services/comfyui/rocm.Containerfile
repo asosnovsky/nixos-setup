@@ -52,7 +52,6 @@ RUN mkdir -p \
 WORKDIR "$COMFYUI_PATH"
 EXPOSE 8188
 
-CMD ["python", "main.py", \
-     "--listen", "0.0.0.0", \
-     "--port", "8188", \
-     "--use-pytorch-cross-attention"]
+COPY init.sh /init.sh
+RUN chmod +x /init.sh
+ENTRYPOINT ["/init.sh"]

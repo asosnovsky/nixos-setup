@@ -11,9 +11,10 @@ let
 
   # Load Containerfile from file
   containerfile = ./rocm.Containerfile;
+  containerinitsh = ./init.sh;
 
   # Image name and tag
-  imageName = "comfyui-rocm";
+  imageName = "nix-comfyui-rocm";
   imageTag = cfg.rocm.imageTag;
   fullImageName = "${imageName}:${imageTag}";
 in
@@ -21,13 +22,13 @@ in
   options.skyg.nixos.server.services.comfyui.rocm = with lib; {
     uid = mkOption {
       type = types.int;
-      default = 1000;
+      default = 0;
       description = "User ID to run the ComfyUI container as";
     };
 
     gid = mkOption {
       type = types.int;
-      default = 100;
+      default = 0;
       description = "Group ID to run the ComfyUI container as";
     };
 
@@ -111,6 +112,8 @@ in
     system.activationScripts.comfyui-rocm-build = {
       text = ''
         # Check if image exists or rebuild is requested
+        # Note: init.sh is located next to the Dockerfile, so it is automatically
+        # included in the Docker build context and no explicit copy step is needed.
         if ! ${pkgs.docker}/bin/docker image inspect ${fullImageName} > /dev/null 2>&1 || ${lib.boolToString cfg.rocm.rebuildImage}; then
           echo "Building ComfyUI ROCm Docker image..."
           ${pkgs.docker}/bin/docker build \
@@ -118,7 +121,7 @@ in
             --build-arg COMFYUI_COMMIT=${cfg.rocm.comfyuiCommit} \
             --build-arg HSA_OVERRIDE_GFX_VERSION=${cfg.rocm.hsaOverrideGfxVersion} \
             -f ${containerfile} \
-            ${pkgs.emptyDirectory}
+            $(dirname "${containerinitsh}")
         else
           echo "ComfyUI ROCm Docker image already exists, skipping build."
         fi
