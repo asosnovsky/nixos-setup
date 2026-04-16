@@ -12,7 +12,7 @@ output "Samsung Electric Company S22R35x H4TR604392" {
     position x=106 y=0
 }
 
-output "BOE 0x0BCA Unknown" {
+output "eDP-1" {
     mode "2256x1504@59.999"
     scale 1
     position x=859 y=1080
@@ -35,6 +35,12 @@ output "PNP(GWD) ARZOPA \\x15\\xd9F\\x1675US0000" {
     scale 1
     transform "normal"
     position x=2860 y=1080
+}
+
+output "DP-2" {
+    mode "1920x1080@60.000"
+    scale 1
+    position x=3115 y=1504
 }
 
 output "Dell Inc. DELL SE3223Q 1WDWKK3" {

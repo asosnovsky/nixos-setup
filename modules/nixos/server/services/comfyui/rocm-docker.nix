@@ -115,13 +115,22 @@ in
         # Note: init.sh is located next to the Dockerfile, so it is automatically
         # included in the Docker build context and no explicit copy step is needed.
         if ! ${pkgs.docker}/bin/docker image inspect ${fullImageName} > /dev/null 2>&1 || ${lib.boolToString cfg.rocm.rebuildImage}; then
-          echo "Building ComfyUI ROCm Docker image..."
-          ${pkgs.docker}/bin/docker build \
-            -t ${fullImageName} \
-            --build-arg COMFYUI_COMMIT=${cfg.rocm.comfyuiCommit} \
-            --build-arg HSA_OVERRIDE_GFX_VERSION=${cfg.rocm.hsaOverrideGfxVersion} \
-            -f ${containerfile} \
-            $(dirname "${containerinitsh}")
+            # Create a temp build context with both files co-located
+            BUILDCTX=$(mktemp -d)
+            cp ${containerfile} "$BUILDCTX/rocm.Containerfile"
+            cp ${containerinitsh} "$BUILDCTX/init.sh"
+            chmod +x "$BUILDCTX/init.sh"
+
+            echo "Building ComfyUI ROCm Docker image..."
+            ${pkgs.docker}/bin/docker build \
+              -t ${fullImageName} \
+              --build-arg COMFYUI_COMMIT=${cfg.rocm.comfyuiCommit} \
+              --build-arg HSA_OVERRIDE_GFX_VERSION=${cfg.rocm.hsaOverrideGfxVersion} \
+              -f "$BUILDCTX/rocm.Containerfile" \
+              "$BUILDCTX"
+
+            rm -rf "$BUILDCTX"
+
         else
           echo "ComfyUI ROCm Docker image already exists, skipping build."
         fi
