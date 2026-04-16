@@ -14,6 +14,11 @@ in
   config = lib.mkIf cfg.enable {
     boot.initrd.kernelModules = [ "amdgpu" ];
     services.xserver.videoDrivers = [ "amdgpu" ];
+    hardware.graphics = {
+      extraPackages = with pkgs; [
+        rocmPackages.clr.icd
+      ];
+    };
     # hardware.graphics = {
     # extraPackages = [ pkgs.amdvlk ];
     # extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];

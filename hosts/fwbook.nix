@@ -75,6 +75,10 @@ in
   hardware.framework.enableKmod = true;
   services.fprintd.enable = true;
   hardware.framework.amd-7040.preventWakeOnAC = true;
+  # Graphics
+  hardware.graphics = {
+    enable = true;
+  };
   # Yubikey
   services.yubikey-agent.enable = true;
   # Bluetooth
@@ -118,8 +122,9 @@ in
       wineWowPackages.waylandFull
       lshw
 
-      # Video recording
+      # Video recording & editing
       obs-studio
+      davinci-resolve
 
       # Browser
       chromium
