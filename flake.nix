@@ -12,6 +12,11 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    # nix-index database (for nix-index and comma)
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # DankShell
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
@@ -52,6 +57,7 @@
     , hyprlauncher
     , dms
     , git-hooks
+    , nix-index-database
     ,
     }:
     let
@@ -80,6 +86,7 @@
                 hyprlauncher
                 nixpkgs-unstable
                 dms
+                nix-index-database
                 ;
             };
           }

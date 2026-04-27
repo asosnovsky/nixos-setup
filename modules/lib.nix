@@ -27,6 +27,8 @@ let
     home-manager.nixosModules.default
     nix-flatpak.nixosModules.nix-flatpak
     specialArgs.dms.nixosModules.dank-material-shell
+    specialArgs.nix-index-database.nixosModules.nix-index
+    { programs.nix-index-database.comma.enable = true; }
   ];
 
   # Shared function to create home-manager user configuration
@@ -59,6 +61,8 @@ in
           config = (hm.makeCommonUser userConfig) { inherit pkgs; };
         }
         stylix.homeModules.stylix
+        specialArgs.nix-index-database.homeModules.nix-index
+        { programs.nix-index-database.comma.enable = true; }
       ] ++ modules;
     };
 
@@ -126,6 +130,8 @@ in
         determinate.darwinModules.default
         home-manager.darwinModules.home-manager
         stylix.darwinModules.stylix
+        specialArgs.nix-index-database.darwinModules.nix-index
+        { programs.nix-index-database.comma.enable = true; }
         (import ./macos.nix {
           user = user;
           system = system;
