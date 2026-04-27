@@ -1,4 +1,68 @@
+// =========================
+// DMS Keybindings
+// =========================
+
 binds {
+    // =========================
+    // General
+    // =========================
+    Mod+Shift+H { show-hotkey-overlay; }
+    Mod+T { spawn "ghostty"; }
+    Mod+Space { spawn "dms" "ipc" "spotlight" "toggle"; }
+    Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    Mod+B { spawn "chromium"; }
+    Mod+E { spawn "wofi-emoji"; }
+    Mod+Q { close-window; }
+
+    // =========================
+    // Navigation
+    // =========================
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-workspace-down; }
+    Mod+Up    { focus-workspace-up; }
+    Mod+Right { focus-column-right; }
+
+    Mod+Tab { toggle-overview; }
+    Mod+Shift+Tab { focus-monitor-next; }
+
+    // =========================
+    // Window Management
+    // =========================
+    Mod+Ctrl+Right { swap-window-right; }
+    Mod+Ctrl+Left { swap-window-left; }
+    Mod+Ctrl+Up { move-window-to-workspace-up; }
+    Mod+Ctrl+Down { move-window-to-workspace-down; }
+
+    Mod+W { toggle-column-tabbed-display; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Ctrl+F { reset-window-height; }
+    Mod+V { toggle-window-floating; }
+    Mod+C { center-column; }
+
+    // =========================
+    // Resizing
+    // =========================
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // =========================
+    // Screenshots & Recording
+    // =========================
+    Print { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
+    Mod+P { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
+    Mod+R { spawn "/home/ari/.config/niri/screen-record.sh"; }
+
+    // =========================
+    // Misc
+    // =========================
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // =========================
+    // DMS Integration
+    // =========================
     Alt+Ctrl+Delete hotkey-overlay-title="Task Manager: Toggle" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
     Mod+Alt+L hotkey-overlay-title="Notifications: Clear" { spawn "dms" "ipc" "notifications" "dismissAllPopups"; }
     Mod+Alt+K hotkey-overlay-title="Notifications: Toggle" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
@@ -6,6 +70,9 @@ binds {
     Mod+Alt+P hotkey-overlay-title="Clipboard: Toggle" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
     Mod+Shift+Space hotkey-overlay-title="PlayerCtrl: Toggle" { spawn "playerctl" "play-pause"; }
 
+    // =========================
+    // Monitor Movement
+    // =========================
     Mod+Alt+Down hotkey-overlay-title="Move to Monitor Down" { move-column-to-monitor-down; }
     Mod+Alt+Left hotkey-overlay-title="Move to Monitor Left" { move-column-to-monitor-left; }
     Mod+Alt+Right hotkey-overlay-title="Move to Monitor Right" { move-column-to-monitor-right; }
@@ -16,15 +83,17 @@ binds {
     Mod+TouchpadScrollLeft hotkey-overlay-title="Move Workspace to Monitor Right" { move-workspace-to-monitor-right; }
     Mod+TouchpadScrollDown hotkey-overlay-title="Move Workspace to Monitor Up" { move-workspace-to-monitor-up; }
 
+    // =========================
+    // Media & Brightness
+    // =========================
     Mod+Shift+Up hotkey-overlay-title="PlayerCtrl: Volume Up" { spawn "dms" "ipc" "audio" "increment" "1"; }
     Mod+Shift+Down hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "dms" "ipc" "audio" "decrement" "1"; }
-    Mod+Shift+Right hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "playerctl" "next"; }
-    Mod+Shift+Left hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "playerctl" "previous"; }
+    Mod+Shift+Right hotkey-overlay-title="PlayerCtrl: Next" { spawn "playerctl" "next"; }
+    Mod+Shift+Left hotkey-overlay-title="PlayerCtrl: Previous" { spawn "playerctl" "previous"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "audio" "increment" "1"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "audio" "decrement" "1"; }
     XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
     XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
     XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "10" ""; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "10" ""; }
-
 }

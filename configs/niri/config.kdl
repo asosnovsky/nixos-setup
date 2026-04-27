@@ -1,16 +1,12 @@
 // =========================
-// DMS Auto-Generated Includes
+// DMS Configuration
 // =========================
-include "dms/binds.kdl"
+include "dms/general.kdl"
 include "dms/outputs.kdl"
 include "dms/cursor.kdl"
 include "dms/layout.kdl"
 include "dms/colors.kdl"
 include "dms/wpblur.kdl"
 include "dms/alttab.kdl"
+include "dms/binds.kdl"
 include "dms/windowrules.kdl"
-
-// =========================
-// User Configuration
-// =========================
-include "configs/user.kdl"
