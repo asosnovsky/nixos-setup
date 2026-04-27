@@ -53,13 +53,13 @@ in
         turbo = "auto";
       };
     };
-    systemd.sleep.extraConfig = "HibernateDelaySec=30m";
+    systemd.sleep.extraConfig = "HibernateDelaySec=5m";
     # Logind
     services.logind = {
       settings = {
         Login = {
-          HandleLidSwitchExternalPower = "suspend-then-hibernate";
-          HandleLidSwitch = "suspend-then-hibernate";
+          HandleLidSwitchExternalPower = "hibernate";
+          HandleLidSwitch = "hibernate";
           HandlePowerKey = "lock";
           HandleRFKillKey = "ignore";
         };

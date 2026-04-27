@@ -27,6 +27,7 @@ let
     home-manager.nixosModules.default
     nix-flatpak.nixosModules.nix-flatpak
     specialArgs.dms.nixosModules.dank-material-shell
+    specialArgs.dms.nixosModules.greeter
     specialArgs.nix-index-database.nixosModules.nix-index
     { programs.nix-index-database.comma.enable = true; }
   ];

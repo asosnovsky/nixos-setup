@@ -9,13 +9,17 @@
     [ "nvme" "xhci_pci" "thunderbolt" "uas" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "quiet"
     "splash"
     "boot.shell_on_fail"
     "udev.log_priority=3"
     "rd.systemd.show_status=auto"
+    # Improve s2idle sleep behavior on AMD
+    "rtc_cmos.use_acpi_alarm=1"
+    "acpi.prefer_microsoft_dsm_guid=1"
+    "amd_pstate=active"
   ];
   boot.extraModulePackages = [ ];
   boot.plymouth = {

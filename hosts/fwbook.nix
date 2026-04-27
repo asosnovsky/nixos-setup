@@ -27,13 +27,9 @@ in
       };
       desktop = {
         enable = true;
-        cosmic.enable = false;
-        kde.enable = false;
         crypto.enable = true;
-        gnome.enable = false;
         tiler = {
           enable = true;
-          hyprland.enable = false;
           niri.enable = true;
         };
       };
@@ -59,10 +55,12 @@ in
   # Tailscale
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
-  # Desktop Env
-  services.displayManager.gdm.enable = true;
-  services.displayManager.gdm.wayland = true;
-  services.displayManager.defaultSession = "niri";
+  # Desktop Env - DankGreeter
+  programs.dank-material-shell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+    configHome = "/home/${user.name}";
+  };
   # home manager - only configure if skyg.user.enable is true
   home-manager.users.${user.name} = lib.mkIf config.skyg.user.enable {
     # Add Functions
