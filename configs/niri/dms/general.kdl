@@ -1,0 +1,40 @@
+// =========================
+// DMS General Configuration
+// =========================
+
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Input
+input {
+    touchpad {
+        tap
+        natural-scroll
+    }
+}
+
+overview {
+    backdrop-color "#777777"
+}
+
+environment {
+    QT_QPA_PLATFORM "wayland"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    NIXOS_OZONE_WL "1"
+    DISPLAY ":0"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+}
+
+// =========================
+// Screenshots
+// =========================
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// =========================
+// System Events
+// =========================
+switch-events {
+    lid-close { spawn "notify-send" "The laptop lid is closed!"; }
+    lid-open { spawn "notify-send" "The laptop lid is open!"; }
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
