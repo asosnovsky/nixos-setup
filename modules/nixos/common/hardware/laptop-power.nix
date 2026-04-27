@@ -61,6 +61,7 @@ in
           HandleLidSwitchExternalPower = "suspend-then-hibernate";
           HandleLidSwitch = "suspend-then-hibernate";
           HandlePowerKey = "lock";
+          HandleRFKillKey = "ignore";
         };
       };
       # extraConfig = ''
