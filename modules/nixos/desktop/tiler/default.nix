@@ -40,10 +40,13 @@ in
       # Protocols and libraries
       xwayland-satellite
       libnotify
-      # Notifications
-      # wofi
-      # rofi
       kdePackages.qtwebsockets
+
+      # Keyring / secrets
+      libsecret
+      gcr
+      seahorse
+
       # Control Tools
       pavucontrol
       playerctl
