@@ -1,5 +1,6 @@
 include "dms/binds.kdl"
 include "dms/outputs.kdl"
+include "dms/cursor.kdl"
 include "configs/window-rules.kdl"
 
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
