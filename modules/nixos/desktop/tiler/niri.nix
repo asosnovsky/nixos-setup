@@ -24,7 +24,6 @@ in
       xwayland-satellite
       adwaita-icon-theme
       papirus-icon-theme
-      # unstable.niriswitcher
     ];
     system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
       filePath = "niri";
@@ -34,8 +33,6 @@ in
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
-        xdg-desktop-portal-gnome
-        gnome-keyring
       ];
     };
   };

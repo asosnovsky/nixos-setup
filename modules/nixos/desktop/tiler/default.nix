@@ -25,7 +25,6 @@ in
         "input"
       ];
     };
-    # services.blueman.enable = true;
     programs.dank-material-shell = {
       enable = true;
       dgop.package = unstablePkgs.dgop;
@@ -34,8 +33,16 @@ in
         restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes
       };
     };
-    # programs.hyprlock.enable = true;
-    # programs.nm-applet.enable = true;
+
+    # =========================
+    # Keyring / Secrets Service
+    # =========================
+    services.gnome.gnome-keyring.enable = true;
+    security.pam.services.greetd.enableGnomeKeyring = true;
+    security.pam.services.login.enableGnomeKeyring = true;
+    security.polkit.enable = true;
+    programs.ssh.startAgent = false; # gnome-keyring provides ssh-agent
+
     environment.systemPackages = with pkgs; [
       # Protocols and libraries
       xwayland-satellite
@@ -51,13 +58,11 @@ in
       pavucontrol
       playerctl
       brightnessctl
-      # networkmanagerapplet
       blueman
       # Apps
       gnome-calendar
       nautilus
       # Screen capture and recording tools
-      # grim # replaced for now with dms
       satty # image annotation
       slurp
       wf-recorder # video capture
