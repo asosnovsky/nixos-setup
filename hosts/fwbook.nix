@@ -22,7 +22,11 @@ in
       common.hardware = {
         sound.enable = true;
         pipewire.enable = true;
-        laptop-power-mgr.enable = true;
+        laptop-power-mgr = {
+          enable = true;
+          enableLidMonitorMode = true;
+          disableLidSwitch = true;
+        };
         amdgpu.enable = true;
       };
       desktop = {
@@ -72,7 +76,6 @@ in
   # Firmware updater
   hardware.framework.enableKmod = true;
   services.fprintd.enable = true;
-  hardware.framework.amd-7040.preventWakeOnAC = true;
   # Graphics
   hardware.graphics = {
     enable = true;
