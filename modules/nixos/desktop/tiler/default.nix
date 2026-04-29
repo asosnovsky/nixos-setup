@@ -38,7 +38,15 @@ in
     # Keyring / Secrets Service
     # =========================
     services.gnome.gnome-keyring.enable = true;
-    security.pam.services.greetd.enableGnomeKeyring = true;
+    security.pam.services.greetd = {
+      enableGnomeKeyring = true;
+      text = lib.mkDefault ''
+        auth      include  login
+        account   include  login
+        password  include  login
+        session   include  login
+      '';
+    };
     security.pam.services.login.enableGnomeKeyring = true;
     security.polkit.enable = true;
     programs.ssh.startAgent = false; # gnome-keyring provides ssh-agent
