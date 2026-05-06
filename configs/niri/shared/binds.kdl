@@ -1,0 +1,75 @@
+// =========================
+// Shared Keybindings
+// =========================
+// Common keybindings across all desktop environments
+
+binds {
+    // =========================
+    // General
+    // =========================
+    Mod+Shift+H { show-hotkey-overlay; }
+    Mod+T { spawn "ghostty"; }
+    Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    Mod+B { spawn "chromium"; }
+    Mod+E { spawn "wofi-emoji"; }
+    Mod+Q { close-window; }
+
+    // =========================
+    // Navigation
+    // =========================
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-workspace-down; }
+    Mod+Up    { focus-workspace-up; }
+    Mod+Right { focus-column-right; }
+
+    Mod+Tab { toggle-overview; }
+    Mod+Shift+Tab { focus-monitor-next; }
+
+    // =========================
+    // Window Management
+    // =========================
+    Mod+Ctrl+Right { swap-window-right; }
+    Mod+Ctrl+Left { swap-window-left; }
+    Mod+Ctrl+Up { move-window-to-workspace-up; }
+    Mod+Ctrl+Down { move-window-to-workspace-down; }
+
+    Mod+W { toggle-column-tabbed-display; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Ctrl+F { reset-window-height; }
+    Mod+V { toggle-window-floating; }
+    Mod+C { center-column; }
+
+    // =========================
+    // Resizing
+    // =========================
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // =========================
+    // Screenshots & Recording
+    // =========================
+    Print { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
+    Mod+P { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
+    Mod+R { spawn "/home/ari/.config/niri/screen-record.sh"; }
+
+    // =========================
+    // Misc
+    // =========================
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // =========================
+    // Monitor Movement
+    // =========================
+    Mod+Alt+Down hotkey-overlay-title="Move to Monitor Down" { move-column-to-monitor-down; }
+    Mod+Alt+Left hotkey-overlay-title="Move to Monitor Left" { move-column-to-monitor-left; }
+    Mod+Alt+Right hotkey-overlay-title="Move to Monitor Right" { move-column-to-monitor-right; }
+    Mod+Alt+Up hotkey-overlay-title="Move to Monitor Up" { move-column-to-monitor-up; }
+
+    Mod+TouchpadScrollUp hotkey-overlay-title="Move Workspace to Monitor Down" { move-workspace-to-monitor-down; }
+    Mod+TouchpadScrollRight hotkey-overlay-title="Move Workspace to Monitor Left" { move-workspace-to-monitor-left; }
+    Mod+TouchpadScrollLeft hotkey-overlay-title="Move Workspace to Monitor Right" { move-workspace-to-monitor-right; }
+    Mod+TouchpadScrollDown hotkey-overlay-title="Move Workspace to Monitor Up" { move-workspace-to-monitor-up; }
+}
