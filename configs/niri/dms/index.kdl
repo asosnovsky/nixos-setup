@@ -1,0 +1,6 @@
+// =========================
+// DMS Configuration Index
+// =========================
+// Configuration specific to DankMaterialShell (DMS)
+
+include "./binds.kdl"

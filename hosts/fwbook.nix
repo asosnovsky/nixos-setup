@@ -2,6 +2,8 @@
 , config
 , lib
 , user
+, unstablePkgs
+, noctalia
 , ...
 }:
 let
@@ -11,6 +13,7 @@ let
     8000
     8001
   ];
+  noctaliaPkg = noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   # Skyg
@@ -155,7 +158,7 @@ in
 
       # Development
       vscode
-      zed-editor-fhs
+      unstablePkgs.zed-editor-fhs
       devenv
       just
       rpi-imager
@@ -187,7 +190,7 @@ in
       idevicerestore # optional, to mount using 'ifuse'
 
       # Misc
-      # hyprlauncher.packages.${system}.hyprlauncher
+      noctaliaPkg
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [

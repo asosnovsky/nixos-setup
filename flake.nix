@@ -22,6 +22,11 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    # Noctalia
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
@@ -56,6 +61,7 @@
     , stylix
     , hyprlauncher
     , dms
+    , noctalia
     , git-hooks
     , nix-index-database
     ,
@@ -86,6 +92,7 @@
                 hyprlauncher
                 nixpkgs-unstable
                 dms
+                noctalia
                 nix-index-database
                 ;
             };

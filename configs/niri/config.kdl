@@ -1,12 +1,21 @@
 // =========================
-// DMS Configuration
+// Niri Configuration
 // =========================
-include "dms/general.kdl"
-include "dms/outputs.kdl"
-include "dms/cursor.kdl"
-include "dms/layout.kdl"
-include "dms/colors.kdl"
-include "dms/wpblur.kdl"
-include "dms/alttab.kdl"
-include "dms/binds.kdl"
-include "dms/windowrules.kdl"
+// Shared configuration for multiple shell environments
+
+// =========================
+// Shared Configuration
+// =========================
+// General purpose configuration shared across all setups
+include "shared/index.kdl"
+
+// =========================
+// Desktop Environment Selection
+// =========================
+// Uncomment ONE of the following to use that environment:
+
+// For DankMaterialShell (DMS)
+// include "dms/index.kdl"
+
+// For Noctalia
+include "noctalia/index.kdl"

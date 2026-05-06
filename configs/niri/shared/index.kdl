@@ -1,0 +1,14 @@
+// =========================
+// Shared Configuration Index
+// =========================
+// General purpose configuration shared across all DM setups
+
+include "./general.kdl"
+include "./outputs.kdl"
+include "./cursor.kdl"
+include "./colors.kdl"
+include "./layout.kdl"
+include "./alttab.kdl"
+include "./wpblur.kdl"
+include "./windowrules.kdl"
+include "./binds.kdl"

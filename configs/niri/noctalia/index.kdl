@@ -1,0 +1,6 @@
+// =========================
+// Noctalia Configuration Index
+// =========================
+// Configuration specific to Noctalia shell
+
+include "./binds.kdl"

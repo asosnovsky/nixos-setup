@@ -1,0 +1,34 @@
+// =========================
+// Noctalia-Specific Keybindings
+// =========================
+// Configuration and integrations specific to Noctalia shell
+
+binds {
+    // =========================
+    // Core Noctalia Controls
+    // =========================
+    Mod+Space { spawn-sh "noctalia-shell ipc call launcher toggle"; }
+    Mod+S { spawn-sh "noctalia-shell ipc call controlCenter toggle"; }
+    Mod+Comma { spawn-sh "noctalia-shell ipc call settings toggle"; }
+
+    // =========================
+    // Noctalia Integration (Similar to DMS shortcuts)
+    // =========================
+    // Note: Notifications are accessed via Control Center (Mod+S)
+    // Mod+Alt+P for clipboard management
+    Mod+Alt+P hotkey-overlay-title="Clipboard: Toggle" { spawn "rofi" "-modi" "clipboard:greenclip print" "-show" "clipboard"; }
+
+    // =========================
+    // Noctalia Media & Brightness
+    // =========================
+    Mod+Shift+Up hotkey-overlay-title="Volume Up" { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
+    Mod+Shift+Down hotkey-overlay-title="Volume Down" { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
+    Mod+Shift+Right hotkey-overlay-title="Next Track" { spawn "playerctl" "next"; }
+    Mod+Shift+Left hotkey-overlay-title="Previous Track" { spawn "playerctl" "previous"; }
+    Mod+Shift+Space hotkey-overlay-title="Play/Pause" { spawn "playerctl" "play-pause"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
+    XF86AudioMute allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "brightness" "increase"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
+}
