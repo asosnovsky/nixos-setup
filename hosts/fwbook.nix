@@ -106,6 +106,18 @@ in
       );
     in
     (with pkgs; [
+      grim
+      slurp
+      wl-clipboard
+      tesseract
+      imagemagick
+      zbar
+      curl
+      translate-shell
+      wl-screenrec
+      ffmpeg
+      gifski
+      jq
 
       # Work
       postgresql
@@ -129,6 +141,18 @@ in
       # Video recording & editing
       obs-studio
       davinci-resolve
+      grim
+      slurp
+      wl-clipboard
+      tesseract
+      imagemagick
+      zbar
+      curl
+      translate-shell
+      wl-screenrec
+      ffmpeg
+      gifski
+      jq
 
       # Browser
       chromium
@@ -167,6 +191,7 @@ in
       nix-prefetch
       orca-slicer
       devcontainer
+      gpu-screen-recorder
 
       # Run macos apps
       darling-dmg

@@ -17,8 +17,10 @@ binds {
     // Note: Notifications are accessed via Control Center (Mod+S)
     // Mod+Alt+P for clipboard management
     Mod+Alt+P hotkey-overlay-title="Clipboard: Toggle" { spawn "rofi" "-modi" "clipboard:greenclip print" "-show" "clipboard"; }
+		Mod+Alt+N { spawn-sh "noctalia-shell ipc call plugin:niri-workspaces toggle"; }
+		Mod+Alt+L { spawn-sh "noctalia-shell ipc call notifications dismissAll"; }
 
-    // =========================
+		// =========================
     // Noctalia Media & Brightness
     // =========================
     Mod+Shift+Up hotkey-overlay-title="Volume Up" { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
