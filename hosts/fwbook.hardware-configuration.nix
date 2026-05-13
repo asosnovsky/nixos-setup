@@ -100,7 +100,7 @@
           TIMELINE_LIMIT_MONTHLY = "0";
           TIMELINE_LIMIT_YEARLY = "0";
           BACKGROUND_COMPARISON = "yes";
-          NUMBER_CLEANUP = "no";
+          NUMBER_CLEANUP = "yes";
           NUMBER_MIN_AGE = "1800";
           NUMBER_LIMIT = "10";
           NUMBER_LIMIT_IMPORTANT = "10";
