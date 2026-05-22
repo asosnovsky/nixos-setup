@@ -46,6 +46,8 @@
     };
     # Hyprland
     hyprlauncher.url = "github:hyprwm/hyprlauncher";
+    # Secrets management
+    agenix.url = "github:ryantm/agenix";
   };
 
   outputs =
@@ -64,6 +66,7 @@
     , noctalia
     , git-hooks
     , nix-index-database
+    , agenix
     ,
     }:
     let
@@ -85,6 +88,7 @@
               systems
               nix-flatpak
               stylix
+              agenix
               ;
 
             specialArgs = {
@@ -120,6 +124,7 @@
               nixpkgs-fmt
               nixd
               nh
+              agenix.packages.${system}.default
               home-manager.packages.${system}.home-manager
             ];
             shellHook = ''
