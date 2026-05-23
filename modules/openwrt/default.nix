@@ -30,15 +30,17 @@ let
 
     echo ""
     echo "$DNSMASQ"
-    echo "=== dnsmasq.conf diff ==="
-    ${pkgs.diffutils}/bin/diff --color=always <(echo "$CURRENT_DNSMASQ") <(echo "$DNSMASQ") || true
+    echo "=== dnsmasq.conf diff [START] ==="
+    comm -3 <(echo "$CURRENT_DNSMASQ" | sort) <(echo "$DNSMASQ" | sort)
+    echo "=== dnsmasq.conf diff [END] ==="
     echo ""
     read -p "Looks good? [y/N] " -n 1 -r < /dev/tty; echo
     [[ $REPLY =~ ^[Yy]$ ]] || exit 1
 
     echo "$ETHERS"
-    echo "=== ethers diff ==="
-    ${pkgs.diffutils}/bin/diff --color=always <(echo "$CURRENT_ETHERS") <(echo "$ETHERS") || true
+    echo "=== ethers diff [START] ==="
+    comm -3 <(echo "$CURRENT_ETHERS" | sort) <(echo "$ETHERS" | sort)
+    echo "=== ethers diff [END] ==="
     echo ""
 
     read -p "Deploy to $SERVER? [y/N] " -n 1 -r < /dev/tty; echo
