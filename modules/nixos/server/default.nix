@@ -8,5 +8,6 @@
     ./k3s
     ./services
     ./timers.nix
+    ./dns
   ];
 }

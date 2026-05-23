@@ -21,3 +21,6 @@ diffs
 .locks
 result.diff
 .tmp
+
+# Rust build artifacts
+modules/openwrt/generator/target

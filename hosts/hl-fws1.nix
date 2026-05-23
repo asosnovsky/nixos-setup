@@ -2,6 +2,11 @@
 {
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
+  skyg.server.dns = {
+    enable = true;
+    openFirewall = true;
+    addressesSecretName = "dns-addresses.conf";
+  };
   skyg.nixos.server.k3s.enable = true;
   skyg.server.admin.enable = true;
   skyg.networkDrives = {

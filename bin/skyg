@@ -88,6 +88,11 @@ def "main remote" [cmd:string, target:string = ""] {
     bash -c $runcmd
 }
 
+# Deploy OpenWrt router configuration
+def "main openwrt" [router: string = "glmain"] {
+    bash -c $"nix run .#openwrt-($router)"
+}
+
 # Build ISO image
 def "main build-iso" [] {
 	nix build .#nixosConfigurations.iso.config.system.build.isoImage

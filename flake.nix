@@ -126,6 +126,9 @@
               nh
               agenix.packages.${system}.default
               home-manager.packages.${system}.home-manager
+              rustc
+              cargo
+              rust-analyzer
             ];
             shellHook = ''
               export PATH=$PATH:$(pwd)/bin
@@ -136,6 +139,18 @@
       );
       lib = lib;
       formatter = lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+
+      # OpenWrt router management
+      # -------------
+      packages = lib.eachSystem (system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          openwrt = import ./modules/openwrt { inherit pkgs; inherit (nixpkgs) lib; };
+        in
+        {
+          openwrt-glmain = (openwrt (import ./modules/openwrt/glmain.nix)).deployScript;
+        }
+      );
 
       # Non-NixOS Linux Setups (standalone home-manager)
       # -------------

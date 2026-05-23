@@ -17,6 +17,11 @@ in
 {
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
+  skyg.server.dns = {
+    enable = true;
+    openFirewall = true;
+    addressesSecretName = "dns-addresses.conf";
+  };
   skyg.nixos.desktop.enable = false;
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;

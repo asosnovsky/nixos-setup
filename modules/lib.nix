@@ -7,6 +7,7 @@
 , systems
 , nix-flatpak
 , stylix
+, agenix
 , specialArgs
 }:
 let
@@ -26,6 +27,7 @@ let
     stylix.nixosModules.stylix
     home-manager.nixosModules.default
     nix-flatpak.nixosModules.nix-flatpak
+    agenix.nixosModules.default
     specialArgs.dms.nixosModules.dank-material-shell
     specialArgs.dms.nixosModules.greeter
     specialArgs.nix-index-database.nixosModules.nix-index

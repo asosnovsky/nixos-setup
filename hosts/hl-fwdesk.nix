@@ -193,4 +193,7 @@ in
       "default-runtime" = "runc";
     };
   };
+  services.flatpak.packages = [
+    "org.chromium.Chromium"
+  ];
 }

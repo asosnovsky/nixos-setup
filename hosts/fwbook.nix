@@ -219,6 +219,7 @@ in
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [
+    "org.chromium.Chromium"
     "io.github.kolunmi.Bazaar"
     "com.spotify.Client"
     "com.cassidyjames.butler"
