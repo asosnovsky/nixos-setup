@@ -125,6 +125,7 @@
               nixd
               nh
               agenix.packages.${system}.default
+              age
               home-manager.packages.${system}.home-manager
               rustc
               cargo
@@ -148,7 +149,7 @@
           openwrt = import ./modules/openwrt { inherit pkgs; inherit (nixpkgs) lib; };
         in
         {
-          openwrt-glmain = (openwrt (import ./modules/openwrt/glmain.nix)).deployScript;
+          openwrt-glmain = (openwrt (import ./openwrt-routers/glmain.nix)).deployScript;
         }
       );
 
