@@ -90,7 +90,7 @@ def "main remote" [cmd:string, target:string = ""] {
 
 # Deploy OpenWrt router configuration
 def "main openwrt" [router: string = "glmain"] {
-    bash -c $"nix run .#openwrt-($router)"
+    bash -c $"age -d -i ~/.ssh/id_ed25519 secrets/($router).json.age | nix run .#openwrt-($router)"
 }
 
 # Build ISO image
