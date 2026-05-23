@@ -6,6 +6,12 @@ in
   config = lib.mkIf cfg.enable {
     # Flatpak
     services.flatpak.enable = true;
+    services.flatpak.packages = [
+      "org.chromium.Chromium"
+      "io.github.kolunmi.Bazaar"
+      "com.spotify.Client"
+      "org.pipewire.Helvum"
+    ];
     environment.systemPackages = (with pkgs; [
       # General utils
       busybox

@@ -5,6 +5,7 @@
 }:
 let
   cfg = config.skyg.nixos;
+  skygUser = config.skyg.user;
 in
 {
   imports = [
@@ -26,6 +27,15 @@ in
     };
   };
   config = lib.mkIf cfg.desktop.enable {
+    users.users.${skygUser.name}.extraGroups = [
+      "input"
+      "disk"
+      "wheel"
+      "tty"
+      "dialout"
+      "plugdev"
+      "uucp"
+    ];
     services.dbus.enable = true;
     services.displayManager.enable = true;
     services.libinput.enable = true;

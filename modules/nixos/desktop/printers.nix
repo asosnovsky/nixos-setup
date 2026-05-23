@@ -1,7 +1,15 @@
 { pkgs, lib, config, ... }:
 {
-  config = {
-    services.printing = lib.mkIf config.skyg.nixos.desktop.enable {
+  config = lib.mkIf config.skyg.nixos.desktop.enable {
+
+    services.flatpak.overrides = {
+      "org.chromium.Chromium" = {
+        Context = {
+          sockets = [ "cups" ];
+        };
+      };
+    };
+    services.printing = {
       enable = true;
       drivers = with pkgs; [
         gutenprint

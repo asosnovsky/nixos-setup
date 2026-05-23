@@ -49,15 +49,6 @@ in
       ];
     };
   };
-  users.users.ari.extraGroups = [
-    "input"
-    "disk"
-    "wheel"
-    "tty"
-    "dialout"
-    "plugdev"
-    "uucp"
-  ];
   virtualisation.waydroid.enable = true;
   # Tailscale
   services.tailscale.enable = true;
@@ -121,7 +112,6 @@ in
 
       # Work
       postgresql
-      dvc-with-remotes
       google-cloud-sdk
       awscli
       openfortivpn
@@ -153,10 +143,6 @@ in
       ffmpeg
       gifski
       jq
-
-      # Browser
-      chromium
-      brave
 
       # Photo/video Editing
       krita
@@ -219,14 +205,10 @@ in
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [
-    "org.chromium.Chromium"
-    "io.github.kolunmi.Bazaar"
-    "com.spotify.Client"
     "com.cassidyjames.butler"
     "io.dbeaver.DBeaverCommunity"
     "com.google.Chrome"
     "dev.deedles.Trayscale"
-    "org.pipewire.Helvum"
   ];
   # Phone
   programs.kdeconnect.enable = true;
@@ -243,16 +225,6 @@ in
     enable = true;
     capSysNice = true;
   };
-  # Chrome
-  programs.chromium = {
-    enable = true;
-    enablePlasmaBrowserIntegration = true;
-    extensions = [
-      "nngceckbapebfimnlniiiahkandclblb" # bitwarden
-      "gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-    ];
-  };
   # Ollama
   services.ollama = {
     enable = true;
@@ -260,10 +232,7 @@ in
     port = 11434;
     acceleration = "rocm";
     rocmOverrideGfx = "11.0.2";
-    # package = unstablePkgs.ollama-rocm;
   };
-  # # Brother Printer
-  hardware.sane.brscan5.enable = true;
   # # Display Managers
   services.xserver.videoDrivers = [
     "modesetting"
