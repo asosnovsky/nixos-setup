@@ -13,4 +13,7 @@ in
     minipc3
     terra1
   ];
+
+  # Decrypted at deploy time by the user running `skyg openwrt`
+  "secrets/glmain.json.age".publicKeys = [ ari ];
 }
