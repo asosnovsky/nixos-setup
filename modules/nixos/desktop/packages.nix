@@ -4,15 +4,27 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
+    # Chrome
+    programs.chromium = {
+      enable = true;
+      enablePlasmaBrowserIntegration = true;
+      extensions = [
+        "nngceckbapebfimnlniiiahkandclblb" # bitwarden
+        "gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
+        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+      ];
+    };
     # Flatpak
     services.flatpak.enable = true;
     services.flatpak.packages = [
-      "org.chromium.Chromium"
+      # "org.chromium.Chromium"
       "io.github.kolunmi.Bazaar"
       "com.spotify.Client"
       "org.pipewire.Helvum"
     ];
     environment.systemPackages = (with pkgs; [
+      # Browser
+      chromium
       # General utils
       busybox
       gcc
