@@ -31,7 +31,7 @@ let
     echo ""
     echo "$DNSMASQ"
     echo "=== dnsmasq.conf diff [START] ==="
-    comm -3 <(echo "$CURRENT_DNSMASQ" | sort) <(echo "$DNSMASQ" | sort)
+    comm -3 <(echo "$CURRENT_DNSMASQ" | sort) <(echo "$DNSMASQ" | sort) | awk '{if ($0 ~ /^</) print "\033[31m"$0"\033[0m"; else if ($0 ~ /^>/) print "\033[32m"$0"\033[0m"; else print}'
     echo "=== dnsmasq.conf diff [END] ==="
     echo ""
     read -p "Looks good? [y/N] " -n 1 -r < /dev/tty; echo
@@ -39,7 +39,7 @@ let
 
     echo "$ETHERS"
     echo "=== ethers diff [START] ==="
-    comm -3 <(echo "$CURRENT_ETHERS" | sort) <(echo "$ETHERS" | sort)
+    comm -3 <(echo "$CURRENT_ETHERS" | sort) <(echo "$ETHERS" | sort) | awk '{if ($0 ~ /^</) print "\033[31m"$0"\033[0m"; else if ($0 ~ /^>/) print "\033[32m"$0"\033[0m"; else print}'
     echo "=== ethers diff [END] ==="
     echo ""
 
