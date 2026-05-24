@@ -115,3 +115,31 @@ def "main hm" [action: string@hm-actions, profile: string = "ari"] {
 def hm-actions [] {
     ["switch", "build"]
 }
+
+def secret-names [] {
+    ls secrets/*.age | get name | each { |f| $f | path basename | str replace ".age" "" }
+}
+
+# Decrypt a secret from secrets/ folder
+def "main decrypt" [secret: string@secret-names] {
+    let src = $"secrets/($secret).age"
+    if not ($src | path exists) {
+        error make { msg: $"Secret not found: ($src)" }
+    }
+    mkdir .tmp
+    let dest = $".tmp/unencrypted-($secret)"
+    age -d -i ~/.ssh/id_ed25519 $src | save -f $dest
+    print $"Decrypted to ($dest)"
+}
+
+# Encrypt a file to secrets/ folder (re-encrypts using agenix)
+def "main encrypt" [secret: string@secret-names, source?: string] {
+    let src = $source | default $".tmp/unencrypted-($secret)"
+    if not ($src | path exists) {
+        error make { msg: $"Source file not found: ($src)" }
+    }
+    let dest = $"secrets/($secret).age"
+    cp $src $dest
+    agenix -r -i ~/.ssh/id_ed25519
+    print $"Encrypted ($dest)"
+}
