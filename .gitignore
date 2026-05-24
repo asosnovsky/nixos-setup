@@ -23,4 +23,7 @@ result.diff
 .tmp
 
 # Rust build artifacts
-modules/openwrt/generator/target
+target
+
+# DOC are WIP
+docs
