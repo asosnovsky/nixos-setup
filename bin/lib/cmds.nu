@@ -92,6 +92,11 @@ export def "skyg hm" [action: string@hm-actions, profile: string = "ari"] {
     home-manager $action --flake $".#($profile)"
 }
 
+# List all secret names
+export def "skyg secrets" [] {
+    secret-names
+}
+
 # Decrypt a secret from secrets/ folder
 export def "skyg decrypt" [secret: string@secret-names] {
     cd $REPO_ROOT
