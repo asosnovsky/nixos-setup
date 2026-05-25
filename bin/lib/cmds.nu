@@ -106,7 +106,7 @@ export def "skyg decrypt" [secret: string@secret-names] {
     }
     mkdir .tmp
     let dest = $".tmp/unencrypted-($secret)"
-    age -d -i ~/.ssh/id_ed25519 $src | save -f $dest
+    agenix -d $src | save -f $dest
     print $"Decrypted to ($dest)"
 }
 
@@ -118,7 +118,25 @@ export def "skyg encrypt" [secret: string@secret-names, source?: string] {
         error make { msg: $"Source file not found: ($src)" }
     }
     let dest = $"secrets/($secret).age"
-    cp $src $dest
-    agenix -r -i ~/.ssh/id_ed25519
+    cat $src | EDITOR="cp /dev/stdin" agenix -e $dest
     print $"Encrypted ($dest)"
+}
+
+# Compare unencrypted local version with encrypted version of a secret
+export def "skyg compare-secret" [secret: string@secret-names] {
+    cd $REPO_ROOT
+    let unencrypted = $".tmp/unencrypted-($secret)"
+    let encrypted = $"secrets/($secret).age"
+
+    let temp_decrypted = $"/tmp/skyg-compare-($secret)-($env.USER)-(random uuid)"
+    agenix -d $encrypted | save -f $temp_decrypted
+    print $"Comparing ($unencrypted) with decrypted ($encrypted)"
+    try {
+        print $"diff -u $(unencrypted) $(temp_decrypted)"
+        diff -u $unencrypted $temp_decrypted | print
+    } catch {
+        print "Files are identical"
+    }
+
+    rm -f $temp_decrypted
 }
