@@ -130,10 +130,24 @@
               rustc
               cargo
               rust-analyzer
+              nushell
             ];
             shellHook = ''
-              export PATH=$PATH:$(pwd)/bin
-              ${pre-commit-check.shellHook}
+                            export PATH=$PATH:$(pwd)/bin
+                            export SKYG_LIB="$(pwd)/bin/lib/cmds.nu"
+                            ${pre-commit-check.shellHook}
+
+                            if [ -z "$NU_VERSION" ] && [ -t 0 ] && command -v nu >/dev/null; then
+                              cat <<'BANNER'
+                 ____  _          ____   ____  _          _ _
+                / ___|| | ___   _/ ___| / ___|| |__   ___| | |
+                \___ \| |/ / | | | |  _  \___ \| '_ \ / _ \ | |
+                 ___) |   <| |_| | |_| |  ___) | | | |  __/ | |
+                |____/|_|\_\\__, |\____| |____/|_| |_|\___|_|_|
+                            |___/
+              BANNER
+                              exec nu --execute "use \"$SKYG_LIB\" *"
+                            fi
             '';
           };
         }
