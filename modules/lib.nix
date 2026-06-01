@@ -72,7 +72,7 @@ in
   makeNixOs =
     { system ? "x86_64-linux"
     , hostName
-    , systemStateVersion ? "24.05"
+    , systemStateVersion ? "26.05"
     , configuration ? [ ]
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
@@ -93,8 +93,8 @@ in
   makeIso =
     { system ? "x86_64-linux"
     , hostName
-    , systemStateVersion ? "25.11"
-    , homeManagerVersion ? "25.11"
+    , systemStateVersion ? "26.05"
+    , homeManagerVersion ? "26.05"
     , configuration ? [ ]
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
@@ -118,8 +118,8 @@ in
   makeDarwinModule =
     { system ? "x86_64-darwin"
     , user
-    , homeManagerVersion ? "25.11"
-    , systemStateVersion ? "25.11"
+    , homeManagerVersion ? "26.05"
+    , systemStateVersion ? "26.05"
     , hostName
     , configuration ? [ ]
     }:

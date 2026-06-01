@@ -2,7 +2,7 @@
 {
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
-  skyg.server.dns = {
+  skyg.server.dns.routing = {
     enable = true;
     openFirewall = true;
     addressesSecretName = "dns-addresses.conf";

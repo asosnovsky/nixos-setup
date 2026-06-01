@@ -16,6 +16,6 @@
     email = lib.mkDefault user.email;
   };
   skyg.core.hostName = hostName;
-  skyg.home-manager.version = lib.mkDefault "24.11";
+  skyg.home-manager.version = lib.mkDefault "26.05";
   system.stateVersion = systemStateVersion;
 }

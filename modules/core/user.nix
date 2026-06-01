@@ -13,7 +13,7 @@ in
   options = {
     skyg.home-manager.version = mkOption {
       type = types.str;
-      default = "24.11";
+      default = "26.05";
       description = "The home-manager state version";
     };
     skyg.home-manager.extraImports = mkOption {

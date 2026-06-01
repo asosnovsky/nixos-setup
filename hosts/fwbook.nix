@@ -230,8 +230,10 @@ in
     enable = true;
     host = "0.0.0.0";
     port = 11434;
-    acceleration = "rocm";
-    rocmOverrideGfx = "11.0.2";
+    package = pkgs.ollama-rocm;
+    environmentVariables = {
+      HSA_OVERRIDE_GFX_VERSION = "11.0.2";
+    };
   };
   # # Display Managers
   services.xserver.videoDrivers = [

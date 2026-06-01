@@ -78,7 +78,7 @@ in
   services.tailscale.enable = true;
   # Desktop Env
   services.displayManager.gdm.enable = true;
-  services.displayManager.gdm.wayland = true;
+
   services.displayManager.defaultSession = "niri";
   # Firmware updater
   services.fwupd.enable = true;
@@ -139,11 +139,10 @@ in
     enable = true;
     host = "0.0.0.0";
     port = ports.ollama;
-    acceleration = "vulkan";
+    package = pkgs.ollama-vulkan;
     user = "ollama";
     home = "/var/lib/ollama";
-    rocmOverrideGfx = "gfx1151";
-    # rocmOverrideGfx = "11.5.1";
+
 
     environmentVariables = {
       # Stability fix — SDMA is buggy on Strix Halo unified memory
@@ -176,7 +175,6 @@ in
       enable = true;
       uri = "tcp://0.0.0.0:${toString ports.piper}";
       voice = "en_US-danny-low";
-      streaming = true;
     };
     faster-whisper.servers.todd = {
       enable = true;

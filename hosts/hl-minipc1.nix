@@ -24,7 +24,7 @@ in
 {
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
-  skyg.server.dns = {
+  skyg.server.dns.routing = {
     enable = false;
     openFirewall = true;
     addressesSecretName = "dns-addresses.conf";
@@ -87,6 +87,17 @@ in
       };
     };
   };
+
+  # Certbot TLS service
+  skyg.server.dns.certbot = {
+    enable = false;
+    email = "admin@skyg.ca";
+    publicDomains = [
+      ".*skyg.ca"
+      ".*home.sosnovsky.ca"
+    ];
+  };
+
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;

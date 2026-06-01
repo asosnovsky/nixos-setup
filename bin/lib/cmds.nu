@@ -35,6 +35,10 @@ export def "skyg test" [] {
     nh os test | print
 }
 
+export def "skyg check" [] {
+	nix flake check --no-build
+}
+
 # rollback configuration
 export def "skyg rollback" [] {
     sudo nixos-rebuild switch --rollback
