@@ -9,6 +9,5 @@
     ./services
     ./timers.nix
     ./dns
-    ./certbot.nix
   ];
 }

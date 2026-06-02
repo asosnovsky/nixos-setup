@@ -55,7 +55,7 @@
   };
   services.displayManager.defaultSession = "gnome";
   services.displayManager.gdm.enable = false;
-  services.displayManager.gdm.wayland = false;
+
   services.autosuspend.enable = false;
   services.displayManager.autoLogin = {
     enable = true;
@@ -96,7 +96,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages_hardened;
+  boot.kernelPackages = pkgs.linuxPackages_latest; # linuxPackages_hardened was removed in 26.05
   # Wake on Lan
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
   networking.interfaces.lo.wakeOnLan.enable = true;

@@ -88,7 +88,7 @@
     plugins = with pkgs.nushellPlugins; [
       polars
       # net
-      highlight
+      # highlight # broken: compiled for nushell 0.110.0, nixpkgs 26.05 ships 0.112.2
     ];
   };
   carapace = {

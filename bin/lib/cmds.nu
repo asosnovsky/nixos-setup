@@ -17,24 +17,6 @@ export def "skyg profiles" [only_remote: bool = false] {
     }
 }
 
-# Build configuration
-export def "skyg build" [] {
-    cd $REPO_ROOT
-    nh os build | print
-}
-
-# Switch configuration
-export def "skyg switch" [] {
-    cd $REPO_ROOT
-    nh os switch --ask | print
-}
-
-# test configuration
-export def "skyg test" [] {
-    cd $REPO_ROOT
-    nh os test | print
-}
-
 export def "skyg check" [] {
 	nix flake check --no-build
 }
@@ -57,10 +39,26 @@ export def "skyg update" [input_name: string = ""] {
     git diff flake.lock | print
 }
 
+
+# Build local os
+export def "skyg os" [
+	cmd: string@remote-cmds,
+	--build-host: string@remote_targets = ""
+] {
+    cd $REPO_ROOT
+    mut runcmd = $"nh os ($cmd)"
+    if $build_host != "" {
+        $runcmd = $"($runcmd) --build-host ($build_host).lab.internal"
+    }
+    $runcmd | print
+    bash -c $runcmd
+}
+
 # Deploy to remote machine
 export def "skyg remote" [
     cmd: string@remote-cmds,
     target: string@remote_targets = "",
+    --build-host: string@remote_targets = "", # Optional remote builder host (e.g. builder.lab.internal)
 ] {
     cd $REPO_ROOT
     mut target_host = $"root@($target).lab.internal"
@@ -72,6 +70,9 @@ export def "skyg remote" [
     $"Using [(ansi green_bold)($profile)(ansi reset)]" | print
     $"($cmd) on ($target_host) with ($profile)" | print
     mut runcmd = $"nh os ($cmd) --target-host ($target_host) --ask .#($profile)"
+    if $build_host != "" {
+        $runcmd = $"($runcmd) --build-host ($build_host).lab.internal"
+    }
     $runcmd | print
     bash -c $runcmd
 }

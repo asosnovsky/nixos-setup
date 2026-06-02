@@ -183,7 +183,6 @@ in
       darling-dmg
 
       # password
-      bitwarden-desktop
       bitwarden-cli
 
       # documents

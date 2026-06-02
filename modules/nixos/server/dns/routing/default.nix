@@ -62,7 +62,7 @@ in
   config = mkIf cfg.enable {
     age.secrets = mkIf (cfg.addressesSecretName != null) {
       ${cfg.addressesSecretName} = {
-        file = ../../../../secrets + "/${cfg.addressesSecretName}.age";
+        file = ../../../../../secrets + "/${cfg.addressesSecretName}.age";
       };
     };
 
