@@ -82,6 +82,18 @@ in
   };
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  # Fix robotic/distorted audio with AirPods over Bluetooth.
+  # WirePlumber 0.5 (nixpkgs 26.05+) enables mSBC for HFP by default, which
+  # produces robotic sounds with AirPods. Disabling mSBC falls back to CVSD
+  # for the headset/mic profile while AAC/SBC still handles A2DP audio output.
+  services.pipewire.wireplumber.extraConfig = {
+    "51-airpods-bluetooth" = {
+      "monitor.bluez.properties" = {
+        "bluez5.msbc-support" = false;
+        "bluez5.hfphsp-backend" = "native";
+      };
+    };
+  };
   nixpkgs.config.permittedInsecurePackages = [
     "python3.12-ecdsa-0.19.1"
   ];
