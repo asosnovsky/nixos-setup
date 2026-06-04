@@ -5,7 +5,11 @@ const REPO_ROOT = path self | path dirname | path dirname | path dirname
 
 export def skyg [] {
     print $REPO_ROOT
-    print "Subcommands: profiles, build, switch, test, rollback, update, remote, openwrt, build-iso, hm, decrypt, encrypt"
+    let subcmds = (help commands |
+    		where name starts-with "skyg " |
+    		each { |c| $c.name | split row " " | get 1 } |
+    		uniq | str join ', ')
+    print $"Subcommands: ($subcmds)"
     print "Run: skyg <subcommand> --help"
 }
 
