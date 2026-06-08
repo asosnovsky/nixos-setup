@@ -11,6 +11,10 @@
     # Must use pythonPackagesExtensions to patch the python3Packages.pipx that
     # the build system actually uses, not just the top-level pkgs.pipx wrapper.
     nixpkgs.overlays = [
+      (final: _prev: {
+        # xAI Grok CLI — prebuilt binary, see pkgs/grok-cli.
+        grok-cli = final.callPackage ../../pkgs/grok-cli { };
+      })
       (final: prev: {
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (pyFinal: pyPrev: {

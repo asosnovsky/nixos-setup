@@ -157,9 +157,6 @@
       );
       lib = lib;
       formatter = lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
-
-      # OpenWrt router management
-      # -------------
       packages = lib.eachSystem (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
@@ -167,6 +164,7 @@
         in
         {
           openwrt-glmain = (openwrt (import ./openwrt-routers/glmain.nix)).deployScript;
+          grok-cli = lib.pkgs.${system}.grok-cli;
         }
       );
 

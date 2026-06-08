@@ -20,6 +20,11 @@ let
       config = {
         allowUnfree = true;
       };
+      overlays = [
+        (final: _prev: {
+          grok-cli = final.callPackage ../pkgs/grok-cli { };
+        })
+      ];
     }
   );
   osModules = [
