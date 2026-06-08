@@ -27,6 +27,8 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Hermes
+    hermes-agent.url = "github:NousResearch/hermes-agent";
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
     # Home manager
@@ -67,7 +69,7 @@
     , git-hooks
     , nix-index-database
     , agenix
-    ,
+    , hermes-agent
     }:
     let
       # Libs
@@ -98,6 +100,7 @@
                 dms
                 noctalia
                 nix-index-database
+                hermes-agent
                 ;
             };
           }

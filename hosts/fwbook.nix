@@ -309,4 +309,9 @@ in
       "api.me.internal"
     ];
   };
+  # Hermes
+  services.hermes-agent = {
+    enable = true;
+    addToSystemPackages = true;
+  };
 }

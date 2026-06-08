@@ -31,6 +31,7 @@ let
     specialArgs.dms.nixosModules.dank-material-shell
     specialArgs.dms.nixosModules.greeter
     specialArgs.nix-index-database.nixosModules.nix-index
+    specialArgs.hermes-agent.nixosModules.default
     { programs.nix-index-database.comma.enable = true; }
   ];
 

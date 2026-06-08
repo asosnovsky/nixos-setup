@@ -194,4 +194,9 @@ in
   services.flatpak.packages = [
     "org.chromium.Chromium"
   ];
+  # Hermes
+  services.hermes-agent = {
+    enable = true;
+    addToSystemPackages = true;
+  };
 }

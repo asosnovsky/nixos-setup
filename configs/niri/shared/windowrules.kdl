@@ -7,6 +7,15 @@ window-rule {
     open-focused true
 }
 
+window-rule {
+    match app-id="zoom"
+    open-floating true
+    open-focused true
+    default-column-width { proportion 0.75; }
+    default-window-height { proportion 0.8; }
+}
+
+
 // @id=dms_rule_1 @name=
 window-rule {
     match app-id="org.pipewire.Helvum"
