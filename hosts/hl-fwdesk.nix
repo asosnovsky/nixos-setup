@@ -1,4 +1,5 @@
 { pkgs
+, lib
 , ...
 }:
 let
@@ -154,7 +155,6 @@ in
       OLLAMA_KEEP_ALIVE = "24h";
     };
   };
-  hardware.graphics.enable = true;
   hardware.enableAllFirmware = true;
   hardware.amdgpu = {
     opencl.enable = true;
