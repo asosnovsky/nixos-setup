@@ -4,6 +4,7 @@
 , user
 , unstablePkgs
 , noctalia
+, hermes-agent
 , ...
 }:
 let
@@ -218,6 +219,8 @@ in
 
       # Misc
       noctaliaPkg
+      hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
+      hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [
@@ -308,10 +311,5 @@ in
       "me.local"
       "api.me.internal"
     ];
-  };
-  # Hermes
-  services.hermes-agent = {
-    enable = true;
-    addToSystemPackages = true;
   };
 }
