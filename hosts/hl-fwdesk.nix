@@ -9,7 +9,6 @@ let
     fastWhisper = 10300;
     wyoming = 10400;
     comfyui = 8188;
-    hermes = 8080;
   };
   openPorts = [
     ports.ollama
@@ -18,7 +17,6 @@ let
     ports.piper
     ports.wyoming
     ports.comfyui
-    ports.hermes
   ];
 in
 {
@@ -68,7 +66,6 @@ in
     "render"
     "video"
     "docker"
-    "hermes"
   ];
   services.avahi = {
     enable = true;
@@ -81,7 +78,6 @@ in
   services.tailscale.enable = true;
   # Desktop Env
   services.displayManager.gdm.enable = true;
-
   services.displayManager.defaultSession = "niri";
   # Firmware updater
   services.fwupd.enable = true;
@@ -197,10 +193,4 @@ in
   services.flatpak.packages = [
     "org.chromium.Chromium"
   ];
-  # Hermes
-  services.hermes-agent = {
-    enable = true;
-    container.enable = true;
-    addToSystemPackages = true;
-  };
 }
