@@ -35,7 +35,6 @@ in
         amdgpu.enable = true;
       };
       desktop = {
-        stylix.enable = true;
         enable = true;
         tiler = {
           enable = true;
@@ -76,9 +75,12 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   # Tailscale
   services.tailscale.enable = true;
-  # Desktop Env
-  services.displayManager.gdm.enable = true;
-  services.displayManager.defaultSession = "niri";
+  # Desktop Env - DankGreeter
+  programs.dank-material-shell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+    configHome = "/home/ari";
+  };
   # Firmware updater
   services.fwupd.enable = true;
   # Bluetooth

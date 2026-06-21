@@ -40,8 +40,6 @@ in
       # terminal
       ghostty
 
-      # AI coding agents
-      grok-cli
     ]);
   };
 }

@@ -219,6 +219,10 @@ in
 
       # Misc
       noctaliaPkg
+
+      # coding agents
+      grok-cli
+      pi-coding-agent
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]);
