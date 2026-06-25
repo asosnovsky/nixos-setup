@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB="$SCRIPT_DIR/lib/cmds.nu"
+exec nu --commands "use \"$LIB\" *; skyg check-flake-versions"
