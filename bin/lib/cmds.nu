@@ -25,6 +25,43 @@ export def "skyg check" [] {
 	nix flake check --no-build
 }
 
+# Validate that all versioned flake inputs use the same NixOS release
+export def "skyg check-flake-versions" [] {
+    let flake = "flake.nix"
+
+    if not ($flake | path exists) {
+        print "check-flake-versions: flake.nix not found, skipping"
+        return
+    }
+
+    # Only scan url lines to avoid false positives from embedded script strings
+    let url_lines = (open $flake | lines | enumerate | where { |row|
+        ($row.item | str contains "url") and ($row.item =~ 'release-\d+\.\d+')
+    })
+
+    let versions = ($url_lines
+        | each { |row| $row.item | parse --regex '.*release-(?P<version>\d+\.\d+).*' | get version }
+        | flatten
+        | uniq)
+
+    if ($versions | length) <= 1 {
+        print "check-flake-versions: OK"
+        return
+    }
+
+    print "check-flake-versions: mismatched NixOS release versions in flake.nix:"
+    print ""
+    for version in $versions {
+        print $"  release-($version):"
+        $url_lines | where { |row| $row.item | str contains $"release-($version)" } | each { |row|
+            print $"    line ($row.index + 1): ($row.item | str trim)"
+        }
+    }
+    print ""
+    print "All versioned inputs (home-manager, stylix, etc.) must use the same NixOS release."
+    error make { msg: "Mismatched NixOS release versions" }
+}
+
 # rollback configuration
 export def "skyg rollback" [] {
     sudo nixos-rebuild switch --rollback
