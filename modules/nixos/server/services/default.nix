@@ -7,5 +7,6 @@
     ./jellyfin.nix
     ./scrypted.nix
     ./dockge.nix
+    ./signal-cli.nix
   ];
 }

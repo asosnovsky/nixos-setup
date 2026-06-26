@@ -15,6 +15,7 @@ services/
 ├── jellyfin.nix       # skyg.nixos.server.services.jellyfin — media server (uid/gid 7777)
 ├── scrypted.nix       # skyg.nixos.server.services.scrypted — NVR (host net, NFS NVR volume)
 ├── dockge.nix         # skyg.nixos.server.services.dockge — compose stack manager (NFS volumes)
+├── signal-cli.nix     # skyg.nixos.server.services.signal-cli — signal-cli HTTP daemon (Hermes Signal bridge)
 ├── openclaw.nix       # skyg.nixos.server.services.openclaw — AI gateway (NOT imported by default)
 └── comfyui/           # skyg.nixos.server.services.comfyui — ComfyUI with ROCm/CUDA GPU support
 ```
@@ -37,6 +38,7 @@ skyg.nixos.server.services.audiobookshelf.{enable,package,configDir,dataDir}
 skyg.nixos.server.services.jellyfin.enable
 skyg.nixos.server.services.scrypted.enable
 skyg.nixos.server.services.dockge.{enable,openFirewall,port,volumes}
+skyg.nixos.server.services.signal-cli.{enable,host,port,configDir,account,environmentFile,openFirewall}
 skyg.nixos.server.services.openclaw.{enable,port,gatewayToken,...}
 skyg.nixos.server.services.comfyui.{enable,mode,port,openFirewall}
 ```
