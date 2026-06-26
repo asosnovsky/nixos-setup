@@ -19,13 +19,6 @@ in
   # Decrypted at deploy time by the user running `skyg openwrt`
   "secrets/glmain.json.age".publicKeys = [ ari ];
 
-  # OpenClaw gateway authentication token
-  "secrets/openclaw-token.age".publicKeys = [
-    ari
-    minipc1
-    minipc2
-    minipc3
-    terra1
-    fwdesk
-  ];
+  # Hermes envs
+  "secrets/hermes-env.age".publicKeys = [ ari fwdesk ];
 }

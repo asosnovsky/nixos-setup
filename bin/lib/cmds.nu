@@ -161,8 +161,14 @@ export def "skyg encrypt" [secret: string@secret-names, source?: string] {
     cd $REPO_ROOT
     let src = $source | default $".tmp/unencrypted-($secret)"
     if not ($src | path exists) {
-        error make { msg: $"Source file not found: ($src)" }
+        let encrypted = $"secrets/($secret).age"
+        if ($encrypted | path exists) {
+            agenix -d $encrypted | save -f $src
+        } else {
+            touch $src
+        }
     }
+    vi $src
     let dest = $"secrets/($secret).age"
     cat $src | EDITOR="cp /dev/stdin" agenix -e $dest
     print $"Encrypted ($dest)"

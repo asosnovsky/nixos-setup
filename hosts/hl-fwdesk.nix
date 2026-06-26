@@ -110,6 +110,9 @@ in
       ollama-rocm
       # stable-diffusion-cpp-rocm
       lmstudio
+
+      # Hermes gateway - Signal bridge (used to link the device + run the daemon)
+      signal-cli
     ]);
   services.usbmuxd.enable = true;
   # Steam
