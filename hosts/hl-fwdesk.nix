@@ -10,6 +10,7 @@ let
     fastWhisper = 10300;
     wyoming = 10400;
     comfyui = 8188;
+    libretranslate = 5000;
   };
   openPorts = [
     ports.ollama
@@ -18,6 +19,7 @@ let
     ports.piper
     ports.wyoming
     ports.comfyui
+    ports.libretranslate
   ];
 in
 {
@@ -155,6 +157,13 @@ in
       OLLAMA_KEEP_ALIVE = "24h";
     };
   };
+  # Libretranslate
+  services.libretranslate = {
+    enable = true;
+    host = "0.0.0.0";
+    port = ports.libretranslate;
+  };
+
   hardware.enableAllFirmware = true;
   hardware.amdgpu = {
     opencl.enable = true;
