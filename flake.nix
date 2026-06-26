@@ -50,6 +50,12 @@
     hyprlauncher.url = "github:hyprwm/hyprlauncher";
     # Secrets management
     agenix.url = "github:ryantm/agenix";
+    # OpenClaw AI gateway with Nix packaging
+    nix-openclaw = {
+      url = "github:openclaw/nix-openclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -70,6 +76,7 @@
     , nix-index-database
     , agenix
     , hermes-agent
+    , nix-openclaw
     }:
     let
       # Libs
@@ -101,6 +108,7 @@
                 noctalia
                 nix-index-database
                 hermes-agent
+                nix-openclaw
                 ;
             };
           }

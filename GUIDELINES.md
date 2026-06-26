@@ -42,6 +42,9 @@ Host files (`hosts/<hostname>.nix`) do not use `imports`. All modules are compos
 the `makeNixOs` call in `flake.nix` via `modules/main.nix`. Adding imports to a host file
 breaks the composition model.
 
+
+### ❌ NEVER modify `GUIDELINES.md` unless explicitly requested by the user, you must live and die by these and hold yourself accountable to them!
+
 ---
 
 ## Safe Operations
@@ -51,7 +54,7 @@ These are always safe to perform without asking:
 - Reading any `.nix`, `.md`, or config file
 - Editing host files (`hosts/<hostname>.nix`) to add/remove packages or options
 - Editing module files in `modules/`
-- Creating or updating documentation in `docs/` or `ABOUTME.md` / `GUIDELINES.md`
+- `ABOUTME.md` should be seen as the 'living memory' of a folder, it should contain general information about what's in the folder and capture decisions made at the time of development the features.
 - Adding new packages to `pkgs/`
 - Editing configs in `configs/`
 

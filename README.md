@@ -94,6 +94,18 @@ skyg rollback
 skyg hm switch
 ```
 
+## Managing Secrets
+
+Secrets are encrypted using [agenix](https://github.com/ryantm/agenix) and stored in `secrets/`.
+
+### Adding a Host to Secrets
+
+1. **Get the host's SSH public key**: `cat /etc/ssh/ssh_host_ed25519_key.pub`
+2. **Add to `secrets.nix`**: Create a variable with the key and add it to each secret's `publicKeys` list
+3. **Re-key**: Run `skyg secrets rekey` to re-encrypt the `.age` files
+
+For more details, see `secrets/ABOUTME.md`.
+
 ## Host Profiles
 
 Available profiles include:
