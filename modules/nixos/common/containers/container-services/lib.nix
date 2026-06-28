@@ -27,7 +27,7 @@
   # Sanitize a path into a valid filename
   pathToFilename = target:
     lib.strings.sanitizeDerivationName (
-      lib.strings.removePrefix "/" target
-      | > builtins.replaceStrings [ "/" ] [ "-" ]
+      builtins.replaceStrings [ "/" ] [ "-" ]
+        (lib.strings.removePrefix "/" target)
     );
 }

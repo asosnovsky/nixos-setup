@@ -68,13 +68,16 @@ rec {
   mkFilesService = groupName: grpCfg: pkgs:
     let
       filesMap = getAllFiles grpCfg;
+      scriptFile = pkgs.writeShellScript "write-files-${groupName}" (mkFilesScript groupName grpCfg);
     in
     lib.optionalAttrs (filesMap != { }) {
       "container-services-${groupName}-files" = {
         description = "Write custom files for container service group '${groupName}'";
+        before = [ "container-services-${groupName}.service" ];
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${pkgs.bash}/bin/bash -c ${lib.escapeShellArg (mkFilesScript groupName grpCfg)}";
+          RemainAfterExit = true;
+          ExecStart = scriptFile;
         };
       };
     };

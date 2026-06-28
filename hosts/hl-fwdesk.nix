@@ -181,7 +181,10 @@ in
     services.hermes = {
       image = "nousresearch/hermes-agent";
       command = [ "gateway" "run" ];
-      ports = [ "${toString ports.hermes}:8642" ];
+      ports = [
+        "${toString ports.hermes}:8642"
+        "${toString ports.hermesDashboard}:9119"
+      ];
       volumes = [ "/var/lib/hermes:/opt/data" ];
       environmentFiles = [ config.age.secrets.hermes-env.path ];
       environment = {
@@ -193,6 +196,13 @@ in
         "/opt/data/config.yaml" = ''
           terminal:
             backend: docker
+            gateway:
+              platforms:
+                telegram:
+                  extra:
+                    status_indicator: true
+                    status_online: "🟢 Online"
+                    status_offline: "🔴 Offline"
         '';
       };
     };

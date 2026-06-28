@@ -14,10 +14,12 @@ let
   runtimeService = containerLib.runtimeService isDocker;
 
   enabledGroups = lib.filterAttrs (_: g: g.enable) cfg;
+  optionsModule = import ./options.nix { inherit lib; };
 
 in
 {
-  imports = [ ./options.nix ];
+  options = optionsModule.options;
+
 
   config = {
     assertions = lib.optionals (enabledGroups != { }) [
