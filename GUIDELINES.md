@@ -7,22 +7,30 @@ Read this file before making any changes.
 
 ## Hard Rules — Never Break These
 
-### ❌ NEVER run builds or system switches
-Do NOT run any of the following, ever:
+### ❌ NEVER run builds or system switches — ZERO EXCEPTIONS
+**DO NOT RUN ANY OF THESE COMMANDS AT ANY TIME, FOR ANY REASON:**
 
 ```
-nixos-rebuild switch / test / build
+nixos-rebuild switch / test / build / dry-build
 nh os switch / test / build
 skyg os switch / test / build
 skyg remote switch / test / build
 skyg hm switch / build
 nix build
 nix flake check
+docker/podman build
 ```
 
-These commands take 20–40+ minutes, consume significant CPU/RAM, and can break a live
-system. The user runs these themselves after reviewing changes. Your job is to make
-correct edits to the source files — not to apply them.
+**Why:** 
+- These commands take 20–40+ minutes
+- They consume significant CPU/RAM on the user's machine
+- They can block the user from their own work
+- They can break the live system if something is wrong
+- The user MUST control when and what gets built
+
+**Your job:** Make correct edits to source files. The user validates and runs builds themselves.
+
+**Even if the user says "go ahead":** Do NOT run these. Your role is to write good Nix, not execute it.
 
 ### ❌ NEVER edit `flake.lock` by hand
 This file is managed exclusively by `nix flake update`. Editing it manually will corrupt
@@ -43,7 +51,9 @@ the `makeNixOs` call in `flake.nix` via `modules/main.nix`. Adding imports to a 
 breaks the composition model.
 
 
-### ❌ NEVER modify `GUIDELINES.md` unless explicitly requested by the user, you must live and die by these and hold yourself accountable to them!
+### ❌ NEVER modify `GUIDELINES.md` unless explicitly requested by the user
+You must **live and die by these rules** and hold yourself accountable to them.
+These are not suggestions — they are non-negotiable.
 
 ---
 
@@ -57,6 +67,14 @@ These are always safe to perform without asking:
 - `ABOUTME.md` should be seen as the 'living memory' of a folder, it should contain general information about what's in the folder and capture decisions made at the time of development the features.
 - Adding new packages to `pkgs/`
 - Editing configs in `configs/`
+
+---
+
+## When In Doubt
+
+If you are unsure whether a command is safe, **assume it is not safe and don't run it.**
+
+Instead: describe what you would do and ask the user for permission.
 
 ---
 
@@ -123,22 +141,22 @@ Do not configure `services.greetd` manually on these hosts — the DMS module ha
 
 ## Validation Without Building
 
-After making changes you can verify syntax without running a build:
+If you want to verify syntax **without triggering a build**, these are safe:
 
 ```bash
-# Check Nix expression syntax only (fast, safe)
+# Check Nix expression syntax only (fast, safe, no eval)
 nix-instantiate --parse <file>.nix
-
-# Check the flake structure without building
-nix flake show --no-build 2>/dev/null
 ```
 
-Even these are optional — the user will validate by running `nh os switch` themselves.
+**But even these are optional.** The user will validate by running `nh os switch` themselves.
+
+**Golden rule:** When in doubt, don't run anything. Just describe your changes.
 
 ---
 
-## Commit / Branch Policy
+## Commit / Branch / Git Policy
 
 - Do NOT commit changes or create branches unless the user explicitly asks
 - Do NOT `git add`, `git commit`, or `git push` autonomously
+- You may run `git add` **only** if required for a Nix evaluation (e.g., new files must be tracked for flakes)
 - Describe what you changed in your final message so the user can review before committing

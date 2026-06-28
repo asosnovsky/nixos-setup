@@ -71,6 +71,12 @@ let
 
   # ── Systemd service builder ──────────────────────────────────────────────
 
+  # Collect all env files from all services in a group.
+  getAllEnvFiles = grpCfg:
+    lib.concatLists
+      (lib.attrValues
+        (lib.mapAttrs (_: svcCfg: svcCfg.environmentFiles) grpCfg.services));
+
   mkSystemdService = groupName: grpCfg:
     let
       composeFile = mkComposeFile groupName grpCfg;
@@ -90,6 +96,32 @@ let
         ExecStartPre = "${pkgs.coreutils}/bin/cp ${composeFile} ${stateDir}/compose.yml";
         ExecStart = "${composeBin} -p ${groupName} -f ${stateDir}/compose.yml up -d --remove-orphans";
         ExecStop = "${composeBin} -p ${groupName} -f ${stateDir}/compose.yml down";
+      };
+    };
+
+  # Create a path unit that triggers a restart when env files change.
+  mkPathUnit = groupName: envFiles:
+    lib.optionalAttrs (envFiles != [ ]) {
+      "container-services-${groupName}-env-reload" = {
+        description = "Watch env files for container service group '${groupName}'";
+        pathConfig = {
+          PathChanged = map builtins.toString envFiles;
+          Unit = "container-services-${groupName}-env-reload.service";
+        };
+        wantedBy = [ "multi-user.target" ];
+      };
+    };
+
+  # Service that restarts the compose stack when env files change.
+  mkEnvReloadService = groupName:
+    {
+      "container-services-${groupName}-env-reload" = {
+        description = "Restart container service group '${groupName}' on env file changes";
+        serviceConfig = {
+          Type = "oneshot";
+          # Restart the compose stack
+          ExecStart = "${pkgs.systemd}/bin/systemctl restart container-services-${groupName}.service";
+        };
       };
     };
 
@@ -172,6 +204,7 @@ in
                   Paths to env files loaded by compose at runtime.
                   Accepts runtime paths such as agenix secret paths
                   (e.g. config.age.secrets.my-secret.path).
+                  Changes to these files will trigger an automatic restart.
                 '';
               };
 
@@ -202,7 +235,7 @@ in
                 description = ''
                   Free-form attrset merged directly into the compose service
                   block. Use this for keys not modelled above:
-                  shm_size, cap_add, devices, healthcheck, deploy, etc.
+                  shm_size, cap_add, devices, healthcheck, etc.
                 '';
               };
 
@@ -263,6 +296,23 @@ in
           lib.nameValuePair
             "container-services-${groupName}"
             (mkSystemdService groupName grpCfg))
-        enabledGroups;
+        enabledGroups
+      // lib.foldAttrs lib.recursiveUpdate { } (
+        lib.mapAttrsToList
+          (groupName: grpCfg:
+            mkEnvReloadService groupName)
+          (lib.filterAttrs
+            (_: grpCfg: getAllEnvFiles grpCfg != [ ])
+            enabledGroups)
+      );
+
+    # Path units that watch env files and trigger restarts.
+    systemd.paths =
+      lib.foldAttrs lib.recursiveUpdate { } (
+        lib.mapAttrsToList
+          (groupName: grpCfg:
+            mkPathUnit groupName (getAllEnvFiles grpCfg))
+          enabledGroups
+      );
   };
 }
