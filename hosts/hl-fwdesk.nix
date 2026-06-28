@@ -1,5 +1,5 @@
 { pkgs
-, lib
+, config
 , ...
 }:
 let
@@ -11,6 +11,8 @@ let
     wyoming = 10400;
     comfyui = 8188;
     libretranslate = 5000;
+    signal = 8080;
+    hermes = 8642;
   };
   openPorts = [
     ports.ollama
@@ -165,6 +167,33 @@ in
     enable = true;
     host = "0.0.0.0";
     port = ports.libretranslate;
+    threads = 10;
+  };
+  systemd.services.libretranslate.environment.ARGOS_DEVICE_TYPE = "cpu";
+
+  # Hermes Agent gateway (Docker container)
+  age.secrets.hermes-env.file = ../secrets/hermes-env.age;
+  skyg.nixos.common.container-services.hermes-agent = {
+    timeoutStopSec = 210;
+    services.hermes = {
+      image = "nousresearch/hermes-agent";
+      command = [ "gateway" "run" ];
+      ports = [ "${toString ports.hermes}:8642" ];
+      volumes = [ "/var/lib/hermes:/opt/data" ];
+      environmentFiles = [ config.age.secrets.hermes-env.path ];
+      environment = {
+        PUID = "1000"; # ari's UID
+        PGID = "100"; # GID of the 'users' group in NixOS
+      };
+      extraConfig.shm_size = "1g";
+    };
+  };
+  # Signal CLI
+  skyg.nixos.server.services.signal-cli = {
+    enable = false;
+    host = "0.0.0.0";
+    port = ports.signal;
+    environmentFile = config.age.secrets.hermes-env.path;
   };
 
   hardware.enableAllFirmware = true;

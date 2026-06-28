@@ -4,6 +4,7 @@
   imports = [
     ./docker.nix
     ./podman.nix
+    ./container-services.nix
   ];
   options = {
     skyg.nixos.common.containers = {

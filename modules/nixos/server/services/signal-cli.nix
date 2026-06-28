@@ -4,6 +4,7 @@ with lib;
 
 let
   cfg = config.skyg.nixos.server.services.signal-cli;
+  skygUser = config.skyg.user;
 in
 {
   options = {
@@ -71,10 +72,8 @@ in
         "skyg.nixos.server.services.signal-cli: set either `account` or `environmentFile` (providing SIGNAL_ACCOUNT).";
     }];
 
-    # Ensure the config/state directory exists (the account is linked into it
-    # manually). 0700 since it holds Signal account credentials.
     systemd.tmpfiles.rules = [ "d ${cfg.configDir} 0700 root root - -" ];
-
+    environment.systemPackages = [ pkgs.signal-cli ];
     systemd.services.signal-cli-daemon = {
       description = "signal-cli daemon (HTTP) for the Hermes Signal adapter";
 
@@ -84,16 +83,19 @@ in
 
       serviceConfig = {
         Type = "simple";
+        User = skygUser.name;
+        Environment = "JAVA_OPTS=--enable-native-access=ALL-UNNAMED";
         EnvironmentFile =
           mkIf (cfg.environmentFile != null) cfg.environmentFile;
-        ExecStart =
-          let
-            account =
-              if cfg.account != null then cfg.account else "\${SIGNAL_ACCOUNT}";
-          in
-          "${cfg.package}/bin/signal-cli --config ${cfg.configDir} --account ${account} daemon --http ${cfg.host}:${toString cfg.port}";
+        ExecStart = pkgs.writeShellScript "signal-cli-daemon-start" ''
+          set -eu
+          account=${if cfg.account != null then lib.escapeShellArg cfg.account else "\"\${SIGNAL_ACCOUNT:?SIGNAL_ACCOUNT is unset/empty in the env file}\""}
+          export JAVA_OPTS="--enable-native-access=ALL-UNNAMED"
+          exec ${cfg.package}/bin/signal-cli --config ${cfg.configDir} --account "$account" daemon --http ${cfg.host}:${toString cfg.port}
+        '';
         Restart = "on-failure";
         RestartSec = 5;
+        StartLimitBurst = 2;
       };
     };
 
