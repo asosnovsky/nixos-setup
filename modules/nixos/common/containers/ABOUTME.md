@@ -9,7 +9,14 @@ containers/
 ├── default.nix            # Shared runtime options (runtime, enableOnBoot, registries, metrics)
 ├── docker.nix             # Applied when runtime == "docker"
 ├── podman.nix             # Applied when runtime == "podman" (dockerCompat + socket)
-├── container-services.nix # Compose-style groups → rendered compose.yml + systemd oneshot
+├── container-services/    # Compose-style service groups (modular implementation)
+│   ├── default.nix
+│   ├── options.nix
+│   ├── lib.nix
+│   ├── compose.nix
+│   ├── files.nix
+│   ├── systemd.nix
+│   └── ABOUTME.md
 └── user-guide.md          # Full usage docs for container-services
 ```
 
@@ -59,6 +66,8 @@ skyg.nixos.common.container-services.my-stack = {
 ```
 
 See [user-guide.md](./user-guide.md) for the full option reference and day-2 ops.
+
+For module implementation details, see [container-services/ABOUTME.md](./container-services/ABOUTME.md).
 
 ## Conventions
 

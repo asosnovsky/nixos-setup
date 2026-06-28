@@ -101,6 +101,34 @@ cat /nix/store/…-compose.yml
 If the store file is wrong, the bug is in your Nix options — rebuild with
 `nixos-rebuild build` and inspect the new store path before switching.
 
+## Custom Files
+
+Mount custom files into containers via the `files` option:
+
+```nix
+services.app = {
+  image = "my/app";
+  files = {
+    "/etc/app/config.yaml" = ''
+      server:
+        port: 8080
+    '';
+    "/usr/local/bin/startup.sh" = ''
+      #!/bin/bash
+      echo "Starting..."
+    '';
+  };
+};
+```
+
+Files are:
+- Written to `/var/lib/container-services/<group>/files/` on the host
+- Mounted read-only into the container at the specified paths
+- Updated automatically when you rebuild
+- Changes trigger an automatic restart (via the `container-services-<group>-files` unit)
+
+---
+
 ## Limitations
 
 - **One unit per group.** No per-container systemd units. Use `docker compose logs` for

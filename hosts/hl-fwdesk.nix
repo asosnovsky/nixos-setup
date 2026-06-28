@@ -13,6 +13,7 @@ let
     libretranslate = 5000;
     signal = 8080;
     hermes = 8642;
+    hermesDashboard = 9119;
   };
   openPorts = [
     ports.ollama
@@ -22,6 +23,8 @@ let
     ports.wyoming
     ports.comfyui
     ports.libretranslate
+    ports.hermes
+    ports.hermesDashboard
   ];
 in
 {
@@ -186,6 +189,12 @@ in
         PGID = "100"; # GID of the 'users' group in NixOS
       };
       extraConfig.shm_size = "1g";
+      files = {
+        "/opt/data/config.yaml" = ''
+          terminal:
+            backend: docker
+        '';
+      };
     };
   };
   # Signal CLI
