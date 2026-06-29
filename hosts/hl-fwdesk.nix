@@ -187,44 +187,17 @@ in
         "${toString ports.hermes}:8642"
         "${toString ports.hermesDashboard}:9119"
       ];
-      volumes = [ "/var/lib/hermes:/opt/data" ];
+      volumes = [
+        "/var/lib/hermes:/opt/data"
+      ];
       environmentFiles = [ config.age.secrets.hermes-env.path ];
       environment = {
-        PUID = "1000"; # ari's UID
-        PGID = "100"; # GID of the 'users' group in NixOS
+        PUID = "1000";
+        PGID = "100";
       };
       extraConfig = {
         shm_size = "1g";
         extra_hosts = [ "host.docker.internal:host-gateway" ];
-      };
-      files = {
-        "/opt/data/config.yaml" = lib.generators.toYAML { }
-          {
-            model = {
-              provider = "custom";
-              model = "gpt-oss:20b";
-              base_url = "http://host.docker.internal:11434/v1";
-              api_key = "none";
-            };
-            memory = {
-              memory_enabled = true;
-              user_profile_enabled = true;
-            };
-            terminal = {
-              backend = "local";
-            };
-            gateway = {
-              platforms = {
-                telegram = {
-                  extra = {
-                    status_indicator = true;
-                    status_online = "🟢 Online";
-                    status_offline = "🔴 Offline";
-                  };
-                };
-              };
-            };
-          };
       };
     };
   };
