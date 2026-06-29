@@ -76,7 +76,6 @@ rec {
         before = [ "container-services-${groupName}.service" ];
         serviceConfig = {
           Type = "oneshot";
-          RemainAfterExit = true;
           ExecStart = scriptFile;
         };
       };
