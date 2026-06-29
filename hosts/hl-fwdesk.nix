@@ -1,6 +1,7 @@
 { pkgs
 , config
-, nixosUtils
+, skygUtils
+, lib
 , ...
 }:
 let
@@ -197,30 +198,34 @@ in
         extra_hosts = [ "host.docker.internal:host-gateway" ];
       };
       files = {
-        "/opt/data/config.yaml" = nixosUtils.validateYaml "hermes-config" ''
-          model:
-            provider: custom
-            model: gpt-oss:20b
-            base_url: http://host.docker.internal:11434/v1
-            api_key: "none"
-
-          memory:
-            memory_enabled: true
-            user_profile_enabled: true
-
-          terminal:
-            backend: docker
-
-          gateway:
-            platforms:
-              telegram:
-                extra:
-                  status_indicator: true
-                  status_online: "🟢 Online"
-                  status_offline: "🔴 Offline"
-        '';
+        "/opt/data/config.yaml" = lib.generators.toYAML { }
+          {
+            model = {
+              provider = "custom";
+              model = "gpt-oss:20b";
+              base_url = "http://host.docker.internal:11434/v1";
+              api_key = "none";
+            };
+            memory = {
+              memory_enabled = true;
+              user_profile_enabled = true;
+            };
+            terminal = {
+              backend = "local";
+            };
+            gateway = {
+              platforms = {
+                telegram = {
+                  extra = {
+                    status_indicator = true;
+                    status_online = "🟢 Online";
+                    status_offline = "🔴 Offline";
+                  };
+                };
+              };
+            };
+          };
       };
-      extraConfig.shm_size = "1g";
     };
   };
   # Signal CLI

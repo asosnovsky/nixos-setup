@@ -11,7 +11,10 @@
 , specialArgs
 }:
 let
-  skygUtils = import ./skyg-utils.nix;
+  skygUtils = import ./skyg-utils.nix {
+    pkgs = allPkgs.x86_64-linux;
+    lib = nixpkgs.lib;
+  };
   eachSystem = nixpkgs.lib.genAttrs (import systems);
   allPkgs = eachSystem (
     system:
@@ -28,11 +31,6 @@ let
     }
   );
   # Build nixosUtils with access to pkgs and lib
-  nixosUtils = import ./nixos-utils.nix {
-    pkgs = allPkgs.x86_64-linux;
-    lib = nixpkgs.lib;
-  };
-
   osModules = [
     determinate.nixosModules.default
     stylix.nixosModules.stylix
@@ -66,7 +64,7 @@ in
     home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = specialArgs // {
-        inherit system skygUtils nixosUtils;
+        inherit system skygUtils;
         user = userConfig;
         unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
       };
@@ -88,7 +86,7 @@ in
     , configuration ? [ ]
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
-        inherit system skygUtils nixosUtils user;
+        inherit system skygUtils user;
         unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
       };
       inherit system;
@@ -110,7 +108,7 @@ in
     , configuration ? [ ]
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
-        inherit system skygUtils nixosUtils user;
+        inherit system skygUtils user;
         unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
       };
       inherit system;
@@ -138,7 +136,7 @@ in
     nix-darwin.lib.darwinSystem {
       inherit system;
       specialArgs = specialArgs // {
-        inherit system skygUtils nixosUtils user;
+        inherit system skygUtils user;
         unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
       };
       modules = [
