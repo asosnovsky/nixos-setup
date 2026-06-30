@@ -1,6 +1,9 @@
 { lib
 , stdenv
 , fetchFromGitHub
+, makeWrapper
+, curl
+, cacert
 , rocmPackages
 , cudaPackages
   # backend selects the build target / toolchain.
@@ -120,7 +123,8 @@ stdenv.mkDerivation (finalAttrs: {
   enableParallelBuilding = true;
 
   nativeBuildInputs =
-    lib.optionals (backend == "rocm") [ rocmPackages.clr ]
+    [ makeWrapper ]
+    ++ lib.optionals (backend == "rocm") [ rocmPackages.clr ]
     ++ lib.optionals (backend == "cuda") [ cudaPackages.cuda_nvcc ];
 
   buildInputs =
@@ -142,7 +146,25 @@ stdenv.mkDerivation (finalAttrs: {
   installPhase = ''
     runHook preInstall
     install -Dm755 -t "$out/bin" ds4 ds4-server ds4-bench ds4-eval ds4-agent
+
+    # Wire upstream's GGUF downloader in as `ds4-download-model`. Patch its
+    # project-root detection so the gguf dir and the `ds4flash.gguf` symlink
+    # land in a writable location ($DS4_HOME, default: cwd) instead of the
+    # read-only store dir that `dirname $0` would resolve to here.
+    install -Dm755 download_model.sh "$out/bin/ds4-download-model"
+    substituteInPlace "$out/bin/ds4-download-model" \
+      --replace-fail 'ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)' 'ROOT=''${DS4_HOME:-$PWD}' \
+      --replace-warn './download_model.sh' 'ds4-download-model'
     runHook postInstall
+  '';
+
+  # `ds4-download-model` shells out to curl (and optionally the `hf` CLI for the
+  # huge PRO files); make curl available and point it at a CA bundle if the
+  # environment doesn't already set one.
+  postFixup = ''
+    wrapProgram "$out/bin/ds4-download-model" \
+      --prefix PATH : ${lib.makeBinPath [ curl ]} \
+      --set-default SSL_CERT_FILE ${cacert}/etc/ssl/certs/ca-bundle.crt
   '';
 
   # Only the CPU variant is guaranteed to run without a GPU/device present, so

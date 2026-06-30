@@ -8,6 +8,7 @@ Packages here are exposed via an overlay defined in `modules/core/default.nix`.
 | Package | Description |
 |---|---|
 | `grok-cli/` | xAI Grok CLI — prebuilt static binary, fetched per-platform. Exposed as `pkgs.grok-cli`. |
+| `ds4/` | DwarfStar (`antirez/ds4`) DeepSeek V4 local inference engine, built from source. Backend-parameterized (`backend = "cpu" \| "rocm" \| "cuda"`); tracks `main` and builds per-host. Exposed as `pkgs.ds4` (cpu, default), `pkgs.ds4-rocm` (Strix Halo / gfx1151), `pkgs.ds4-cuda`. Installs the `ds4`, `ds4-server`, `ds4-bench`, `ds4-eval`, `ds4-agent` binaries plus a `ds4-download-model` helper for fetching GGUF weights. Model weights are a runtime concern and not packaged. |
 
 ## Adding a New Package
 
