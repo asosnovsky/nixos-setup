@@ -165,6 +165,9 @@
         {
           openwrt-glmain = (openwrt (import ./openwrt-routers/glmain.nix)).deployScript;
           grok-cli = lib.pkgs.${system}.grok-cli;
+          # CPU variant of DwarfStar (antirez/ds4); buildable on any system.
+          # GPU variants (ds4-rocm/ds4-cuda) are overlay-only — see modules/core.
+          ds4 = lib.pkgs.${system}.ds4;
         }
       );
 
