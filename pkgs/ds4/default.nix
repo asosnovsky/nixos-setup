@@ -37,6 +37,7 @@ let
   rocmInputs = [
     rocmPackages.clr # provides hipcc + HIP runtime
     rocmPackages.hipblas
+    rocmPackages.hipblas-common # hipblas.h includes hipblas-common/hipblas-common.h
     rocmPackages.hipblaslt
     rocmPackages.rocblas
     rocmPackages.rocwmma # gfx1151 backend uses rocWMMA headers
@@ -74,23 +75,35 @@ let
 
   # Per-backend command-line variable overrides (forwarded to the recursive
   # sub-make as MAKEOVERRIDES, beating the Makefile's `?=` defaults).
+  #
+  # `makeFlags` entries are expanded UNQUOTED by the generic builder, so any
+  # value containing spaces (CFLAGS/LDLIBS) would be word-split and make would
+  # treat the extra words as bogus options. Those go through `makeFlagsArray`
+  # (a quoted bash array, set in preBuild) instead; only space-free assignments
+  # may live in `makeFlags`.
   backendMakeFlags = {
     cpu = [ ];
-
-    rocm = [
-      "ROCM_ARCH=${rocmArch}"
-      # Append store include/lib paths to the upstream ROCm flags.
-      "ROCM_CFLAGS=-O3 -ffast-math -g -fno-finite-math-only -pthread -D__HIP_PLATFORM_AMD__ -Wno-unused-command-line-argument --offload-arch=${rocmArch} ${rocmIncludeFlags}"
-      "ROCM_LDLIBS=-lm -pthread ${rocmLinkFlags} -lhipblas -lhipblaslt"
-    ];
-
+    rocm = [ "ROCM_ARCH=${rocmArch}" ];
     cuda = [
       "NVCC=${lib.getExe' cudaPackages.cuda_nvcc "nvcc"}"
       "CUDA_HOME=${cudaPackages.cuda_nvcc}"
+    ] ++ lib.optional (cudaArch != null) "CUDA_ARCH=${cudaArch}";
+  }.${backend};
+
+  # Space-containing variable assignments (must survive word splitting).
+  backendMakeFlagsArray = {
+    cpu = [ ];
+    rocm = [
+      # Append store include/lib paths to the upstream ROCm flags (hipcc is the
+      # raw ROCm compiler, not the nix cc-wrapper, so it needs explicit -I/-L).
+      "ROCM_CFLAGS=-O3 -ffast-math -g -fno-finite-math-only -pthread -D__HIP_PLATFORM_AMD__ -Wno-unused-command-line-argument --offload-arch=${rocmArch} ${rocmIncludeFlags}"
+      "ROCM_LDLIBS=-lm -pthread ${rocmLinkFlags} -lhipblas -lhipblaslt"
+    ];
+    cuda = [
       # Replace upstream's hardcoded /usr/local/cuda + sbsa-linux (aarch64)
       # paths with the nixpkgs cudart/cublas store paths.
       "CUDA_LDLIBS=-lm -Xcompiler -pthread ${cudaLinkFlags} -lcudart -lcublas"
-    ] ++ lib.optional (cudaArch != null) "CUDA_ARCH=${cudaArch}";
+    ];
   }.${backend};
 in
 stdenv.mkDerivation (finalAttrs: {
@@ -119,6 +132,12 @@ stdenv.mkDerivation (finalAttrs: {
 
   makeFlags = backendMakeFlags;
   buildFlags = [ buildTarget ];
+
+  # Pass space-containing make variables as a quoted array so they aren't
+  # word-split (see backendMakeFlagsArray note above).
+  preBuild = lib.optionalString (backendMakeFlagsArray != [ ]) ''
+    makeFlagsArray+=(${lib.escapeShellArgs backendMakeFlagsArray})
+  '';
 
   installPhase = ''
     runHook preInstall

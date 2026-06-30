@@ -117,6 +117,8 @@ in
       ollama-rocm
       # stable-diffusion-cpp-rocm
       lmstudio
+      # DwarfStar (antirez/ds4) — ROCm build for Strix Halo (gfx1151).
+      ds4-rocm
 
       # Hermes gateway - Signal bridge (used to link the device + run the daemon)
       signal-cli
@@ -132,6 +134,14 @@ in
     gamescopeSession.enable = true;
   };
   boot.kernelPackages = pkgs.linuxPackages; # (this is the default) some amdgpu issues on 6.10
+  # Strix Halo GTT memory tuning so the full 128 GB unified memory is GPU-visible
+  # (required by ds4-rocm / large models per upstream STRIXHALO.md).
+  boot.kernelParams = [
+    "amd_iommu=off"
+    "amdgpu.gttsize=126976"
+    "ttm.pages_limit=32505856"
+    "ttm.page_pool_size=32505856"
+  ];
   programs = {
     gamescope = {
       enable = true;
