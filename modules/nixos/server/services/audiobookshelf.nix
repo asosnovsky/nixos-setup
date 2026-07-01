@@ -14,18 +14,20 @@ in {
       configDir = mkOption {
         description =
           "Path to Audiobookshelf config folder";
+        default = "${cfg.dataDir}/config";
         type = types.str;
       };
 
       dataDir = mkOption {
         description = "Path to Audiobookshelf config and metadata inside of /var/lib.";
-        default = "audiobookshelf";
+        default = "/var/lib/audiobookshelf";
         type = types.str;
       };
 
       metadataDir = mkOption {
         description =
-          "Path to Audiobookshelf config folder";
+          "Path to Audiobookshelf metadata folder";
+        default = "${cfg.dataDir}/metadata";
         type = types.str;
       };
 

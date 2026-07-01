@@ -16,10 +16,14 @@ in
       isNode = lib.mkEnableOption
         "Enable as node";
       masterIP = lib.mkOption {
-        type = lib.types.str;
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        example = "10.0.0.1";
       };
       masterHostName = lib.mkOption {
-        type = lib.types.str;
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        example = "k8s-master";
       };
       masterAPIPort = lib.mkOption {
         type = lib.types.number;
@@ -41,6 +45,16 @@ in
       ];
     in
     lib.mkIf cfg.enable {
+      assertions = [
+        {
+          assertion = cfg.masterIP != null;
+          message = "skyg.nixos.server.k8s: masterIP must be set when k8s is enabled";
+        }
+        {
+          assertion = cfg.masterHostName != null;
+          message = "skyg.nixos.server.k8s: masterHostName must be set when k8s is enabled";
+        }
+      ];
       # resolve master hostname
       networking.extraHosts = "${cfg.masterIP} ${cfg.masterHostName}";
       networking.firewall.allowedUDPPorts = ports;
