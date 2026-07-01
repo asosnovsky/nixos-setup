@@ -14,6 +14,7 @@ let
     comfyui = 8188;
     libretranslate = 5000;
     signal = 8080;
+    ds4 = 8000;
     hermes = 8642;
     hermesDashboard = 9119;
   };
@@ -25,6 +26,7 @@ let
     ports.wyoming
     ports.comfyui
     ports.libretranslate
+    ports.ds4
     ports.hermes
     ports.hermesDashboard
   ];
@@ -58,6 +60,21 @@ in
         rocm = {
           dataDir = "/data/comfyui";
         };
+      };
+      server.services.ds4 = {
+        enable = true;
+        package = pkgs.ds4-rocm;
+        model = "/var/lib/ds4/ds4flash.gguf";
+        host = "0.0.0.0";
+        port = ports.ds4;
+        ctx = 100000;
+        kvDiskDir = "/var/lib/ds4/kv";
+        kvDiskSpaceMb = 8192;
+        cors = true;
+        environment = {
+          HSA_ENABLE_SDMA = "0";
+        };
+        openFirewall = true;
       };
     };
     networkDrives = {
