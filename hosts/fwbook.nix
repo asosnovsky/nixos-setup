@@ -71,6 +71,10 @@ in
   # Firmware updater
   hardware.framework.enableKmod = true;
   services.fprintd.enable = true;
+  # Touchscreen
+  services.libinput = {
+      enable = true;
+  };
   # Graphics
   hardware.graphics = {
     enable = true;

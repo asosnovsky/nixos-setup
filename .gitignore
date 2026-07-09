@@ -27,3 +27,7 @@ target
 
 # DOC are WIP
 docs
+
+
+# worktrees
+.branches
