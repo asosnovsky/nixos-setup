@@ -48,8 +48,8 @@ rec {
         grpCfg.services;
       networks = networks;
     }
-    // lib.optionalAttrs (grpCfg.volumes != [ ]) {
-      volumes = lib.genAttrs grpCfg.volumes (_: { });
+    // lib.optionalAttrs (grpCfg.volumes != { }) {
+      volumes = grpCfg.volumes;
     }
     // grpCfg.extraConfig;
 

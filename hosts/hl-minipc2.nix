@@ -33,7 +33,7 @@
       ];
       environment.DOCKGE_STACKS_DIR = "/opt/stacks";
     };
-    extraConfig.volumes = {
+    volumes = {
       dockge-data = {
         driver = "local";
         driver_opts = {
@@ -69,7 +69,7 @@
         networks = [ ];
       };
     };
-    extraConfig.volumes = {
+    volumes = {
       scrypted-nvr = {
         driver = "local";
         driver_opts = {

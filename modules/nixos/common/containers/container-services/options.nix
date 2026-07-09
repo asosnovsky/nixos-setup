@@ -126,9 +126,25 @@
         };
 
         volumes = lib.mkOption {
-          type = lib.types.listOf lib.types.str;
-          default = [ ];
-          description = "Named volumes declared at the top level of the compose document.";
+          type = lib.types.attrsOf lib.types.anything;
+          default = { };
+          example = {
+            my-vol = {
+              driver = "local";
+              driver_opts = {
+                type = "nfs";
+                o = "addr=host,rw,nfsvers=4.0";
+                device = ":/export/path";
+              };
+            };
+            bare-vol = { };
+          };
+          description = ''
+            Named volumes declared at the top level of the compose document
+            (maps to the compose volumes: block). Key = volume name, value =
+            volume definition (driver/driver_opts/etc.). Use an empty attrset
+            for a default-driver named volume.
+          '';
         };
 
         networks = lib.mkOption {
