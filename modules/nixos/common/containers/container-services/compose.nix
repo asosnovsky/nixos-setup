@@ -30,6 +30,15 @@ rec {
     // lib.optionalAttrs (svcCfg.dependsOn != [ ]) {
       depends_on = svcCfg.dependsOn;
     }
+    // lib.optionalAttrs (svcCfg.devices != [ ]) {
+      devices = svcCfg.devices;
+    }
+    // lib.optionalAttrs (svcCfg.healthcheck != { }) {
+      healthcheck = svcCfg.healthcheck;
+    }
+    // lib.optionalAttrs (svcCfg.deploy != { }) {
+      deploy = svcCfg.deploy;
+    }
     // svcCfg.extraConfig;
 
   # Build the full compose document attrset for a group.

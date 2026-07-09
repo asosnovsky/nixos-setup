@@ -23,6 +23,7 @@
 
   # Dockge container service group
   skyg.nixos.common.container-services.dockge = {
+    enable = true;
     services.dockge = {
       image = "louislam/dockge:1";
       ports = [ "5001:5001" ];
@@ -55,6 +56,8 @@
 
   # Scrypted container service group
   skyg.nixos.common.container-services.scrypted = {
+    enable = true;
+    autoUpdate.enable = true;
     services.scrypted = {
       image = "ghcr.io/koush/scrypted";
       volumes = [
@@ -81,7 +84,7 @@
     };
   };
 
-  # Scrypted backup & autoupdate timers
+  # Scrypted backup timer (image auto-update handled by container-services autoUpdate)
   skyg.server.timers = {
     scrypted-backups = {
       OnCalendar = "daily";
@@ -89,14 +92,6 @@
       script = ''
         set -eu
         ${pkgs.rsync}/bin/rsync -avpzP --delete /opt/homelab/scrypted /homelab/terra1/Data/apps/
-      '';
-    };
-    scrypted-autoupdate = {
-      OnCalendar = "weekly";
-      script = ''
-        set -eu
-        ${pkgs.docker}/bin/docker pull ghcr.io/koush/scrypted
-        systemctl restart container-services-scrypted.service
       '';
     };
   };

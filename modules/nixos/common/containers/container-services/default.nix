@@ -12,8 +12,10 @@ let
   isDocker = containerLib.isDocker containersCfg.runtime;
   composeBin = containerLib.composeBin containersCfg.runtime;
   runtimeService = containerLib.runtimeService isDocker;
+  runtimeBin = containerLib.runtimeBin isDocker;
 
   enabledGroups = lib.filterAttrs (_: g: g.enable) cfg;
+  autoUpdateGroups = lib.filterAttrs (_: g: g.autoUpdate.enable) enabledGroups;
   optionsModule = import ./options.nix { inherit lib; };
 
 in
@@ -74,7 +76,12 @@ in
           (lib.filterAttrs
             (_: grpCfg: filesLib.getAllFiles grpCfg != { })
             enabledGroups)
-      );
+      )
+      // lib.mapAttrs'
+        (groupName: grpCfg:
+          let units = systemdLib.mkUpdateUnits groupName grpCfg composeBin runtimeBin;
+          in lib.nameValuePair "container-services-${groupName}-update" units.services."container-services-${groupName}-update")
+        autoUpdateGroups;
 
     # Path units: one per group with env files
     systemd.paths =
@@ -84,5 +91,13 @@ in
             systemdLib.mkPathUnit groupName (containerLib.getAllEnvFiles grpCfg))
           enabledGroups
       );
+
+    # Timers: one per group with autoUpdate enabled
+    systemd.timers =
+      lib.mapAttrs'
+        (groupName: grpCfg:
+          let units = systemdLib.mkUpdateUnits groupName grpCfg composeBin runtimeBin;
+          in lib.nameValuePair "container-services-${groupName}-update" units.timers."container-services-${groupName}-update")
+        autoUpdateGroups;
   };
 }

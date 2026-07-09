@@ -18,6 +18,12 @@
   runtimeService = isDocker:
     if isDocker then "docker.service" else "podman.service";
 
+  # Runtime CLI binary (for operations without a compose equivalent, e.g. prune)
+  runtimeBin = isDocker:
+    if lib.hasAttrByPath [ "docker" ] pkgs
+    then (if isDocker then "${pkgs.docker}/bin/docker" else "${pkgs.podman}/bin/podman")
+    else (if isDocker then "docker" else "podman");
+
   # Collect all env files from all services in a group
   getAllEnvFiles = grpCfg:
     lib.concatLists

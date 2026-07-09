@@ -16,7 +16,7 @@
     type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
       options = {
 
-        enable = lib.mkEnableOption "this container service group" // { default = true; };
+        enable = lib.mkEnableOption "this container service group" // { default = false; };
 
         stateDir = lib.mkOption {
           type = lib.types.str;
@@ -84,6 +84,36 @@
                 description = "Sibling service names that must start first (compose depends_on:).";
               };
 
+              devices = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = [ ];
+                example = [ "/dev/dri:/dev/dri" ];
+                description = "Host device mappings in HOST:CONTAINER format (compose devices:).";
+              };
+
+              healthcheck = lib.mkOption {
+                type = lib.types.attrsOf lib.types.anything;
+                default = { };
+                example = {
+                  test = "curl --fail http://0.0.0.0:8096 || exit 1";
+                  interval = "60s";
+                  timeout = "20s";
+                  start_period = "30s";
+                };
+                description = "Container healthcheck definition (compose healthcheck:).";
+              };
+
+              deploy = lib.mkOption {
+                type = lib.types.attrsOf lib.types.anything;
+                default = { };
+                example = {
+                  resources.reservations.devices = [
+                    { driver = "cdi"; device_ids = [ "nvidia.com/gpu=all" ]; }
+                  ];
+                };
+                description = "Deploy block (compose deploy:), e.g. GPU device reservations.";
+              };
+
               restart = lib.mkOption {
                 type = lib.types.str;
                 default = "unless-stopped";
@@ -117,7 +147,7 @@
                 description = ''
                   Free-form attrset merged directly into the compose service
                   block. Use this for keys not modelled above:
-                  shm_size, cap_add, devices, healthcheck, etc.
+                  shm_size, cap_add, ulimits, etc.
                 '';
               };
 
@@ -154,6 +184,48 @@
             Network definitions for the top-level compose networks: block.
             Empty = auto-create a bridge network named after the group.
           '';
+        };
+
+        autoUpdate = lib.mkOption {
+          description = ''
+            Scheduled image pull + recreate for this group. When enabled, a
+            systemd timer periodically runs 'compose pull' followed by
+            'compose up -d', so containers whose image changed are recreated.
+          '';
+          default = { };
+          type = lib.types.submodule {
+            options = {
+              enable = lib.mkEnableOption "scheduled image pull + recreate for this group";
+
+              onCalendar = lib.mkOption {
+                type = lib.types.str;
+                default = "weekly";
+                example = "Sun 04:00";
+                description = "systemd OnCalendar expression controlling update frequency.";
+              };
+
+              randomizedDelaySec = lib.mkOption {
+                type = lib.types.int;
+                default = 3600;
+                description = ''
+                  Random delay (seconds) added to each trigger, to spread load
+                  across groups/hosts (systemd RandomizedDelaySec).
+                '';
+              };
+
+              persistent = lib.mkOption {
+                type = lib.types.bool;
+                default = true;
+                description = "Run a missed update on next boot (systemd Persistent).";
+              };
+
+              pruneImages = lib.mkOption {
+                type = lib.types.bool;
+                default = false;
+                description = "Run 'image prune -f' after updating to reclaim dangling images.";
+              };
+            };
+          };
         };
 
         extraConfig = lib.mkOption {

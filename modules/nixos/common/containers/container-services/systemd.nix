@@ -24,6 +24,41 @@
       };
     };
 
+  # Create the update service + timer for a group's autoUpdate config.
+  mkUpdateUnits = groupName: grpCfg: composeBin: runtimeBin:
+    let
+      auCfg = grpCfg.autoUpdate;
+      stateDir = grpCfg.stateDir;
+      unitName = "container-services-${groupName}-update";
+      composeCmd = "${composeBin} -p ${groupName} -f ${stateDir}/compose.yml";
+    in
+    {
+      services."${unitName}" = {
+        description = "Pull latest images and recreate container service group '${groupName}'";
+        after = [ "container-services-${groupName}.service" ];
+        requires = [ "container-services-${groupName}.service" ];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart =
+            [
+              "${composeCmd} pull"
+              "${composeCmd} up -d --remove-orphans"
+            ]
+            ++ lib.optional auCfg.pruneImages "${runtimeBin} image prune -f";
+        };
+      };
+      timers."${unitName}" = {
+        description = "Scheduled image update for container service group '${groupName}'";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = auCfg.onCalendar;
+          RandomizedDelaySec = auCfg.randomizedDelaySec;
+          Persistent = auCfg.persistent;
+          Unit = "${unitName}.service";
+        };
+      };
+    };
+
   # Create a path unit that watches env files for changes.
   mkPathUnit = groupName: envFiles:
     lib.optionalAttrs (envFiles != [ ]) {
