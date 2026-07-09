@@ -21,41 +21,6 @@
   # Disable firewall
   networking.firewall.enable = false;
 
-  # NFS Docker volumes for dockge
-  # system.activationScripts.dockge-create-volume-stacks = {
-  #   text = ''
-  #     ${pkgs.docker}/bin/docker volume create \
-  #       --driver local \
-  #       --opt type=nfs \
-  #       --opt o=addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
-  #       --opt device=:/mnt/Data/apps/arrs/dockge/stacks \
-  #       dockge-stacks
-  #   '';
-  #   deps = [ ];
-  # };
-  # system.activationScripts.dockge-create-volume-data = {
-  #   text = ''
-  #     ${pkgs.docker}/bin/docker volume create \
-  #       --driver local \
-  #       --opt type=nfs \
-  #       --opt o=addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
-  #       --opt device=:/mnt/Data/apps/arrs/dockge/data \
-  #       dockge-data
-  #   '';
-  #   deps = [ ];
-  # };
-  # system.activationScripts.scrypted-create-volume-nvr = {
-  #   text = ''
-  #     ${pkgs.docker}/bin/docker volume create \
-  #       --driver local \
-  #       --opt type=nfs \
-  #       --opt o=addr=tnas1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime \
-  #       --opt device=:/mnt/OneT/NVR \
-  #       scrypted-nvr
-  #   '';
-  #   deps = [ ];
-  # };
-
   # Dockge container service group
   skyg.nixos.common.container-services.dockge = {
     services.dockge = {
