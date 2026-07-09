@@ -22,3 +22,4 @@ include "dms/index.kdl"
 
 
 //include "dms/binds.kdl"
+include "dms/outputs.kdl"
