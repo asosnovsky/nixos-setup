@@ -84,13 +84,21 @@ export def "skyg update" [input_name: string = ""] {
 # Build local os
 export def "skyg os" [
 	cmd: string@remote-cmds,
-	--build-host: string@remote_targets = ""
+	--build-host: string@remote_targets = "",
+	# --max-jobs: int = 0,
+	# --cores: int = -1,
 ] {
     cd $REPO_ROOT
     mut runcmd = $"nh os ($cmd)"
     if $build_host != "" {
         $runcmd = $"($runcmd) --build-host ($build_host).lab.internal"
     }
+    # if $max_jobs > 0 {
+    #     $runcmd = $"($runcmd) --max-jobs ($max_jobs)"
+    # }
+    # if $cores >= 0 {
+    #     $runcmd = $"($runcmd) --cores ($cores)"
+    # }
     $runcmd | print
     bash -c $runcmd
 }
