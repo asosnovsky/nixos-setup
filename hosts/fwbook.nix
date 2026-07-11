@@ -51,6 +51,7 @@ in
     };
   };
   virtualisation.waydroid.enable = true;
+  hardware.enableRedistributableFirmware = true;
   # Tailscale
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
@@ -73,7 +74,7 @@ in
   services.fprintd.enable = true;
   # Touchscreen
   services.libinput = {
-      enable = true;
+    enable = true;
   };
   # Graphics
   hardware.graphics = {
