@@ -6,6 +6,79 @@
 let
   cfg = config.skyg.nixos.common.hardware.laptop-power-mgr;
 
+  # Script that logs CPU/GPU temps to journal and fires desktop
+  # notifications when temperatures cross warning / critical thresholds.
+  temp-monitor-script = pkgs.writeShellScript "temp-monitor" ''
+    ${pkgs.python3}/bin/python3 << 'EOFPYTHON'
+    import subprocess, time, os, re, sys
+
+    WARN_TEMP  = 80.0   # °C — sends a normal notification
+    CRIT_TEMP  = 90.0   # °C — sends an urgent notification
+    INTERVAL   = 30     # seconds between readings
+    COOLDOWN   = 300    # seconds before repeating the same alert level
+
+    def read_temp(chip, label):
+        try:
+            r = subprocess.run(["${pkgs.lm_sensors}/bin/sensors", chip],
+                               capture_output=True, text=True, timeout=5)
+            for line in r.stdout.splitlines():
+                if label in line:
+                    m = re.search(r"\+?([0-9]+\.[0-9]+)", line)
+                    if m:
+                        return float(m.group(1))
+        except Exception:
+            pass
+        return None
+
+    def notify(urgency, title, body):
+        """Send a desktop notification to every logged-in user session."""
+        try:
+            for entry in os.scandir("/run/user"):
+                bus = os.path.join(entry.path, "bus")
+                if os.path.exists(bus):
+                    env = os.environ.copy()
+                    env["DBUS_SESSION_BUS_ADDRESS"] = f"unix:path={bus}"
+                    try:
+                        subprocess.run(
+                            ["${pkgs.libnotify}/bin/notify-send",
+                             "--urgency", urgency, title, body],
+                            env=env, timeout=5, capture_output=True)
+                    except Exception as e:
+                        print(f"notify-send failed: {e}", file=sys.stderr, flush=True)
+        except Exception as e:
+            print(f"Could not scan /run/user: {e}", file=sys.stderr, flush=True)
+
+    print(f"Temp monitor started  warn={WARN_TEMP}°C  crit={CRIT_TEMP}°C  interval={INTERVAL}s",
+          flush=True)
+
+    last_warn = 0
+    last_crit = 0
+
+    while True:
+        now = time.time()
+        cpu = read_temp("k10temp-pci-00c3", "Tctl")
+        gpu = read_temp("amdgpu-pci-c100",  "edge")
+
+        cpu_s = f"{cpu:.1f}°C" if cpu is not None else "N/A"
+        gpu_s = f"{gpu:.1f}°C" if gpu is not None else "N/A"
+        print(f"CPU: {cpu_s}  GPU: {gpu_s}", flush=True)
+
+        if cpu is not None:
+            if cpu >= CRIT_TEMP and (now - last_crit) > COOLDOWN:
+                notify("critical",
+                       "🔥 CPU Critical Temperature",
+                       f"CPU is at {cpu:.0f}°C — above {CRIT_TEMP:.0f}°C!")
+                last_crit = now
+            elif cpu >= WARN_TEMP and (now - last_warn) > COOLDOWN:
+                notify("normal",
+                       "⚠️ CPU High Temperature",
+                       f"CPU is at {cpu:.0f}°C — above {WARN_TEMP:.0f}°C")
+                last_warn = now
+
+        time.sleep(INTERVAL)
+    EOFPYTHON
+  '';
+
   # Script to monitor lid events and send notifications
   lid-monitor-script = pkgs.writeShellScript "lid-event-monitor" ''
         ${pkgs.python3}/bin/python3 << 'EOFPYTHON'
@@ -68,6 +141,16 @@ in
   options.skyg.nixos.common.hardware.laptop-power-mgr = with lib; {
     enable = mkEnableOption "Settings for laptop power management";
 
+    enableTempMonitor = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Enable a background service that logs CPU and GPU temperatures to the
+        journal every 30 seconds and sends a desktop notification when the CPU
+        crosses 80 °C (warning) or 90 °C (critical).
+      '';
+    };
+
     enableLidMonitorMode = mkOption {
       type = types.bool;
       default = false;
@@ -95,8 +178,31 @@ in
     # Advance Power Management
     powerManagement.powertop.enable = true;
     powerManagement.enable = true;
-    services.thermald.enable = true;
+    # thermald is Intel-only; it exits immediately on AMD machines and
+    # provides no thermal protection there. Do not enable it.
+    services.thermald.enable = false;
     services.power-profiles-daemon.enable = true;
+
+    # power-profiles-daemon remembers the last selected profile across
+    # reboots, so a one-time switch to "performance" would otherwise stick
+    # forever and cause constant overheating. Reset to "balanced" at boot
+    # and also set a conservative CPU energy policy (balance_power) so the
+    # chassis stays cooler when idle.
+    systemd.services.reset-power-profile = {
+      description = "Reset power profile to balanced + conservative EPP at boot";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "power-profiles-daemon.service" ];
+      wants = [ "power-profiles-daemon.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.writeShellScript "reset-power-and-epp" ''
+          ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
+          for f in /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference; do
+            echo balance_power > "$f" 2>/dev/null || true
+          done
+        ''}";
+      };
+    };
     services.tlp = {
       enable = false;
       settings = {
@@ -155,6 +261,22 @@ in
     environment.systemPackages = with pkgs; [
       libnotify
     ];
+
+    # Background temperature monitor — logs to journal, alerts when hot
+    systemd.services.temp-monitor = lib.mkIf cfg.enableTempMonitor {
+      description = "CPU/GPU temperature monitor";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "multi-user.target" ];
+
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${temp-monitor-script}";
+        Restart = "on-failure";
+        RestartSec = 10;
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
 
     # System service to monitor lid events and send notifications
     # Only enabled if enableLidMonitorMode is true

@@ -29,6 +29,7 @@ in
         laptop-power-mgr = {
           enable = true;
           enableLidMonitorMode = true;
+          enableTempMonitor = true;
           disableLidSwitch = true;
         };
         amdgpu.enable = true;

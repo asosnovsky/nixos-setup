@@ -1,0 +1,202 @@
+#!/usr/bin/env nu
+
+# Temperature monitoring script for laptop
+# Collects CPU/GPU temperatures, stores them with timestamps, and displays a graph
+
+def main [
+    --duration: int = 60          # Duration to collect data in seconds (default: 60)
+    --interval: int = 2           # Interval between readings in seconds (default: 2)
+    --output: string = "~/.cache/temp-data.csv"  # Output file for temperature data
+    --graph                       # Show graph at the end
+    --show-graph                  # Just show graph from existing data (don't collect)
+] {
+    let data_file = ($output | path expand)
+
+    if $show_graph {
+        show-graph $data_file
+        return
+    }
+
+    let cache_dir = ($data_file | path dirname)
+
+    # Create cache directory if it doesn't exist
+    if not ($cache_dir | path exists) {
+        mkdir $cache_dir
+    }
+
+    # Initialize or append to CSV file with headers if empty
+    if not ($data_file | path exists) or (open $data_file | is-empty) {
+        "timestamp,cpu_temp,gpu_temp,max_temp" | save -f $data_file
+    }
+
+    print $"🌡️  Temperature Monitor - Collecting data for ($duration)s with ($interval)s intervals..."
+    print $"📊 Data will be saved to: ($data_file)\n"
+
+    let iterations = (($duration / $interval) | math round)
+
+    for i in 1..$iterations {
+        let timestamp = (date now | format date '%Y-%m-%d %H:%M:%S')
+
+        # Get temperature reading
+        let temp_info = (get-temperature)
+
+        let cpu_temp = $temp_info.cpu
+        let gpu_temp = $temp_info.gpu
+
+        let max_temp = (
+            if ($cpu_temp != "N/A") and ($gpu_temp != "N/A") {
+                [($cpu_temp | into float) ($gpu_temp | into float)] | math max
+            } else if ($cpu_temp != "N/A") {
+                $cpu_temp | into float
+            } else if ($gpu_temp != "N/A") {
+                $gpu_temp | into float
+            } else {
+                "N/A"
+            }
+        )
+
+        let row = $"($timestamp),($cpu_temp),($gpu_temp),($max_temp)"
+
+        # Append to CSV file
+        let content = (open $data_file --raw)
+        ($content | str trim) + "\n" + $row | save -f $data_file
+
+        print $"✓ ($timestamp) | CPU: ($cpu_temp)°C | GPU: ($gpu_temp)°C | Max: ($max_temp)°C"
+
+        if $i < $iterations {
+            sleep ($interval | into duration -u sec)
+        }
+    }
+
+    print $"\n✅ Data collection complete!"
+
+    # Always show the graph at the end
+    show-graph $data_file
+
+    print $"📁 Data saved to: ($data_file)"
+}
+
+def get-temperature [] {
+    # Try lm_sensors first (most reliable)
+    if (which sensors | is-not-empty) {
+        get-temp-sensors
+    } else if (which acpi | is-not-empty) {
+        get-temp-acpi
+    } else if ("/sys/class/thermal/thermal_zone0/temp" | path exists) {
+        get-temp-sysfs
+    } else {
+        { cpu: "N/A", gpu: "N/A" }
+    }
+}
+
+def get-temp-sensors [] {
+    try {
+        # Try to get CPU temp from k10temp (AMD)
+        let cpu_temp = (
+            try {
+                sensors k10temp-pci-00c3 | grep "Tctl" | grep -oE "[0-9]+\\.[0-9]+" | head -1
+            } catch {
+                # Fallback: look in all sensors output
+                sensors | grep -i "Tctl\|Package" | head -1 | grep -oE "[0-9]+\\.[0-9]+" | head -1
+            }
+        )
+
+        # Try to get GPU temp from amdgpu
+        let gpu_temp = (
+            try {
+                sensors amdgpu-pci-c100 | grep "edge" | grep -oE "[0-9]+\\.[0-9]+" | head -1
+            } catch {
+                "N/A"
+            }
+        )
+
+        { cpu: $cpu_temp, gpu: $gpu_temp }
+    } catch {
+        { cpu: "N/A", gpu: "N/A" }
+    }
+}
+
+def get-temp-acpi [] {
+    try {
+        let temp = (acpi -t | head -1 | grep -oE "[0-9]+\\.[0-9]+" | first)
+        { cpu: $temp, gpu: "N/A" }
+    } catch {
+        { cpu: "N/A", gpu: "N/A" }
+    }
+}
+
+def get-temp-sysfs [] {
+    try {
+        let raw_temp = (open /sys/class/thermal/thermal_zone0/temp | str trim | into float)
+        let temp = ($raw_temp / 1000)
+        { cpu: $temp, gpu: "N/A" }
+    } catch {
+        { cpu: "N/A", gpu: "N/A" }
+    }
+}
+
+def show-graph [file: string] {
+    print "\n📈 Temperature Graph:\n"
+
+    try {
+        # Read the CSV file as a regular table
+        let data = (open $file)
+
+        # Filter out rows where max_temp is not a number
+        let temps = (
+            $data
+            | where { $in.max_temp != "N/A" }
+            | select timestamp max_temp
+            | rename time temp
+            | each { |row|
+                {
+                    time: $row.time
+                    temp: ($row.temp | into float)
+                }
+            }
+        )
+
+        if ($temps | is-empty) {
+            print "No valid temperature data to display."
+            return
+        }
+
+        # Find min/max for scaling
+        let min_temp = ($temps | get temp | math min)
+        let max_temp = ($temps | get temp | math max)
+        let temp_range = ($max_temp - $min_temp)
+        let graph_height = 20
+
+        # Create simple ASCII graph
+        let graph = (
+            $temps
+            | each { |item|
+                let normalized = (
+                    if ($temp_range == 0) {
+                        0.5
+                    } else {
+                        (($item.temp - $min_temp) / $temp_range)
+                    }
+                )
+                let bar_height = (($normalized * $graph_height) | math round)
+                let bar = (
+                    if $bar_height > 0 {
+                        0..<$bar_height | each { "█" } | str join ""
+                    } else {
+                        "."
+                    }
+                )
+                let time_only = ($item.time | str substring 11..19)
+                $"($time_only): ($bar) ($item.temp)°C"
+            }
+            | str join "\n"
+        )
+
+        print $graph
+        print $"\nMin: ($min_temp | math round -p 1)°C | Max: ($max_temp | math round -p 1)°C | Range: ($temp_range | math round -p 1)°C"
+    } catch { |err|
+        print $"Error displaying graph: ($err)"
+    }
+}
+
+main
