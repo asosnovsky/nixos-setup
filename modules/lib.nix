@@ -29,6 +29,7 @@ let
           # CPU variant only here (buildable on any system); the GPU variants
           # need their toolchains and are wired in modules/core/default.nix.
           ds4 = final.callPackage ../pkgs/ds4 { };
+          niri-touchscreen-gestures = final.callPackage ../pkgs/niri-touchscreen-gestures { };
         })
       ];
     }

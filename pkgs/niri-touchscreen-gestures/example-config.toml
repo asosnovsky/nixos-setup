@@ -1,0 +1,28 @@
+# Example config for niri-touchscreen-gestures
+#
+# Keys are "<N>-finger-<direction>" where:
+#   N = 2, 3, 4 (or more)
+#   direction = up | down | left | right
+#
+# Values are arrays of command arrays. Each inner array is passed to
+# subprocess.run as-is.
+
+"2-finger-up" = [
+  ["niri", "msg", "action", "focus-workspace-up"],
+]
+
+"2-finger-down" = [
+  ["niri", "msg", "action", "focus-workspace-down"],
+]
+
+"3-finger-left" = [
+  ["niri", "msg", "action", "focus-column-left"],
+]
+
+"3-finger-right" = [
+  ["niri", "msg", "action", "focus-column-right"],
+]
+
+"4-finger-up" = [
+  ["niri", "msg", "action", "toggle-overview"],
+]

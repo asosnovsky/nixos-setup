@@ -134,6 +134,13 @@
               cargo
               rust-analyzer
               nushell
+              # Python tooling for niri-touchscreen-gestures script
+              python3
+              python3Packages.evdev
+              python3Packages.tomli
+              python3Packages.pydantic
+              python3Packages.pydantic-settings
+              libinput
             ];
             shellHook = ''
                             export PATH=$PATH:$(pwd)/bin

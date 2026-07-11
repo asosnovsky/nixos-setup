@@ -8,6 +8,12 @@ input {
         tap
         natural-scroll
     }
+
+    // Absolute map for the built-in panel (scale 1.5). Without this, touch
+    // can miss windows when logical/physical sizes diverge.
+    touch {
+        map-to-output "eDP-1"
+    }
 }
 
 overview {

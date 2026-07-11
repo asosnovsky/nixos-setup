@@ -19,6 +19,8 @@
         ds4 = final.callPackage ../../pkgs/ds4 { };
         ds4-rocm = final.callPackage ../../pkgs/ds4 { backend = "rocm"; };
         ds4-cuda = final.callPackage ../../pkgs/ds4 { backend = "cuda"; };
+        # Touchscreen gesture bridge for niri, see pkgs/niri-touchscreen-gestures.
+        niri-touchscreen-gestures = final.callPackage ../../pkgs/niri-touchscreen-gestures { };
       })
       (final: prev: {
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
