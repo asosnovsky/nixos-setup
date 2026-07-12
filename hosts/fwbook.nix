@@ -41,7 +41,6 @@ in
           enable = true;
           niri = {
             enable = true;
-            touchscreen-gestures.enable = true;
           };
         };
       };
@@ -150,9 +149,9 @@ in
       nodejs
 
       # Emulation
-      wineWowPackages.stable
+      wineWow64Packages.stable
       winetricks
-      wineWowPackages.waylandFull
+      wineWow64Packages.waylandFull
 
       # Video recording & editing
       obs-studio
@@ -233,6 +232,9 @@ in
       pi-coding-agent
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+      # My Own
+      niri-touchscreen-gestures
 
     ]);
   services.usbmuxd.enable = true;
