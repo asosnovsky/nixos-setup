@@ -19,6 +19,8 @@ python3.pkgs.buildPythonApplication {
     evdev
     pydantic
     pydantic-settings
+    typing-extensions
+  ],
   ];
 
   meta = {

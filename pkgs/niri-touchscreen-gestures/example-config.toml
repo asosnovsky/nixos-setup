@@ -4,25 +4,16 @@
 #   N = 2, 3, 4 (or more)
 #   direction = up | down | left | right
 #
-# Values are arrays of command arrays. Each inner array is passed to
-# subprocess.run as-is.
+# Values are strings representing the niri action to perform.
 
-"2-finger-up" = [
-  ["niri", "msg", "action", "focus-workspace-up"],
-]
+"3-finger-up" = "FocusWorkspaceDown"
 
-"2-finger-down" = [
-  ["niri", "msg", "action", "focus-workspace-down"],
-]
+"3-finger-down" = "FocusWorkspaceUp"
 
-"3-finger-left" = [
-  ["niri", "msg", "action", "focus-column-left"],
-]
+"3-finger-left" = "FocusColumnRight"
 
-"3-finger-right" = [
-  ["niri", "msg", "action", "focus-column-right"],
-]
+"3-finger-right" = "FocusColumnLeft"
 
-"4-finger-up" = [
-  ["niri", "msg", "action", "toggle-overview"],
-]
+"4-finger-up" = "ToggleOverview"
+
+"4-finger-down" = "ToggleOverview"

@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 import tomllib
 from pydantic import BaseModel, Field
+
+from niri_touchscreen_gestures.nirictl import SupportedActions
 
 
 class GestureConfig(BaseModel):
@@ -13,15 +15,15 @@ class GestureConfig(BaseModel):
     command arrays. Any key is accepted; values must be arrays of string arrays.
     """
 
-    gestures: Dict[str, List[List[str]]] = Field(default_factory=dict)
+    gestures: dict[str, SupportedActions] = Field(default_factory=dict)
 
     model_config = {"extra": "allow"}
 
     @classmethod
     def from_toml(cls, path: str) -> GestureConfig:
         with open(path, "rb") as f:
-            data: Dict[str, Any] = tomllib.load(f)
+            data: dict[str, Any] = tomllib.load(f)
         return cls(gestures=data)
 
-    def get(self, key: str) -> List[List[str]] | None:
+    def get(self, key: str) -> SupportedActions | None:
         return self.gestures.get(key)
