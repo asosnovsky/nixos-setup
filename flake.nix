@@ -140,6 +140,7 @@
               python3Packages.tomli
               python3Packages.pydantic
               python3Packages.pydantic-settings
+              python3Packages.pytest
               libinput
             ];
             shellHook = ''
