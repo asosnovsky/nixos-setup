@@ -8,9 +8,16 @@ let
   cfg = config.skyg.nixos.desktop.tiler.niri;
 in
 {
+  imports = [
+    ./niri-touchscreen-gestures.nix
+  ];
+
   options = {
     skyg.nixos.desktop.tiler.niri = {
       enable = lib.mkEnableOption "niri";
+      touchscreen-gestures = {
+        enable = lib.mkEnableOption "touchscreen gesture support";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -35,5 +42,6 @@ in
         xdg-desktop-portal-gtk
       ];
     };
+
   };
 }

@@ -9,9 +9,10 @@ of Wayland control/capture tools. Each compositor module turns this on automatic
 ```
 tiler/
 ├── default.nix    # skyg.nixos.desktop.tiler.enable — DMS, keyring, polkit, shared packages
-├── niri.nix       # skyg.nixos.desktop.tiler.niri — niri compositor (sets tiler.enable)
-├── hyprland.nix   # skyg.nixos.desktop.tiler.hyprland — Hyprland (sets tiler.enable)
-└── swww.nix       # skyg.nixos.desktop.tiler.background — swww/waypaper wallpaper tools
+├── niri.nix                    # skyg.nixos.desktop.tiler.niri — niri compositor (sets tiler.enable)
+├── niri-touchscreen-gestures.nix # skyg.nixos.desktop.tiler.niri.touchscreen-gestures — touchscreen swipe support
+├── hyprland.nix                # skyg.nixos.desktop.tiler.hyprland — Hyprland (sets tiler.enable)
+└── swww.nix                    # skyg.nixos.desktop.tiler.background — swww/waypaper wallpaper tools
 ```
 
 ## Behaviour
@@ -27,8 +28,9 @@ tiler/
 ## Option Namespace
 
 ```
-skyg.nixos.desktop.tiler.enable        → default.nix (usually set indirectly)
+skyg.nixos.desktop.tiler.enable                  → default.nix (usually set indirectly)
 skyg.nixos.desktop.tiler.niri.enable
+skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable  # 3/4-finger swipes → niri actions
 skyg.nixos.desktop.tiler.hyprland.enable
 skyg.nixos.desktop.tiler.background.enable
 ```
@@ -38,3 +40,15 @@ skyg.nixos.desktop.tiler.background.enable
 - Don't set `tiler.enable` directly — enable a compositor and let it flip the shared switch.
 - Greeter is DMS-managed (`programs.dank-material-shell`); never hand-roll `services.greetd`.
 - Keyring provides the SSH agent here — keep `programs.ssh.startAgent` off.
+
+## Touchscreen Gestures (niri only)
+
+When `skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable = true`:
+
+- Installs `niri-touchscreen-gestures` package
+- Starts a user systemd service (`niri-touchscreen-gestures.service`)
+- Uses built-in defaults: 3-finger swipes for workspace/column navigation, 4-finger for overview
+- Can be customized by placing a TOML config at `~/.config/niri/gestures.toml`
+- Requires user to be in the `input` group (done automatically by `tiler.enable`)
+
+See `pkgs/niri-touchscreen-gestures/README.md` for gesture configuration details.

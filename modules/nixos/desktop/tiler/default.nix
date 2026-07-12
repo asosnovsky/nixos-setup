@@ -11,6 +11,7 @@ in
   imports = [
     ./hyprland.nix
     ./niri.nix
+    ./niri-touchscreen-gestures.nix
     ./swww.nix
   ];
   options = {

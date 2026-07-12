@@ -39,7 +39,10 @@ in
         crypto.enable = true;
         tiler = {
           enable = true;
-          niri.enable = true;
+          niri = {
+            enable = true;
+            touchscreen-gestures.enable = true;
+          };
         };
       };
     };
@@ -231,8 +234,6 @@ in
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
 
-      # My Own
-      niri-touchscreen-gestures
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [
