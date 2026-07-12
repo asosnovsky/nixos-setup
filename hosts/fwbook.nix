@@ -121,6 +121,7 @@ in
       );
     in
     (with pkgs; [
+      # Improvement of Life
       grim
       slurp
       wl-clipboard
@@ -132,6 +133,8 @@ in
       wl-screenrec
       ffmpeg
       gifski
+      libusb1
+      lshw
       jq
 
       # Work
@@ -143,14 +146,10 @@ in
       openfortivpn-webview-qt
       nodejs
 
-      # Util
-      libusb1
-
-      # wine
+      # Emulation
       wineWowPackages.stable
       winetricks
       wineWowPackages.waylandFull
-      lshw
 
       # Video recording & editing
       obs-studio
@@ -231,6 +230,9 @@ in
       pi-coding-agent
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+      # My Own
+      niri-touchscreen-gestures
     ]);
   services.usbmuxd.enable = true;
   services.flatpak.packages = [

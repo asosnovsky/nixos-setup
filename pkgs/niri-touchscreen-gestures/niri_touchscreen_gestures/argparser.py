@@ -20,8 +20,8 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--config",
-        required=True,
-        help="Path to TOML config file",
+        default=None,
+        help="Path to TOML config file (optional - uses built-in defaults)",
     )
     parser.add_argument(
         "--threshold",
@@ -39,10 +39,22 @@ def get_parser() -> argparse.ArgumentParser:
 def process_args(
     args: argparse.Namespace,
 ) -> tuple[GestureConfig, evdev.InputDevice, int]:
-    if not os.path.exists(args.config):
+    if args.config is None:
+        config = GestureConfig(
+            gestures={
+                "3-finger-up": "FocusWorkspaceDown",
+                "3-finger-down": "FocusWorkspaceUp",
+                "3-finger-left": "FocusColumnRight",
+                "3-finger-right": "FocusColumnLeft",
+                "4-finger-up": "ToggleOverview",
+                "4-finger-down": "ToggleOverview",
+            }
+        )
+    elif not os.path.exists(args.config):
         raise FileNotFoundError(f"Config not found: {args.config}")
-    logger.info(f"niri-touchscreen-gestures: using config {args.config}")
-    config = GestureConfig.from_toml(args.config)
+    else:
+        logger.info(f"niri-touchscreen-gestures: using config {args.config}")
+        config = GestureConfig.from_toml(args.config)
 
     if args.device is None:
         devices = list(identify_touchscreen_via_evdev())

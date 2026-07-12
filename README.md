@@ -9,6 +9,7 @@ nixos-setup/
 ├── bin/
 │   └── skyg              # Main CLI tool for managing NixOS configurations
 ├── configs/              # Application-specific configurations
+├── pkgs/                 # Custom packages (niri-touchscreen-gestures, grok-cli, ds4)
 ├── hosts/                # Host-specific NixOS configurations
 │   ├── *.nix             # Host configuration files (fwbook, hl-bigbox1, hl-minipc*, etc.)
 │   ├── *.hardware-configuration.nix  # Hardware-specific configurations
@@ -23,6 +24,34 @@ nixos-setup/
 ├── flake.lock            # Locked dependency versions
 └── README.md             # This file
 ```
+
+## Using This Flake
+
+To use the custom packages in your own NixOS/Home Manager configuration:
+
+```nix
+{
+  inputs.nixos-setup.url = "github:skykanin/nixos-setup";
+
+  outputs = { self, nixpkgs, nixos-setup, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixos-setup.lib.pkgs.${system};
+    in {
+      environment.systemPackages = with pkgs; [
+        niri-touchscreen-gestures
+        grok-cli
+        ds4
+      ];
+    };
+}
+```
+
+You can also import `nixos-setup.lib` to reuse `makeNixOs`, `makeHomeManagerUsers`, and other utilities.
+
+See [`pkgs/ABOUTME.md`](pkgs/ABOUTME.md) for details on each package.
+
+**Key packages:** `niri-touchscreen-gestures` (run `niri-touchscreen-gestures` — uses built-in defaults), `grok-cli`, and `ds4` (local LLM inference with CPU/ROCm/CUDA support).
 
 ## Quick Start
 
@@ -94,6 +123,18 @@ skyg rollback
 skyg hm switch
 ```
 
+### Using Custom Packages
+
+All packages from `pkgs/` are available in your configuration as `pkgs.<name>` thanks to the overlay.
+
+Example:
+
+```nix
+environment.systemPackages = with pkgs; [ niri-touchscreen-gestures grok-cli ds4 ];
+```
+
+See [`pkgs/ABOUTME.md`](pkgs/ABOUTME.md) for details on each package.
+
 ## Managing Secrets
 
 Secrets are encrypted using [agenix](https://github.com/ryantm/agenix) and stored in `secrets/`.
@@ -112,3 +153,5 @@ Available profiles include:
 - **Local**: `fwbook` (Framework laptop)
 - **Remote**: `hl-bigbox1`, `hl-bigbox2`, `hl-fwdesk`, `hl-fws1`, `hl-minipc1`, `hl-minipc2`, `hl-minipc3`, `hl-terra1`
 - **ISO**: `iso` (bootable image)
+
+All profiles automatically have access to the custom packages from the `pkgs/` directory.

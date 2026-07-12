@@ -20,11 +20,10 @@ python3.pkgs.buildPythonApplication {
     pydantic
     pydantic-settings
     typing-extensions
-  ],
   ];
 
   meta = {
-    description = "Touchscreen gesture detector for niri (2/3/4-finger swipes → niri actions)";
+    description = "Touchscreen gesture detector for niri (2/3/4-finger swipes → niri actions). Just run `niri-touchscreen-gestures` — no config needed.";
     homepage = "https://github.com/skykanin/nixos-setup";
     license = lib.licenses.mit;
     sourceProvenance = [ lib.sourceTypes.fromSource ];

@@ -41,7 +41,6 @@ def _handle_event(
     """Pure event handler. Returns (new_state, action_or_None)."""
     if ev.type != evdev.ecodes.EV_ABS:
         return state, None
-
     slot: Slot = state.slots.get(state.current_slot, empty_slot()).copy()
     new_slots: dict[FingerNumber, Slot] = {k: v.copy() for k, v in state.slots.items()}
 
