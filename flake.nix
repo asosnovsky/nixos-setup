@@ -12,6 +12,7 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    flox.url = "github:flox/flox/latest";
     # nix-index database (for nix-index and comma)
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -50,11 +51,16 @@
     hyprlauncher.url = "github:hyprwm/hyprlauncher";
     # Secrets management
     agenix.url = "github:ryantm/agenix";
+    # Claude Desktop
+    claude-desktop = {
+      url = "github:patrickjaja/claude-desktop-bin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-
   outputs =
     { self
     , nixpkgs-unstable
+    , flox
     , determinate
     , nixos-hardware
     , nixpkgs
@@ -70,6 +76,7 @@
     , nix-index-database
     , agenix
     , hermes-agent
+    , claude-desktop
     }:
     let
       # Libs
@@ -101,6 +108,8 @@
                 noctalia
                 nix-index-database
                 hermes-agent
+                claude-desktop
+                flox
                 ;
             };
           }

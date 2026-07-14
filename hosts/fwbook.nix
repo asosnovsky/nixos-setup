@@ -5,6 +5,8 @@
 , unstablePkgs
 , noctalia
 , hermes-agent
+, claude-desktop
+, flox
 , ...
 }:
 let
@@ -203,6 +205,7 @@ in
       orca-slicer
       devcontainer
       gpu-screen-recorder
+      flox.packages.${system}.default
 
       # Run macos apps
       darling-dmg
@@ -232,6 +235,8 @@ in
       pi-coding-agent
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
+      claude-desktop.packages.x86_64-linux.default
+      claude-code
 
       # My Own
       niri-touchscreen-gestures
