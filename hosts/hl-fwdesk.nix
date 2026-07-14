@@ -17,6 +17,7 @@ let
     ds4 = 8000;
     hermes = 8642;
     hermesDashboard = 9119;
+    vnc = 5930;
   };
   openPorts = [
     ports.ollama
@@ -29,6 +30,7 @@ let
     ports.ds4
     ports.hermes
     ports.hermesDashboard
+    ports.vnc
   ];
 in
 {
@@ -206,6 +208,7 @@ in
   # Hermes Agent gateway (Docker container)
   age.secrets.hermes-env.file = ../secrets/hermes-env.age;
   skyg.nixos.common.container-services.hermes-agent = {
+    enable = true;
     timeoutStopSec = 210;
     services.hermes = {
       image = "nousresearch/hermes-agent";
