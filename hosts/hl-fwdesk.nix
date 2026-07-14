@@ -225,10 +225,8 @@ in
         PUID = "1000";
         PGID = "100";
       };
-      extraConfig = {
-        shm_size = "1g";
-        extra_hosts = [ "host.docker.internal:host-gateway" ];
-      };
+      shm_size = "1g";
+      extra_hosts = [ "host.docker.internal:host-gateway" ];
     };
   };
   # Signal CLI

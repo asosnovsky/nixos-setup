@@ -129,6 +129,31 @@
                 '';
               };
 
+              extra_hosts = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = [ ];
+                description = ''
+                  Additional host entries to add to the container's /etc/hosts file.
+                '';
+              };
+
+              shm_size = lib.mkOption {
+                type = lib.types.optional lib.types.str;
+                default = null;
+                description = ''
+                  Size of the shared memory segment to allocate.
+                '';
+              };
+
+              network_mode = lib.mkOption {
+                type = lib.types.optional lib.types.str;
+                default = null;
+                description = ''
+                  Network mode to use for the container.
+                  Set to "host" to use the host's network stack.
+                '';
+              };
+
               files = lib.mkOption {
                 type = lib.types.attrsOf lib.types.str;
                 default = { };
@@ -146,8 +171,7 @@
                 default = { };
                 description = ''
                   Free-form attrset merged directly into the compose service
-                  block. Use this for keys not modelled above:
-                  shm_size, cap_add, ulimits, etc.
+                  block. Use this for keys not modelled above.
                 '';
               };
 

@@ -67,10 +67,7 @@
         "scrypted-nvr:/nvr"
       ];
       environment.SCRYPTED_NVR_VOLUME = "/nvr";
-      extraConfig = {
-        network_mode = "host";
-        networks = [ ];
-      };
+      network_mode = "host";
     };
     volumes = {
       scrypted-nvr = {

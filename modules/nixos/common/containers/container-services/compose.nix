@@ -39,6 +39,15 @@ rec {
     // lib.optionalAttrs (svcCfg.deploy != { }) {
       deploy = svcCfg.deploy;
     }
+    // lib.optionalAttrs (svcCfg.extra_hosts != [ ]) {
+      extra_hosts = svcCfg.extra_hosts;
+    }
+    // lib.optionalAttrs (svcCfg.shm_size != null) {
+      shm_size = svcCfg.shm_size;
+    }
+    // lib.optionalAttrs (svcCfg.network_mode != null) {
+      network_mode = svcCfg.network_mode;
+    }
     // svcCfg.extraConfig;
 
   # Build the full compose document attrset for a group.

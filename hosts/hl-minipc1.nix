@@ -1,9 +1,12 @@
-{ ... }:
+{ config, ... }:
 let
   ports = {
     audiobookshelf = 8000;
     nixServe = 5000;
     dockerRegistry = 5001;
+    postgres = 5432;
+    ssh = 22;
+    iu = 1947;
   };
   gitea = {
     user = "gitea";
@@ -18,7 +21,9 @@ let
     ports.audiobookshelf
     gitea.sshPort
     gitea.httpPort
-    22
+    ports.postgres
+    ports.ssh
+    ports.iu
   ];
 in
 {
@@ -84,6 +89,35 @@ in
       };
       service = {
         DISABLE_REGISTRATION = true;
+      };
+    };
+  };
+
+  skyg.nixos.common.container-services.iu = {
+    services = {
+      db = {
+        image = "postgres:18";
+        ports = [
+          "${toString ports.postgres}:5432"
+        ];
+        volumes = [
+          "/var/lib/iu:/opt/data"
+        ];
+        environmentFiles = [ config.age.secrets.iu-project.path ];
+        networks = [ "main" ];
+      };
+      iu = {
+        image = "minipc1.lab.internal:5001/iu:2026.07.12-ac2c604";
+        ports = [
+          "${toString ports.iu}:1947"
+        ];
+        volumes = [
+        ];
+        environmentFiles = [
+        ];
+        networks = [
+          "main"
+        ];
       };
     };
   };
