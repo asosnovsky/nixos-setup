@@ -21,4 +21,6 @@ in
 
   # Hermes envs
   "secrets/hermes-env.age".publicKeys = [ ari fwdesk ];
+
+  "secrets/iu-project.age".publicKeys = [ ari minipc1 ];
 }
