@@ -138,7 +138,7 @@
               };
 
               shm_size = lib.mkOption {
-                type = lib.types.optional lib.types.str;
+                type = lib.types.nullOr lib.types.str;
                 default = null;
                 description = ''
                   Size of the shared memory segment to allocate.
@@ -146,7 +146,7 @@
               };
 
               network_mode = lib.mkOption {
-                type = lib.types.optional lib.types.str;
+                type = lib.types.nullOr lib.types.str;
                 default = null;
                 description = ''
                   Network mode to use for the container.
