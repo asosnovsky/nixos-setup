@@ -23,6 +23,8 @@ in
       # Keep connections alive during large transfers
       settings.ClientAliveInterval = 15;
       settings.ClientAliveCountMax = 8;
+      settings.MaxSessions = 64;
+      settings.MaxStartups = "64:30:128";
     };
     users.users.${config.skyg.user.name}.openssh.authorizedKeys.keys = [
       cfg.masterPubKey
