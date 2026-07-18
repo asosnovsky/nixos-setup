@@ -205,7 +205,7 @@ in
       orca-slicer
       devcontainer
       gpu-screen-recorder
-      flox.packages.${system}.default
+      flox.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Run macos apps
       darling-dmg
@@ -231,11 +231,12 @@ in
       noctaliaPkg
 
       # coding agents
+      claude-desktop
       grok-cli
       pi-coding-agent
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
-      claude-desktop.packages.x86_64-linux.default
+      # claude-desktop.packages.x86_64-linux.default
       claude-code
 
       # My Own

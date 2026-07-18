@@ -41,37 +41,6 @@
   };
 
   # Dockge container service group
-  skyg.nixos.common.container-services.dockge = {
-    enable = false;
-    services.dockge = {
-      image = "louislam/dockge:1";
-      ports = [ "5001:5001" ];
-      volumes = [
-        "/var/run/docker.sock:/var/run/docker.sock"
-        "dockge-data:/app/data"
-        "dockge-stacks:/opt/stacks"
-      ];
-      environment.DOCKGE_STACKS_DIR = "/opt/stacks";
-    };
-    volumes = {
-      dockge-data = {
-        driver = "local";
-        driver_opts = {
-          type = "nfs";
-          o = "addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
-          device = ":/mnt/Data/apps/bigbox/dockge/data";
-        };
-      };
-      dockge-stacks = {
-        driver = "local";
-        driver_opts = {
-          type = "nfs";
-          o = "addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
-          device = ":/mnt/Data/apps/bigbox/dockge/stacks";
-        };
-      };
-    };
-  };
   skyg.nixos.common.container-services.jellyfin = {
     enable = true;
     autoUpdate.enable = true;

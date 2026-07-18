@@ -4,7 +4,6 @@
 , dpkg
 , autoPatchelfHook
 , makeWrapper
-, wrapGAppsHook3
 , alsa-lib
 , at-spi2-atk
 , cairo
@@ -14,14 +13,22 @@
 , gdk-pixbuf
 , glib
 , gtk3
+, libcap_ng
 , libdrm
+, libseccomp
 , libxkbcommon
+, libx11
+, libxcomposite
+, libxdamage
+, libxext
+, libxfixes
+, libxrandr
+, libxcb
 , mesa
 , nspr
 , nss
 , pango
 , systemd
-, xorg
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -30,10 +37,10 @@ stdenv.mkDerivation (finalAttrs: {
 
   src = fetchurl {
     url = "https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_${finalAttrs.version}_amd64.deb";
-    hash = "6d18ae792c2bddad01edc97c2c3f4cf489004cefe8fed6760a696ed25c49bf61";
+    hash = "sha256:6d18ae792c2bddad01edc97c2c3f4cf489004cefe8fed6760a696ed25c49bf61";
   };
 
-  nativeBuildInputs = [ dpkg autoPatchelfHook makeWrapper wrapGAppsHook3 ];
+  nativeBuildInputs = [ dpkg autoPatchelfHook makeWrapper ];
 
   buildInputs = [
     alsa-lib
@@ -45,32 +52,63 @@ stdenv.mkDerivation (finalAttrs: {
     gdk-pixbuf
     glib
     gtk3
+    libcap_ng
     libdrm
+    libseccomp
     libxkbcommon
+    libx11
+    libxcomposite
+    libxdamage
+    libxext
+    libxfixes
+    libxrandr
+    libxcb
     mesa
     nspr
     nss
     pango
     systemd
-    xorg.libX11
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXrandr
-    xorg.libxcb
   ];
 
-  unpackPhase = "dpkg-deb -x $src .";
+  unpackPhase = ''
+    mkdir -p work
+    cd work
+    ar x $src
+    tar -xf data.tar.xz --no-same-permissions || tar -xf data.tar.xz
+    cd ..
+    mv work/usr .
+  '';
 
   installPhase = ''
     runHook preInstall
     mkdir -p $out
     cp -r usr/* $out/
 
-    # Adjust to the real executable path revealed by: dpkg-deb -c the.deb
-    makeWrapper $out/lib/claude-desktop/claude-desktop $out/bin/claude-desktop \
-      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ mesa ]}"
+    # Move the original binary and create a wrapper
+    mv $out/lib/claude-desktop/claude-desktop $out/lib/claude-desktop/.claude-desktop-wrapped
+    makeWrapper $out/lib/claude-desktop/.claude-desktop-wrapped $out/bin/claude-desktop \
+      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [
+        mesa
+        libxkbcommon
+        libx11
+        libxcomposite
+        libxdamage
+        libxext
+        libxfixes
+        libxrandr
+        libxcb
+        glib
+        nspr
+        nss
+        cairo
+        pango
+        gdk-pixbuf
+        at-spi2-atk
+        dbus
+        cups
+        systemd
+        alsa-lib
+      ]}"
 
     # Fix desktop-file Exec/Icon paths if present
     if [ -d usr/share/applications ]; then

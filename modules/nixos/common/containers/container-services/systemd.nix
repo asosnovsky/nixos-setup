@@ -10,11 +10,22 @@
     {
       description = "Container service group '${groupName}'";
       wantedBy = [ "multi-user.target" ];
-      after = [ runtimeService "network-online.target" "agenix.service" ]
-        ++ lib.optional hasFiles fileServiceDep;
+      wants = [ "network-online.target" "remote-fs.target" ];
+      after = [
+        runtimeService
+        "network-online.target"
+        "agenix.service"
+        "remote-fs.target"
+      ]
+      ++ lib.optional hasFiles fileServiceDep;
       requires = [ runtimeService ]
         ++ lib.optional hasFiles fileServiceDep;
+      startLimitIntervalSec = 300; # 5 minutes window
+      startLimitBurst = 6; # allow 6 failures before giving up
       serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "15s";
+        TimeoutStartSec = "120s";
         Type = "oneshot";
         RemainAfterExit = true;
         TimeoutStopSec = grpCfg.timeoutStopSec;
