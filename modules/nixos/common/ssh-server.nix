@@ -14,6 +14,10 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
+    skyg.nixos.common.ssh-notify = {
+      enable = true;
+      role = "server";
+    };
     services.openssh = {
       enable = true;
       openFirewall = true;
