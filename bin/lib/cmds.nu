@@ -147,9 +147,10 @@ export def "skyg remote boot-all" [
     mut failures = []
     mut skipped = []
 
+    # Phase 1: sequential SSH reachability checks (fast)
+    mut online_hosts = []
     for host in $all_hosts {
         print $"\n=== Checking ($host) ==="
-        # Check online via SSH reachability (hosts use Tailscale; plain ping often fails to resolve)
         let target = $"root@($host).lab.internal"
         let is_online = (try {
             bash -c $"ssh -o BatchMode=yes -o ConnectTimeout=3 -o StrictHostKeyChecking=accept-new ($target) 'true' >/dev/null 2>&1"
@@ -159,26 +160,36 @@ export def "skyg remote boot-all" [
         if not $is_online {
             print $"(ansi yellow)OFFLINE(ansi reset): ($host)"
             $skipped = ($skipped | append $host)
-            continue
+        } else {
+            print $"(ansi green)ONLINE(ansi reset): ($host) - will boot via ($build_host)"
+            $online_hosts = ($online_hosts | append $host)
         }
+    }
 
-        print $"(ansi green)ONLINE(ansi reset): ($host) - running boot via ($build_host)"
-        let cmd = $"skyg remote boot --build-host ($build_host) ($host)"
-        print $cmd
-
-        let result = (try {
-            bash -c $cmd
-            true
-        } catch {
-            false
+    # Phase 2: run boots in parallel (2 concurrent)
+    if ($online_hosts | length) > 0 {
+        print "
+Starting parallel boots (concurrency: 2)..."
+        let boot_results = ($online_hosts | par-each --threads 2 { |host|
+            let cmd = $"skyg remote boot --build-host ($build_host) ($host)"
+            print $cmd
+            let ok = (try {
+                bash -c $cmd
+                true
+            } catch {
+                false
+            })
+            {host: $host, success: $ok}
         })
 
-        if $result {
-            $successes = ($successes | append $host)
-            print $"(ansi green)SUCCESS(ansi reset): ($host)"
-        } else {
-            $failures = ($failures | append $host)
-            print $"(ansi red)FAILED(ansi reset): ($host)"
+        for r in $boot_results {
+            if $r.success {
+                $successes = ($successes | append $r.host)
+                print $"(ansi green)SUCCESS(ansi reset): ($r.host)"
+            } else {
+                $failures = ($failures | append $r.host)
+                print $"(ansi red)FAILED(ansi reset): ($r.host)"
+            }
         }
     }
 
@@ -198,7 +209,8 @@ Details:
 "
 
     $report | save -f $report_file
-    print $"\nReport written to ($report_file)"
+    print $"
+Report written to ($report_file)"
     print $report
 }
 
