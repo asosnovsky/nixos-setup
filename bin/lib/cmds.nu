@@ -126,6 +126,82 @@ export def "skyg remote" [
     bash -c $runcmd
 }
 
+# Boot all remote hosts except the current machine (fwbook)
+# Checks online status first, runs `skyg remote boot --build-host fwdesk <host>` for each online host,
+# and writes a summary report to .tmp/boot-report.txt
+
+export def "skyg remote boot-all" [
+    --build-host: string@remote_targets = "fwdesk"  # Builder host to use for all boots
+] {
+    cd $REPO_ROOT
+    mkdir .tmp
+    let current_host = "fwbook"
+    let report_file = ".tmp/boot-report.txt"
+
+    # Discover remote targets from the flake (same logic as skyg remote)
+    let all_hosts = (remote_targets | where { |h| $h != $current_host })
+
+    print $"Found ($all_hosts | length) candidate hosts excluding ($current_host)"
+
+    mut successes = []
+    mut failures = []
+    mut skipped = []
+
+    for host in $all_hosts {
+        print $"\n=== Checking ($host) ==="
+        # Check online via SSH reachability (hosts use Tailscale; plain ping often fails to resolve)
+        let target = $"root@($host).lab.internal"
+        let is_online = (try {
+            bash -c $"ssh -o BatchMode=yes -o ConnectTimeout=3 -o StrictHostKeyChecking=accept-new ($target) 'true' >/dev/null 2>&1"
+            true
+        } catch { false })
+
+        if not $is_online {
+            print $"(ansi yellow)OFFLINE(ansi reset): ($host)"
+            $skipped = ($skipped | append $host)
+            continue
+        }
+
+        print $"(ansi green)ONLINE(ansi reset): ($host) - running boot via ($build_host)"
+        let cmd = $"skyg remote boot --build-host ($build_host) ($host)"
+        print $cmd
+
+        let result = (try {
+            bash -c $cmd
+            true
+        } catch {
+            false
+        })
+
+        if $result {
+            $successes = ($successes | append $host)
+            print $"(ansi green)SUCCESS(ansi reset): ($host)"
+        } else {
+            $failures = ($failures | append $host)
+            print $"(ansi red)FAILED(ansi reset): ($host)"
+        }
+    }
+
+    # Write report
+    let timestamp = (date now | format date "%Y-%m-%d %H:%M:%S")
+    let report = $"Boot Report - ($timestamp)
+
+Total hosts considered: ($all_hosts | length)
+Skipped offline: ($skipped | length) - ($skipped | str join ', ')
+Successful: ($successes | length) - ($successes | str join ', ')
+Failed: ($failures | length) - ($failures | str join ', ')
+
+Details:
+  Online & Booted: ($successes | str join ', ')
+  Offline: ($skipped | str join ', ')
+  Failed: ($failures | str join ', ')
+"
+
+    $report | save -f $report_file
+    print $"\nReport written to ($report_file)"
+    print $report
+}
+
 # Deploy OpenWrt router configuration
 export def "skyg openwrt" [router: string = "glmain"] {
     cd $REPO_ROOT

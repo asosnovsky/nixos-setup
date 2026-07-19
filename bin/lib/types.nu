@@ -5,7 +5,7 @@ export def hm-actions [] {
 }
 
 export def remote-cmds [] {
-    ["test", "dry-activate", "run", "switch", "build"]
+    ["test", "dry-activate", "run", "switch", "build", "boot"]
 }
 
 

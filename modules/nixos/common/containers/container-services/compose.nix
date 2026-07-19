@@ -7,6 +7,8 @@ rec {
     {
       image = svcCfg.image;
       restart = svcCfg.restart;
+    }
+    // lib.optionalAttrs (svcCfg.network_mode == null) {
       networks =
         if svcCfg.networks == [ ]
         then [ groupName ]
