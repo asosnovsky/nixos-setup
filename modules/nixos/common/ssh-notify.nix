@@ -71,20 +71,22 @@ in
       after = [ "default.target" ];
       wantedBy = [ "default.target" ];
       serviceConfig = {
-        ExecStart = let
-          listenerScript = pkgs.writeShellScript "ssh-notify-listener" ''
-            set -euo pipefail
-            # Remove stale socket if present
-            rm -f ${socketPath}
-            # Listen and for each connection read two lines (title line, body line)
-            # and invoke the real notify-send. We keep it running via systemd Restart.
-            while true; do
-              ${pkgs.socat}/bin/socat \
-                UNIX-LISTEN:${socketPath},fork,mode=0666 \
-                SYSTEM:'read title; read body; ${realNotifySend} "$title" "$body" || true'
-            done
-          '';
-        in "${listenerScript}";
+        ExecStart =
+          let
+            listenerScript = pkgs.writeShellScript "ssh-notify-listener" ''
+              set -euo pipefail
+              # Remove stale socket if present
+              rm -f ${socketPath}
+              # Listen and for each connection read two lines (title line, body line)
+              # and invoke the real notify-send. We keep it running via systemd Restart.
+              while true; do
+                ${pkgs.socat}/bin/socat \
+                  UNIX-LISTEN:${socketPath},fork,mode=0666 \
+                  SYSTEM:'read title; read body; ${realNotifySend} "$title" "$body" || true'
+              done
+            '';
+          in
+          "${listenerScript}";
         Restart = "always";
         RestartSec = 2;
       };
