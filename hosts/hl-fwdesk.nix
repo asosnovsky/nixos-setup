@@ -13,7 +13,6 @@ let
     wyoming = 10400;
     comfyui = 8188;
     libretranslate = 5000;
-    signal = 8080;
     ds4 = 8000;
     hermes = 8642;
     hermesDashboard = 9119;
@@ -185,14 +184,9 @@ in
     package = pkgs.ollama-vulkan;
     user = "ollama";
     home = "/var/lib/ollama";
-
-
     environmentVariables = {
-      # Stability fix — SDMA is buggy on Strix Halo unified memory
       HSA_ENABLE_SDMA = "0";
-      # Flash attention for better performance
       OLLAMA_FLASH_ATTENTION = "1";
-      # Keep models loaded
       OLLAMA_KEEP_ALIVE = "24h";
     };
   };
@@ -210,33 +204,33 @@ in
   skyg.nixos.common.container-services.hermes-agent = {
     enable = true;
     timeoutStopSec = 210;
-    services.hermes = {
-      image = "nousresearch/hermes-agent";
-      command = [ "gateway" "run" ];
-      ports = [
-        "${toString ports.hermes}:8642"
-        "${toString ports.hermesDashboard}:9119"
-      ];
-      volumes = [
-        "/var/lib/hermes:/opt/data"
-      ];
-      environmentFiles = [ config.age.secrets.hermes-env.path ];
-      environment = {
-        PUID = "1000";
-        PGID = "100";
+    services = {
+      hermes = {
+        image = "nousresearch/hermes-agent";
+        command = [ "gateway" "run" ];
+        ports = [
+          "${toString ports.hermes}:8642"
+          "${toString ports.hermesDashboard}:9119"
+        ];
+        volumes = [
+          "/var/lib/hermes:/opt/data"
+        ];
+        environmentFiles = [ config.age.secrets.hermes-env.path ];
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+        };
+        shm_size = "1g";
+        extra_hosts = [ "host.docker.internal:host-gateway" ];
+        networks = [
+          "main"
+        ];
       };
-      shm_size = "1g";
-      extra_hosts = [ "host.docker.internal:host-gateway" ];
+    };
+    networks = {
+      "main" = { };
     };
   };
-  # Signal CLI
-  skyg.nixos.server.services.signal-cli = {
-    enable = false;
-    host = "0.0.0.0";
-    port = ports.signal;
-    environmentFile = config.age.secrets.hermes-env.path;
-  };
-
   hardware.enableAllFirmware = true;
   hardware.amdgpu = {
     opencl.enable = true;

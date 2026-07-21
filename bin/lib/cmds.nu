@@ -166,15 +166,17 @@ export def "skyg remote boot-all" [
         }
     }
 
-    # Phase 2: run boots in parallel (2 concurrent)
+    # Phase 2: run boots in parallel (2 concurrent) without interactive prompts
     if ($online_hosts | length) > 0 {
         print "
 Starting parallel boots (concurrency: 2)..."
-        let boot_results = ($online_hosts | par-each --threads 2 { |host|
-            let cmd = $"skyg remote boot --build-host ($build_host) ($host)"
-            print $cmd
+        let boot_results = ($online_hosts | par-each --threads 1 { |host|
+            let target_host = $"root@($host).lab.internal"
+            let profile = $"hl-($host)"
+            let runcmd = $"nh os boot --target-host ($target_host) --build-host ($build_host).lab.internal .#($profile)"
+            print $runcmd
             let ok = (try {
-                bash -c $cmd
+                bash -c $runcmd
                 true
             } catch {
                 false
@@ -206,6 +208,84 @@ Details:
   Online & Booted: ($successes | str join ', ')
   Offline: ($skipped | str join ', ')
   Failed: ($failures | str join ', ')
+"
+
+    $report | save -f $report_file
+    print $"
+Report written to ($report_file)"
+    print $report
+}
+
+# Check status of all remotes: generation, pending reboot, needs rebuild
+export def "skyg remote status" [] {
+    cd $REPO_ROOT
+    mkdir .tmp
+    let current_host = "fwbook"
+    let report_file = ".tmp/status-report.txt"
+
+    let all_hosts = (remote_targets | where { |h| $h != $current_host })
+    print $"Checking status for ($all_hosts | length) remotes..."
+
+    let results = ($all_hosts | each { |host|
+        print $"
+=== ($host) ==="
+        let target = $"root@($host).lab.internal"
+        let online = (try {
+            bash -c $"ssh -o BatchMode=yes -o ConnectTimeout=3 ($target) 'true' >/dev/null 2>&1"
+            true
+        } catch { false })
+
+        if not $online {
+            print $"(ansi yellow)OFFLINE(ansi reset)"
+            return {host: $host, status: "offline", booted: "", current: "", reboot_pending: false, needs_build: false}
+        }
+
+        let info = (try {
+            let booted = (bash -c $"ssh ($target) 'readlink /run/booted-system' 2>/dev/null" | str trim)
+            let current = (bash -c $"ssh ($target) 'readlink /run/current-system' 2>/dev/null" | str trim)
+            let reboot_pending = ($booted != $current)
+
+            # Compare what the local flake currently evaluates to vs remote's active system
+            let local_toplevel = (try {
+                (bash -c $"nix eval --raw '.#hl-($host).config.system.build.toplevel.outPath' 2>/dev/null || true") | str trim
+            } catch { "" })
+            let needs_build = if $local_toplevel == "" { false } else { $local_toplevel != $current }
+
+            {host: $host, status: "online", booted: $booted, current: $current, reboot_pending: $reboot_pending, needs_build: $needs_build}
+        } catch {
+            {host: $host, status: "error", booted: "", current: "", reboot_pending: false, needs_build: false}
+        })
+
+        print $"Booted:  ($info.booted | path basename)"
+        print $"Current: ($info.current | path basename)"
+        if $info.reboot_pending {
+            print $"(ansi yellow)REBOOT PENDING(ansi reset)"
+        }
+        if $info.needs_build {
+            print $"(ansi red)NEEDS NEW BUILD(ansi reset)"
+        } else {
+            print $"(ansi green)UP TO DATE(ansi reset)"
+        }
+
+        $info
+    })
+
+    let timestamp = (date now | format date "%Y-%m-%d %H:%M:%S")
+    let lines = ($results | each { |r|
+        if $r.status == "offline" {
+            $"- ($r.host): (ansi yellow)OFFLINE(ansi reset)"
+        } else if $r.status == "error" {
+            $"- ($r.host): (ansi red)ERROR querying status(ansi reset)"
+        } else {
+            let pending = if $r.reboot_pending { $" [(ansi blue)REBOOT PENDING(ansi reset)]" } else { "" }
+            let build = if $r.needs_build { $" [(ansi red)NEEDS REBUILD(ansi reset)]" } else { $" [(ansi green)current(ansi reset)]" }
+            $"- ($r.host): booted=($r.booted | path basename) current=($r.current | path basename)($pending)($build)"
+        }
+    })
+    let report = $"Remote Status Report - ($timestamp)
+
+" + ($lines | str join "
+") + "
 "
 
     $report | save -f $report_file
