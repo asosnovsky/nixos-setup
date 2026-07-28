@@ -41,13 +41,15 @@ def process_args(
 ) -> tuple[GestureConfig, evdev.InputDevice, int]:
     if args.config is None:
         config = GestureConfig(
-            gestures={
-                "3-finger-up": "FocusWorkspaceDown",
-                "3-finger-down": "FocusWorkspaceUp",
-                "3-finger-left": "FocusColumnRight",
-                "3-finger-right": "FocusColumnLeft",
-                "4-finger-up": "ToggleOverview",
-                "4-finger-down": "ToggleOverview",
+            **{
+                "global": {
+                    "3-finger-up": "FocusWorkspaceDown",
+                    "3-finger-down": "FocusWorkspaceUp",
+                    "3-finger-left": "FocusColumnRight",
+                    "3-finger-right": "FocusColumnLeft",
+                    "4-finger-up": "ToggleOverview",
+                    "4-finger-down": "ToggleOverview",
+                }
             }
         )
     elif not os.path.exists(args.config):

@@ -1,19 +1,33 @@
 # Example config for niri-touchscreen-gestures
 #
-# Keys are "<N>-finger-<direction>" where:
-#   N = 2, 3, 4 (or more)
-#   direction = up | down | left | right
+# Keys are one of:
+#   "<N>-finger-<direction>"   direction = up | down | left | right
+#   "1-finger-tap"             single short tap
+#   "1-finger-double-tap"      two short taps in quick succession
+#   "1-finger-long-tap"        a tap held past the long-press threshold
+#   "2-finger-scroll"          continuous 2-finger vertical drag
 #
-# Values are strings representing the niri action to perform.
+# Values are either:
+#   - a niri action (see https://github.com/YaLTeR/niri/blob/main/src/niri/config.rs)
+#   - "forward:click-left" / "forward:click-right" / "forward:scroll", which
+#     inject synthetic input (via wlrctl) into whatever window is focused
+#
+# Rules live under two tables:
+#   [global]           fallback rules, used when no per-app rule matches
+#   [apps."<app-id>"]  only applied while that app (by Wayland app-id) is focused
+# App-specific rules take priority over global ones for the same key.
 
+[global]
 "3-finger-up" = "FocusWorkspaceDown"
-
 "3-finger-down" = "FocusWorkspaceUp"
-
 "3-finger-left" = "FocusColumnRight"
-
 "3-finger-right" = "FocusColumnLeft"
-
 "4-finger-up" = "ToggleOverview"
-
 "4-finger-down" = "ToggleOverview"
+
+# Forward click/scroll gestures to Zed while it's focused.
+[apps."dev.zed.Zed"]
+"1-finger-tap" = "forward:click-left"
+"1-finger-double-tap" = "forward:click-right"
+"1-finger-long-tap" = "forward:click-right"
+"2-finger-scroll" = "forward:scroll"

@@ -1,23 +1,31 @@
 # niri-touchscreen-gestures
 
-A lightweight Python daemon that reads multi-touch events from a touchscreen via [`evdev`](https://python-evdev.readthedocs.io/), detects **2/3/4-finger swipe gestures**, and dispatches configurable actions to the [niri](https://github.com/YaLTeR/niri) Wayland compositor.
+A lightweight Python daemon that reads multi-touch events from a touchscreen via [`evdev`](https://python-evdev.readthedocs.io/), detects **swipe/tap gestures**, and either dispatches an action to the [niri](https://github.com/YaLTeR/niri) Wayland compositor or **forwards synthetic input (click/scroll) to whatever window currently has focus**.
 
 **Now with built-in defaults** — just run `niri-touchscreen-gestures` with no arguments to get started with sensible 3- and 4-finger gesture mappings.
 
 It works by:
 - Listening to absolute multi-touch (MT) events from an evdev touchscreen device
-- Tracking finger start/end positions and movement vectors
-- Classifying swipes (up/down/left/right) once they exceed a configurable pixel threshold
-- Looking up the gesture in a TOML config and sending an `Action` command to niri's Unix socket (`$NIRI_SOCKET`)
+- Tracking finger start/end positions, timing, and movement vectors
+- Classifying swipes (up/down/left/right), taps, double-taps, long-taps, and continuous
+  2-finger scroll drags
+- Looking up the gesture in a TOML config, scoped by the currently-focused app (queried over
+  niri's IPC socket), and either sending an `Action` command to niri or forwarding synthetic
+  input via [`wlrctl`](https://git.sr.ht/~brocellous/wlrctl) (niri implements the
+  `wlr-virtual-pointer-unstable-v1`/`virtual-keyboard-unstable-v1` protocols natively, so no
+  `ydotool`/`uinput`/root daemon is needed)
 
 ## Features
 
 - **Pure event-driven**: No polling, uses `evdev.InputDevice.read_loop()`
 - **Multi-finger support**: Automatically counts active fingers (2–4+)
-- **Configurable mappings**: TOML file maps gestures like `3-finger-left` to niri actions
+- **Tap gestures**: single tap, double tap, and long-press, forwarded as clicks
+- **Continuous scroll**: 2-finger vertical drags forward live scroll deltas, not just a one-shot action
+- **Per-app rules**: gestures can be scoped to whichever app currently has focus, with a global fallback
+- **Configurable mappings**: TOML file maps gestures like `3-finger-left` to niri actions or forwarded input
 - **Auto device detection**: Finds the first touchscreen (or accepts explicit `--device`)
 - **Robust state machine**: Pure functions for gesture classification with comprehensive tests
-- **Lightweight**: Minimal dependencies (`evdev`, `pydantic`, `pydantic-settings`)
+- **Lightweight**: Minimal dependencies (`evdev`, `pydantic`, `pydantic-settings`, `wlrctl`)
 
 ## Installation
 
@@ -80,24 +88,35 @@ The tool ships with **sensible defaults** that match the example below. You only
 See [`example-config.toml`](example-config.toml):
 
 ```toml
-# Example config for niri-touchscreen-gestures
-#
-# Keys are "<N>-finger-<direction>" where:
-#   N = 2, 3, 4 (or more)
-#   direction = up | down | left | right
-#
-# Values are niri actions. See https://github.com/YaLTeR/niri/blob/main/src/niri/config.rs
-# for the full list of available actions.
-
+[global]
 "3-finger-up" = "FocusWorkspaceDown"
 "3-finger-down" = "FocusWorkspaceUp"
 "3-finger-left" = "FocusColumnRight"
 "3-finger-right" = "FocusColumnLeft"
 "4-finger-up" = "ToggleOverview"
 "4-finger-down" = "ToggleOverview"
+
+[apps."dev.zed.Zed"]
+"1-finger-tap" = "forward:click-left"
+"1-finger-double-tap" = "forward:click-right"
+"1-finger-long-tap" = "forward:click-right"
+"2-finger-scroll" = "forward:scroll"
 ```
 
-These exact mappings are now the **built-in defaults**. You can map gestures to any niri action that accepts no parameters.
+The `[global]` table's mappings are the **built-in defaults**. `[apps."<app-id>"]` tables add
+rules that only apply while that app has focus (matched by its Wayland `app_id`, as reported by
+niri's `FocusedWindow` IPC query) and take priority over `[global]` for the same key.
+
+Gesture keys:
+- `"<N>-finger-<direction>"` — swipe, `direction` = `up`/`down`/`left`/`right`
+- `"1-finger-tap"` / `"1-finger-double-tap"` / `"1-finger-long-tap"` — tap gestures
+- `"<N>-finger-scroll"` — continuous drag scroll (currently supported for `N = 2`)
+
+Action values:
+- A niri action name (see below, or
+  [niri's config.rs](https://github.com/YaLTeR/niri/blob/main/src/niri/config.rs))
+- `"forward:click-left"` / `"forward:click-right"` / `"forward:scroll"` — synthetic input
+  forwarded to the focused window via `wlrctl`
 
 **Tip**: Place a custom config at `~/.config/niri/gestures.toml` and launch the daemon from a user systemd service or your niri startup script.
 
@@ -117,9 +136,10 @@ See [`nirictl.py`](niri_touchscreen_gestures/nirictl.py) for the list.
 
 1. **Device Selection**: `touchscreen_identifier.py` scans `/dev/input` for devices with `EV_ABS` capabilities that aren't mice or touchpads.
 2. **Event Loop**: Reads raw `EV_ABS` events (`ABS_MT_SLOT`, `ABS_MT_TRACKING_ID`, `ABS_MT_POSITION_X/Y`).
-3. **State Tracking**: Maintains per-slot (per-finger) start and current coordinates.
-4. **Gesture Detection**: On finger lift (`TRACKING_ID == -1`), computes delta and classifies direction if movement exceeds threshold.
-5. **Action Dispatch**: Looks up `"{finger_count}-finger-{direction}"` in config and sends JSON command to niri's IPC socket.
+3. **State Tracking**: Maintains per-slot (per-finger) start/current coordinates and start time.
+4. **Gesture Detection**: On finger lift (`TRACKING_ID == -1`), classifies a tap/long-tap (low movement) or a swipe (movement past threshold). A lone tap is held for a short debounce window (via a background timer) to see if a second tap follows and it becomes a double-tap. 2-finger vertical drags stream continuous scroll deltas on every position update, instead of waiting for lift.
+5. **Focused-app resolution**: Queries niri's `FocusedWindow` IPC request (once per gesture, cached for its duration) and resolves the gesture key against `[apps."<app-id>"]` first, falling back to `[global]`.
+6. **Dispatch**: Niri actions are sent as JSON over niri's IPC socket; `forward:*` actions are sent to the focused window via `wlrctl pointer click/scroll`.
 
 All core logic is in `detector/gestures.py` and is unit-tested.
 

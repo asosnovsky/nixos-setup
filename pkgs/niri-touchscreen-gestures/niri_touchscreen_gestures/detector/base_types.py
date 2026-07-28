@@ -15,6 +15,7 @@ class Slot(TypedDict):
     start_y: int
     last_x: int
     last_y: int
+    start_time: float
 
 
 class DetectorState(BaseModel):

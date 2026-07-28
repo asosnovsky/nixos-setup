@@ -1,5 +1,6 @@
 { lib
 , python3
+, wlrctl
 , ...
 }:
 
@@ -22,8 +23,18 @@ python3.pkgs.buildPythonApplication {
     typing-extensions
   ];
 
+  # Gestures forwarded to the focused app (clicks/scroll) shell out to wlrctl,
+  # which uses niri's native wlr-virtual-pointer/virtual-keyboard protocol
+  # support -- no uinput/root daemon needed.
+  makeWrapperArgs = [
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [ wlrctl ])
+  ];
+
   meta = {
-    description = "Touchscreen gesture detector for niri (2/3/4-finger swipes → niri actions). Just run `niri-touchscreen-gestures` — no config needed.";
+    description = "Touchscreen gesture detector for niri (2/3/4-finger swipes → niri actions, plus click/scroll forwarding to the focused app). Just run `niri-touchscreen-gestures` — no config needed.";
     homepage = "https://github.com/skykanin/nixos-setup";
     license = lib.licenses.mit;
     sourceProvenance = [ lib.sourceTypes.fromSource ];

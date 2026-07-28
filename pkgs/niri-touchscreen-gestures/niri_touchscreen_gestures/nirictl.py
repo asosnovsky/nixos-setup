@@ -36,7 +36,7 @@ def niri_socket():
         s.close()
 
 
-def send_niri_command(command: dict[str, Any]) -> dict[str, Any]:
+def send_niri_command(command: dict[str, Any] | str) -> dict[str, Any]:
     """Send a raw JSON command to Niri and return the parsed reply."""
     with niri_socket() as s:
         s.sendall((json.dumps(command) + "\n").encode("utf-8"))
@@ -66,3 +66,9 @@ def send_niri_action(action: SupportedActions) -> bool:
     request = {"Action": {action: {}}}
     reply = send_niri_command(request)
     return reply.get("Ok", "Handled").lower() == "handled"
+
+
+def get_focused_window() -> dict[str, Any] | None:
+    """Query niri for the currently focused window (includes its `app_id`)."""
+    reply = send_niri_command("FocusedWindow")
+    return reply.get("Ok", {}).get("FocusedWindow")

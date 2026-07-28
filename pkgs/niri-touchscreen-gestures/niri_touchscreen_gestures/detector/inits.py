@@ -12,6 +12,7 @@ def empty_slot() -> Slot:
         start_y=0,
         last_x=0,
         last_y=0,
+        start_time=0.0,
     )
 
 
