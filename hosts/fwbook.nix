@@ -243,15 +243,12 @@ in
       # claude-desktop.packages.x86_64-linux.default
       claude-code
 
-      touchegg
-
       # My Own
       niri-touchscreen-gestures
 
     ]);
 
 
-  services.touchegg.enable = true;
   services.usbmuxd.enable = true;
   services.flatpak.packages = [
     "com.cassidyjames.butler"
