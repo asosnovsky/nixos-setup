@@ -15,7 +15,8 @@ let
 
   pluginLib = "${../fusuma-plugin-niri-appmatcher}/lib";
 in
-runCommand "fusuma-3.12.0" {
+runCommand "fusuma-3.12.0"
+{
   nativeBuildInputs = [ makeWrapper ];
 } ''
   mkdir -p $out/bin

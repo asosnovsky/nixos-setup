@@ -61,6 +61,8 @@ in
   };
   virtualisation.waydroid.enable = true;
   hardware.enableRedistributableFirmware = true;
+  # Fusuma needs raw input device access to read touchpad/touchscreen gestures.
+  users.users.${user.name}.extraGroups = [ "input" ];
   # Tailscale
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
@@ -245,6 +247,7 @@ in
 
       # My Own
       niri-touchscreen-gestures
+      fusuma
 
     ]);
   services.usbmuxd.enable = true;

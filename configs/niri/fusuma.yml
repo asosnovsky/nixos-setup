@@ -1,0 +1,49 @@
+swipe:
+  3:
+    left:
+      command: "niri msg action FocusColumnRight"
+    right:
+      command: "niri msg action FocusColumnLeft"
+    up:
+      command: "niri msg action FocusWorkspaceDown"
+    down:
+      command: "niri msg action FocusWorkspaceUp"
+  4:
+    up:
+      command: "niri msg action ToggleOverview"
+    down:
+      command: "niri msg action ToggleOverview"
+pinch:
+  2:
+    in:
+      keypress:
+        LEFTCTRL: press
+        MINUS: press
+    out:
+      keypress:
+        LEFTCTRL: press
+        EQUAL: press
+app:
+  zed:
+    match:
+      class: "dev.zed.Zed"
+    swipe:
+      2:
+        left:
+          keypress:
+            ALT: press
+            LEFT: press
+        right:
+          keypress:
+            ALT: press
+            RIGHT: press
+    pinch:
+      2:
+        in:
+          keypress:
+            LEFTCTRL: press
+            MINUS: press
+        out:
+          keypress:
+            LEFTCTRL: press
+            EQUAL: press
