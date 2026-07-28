@@ -1,0 +1,42 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    fusuma (3.12.0)
+    fusuma-plugin-appmatcher (0.12.0)
+      fusuma (>= 3.0)
+      rexml
+      ruby-dbus
+    fusuma-plugin-keypress (0.11.0)
+      fusuma (>= 3.1)
+    fusuma-plugin-sendkey (0.14.0)
+      fusuma (>= 3.1)
+      revdev
+    logger (1.7.0)
+    revdev (0.2.1)
+    rexml (3.4.4)
+    ruby-dbus (0.25.0)
+      logger
+      rexml
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  fusuma
+  fusuma-plugin-appmatcher
+  fusuma-plugin-keypress
+  fusuma-plugin-sendkey
+
+CHECKSUMS
+  fusuma (3.12.0) sha256=2115b5522797b0c61215bbd37fb0fc8cf52b4c7d4c1a036aef20cb6ae049fca6
+  fusuma-plugin-appmatcher (0.12.0) sha256=30e397eb4a62debb14ce70bf71d3a1d54a4ad552bdd77665b5979a3f0f2be246
+  fusuma-plugin-keypress (0.11.0) sha256=341acb8ca7b167ec398006e3b42e18d979ed4ef18b1543f7422bf9928c6c9a99
+  fusuma-plugin-sendkey (0.14.0) sha256=12729afc260359b17f64b48af89d541122a8d45f7e63a709de6e2b3fc57fc0bf
+  logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
+  revdev (0.2.1) sha256=e9eb8b015d0189637050c37342ad6ccf4d8b49839df58edd08332a8ab779dfac
+  rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
+  ruby-dbus (0.25.0) sha256=fe431ca96a61f7c87a5177a43c9fe0a50eafe174c1d108421e38bb5165ea4814
+
+BUNDLED WITH
+   2.7.2

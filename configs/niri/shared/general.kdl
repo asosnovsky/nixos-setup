@@ -65,3 +65,7 @@ gestures {
         bottom-right
     }
 }
+
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
