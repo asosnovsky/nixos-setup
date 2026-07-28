@@ -72,3 +72,14 @@ def get_focused_window() -> dict[str, Any] | None:
     """Query niri for the currently focused window (includes its `app_id`)."""
     reply = send_niri_command("FocusedWindow")
     return reply.get("Ok", {}).get("FocusedWindow")
+
+
+def get_outputs() -> dict[str, Any]:
+    """Query niri for all connected outputs, keyed by output name (e.g. "eDP-1").
+
+    Each output's `logical` field (None if disabled) gives its position/size
+    in niri's global logical coordinate space: {x, y, width, height, scale,
+    transform}.
+    """
+    reply = send_niri_command("Outputs")
+    return reply.get("Ok", {}).get("Outputs", {})

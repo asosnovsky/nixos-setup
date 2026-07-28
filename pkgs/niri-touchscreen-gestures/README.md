@@ -71,6 +71,9 @@ niri-touchscreen-gestures --threshold 40
 
 # Use a specific device (bypasses auto-detection)
 niri-touchscreen-gestures --device /dev/input/event5
+
+# Pick which niri output the touchscreen maps to (only needed with >1 output connected)
+niri-touchscreen-gestures --touch-output eDP-1
 ```
 
 ### Command-line options
@@ -78,8 +81,23 @@ niri-touchscreen-gestures --device /dev/input/event5
 - `--config PATH`: Path to TOML configuration file (optional — uses built-in defaults)
 - `--threshold N` (default: 60): Minimum pixels of movement to register a swipe
 - `--device /dev/input/eventX`: Explicit evdev device (bypasses auto-detection)
+- `--touch-output NAME`: Name of the niri output the touchscreen is mapped to (e.g. `eDP-1`,
+  matching niri's `input { touch { map-to-output "..." } }` config). Forwarded clicks are placed
+  at the tapped location by mapping the raw touch coordinate onto this output's logical geometry
+  (queried from niri's `Outputs` IPC request). If omitted, the daemon auto-selects the sole
+  enabled output — pass this explicitly once a second monitor is connected.
 
 The program must run with access to `/dev/input/event*` devices (typically via the `input` group) and with the `NIRI_SOCKET` environment variable set.
+
+### Forwarded clicks click where you tapped
+
+Since `wlrctl pointer move` is relative-only (no absolute positioning, and no way to query the
+pointer's current position), a forwarded click warps the pointer to the tapped location before
+clicking: one large relative move clamps it to niri's logical origin `(0, 0)`, then a second move
+by the tap's mapped logical coordinate lands it exactly there. This assumes niri's default
+layout (some output at `(0, 0)`, outputs arranged contiguously) — an unusual multi-monitor
+arrangement with gaps could make this land in the wrong spot, but this isn't a concern on a
+single-display laptop.
 
 ## Configuration
 

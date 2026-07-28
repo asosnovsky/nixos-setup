@@ -1,8 +1,10 @@
 import logging
+from typing import Any, Callable
 
 from niri_touchscreen_gestures import forwarder, nirictl
 from niri_touchscreen_gestures.actions import ForwardClick, ForwardScroll, GestureAction
 from niri_touchscreen_gestures.argparser import get_parser, process_args
+from niri_touchscreen_gestures.coords import map_to_logical
 from niri_touchscreen_gestures.detector.gestures import GestureDetector
 
 logging.basicConfig(level=logging.INFO)
@@ -10,14 +12,49 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def dispatch(action: GestureAction, delta: float) -> None:
-    logger.info(f"niri-touchscreen-gestures: dispatching {action=} {delta=}")
-    if isinstance(action, ForwardClick):
-        forwarder.send_click(action.button)
-    elif isinstance(action, ForwardScroll):
-        forwarder.send_scroll(delta)
-    else:
-        nirictl.send_niri_action(action)
+def resolve_touch_output(
+    outputs: dict[str, Any], requested_name: str | None
+) -> dict[str, Any]:
+    """Returns the `logical` geometry of the output the touchscreen maps to."""
+    if requested_name is not None:
+        output = outputs.get(requested_name)
+        if output is None or output.get("logical") is None:
+            raise RuntimeError(f"Output {requested_name!r} not found or not enabled")
+        return output["logical"]
+
+    enabled = {name: o for name, o in outputs.items() if o.get("logical") is not None}
+    if len(enabled) == 1:
+        return next(iter(enabled.values()))["logical"]
+    raise RuntimeError(
+        f"Expected exactly one enabled output, found {list(enabled)}. "
+        "Pass --touch-output NAME to pick which one the touchscreen maps to."
+    )
+
+
+def make_dispatch(
+    touch_x_range: tuple[int, int],
+    touch_y_range: tuple[int, int],
+    output_logical: dict[str, Any],
+) -> Callable[[GestureAction, float, tuple[int, int] | None], None]:
+    def dispatch(
+        action: GestureAction, delta: float, touch_xy: tuple[int, int] | None
+    ) -> None:
+        logger.info(f"niri-touchscreen-gestures: dispatching {action=} {delta=} {touch_xy=}")
+        if isinstance(action, ForwardClick):
+            touch_x, touch_y = touch_xy if touch_xy is not None else (0, 0)
+            x = map_to_logical(
+                touch_x, *touch_x_range, output_logical["x"], output_logical["width"]
+            )
+            y = map_to_logical(
+                touch_y, *touch_y_range, output_logical["y"], output_logical["height"]
+            )
+            forwarder.send_click_at(action.button, x, y)
+        elif isinstance(action, ForwardScroll):
+            forwarder.send_scroll(delta)
+        else:
+            nirictl.send_niri_action(action)
+
+    return dispatch
 
 
 def get_focused_app_id() -> str | None:
@@ -27,16 +64,20 @@ def get_focused_app_id() -> str | None:
 
 def main_runtime() -> None:
     logger.info("niri-touchscreen-gestures: starting")
-    config, dev, threshold = process_args(get_parser().parse_args())
+    runtime = process_args(get_parser().parse_args())
+
+    output_logical = resolve_touch_output(nirictl.get_outputs(), runtime.touch_output)
 
     detector = GestureDetector(
-        config,
-        dispatch=dispatch,
+        runtime.config,
+        dispatch=make_dispatch(
+            runtime.touch_x_range, runtime.touch_y_range, output_logical
+        ),
         get_app_id=get_focused_app_id,
-        threshold=threshold,
+        threshold=runtime.threshold,
     )
 
-    for ev in dev.read_loop():
+    for ev in runtime.device.read_loop():
         detector.handle_event(ev)
 
 

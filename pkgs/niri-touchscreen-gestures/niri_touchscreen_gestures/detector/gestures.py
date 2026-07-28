@@ -71,7 +71,7 @@ class GestureDetector:
     def __init__(
         self,
         config: GestureConfig,
-        dispatch: Callable[[GestureAction, float], None],
+        dispatch: Callable[[GestureAction, float, tuple[int, int] | None], None],
         get_app_id: Callable[[], str | None],
         threshold: int = 60,
         timer_factory: Callable[..., threading.Timer] = threading.Timer,
@@ -115,13 +115,15 @@ class GestureDetector:
             action = self.config.resolve(signal.key, self._current_app_id())
             if isinstance(action, ForwardScroll):
                 self._scroll_active = True
-                self.dispatch(action, signal.delta)
+                self.dispatch(action, signal.delta, None)
         elif isinstance(signal, _TapSignal):
             self._process_tap(signal)
 
     def _process_tap(self, tap: _TapSignal) -> None:
         if tap.kind == "long-tap":
-            self._resolve_and_dispatch("1-finger-long-tap", self._current_app_id())
+            self._resolve_and_dispatch(
+                "1-finger-long-tap", self._current_app_id(), (tap.x, tap.y)
+            )
             return
 
         with self._lock:
@@ -142,7 +144,9 @@ class GestureDetector:
                     pending.timer.cancel()
                 app_id = self._current_app_id()
                 timer = self.timer_factory(
-                    DOUBLE_TAP_WINDOW_S, self._resolve_pending_tap, args=(app_id,)
+                    DOUBLE_TAP_WINDOW_S,
+                    self._resolve_pending_tap,
+                    args=(app_id, tap.x, tap.y),
                 )
                 self._pending_tap = _PendingTap(
                     timer=timer, x=tap.x, y=tap.y, time=tap.time, app_id=app_id
@@ -151,18 +155,20 @@ class GestureDetector:
                 timer.start()
 
         if is_second_tap:
-            self._resolve_and_dispatch("1-finger-double-tap", app_id)
+            self._resolve_and_dispatch("1-finger-double-tap", app_id, (tap.x, tap.y))
 
-    def _resolve_pending_tap(self, app_id: str | None) -> None:
+    def _resolve_pending_tap(self, app_id: str | None, x: int, y: int) -> None:
         with self._lock:
             self._pending_tap = None
-        self._resolve_and_dispatch("1-finger-tap", app_id)
+        self._resolve_and_dispatch("1-finger-tap", app_id, (x, y))
 
-    def _resolve_and_dispatch(self, key: str, app_id: str | None) -> None:
+    def _resolve_and_dispatch(
+        self, key: str, app_id: str | None, touch_xy: tuple[int, int] | None = None
+    ) -> None:
         logger.info(f"Detected {key=} {app_id=}")
         action = self.config.resolve(key, app_id)
         if action is not None:
-            self.dispatch(action, 0.0)
+            self.dispatch(action, 0.0, touch_xy)
 
 
 def _handle_event(

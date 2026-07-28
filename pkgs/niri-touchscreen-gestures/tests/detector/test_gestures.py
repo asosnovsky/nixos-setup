@@ -1,11 +1,27 @@
 from niri_touchscreen_gestures.actions import ForwardClick
 from niri_touchscreen_gestures.config import GestureConfig
+from niri_touchscreen_gestures.coords import map_to_logical
 from niri_touchscreen_gestures.detector.classifiers import classify_tap, count_active_fingers
 from niri_touchscreen_gestures.detector.gestures import (
     _PendingTap,
     _TapSignal,
     GestureDetector,
 )
+
+
+class TestMapToLogical:
+    def test_maps_touch_range_onto_output_extent(self):
+        assert map_to_logical(0, 0, 4095, output_offset=0, output_extent=1920) == 0
+        assert map_to_logical(4095, 0, 4095, output_offset=0, output_extent=1920) == 1920
+        assert map_to_logical(2048 - 1, 0, 4095, output_offset=0, output_extent=1920) == 960
+
+    def test_offsets_by_output_position(self):
+        # A second output starting at logical x=1920.
+        assert map_to_logical(0, 0, 4095, output_offset=1920, output_extent=1920) == 1920
+        assert map_to_logical(4095, 0, 4095, output_offset=1920, output_extent=1920) == 3840
+
+    def test_degenerate_touch_range_falls_back_to_offset(self):
+        assert map_to_logical(50, 100, 100, output_offset=42, output_extent=1920) == 42
 
 
 class FakeTimer:
@@ -46,7 +62,9 @@ class TestTapDebounce:
         dispatched = []
         detector = GestureDetector(
             config or GestureConfig(),
-            dispatch=lambda action, delta: dispatched.append((action, delta)),
+            dispatch=lambda action, delta, touch_xy: dispatched.append(
+                (action, delta, touch_xy)
+            ),
             get_app_id=lambda: None,
             timer_factory=FakeTimer,
         )
@@ -63,7 +81,7 @@ class TestTapDebounce:
         assert isinstance(pending, _PendingTap)
         pending.timer.fire()
 
-        assert dispatched == [(ForwardClick(button="left"), 0.0)]
+        assert dispatched == [(ForwardClick(button="left"), 0.0, (100, 100))]
 
     def test_second_tap_within_window_cancels_timer_and_dispatches_double_tap(self):
         config = GestureConfig(
@@ -82,7 +100,7 @@ class TestTapDebounce:
 
         assert first_timer.cancelled
         assert detector._pending_tap is None
-        assert dispatched == [(ForwardClick(button="right"), 0.0)]
+        assert dispatched == [(ForwardClick(button="right"), 0.0, (105, 98))]
 
     def test_second_tap_outside_window_is_treated_as_a_new_lone_tap(self):
         config = GestureConfig(
@@ -100,7 +118,7 @@ class TestTapDebounce:
 
         assert dispatched == []
         detector._pending_tap.timer.fire()
-        assert dispatched == [(ForwardClick(button="left"), 0.0)]
+        assert dispatched == [(ForwardClick(button="left"), 0.0, (100, 100))]
 
     def test_long_tap_dispatches_immediately(self):
         config = GestureConfig(**{"global": {"1-finger-long-tap": "forward:click-right"}})
@@ -108,7 +126,7 @@ class TestTapDebounce:
 
         detector._process_signal(_TapSignal("long-tap", 100, 100, 1.0))
 
-        assert dispatched == [(ForwardClick(button="right"), 0.0)]
+        assert dispatched == [(ForwardClick(button="right"), 0.0, (100, 100))]
         assert detector._pending_tap is None
 
 
