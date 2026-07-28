@@ -1,4 +1,2 @@
 
-spawn-at-startup "fusuma" "--daemon" "--config" "/home/ari/nixos-setup/configs/niri/fusuma.yml"
-
 // spawn-at-startup "niri-touchscreen-gestures"
