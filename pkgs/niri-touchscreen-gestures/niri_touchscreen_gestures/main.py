@@ -1,13 +1,13 @@
 import logging
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
-from niri_touchscreen_gestures import forwarder, nirictl
+from niri_touchscreen_gestures import __version__, forwarder, nirictl
 from niri_touchscreen_gestures.actions import ForwardClick, ForwardScroll, GestureAction
 from niri_touchscreen_gestures.argparser import get_parser, process_args
 from niri_touchscreen_gestures.coords import map_to_logical
 from niri_touchscreen_gestures.detector.gestures import GestureDetector
-
-logging.basicConfig(level=logging.INFO)
+from niri_touchscreen_gestures.logger import set_logging
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,9 @@ def make_dispatch(
     def dispatch(
         action: GestureAction, delta: float, touch_xy: tuple[int, int] | None
     ) -> None:
-        logger.info(f"niri-touchscreen-gestures: dispatching {action=} {delta=} {touch_xy=}")
+        logger.info(
+            f"niri-touchscreen-gestures: dispatching {action=} {delta=} {touch_xy=}"
+        )
         if isinstance(action, ForwardClick):
             touch_x, touch_y = touch_xy if touch_xy is not None else (0, 0)
             x = map_to_logical(
@@ -63,7 +65,9 @@ def get_focused_app_id() -> str | None:
 
 
 def main_runtime() -> None:
+    set_logging()
     logger.info("niri-touchscreen-gestures: starting")
+    logger.info(f"version: {__version__}")
     runtime = process_args(get_parser().parse_args())
 
     output_logical = resolve_touch_output(nirictl.get_outputs(), runtime.touch_output)

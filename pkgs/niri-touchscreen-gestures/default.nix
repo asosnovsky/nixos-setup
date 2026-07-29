@@ -1,6 +1,7 @@
 { lib
 , python3
 , wlrctl
+, ydotool
 , ...
 }:
 
@@ -30,7 +31,7 @@ python3.pkgs.buildPythonApplication {
     "--prefix"
     "PATH"
     ":"
-    (lib.makeBinPath [ wlrctl ])
+    (lib.makeBinPath [ wlrctl ydotool ])
   ];
 
   meta = {
