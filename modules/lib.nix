@@ -30,6 +30,7 @@ let
           # need their toolchains and are wired in modules/core/default.nix.
           ds4 = final.callPackage ../pkgs/ds4 { };
           niri-touchscreen-gestures = final.callPackage ../pkgs/niri-touchscreen-gestures { };
+          buzz-desktop = final.callPackage ../pkgs/buzz-desktop { };
         })
       ];
     }

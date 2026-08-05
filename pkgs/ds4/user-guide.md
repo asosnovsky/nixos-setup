@@ -24,23 +24,42 @@ OpenAI-compatible client at.
 
 ## 1. Get the weights
 
-Weights are **not** packaged. They live at the project's Hugging Face repo
-[`antirez/deepseek-v4-gguf`](https://huggingface.co/antirez/deepseek-v4-gguf)
-(public, MIT, no token needed) and only these custom GGUFs work — not arbitrary
-DeepSeek GGUFs.
+Weights are **not** packaged. They live at the project's Hugging Face repos
+([`antirez/deepseek-v4-gguf`](https://huggingface.co/antirez/deepseek-v4-gguf)
+for DeepSeek V4, [`antirez/GLM-5.2-GGUF`](https://huggingface.co/antirez/GLM-5.2-GGUF)
+and [`unsloth/GLM-5.2-GGUF`](https://huggingface.co/unsloth/GLM-5.2-GGUF) for
+GLM 5.2) — public, MIT, no token needed — and only these custom GGUFs work, not
+arbitrary DeepSeek/GLM GGUFs.
 
 `ds4-download-model` writes into `./gguf` and links `./ds4flash.gguf` in the
 current directory (override the root with `DS4_HOME`, or the gguf dir with
 `DS4_GGUF_DIR`):
 
 ```sh
-ds4-download-model q2-imatrix      # ~81 GB, the pick for 96/128 GB machines
-ds4-download-model --help          # all targets (q4-imatrix, pro-*, mtp, ...)
+# DeepSeek V4 Flash (0731 checkpoints)
+ds4-download-model ds4f-q2          # ~81 GB, the pick for 96/128 GB machines
+ds4-download-model ds4f-q2-q4      # ~98 GB, last 6 expert layers at q4
+ds4-download-model ds4f-q4         # ~153 GB, for >=256 GB machines
+ds4-download-model ds4f-mxfp4      # ~156 GB, native MXFP4 (Metal/CUDA)
+ds4-download-model ds4f-dspark     # ~6 GB, optional DSpark speculative draft
+
+# DeepSeek V4 PRO (512 GB / distributed)
+ds4-download-model pro-q2-imatrix          # single-file PRO q2
+ds4-download-model pro-q4-split            # both halves of PRO Q4 split
+
+# GLM 5.2
+ds4-download-model glm-unsloth-q4         # Unsloth UD-Q4_K_XL, 11 shards
+ds4-download-model glm-antirez-iq2xxs     # routed IQ2_XXS, reduced-memory
+ds4-download-model glm-antirez-q2         # routed Q2_K, ~262 GB
+ds4-download-model glm-antirez-q4         # routed Q4_K, ~434 GB
+
+ds4-download-model --help                 # full target list
 ```
 
-Pick by machine memory: `q2-imatrix` (128 GB), `q4-imatrix` (≥256 GB),
-`pro-*` (512 GB / distributed). The small/Flash quants download via `curl`; the
-huge **PRO** files need the `hf` CLI (not bundled — `nix shell nixpkgs#huggingface-hub`).
+Pick by machine memory: `ds4f-q2` (96/128 GB), `ds4f-q4` (>=256 GB),
+`pro-*` (512 GB / distributed), `glm-*` (per-target sizes above). The small
+Flash quants download via `curl`; the MXFP4, PRO, and GLM files need the `hf`
+CLI (not bundled — `nix shell nixpkgs#huggingface-hub`).
 
 ## 2. Run it
 
@@ -49,7 +68,14 @@ huge **PRO** files need the `hf` CLI (not bundled — `nix shell nixpkgs#hugging
 ds4
 
 # explicit model path
-ds4 -m /path/to/gguf/DeepSeek-V4-Flash-IQ2XXS-...-imatrix.gguf
+ds4 -m /path/to/gguf/DeepSeek-V4-Flash-IQ2XXS-...-imatrix-0731.gguf
+
+# DSpark speculative decoding (greedy only; needs the ds4f-dspark support GGUF)
+ds4 -m ./ds4flash.gguf \
+  --dspark --mtp ./gguf/DeepSeek-V4-Flash-DSpark-support-0731.gguf --temp 0
+
+# GLM 5.2 (experimental greedy MTP via --glm-mtp)
+ds4 -m gguf/GLM-5.2-UD-IQ2_XXS_RoutedIQ2XXS_blk78Q2K.gguf --glm-mtp-timing --temp 0
 
 # HTTP server on the LAN
 ds4-server -m ./ds4flash.gguf \

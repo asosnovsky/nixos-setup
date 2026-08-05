@@ -76,6 +76,7 @@ in
           HSA_ENABLE_SDMA = "0";
         };
         openFirewall = true;
+        autoStart = false;
       };
     };
     networkDrives = {

@@ -246,6 +246,7 @@ in
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
       # claude-desktop.packages.x86_64-linux.default
       claude-code
+      buzz-desktop
 
     ]);
 

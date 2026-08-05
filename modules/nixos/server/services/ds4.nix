@@ -143,6 +143,15 @@ in
         type = types.bool;
       };
 
+      autoStart = mkOption {
+        description = ''
+          Whether to start ds4-server automatically at boot.
+          Set to false to only start it on demand via `systemctl start ds4-server`.
+        '';
+        default = true;
+        type = types.bool;
+      };
+
       extraArgs = mkOption {
         description = "Additional arguments to append to the ds4-server command line.";
         default = [ ];
@@ -182,7 +191,7 @@ in
 
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = lib.optionals cfg.autoStart [ "multi-user.target" ];
 
       serviceConfig = {
         Type = "simple";

@@ -10,6 +10,7 @@ Packages here are exposed via an overlay defined in `modules/core/default.nix`.
 | `grok-cli/` | xAI Grok CLI — prebuilt static binary, fetched per-platform. Exposed as `pkgs.grok-cli`. |
 | `ds4/` | DwarfStar (`antirez/ds4`) DeepSeek V4 local inference engine, built from source. Backend-parameterized (`backend = "cpu" \| "rocm" \| "cuda"`); tracks `main` and builds per-host. Exposed as `pkgs.ds4` (cpu, default), `pkgs.ds4-rocm` (Strix Halo / gfx1151), `pkgs.ds4-cuda`. Installs the `ds4`, `ds4-server`, `ds4-bench`, `ds4-eval`, `ds4-agent` binaries plus a `ds4-download-model` helper for fetching GGUF weights. Model weights are a runtime concern and not packaged. |
 | `niri-touchscreen-gestures/` | Python daemon that reads multi-touch events from a touchscreen via `evdev`, detects 2/3/4-finger swipes (up/down/left/right), and dispatches configurable `niri msg action` commands. Configured via TOML; exposed as `pkgs.niri-touchscreen-gestures`. |
+| `buzz-desktop/` | Block Buzz desktop (Type-2 AppImage from `block/buzz`). Wrapped with `appimageTools.wrapType2` plus extra FHS libs (`elfutils`, `zstd`, WebKit/tray, GStreamer good/bad) so it runs on NixOS. Exposed as `pkgs.buzz-desktop` (`buzz-desktop` binary + desktop entry / icons). |
 
 ## Adding a New Package
 

@@ -111,13 +111,13 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "ds4" + lib.optionalString (backend != "cpu") "-${backend}";
-  version = "0-unstable-2026-06-17";
+  version = "0-unstable-2026-08-05";
 
   src = fetchFromGitHub {
     owner = "antirez";
     repo = "ds4";
-    rev = "80ebbc396aee40eedc1d829222f3362d10fa4c6c";
-    hash = "sha256-Ieuc72GHZs20ModQfnvI5Me31n4Pj+WFYtsuqaKJceo=";
+    rev = "b0309611041655f4e45671cfd9c9886aff161406";
+    hash = "sha256-yBPQqX8oI9fElGiXfz72iWwIS8ZQpK4Bl9TWLZSa6JU=";
   };
 
   enableParallelBuilding = true;

@@ -21,6 +21,8 @@
         ds4-cuda = final.callPackage ../../pkgs/ds4 { backend = "cuda"; };
         # Touchscreen gesture bridge for niri, see pkgs/niri-touchscreen-gestures.
         niri-touchscreen-gestures = final.callPackage ../../pkgs/niri-touchscreen-gestures { };
+        # Buzz Desktop AppImage wrapper, see pkgs/buzz-desktop.
+        buzz-desktop = final.callPackage ../../pkgs/buzz-desktop { };
       })
       (final: prev: {
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
