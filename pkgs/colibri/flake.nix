@@ -9,14 +9,16 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-  }:
+  outputs =
+    { self
+    , nixpkgs
+    , flake-utils
+    ,
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import nixpkgs {inherit system;};
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
 
         # Python with the packages needed by the offline converter tools
         pythonEnv = pkgs.python3.withPackages (
@@ -36,7 +38,7 @@
           version = "1.0";
           src = ./.;
 
-          nativeBuildInputs = with pkgs; [makeWrapper];
+          nativeBuildInputs = with pkgs; [ makeWrapper ];
 
           buildInputs = with pkgs; [
             gcc
@@ -45,7 +47,7 @@
 
           # python3 is needed by checkPhase: `make test-c` shells out to
           # `python3 tools/run_tests.py` (see c/Makefile, PYTHON ?= python3).
-          nativeCheckInputs = with pkgs; [python3];
+          nativeCheckInputs = with pkgs; [ python3 ];
 
           # Use x86-64-v3 (AVX2) for a portable binary; override with ARCH=native for local builds
           ARCH =
@@ -122,7 +124,7 @@
 
           buildInputs =
             old.buildInputs
-            ++ (with pkgs.rocmPackages; [clr rocm-runtime hipblas]);
+            ++ (with pkgs.rocmPackages; [ clr rocm-runtime hipblas ]);
 
           buildPhase = ''
             runHook preBuild
@@ -139,9 +141,10 @@
           # build), and the GPU path needs real hardware — so skip the suite.
           doCheck = false;
 
-          meta = old.meta // {platforms = pkgs.lib.platforms.linux;};
+          meta = old.meta // { platforms = pkgs.lib.platforms.linux; };
         });
-      in {
+      in
+      {
         packages =
           {
             default = colibri;
@@ -166,7 +169,7 @@
         formatter = pkgs.alejandra;
 
         devShells.default = pkgs.mkShell {
-          inputsFrom = [colibri];
+          inputsFrom = [ colibri ];
 
           packages = with pkgs; [
             pythonEnv

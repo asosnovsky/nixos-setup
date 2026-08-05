@@ -45,10 +45,32 @@ skyg.nixos.desktop.tiler.background.enable
 
 When `skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable = true`:
 
-- Installs `niri-touchscreen-gestures` package
-- Starts a user systemd service (`niri-touchscreen-gestures.service`)
+- Installs the `niri-touchscreen-gestures` and `dotool` packages
+- Starts two user services: `niri-touchscreen-gestures.service` and `dotoold.service`
+- Enables `hardware.uinput` and adds the user to `uinput` (`input` already comes from `tiler.enable`)
 - Uses built-in defaults: 3-finger swipes for workspace/column navigation, 4-finger for overview
-- Can be customized by placing a TOML config at `~/.config/niri/gestures.toml`
-- Requires user to be in the `input` group (done automatically by `tiler.enable`)
+- Asserts that `niri.enable` is on — the daemon drives niri over its IPC socket
+
+### Options
+
+| Option | Default | Notes |
+|---|---|---|
+| `touchOutput` | `null` | niri output the panel maps to. **Required when more than one output is enabled** — the daemon refuses to start otherwise. Match `touch { map-to-output }` in the niri config. |
+| `device` | `null` | Explicit evdev path; auto-detect fails with multiple touchscreens. |
+| `threshold` | `60` | Pixels of movement before a swipe registers. |
+| `configFile` | `null` | TOML gesture config. Must exist if set — a missing file is fatal, not a fallback to defaults. |
+
+### Why dotool and not ydotool
+
+Forwarding a tap needs the pointer placed at an absolute position. `ydotool`'s
+`mousemove --absolute` does not do that: it emits a warp-to-corner plus a
+*relative* delta, so the compositor's pointer acceleration scales it — measured
+at exactly 2x on this host, saturating at the screen edge past ~1440px. niri has
+no per-device input config, so accel cannot be flattened for just the virtual
+device. `dotool` registers a uinput device with a declared absolute axis range
+and jumps the cursor via `mouseto`, which acceleration cannot distort.
+
+`dotoold` runs as a long-lived daemon because registering a uinput device carries
+a startup delay that would otherwise be paid on every tap.
 
 See `pkgs/niri-touchscreen-gestures/README.md` for gesture configuration details.

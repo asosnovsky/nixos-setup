@@ -43,6 +43,13 @@ in
           enable = true;
           niri = {
             enable = true;
+            # Touchscreen taps/swipes -> niri actions. touchOutput must be given
+            # explicitly because three outputs are enabled; it matches the
+            # `touch { map-to-output }` block in configs/niri/shared/general.kdl.
+            touchscreen-gestures = {
+              enable = true;
+              touchOutput = "eDP-1";
+            };
           };
         };
       };
@@ -114,9 +121,6 @@ in
       };
     };
   };
-  nixpkgs.config.permittedInsecurePackages = [
-    "python3.12-ecdsa-0.19.1"
-  ];
   # Packages
   environment.systemPackages =
     let
@@ -243,11 +247,7 @@ in
       # claude-desktop.packages.x86_64-linux.default
       claude-code
 
-      # My Own
-      niri-touchscreen-gestures
-
     ]);
-
 
   services.usbmuxd.enable = true;
   services.flatpak.packages = [

@@ -151,6 +151,8 @@
               python3Packages.pydantic-settings
               python3Packages.pytest
               libinput
+              wlrctl
+              ydotool
             ];
             shellHook = ''
                             export PATH=$PATH:$(pwd)/bin

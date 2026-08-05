@@ -59,10 +59,7 @@ gestures {
     }
 
     hot-corners {
-        top-left
-        top-right
-        bottom-left
-        bottom-right
+	    off
     }
 }
 
