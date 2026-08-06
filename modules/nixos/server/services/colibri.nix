@@ -44,9 +44,7 @@ in
       enable = mkEnableOption
         "colibri-serve, the OpenAI-compatible HTTP API for colibrì (GLM-5.2/OLMoE local inference).";
 
-      package = mkPackageOption pkgs "colibri" {
-        default = pkgs.colibri;
-      };
+      package = mkPackageOption pkgs "colibri" { };
 
       user = mkOption {
         description = "The user to run coli serve as.";
@@ -104,12 +102,13 @@ in
         type = types.nullOr types.str;
       };
 
-      apiKeyFile = mkOption {
+      environmentFile = mkOption {
         description = ''
-          Path to a file containing the bearer token clients must send. Read at
-          service start and exported as COLI_API_KEY (never passed as a CLI
-          argument, so it doesn't show up in `ps`). Leave null to run without
-          authentication (fine for host-only binding on 127.0.0.1).
+          Path to an EnvironmentFile (e.g. an agenix-decrypted secret) providing
+          COLI_API_KEY, the bearer token clients must send. Avoids putting the
+          key in the world-readable Nix store or on the process command line.
+          Leave null to run without authentication (fine for host-only binding
+          on 127.0.0.1).
         '';
         default = null;
         example = "/run/agenix/colibri-api-key";
@@ -280,15 +279,16 @@ in
         User = cfg.user;
         Group = cfg.group;
 
-        # Construct the ExecStart as a shell script so we can export env vars
-        # that would otherwise be lost with a raw binary + Environment= (e.g.
-        # COLI_MODEL_MIRROR, COLI_API_KEY read from a file). Use
+        # Construct the ExecStart as a shell script so we can export the extra
+        # env vars coli only reads (not flags), e.g. COLI_MODEL_MIRROR. Use
         # writeShellScript for a clean script in the store.
+        EnvironmentFile =
+          mkIf (cfg.environmentFile != null) cfg.environmentFile;
+
         ExecStart = pkgs.writeShellScript "colibri-serve-start" ''
           set -eu
           ${optionalString (cfg.modelMirror != null) "export COLI_MODEL_MIRROR=${escapeShellArg cfg.modelMirror}"}
           ${optionalString (cfg.diskWeights != null) "export COLI_DISK_WEIGHTS=${escapeShellArg cfg.diskWeights}"}
-          ${optionalString (cfg.apiKeyFile != null) ''export COLI_API_KEY="$(cat ${escapeShellArg cfg.apiKeyFile})"''}
           ${concatStringsSep "\n" (mapAttrsToList (name: value: "export ${name}=${escapeShellArg value}") cfg.environment)}
           exec ${colibriPkg}/bin/coli serve ${serverArgs} ${escapeShellArgs cfg.extraArgs}
         '';

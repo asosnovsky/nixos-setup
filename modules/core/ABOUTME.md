@@ -16,7 +16,7 @@ core/
 
 ## What lives here
 
-- **Overlays** (`default.nix`): exposes `pkgs.grok-cli` (from `pkgs/grok-cli`) and patches
+- **Overlays** (`default.nix`): exposes `pkgs.grok-cli` (from `pkgs/grok-cli`), `pkgs.buzz-desktop` (from `pkgs/buzz-desktop`), and patches
   `python3Packages.pipx` to skip its flaky install check on nixpkgs 26.05.
 - **Distributed builds** (`default.nix`): registers `bigbox1.lab.internal` as a remote
   `x86_64-linux` build machine and enables `builders-use-substitutes`.

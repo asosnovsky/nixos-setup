@@ -17,6 +17,7 @@ services/
 ├── dockge.nix         # skyg.nixos.server.services.dockge — compose stack manager (NFS volumes)
 ├── signal-cli.nix     # skyg.nixos.server.services.signal-cli — signal-cli HTTP daemon (Hermes Signal bridge)
 ├── openclaw.nix       # skyg.nixos.server.services.openclaw — AI gateway (NOT imported by default)
+├── colibri.nix        # skyg.nixos.server.services.colibri — coli serve HTTP API (GLM-5.2/OLMoE local inference)
 └── comfyui/           # skyg.nixos.server.services.comfyui — ComfyUI with ROCm/CUDA GPU support
 ```
 
@@ -29,6 +30,10 @@ services/
 - **`openclaw.nix`** is a native systemd service (with agenix-token support and security
   hardening). Note: it is **not** listed in `default.nix`'s imports, so it must be imported
   explicitly if used.
+- **`colibri.nix`** runs `coli serve` (colibrì's OpenAI-compatible API) as a native systemd
+  service, mirroring `services/ds4.nix`'s shape. `package` picks the backend (`pkgs.colibri`
+  cpu / `pkgs.colibri-rocm`); `environmentFile` supplies `COLI_API_KEY` via agenix instead of
+  a CLI flag.
 
 ## Option Namespace
 
@@ -40,6 +45,7 @@ skyg.nixos.server.services.scrypted.enable
 skyg.nixos.server.services.dockge.{enable,openFirewall,port,volumes}
 skyg.nixos.server.services.signal-cli.{enable,host,port,configDir,account,environmentFile,openFirewall}
 skyg.nixos.server.services.openclaw.{enable,port,gatewayToken,...}
+skyg.nixos.server.services.colibri.{enable,package,model,host,port,environmentFile,openFirewall,...}
 skyg.nixos.server.services.comfyui.{enable,mode,port,openFirewall}
 ```
 

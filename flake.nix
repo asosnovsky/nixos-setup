@@ -188,6 +188,11 @@
           # GPU variants (ds4-rocm/ds4-cuda) are overlay-only — see modules/core.
           ds4 = lib.pkgs.${system}.ds4;
           claude-desktop = pkgs.callPackage ./pkgs/claude-desktop { };
+          # Buzz Desktop AppImage (block/buzz) with NixOS FHS extras.
+          buzz-desktop = lib.pkgs.${system}.buzz-desktop;
+          # CPU variant of colibrì (JustVugg/colibri); the ROCm variant
+          # (colibri-rocm) is overlay-only — see modules/core.
+          colibri = lib.pkgs.${system}.colibri;
         }
       );
 

@@ -4,6 +4,7 @@
 , makeWrapper
 , curl
 , cacert
+, python3
 , rocmPackages
 , cudaPackages
   # backend selects the build target / toolchain.
@@ -36,6 +37,17 @@
 assert lib.elem backend [ "cpu" "rocm" "cuda" ];
 
 let
+  # `hf` CLI used by ds4-download-model for the large/sharded GGUF files
+  # (MXFP4, PRO, GLM). huggingface-hub provides the `hf` binary; hf-xet is the
+  # optional Xet backend it uses to speed up big transfers. Default python3 is
+  # 3.14, so this resolves to python314Packages.{huggingface-hub,hf-xet}.
+  pythonEnv = python3.withPackages (
+    ps: with ps; [
+      huggingface-hub
+      hf-xet
+    ]
+  );
+
   # ROCm libraries the gfx kernels and link flags (-lhipblas -lhipblaslt) need.
   rocmInputs = [
     rocmPackages.clr # provides hipcc + HIP runtime
@@ -163,7 +175,7 @@ stdenv.mkDerivation (finalAttrs: {
   # environment doesn't already set one.
   postFixup = ''
     wrapProgram "$out/bin/ds4-download-model" \
-      --prefix PATH : ${lib.makeBinPath [ curl ]} \
+      --prefix PATH : ${lib.makeBinPath [ curl pythonEnv ]} \
       --set-default SSL_CERT_FILE ${cacert}/etc/ssl/certs/ca-bundle.crt
   '';
 

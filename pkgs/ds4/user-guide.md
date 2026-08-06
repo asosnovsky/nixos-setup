@@ -58,8 +58,9 @@ ds4-download-model --help                 # full target list
 
 Pick by machine memory: `ds4f-q2` (96/128 GB), `ds4f-q4` (>=256 GB),
 `pro-*` (512 GB / distributed), `glm-*` (per-target sizes above). The small
-Flash quants download via `curl`; the MXFP4, PRO, and GLM files need the `hf`
-CLI (not bundled — `nix shell nixpkgs#huggingface-hub`).
+Flash quants download via `curl`; the MXFP4, PRO, and GLM files use the `hf`
+CLI (bundled in the package via `huggingface-hub` + `hf-xet`), which
+`ds4-download-model` puts on its PATH automatically.
 
 ## 2. Run it
 
