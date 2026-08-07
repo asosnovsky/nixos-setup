@@ -9,7 +9,7 @@ output "DP-9" {
 output "eDP-1" {
     mode "2880x1920@120.000"
     scale 2
-    position x=1184 y=1080
+    position x=1253 y=1080
     focus-at-startup
     layout {
         always-center-single-column
