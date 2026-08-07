@@ -14,9 +14,6 @@
     clean.enable = true;
   };
   environment.systemPackages = with pkgs; [
-    # nix utils
-    appimage-run
-
     # shell tools
     git
     usbutils

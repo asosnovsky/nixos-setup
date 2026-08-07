@@ -38,11 +38,41 @@ let
     ]
   );
 
+  # ROCm inputs for the HIP build. hipcc is the raw ROCm compiler, not the
+  # nix cc-wrapper, so it needs explicit -I include paths to find the HIP
+  # runtime + rocWMMA headers. rocWMMA defines COLI_GPU_HAS_WMMA in
+  # backend_gpu_compat.h; without its include dir that macro is undeclared and
+  # backend_cuda.cu fails to compile (mirrors the ds4 rocm build inputs).
+  rocmInputs = lib.optionals (backend == "rocm") [
+    rocmPackages.clr # provides hipcc + HIP runtime
+    rocmPackages.rocm-runtime
+    rocmPackages.hipblas
+    rocmPackages.hipblas-common
+    rocmPackages.hipblaslt
+    rocmPackages.rocblas
+    rocmPackages.rocwmma # gfx1151 backend uses rocWMMA headers
+    rocmPackages.hipcub
+    rocmPackages.rocprim
+    rocmPackages.rocthrust
+  ];
+
+  rocmIncludeFlags =
+    lib.concatStringsSep " "
+      (map (p: "-I${lib.getDev p}/include") rocmInputs);
+
   hipMakeFlags = lib.optionals (backend == "rocm") [
     "HIP=1"
     "HIP_ARCH=${rocmArch}"
     "ROCM_HOME=${rocmPackages.clr}"
     "HIPCC=${rocmPackages.clr}/bin/hipcc"
+  ];
+
+  # HIPCCFLAGS is the Makefile's GPU compile flags (GPUFLAGS). It contains
+  # spaces, so it must go through makeFlagsArray (a quoted bash array) rather
+  # than makeFlags, which the generic builder word-splits. This reproduces the
+  # upstream default flags and appends the rocm include paths.
+  hipMakeFlagsArray = lib.optionals (backend == "rocm") [
+    "HIPCCFLAGS=-O3 -std=c++17 -x hip --offload-arch=${rocmArch} -Wall -Wextra -fPIE ${rocmIncludeFlags}"
   ];
 in
 stdenv.mkDerivation {
@@ -53,15 +83,11 @@ stdenv.mkDerivation {
     owner = "JustVugg";
     repo = "colibri";
     rev = "8f512fc8c2f48ffa18cd624cd4a5bcaae4a4abfc"; # tag v1.5.0
-    hash = lib.fakeHash; # replace with the real hash on first build attempt
+    hash = "sha256-SW5RDghfITxblAI+nZGVCHULrTQxskzdNHguJkSMfN4=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = lib.optionals (backend == "rocm") [
-    rocmPackages.clr
-    rocmPackages.rocm-runtime
-    rocmPackages.hipblas
-  ];
+  buildInputs = rocmInputs;
 
   # python3 is needed by checkPhase: `make test-c` shells out to
   # `python3 tools/run_tests.py`.
@@ -71,7 +97,14 @@ stdenv.mkDerivation {
   ARCH = if stdenv.hostPlatform.isx86_64 then "x86-64-v3" else "native";
 
   makeFlags = [ "-C" "c" ] ++ hipMakeFlags;
-  buildFlags = [ "colibri" "olmoe" ];
+
+  # Pass space-containing make variables as a quoted array so they aren't
+  # word-split (see hipMakeFlagsArray note above).
+  preBuild = lib.optionalString (hipMakeFlagsArray != [ ]) ''
+    makeFlagsArray+=(${lib.escapeShellArgs hipMakeFlagsArray})
+  '';
+
+  buildFlags = [ "colibri" "olmoe" "deepseek-v4" ];
 
   # Use upstream's own install target instead of hand-copying files — it
   # installs `coli` to bin/ and the engine + support modules to

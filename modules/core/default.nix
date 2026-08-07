@@ -19,6 +19,10 @@
         ds4 = final.callPackage ../../pkgs/ds4 { };
         ds4-rocm = final.callPackage ../../pkgs/ds4 { backend = "rocm"; };
         ds4-cuda = final.callPackage ../../pkgs/ds4 { backend = "cuda"; };
+        # colibrì (JustVugg/colibri) — GLM-5.2/OLMoE local inference, see pkgs/colibri.
+        # Backend-parameterized: cpu (default), rocm (Strix Halo).
+        colibri = final.callPackage ../../pkgs/colibri { };
+        colibri-rocm = final.callPackage ../../pkgs/colibri { backend = "rocm"; };
         # Touchscreen gesture bridge for niri, see pkgs/niri-touchscreen-gestures.
         niri-touchscreen-gestures = final.callPackage ../../pkgs/niri-touchscreen-gestures { };
         # Buzz Desktop AppImage wrapper, see pkgs/buzz-desktop.

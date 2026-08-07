@@ -14,6 +14,7 @@ let
     comfyui = 8188;
     libretranslate = 5000;
     ds4 = 8000;
+    colibri = 8001;
     hermes = 8642;
     hermesDashboard = 9119;
     vnc = 5930;
@@ -77,6 +78,15 @@ in
         };
         openFirewall = true;
         autoStart = false;
+      };
+      server.services.colibri = {
+        enable = false;
+        package = pkgs.colibri-rocm;
+        model = "/var/lib/colibri/glm52_i4";
+        host = "0.0.0.0";
+        port = ports.colibri;
+        autoStart = false;
+        openFirewall = true;
       };
     };
     networkDrives = {
@@ -220,6 +230,7 @@ in
         environment = {
           PUID = "1000";
           PGID = "100";
+          HERMES_HOME = "/opt/data";
         };
         shm_size = "1g";
         extra_hosts = [ "host.docker.internal:host-gateway" ];
