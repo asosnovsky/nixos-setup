@@ -144,6 +144,7 @@ in
 
       # LLM Stuff
       ollama-rocm
+      grok-cli
       # stable-diffusion-cpp-rocm
       lmstudio
       # DwarfStar (antirez/ds4) — ROCm build for Strix Halo (gfx1151).
