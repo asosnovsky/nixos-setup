@@ -3,6 +3,12 @@
 A complete reference for an AI agent to understand, navigate, and modify this
 NixOS homelab configuration repository.
 
+> **⚠️ MANDATORY:** Before doing anything in this repository, read
+> [`GUIDELINES.md`](../GUIDELINES.md) in full and follow it. It contains
+> non-negotiable hard rules (never run builds, never edit `flake.lock`, etc.)
+> and requires you to **present a plan and get user approval before making any
+> changes**.
+
 ---
 
 ## Repository Purpose

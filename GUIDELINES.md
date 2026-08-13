@@ -5,6 +5,20 @@ Read this file before making any changes.
 
 ---
 
+## Mandatory First Step — Always Present a Plan
+
+Before making **any** change to this repository, you MUST present a short plan to the user and wait for their approval. This applies to every task, no matter how small.
+
+Your plan must include:
+1. **What** you intend to change (files, options, packages)
+2. **Why** the change is needed
+3. **How** you will do it (which files you will edit, in what order)
+4. **What you will NOT do** (e.g., "I will not run any builds")
+
+Only after the user approves the plan may you proceed with edits.
+
+---
+
 ## Hard Rules — Never Break These
 
 ### ❌ NEVER run builds or system switches — ZERO EXCEPTIONS

@@ -226,12 +226,18 @@ in
         ];
         volumes = [
           "/var/lib/hermes:/opt/data"
+          # Expose the host Nix store + daemon so nix works inside the container
+          "/nix/store:/nix/store:ro"
+          "/nix/var/nix/daemon-socket:/nix/var/nix/daemon-socket"
         ];
         environmentFiles = [ config.age.secrets.hermes-env.path ];
         environment = {
           PUID = "1000";
           PGID = "100";
           HERMES_HOME = "/opt/data";
+          NIX_REMOTE = "daemon";
+          NIX_CONFIG = "experimental-features = nix-command flakes";
+          PATH = "${pkgs.nix}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
         };
         shm_size = "1g";
         extra_hosts = [ "host.docker.internal:host-gateway" ];

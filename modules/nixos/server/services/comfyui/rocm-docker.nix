@@ -156,6 +156,7 @@ in
         "--group-add=render"
         "--security-opt=seccomp=unconfined"
         "--ipc=host"
+        "--add-host=host.docker.internal:host-gateway"
       ];
 
       environment = {
@@ -177,6 +178,8 @@ in
       then [ "${cfg.rocm.outputDir}:/workspace/ComfyUI/output" ]
       else [ "${cfg.rocm.dataDir}/output:/workspace/ComfyUI/output" ])
       ++ cfg.rocm.extraVolumes;
+
+      networks = [ "main" ];
     };
 
     # Ensure the container service starts after Docker image is built
