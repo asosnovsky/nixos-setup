@@ -178,8 +178,6 @@ in
       then [ "${cfg.rocm.outputDir}:/workspace/ComfyUI/output" ]
       else [ "${cfg.rocm.dataDir}/output:/workspace/ComfyUI/output" ])
       ++ cfg.rocm.extraVolumes;
-
-      networks = [ "main" ];
     };
 
     # Ensure the container service starts after Docker image is built
