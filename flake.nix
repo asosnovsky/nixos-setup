@@ -53,7 +53,7 @@
     agenix.url = "github:ryantm/agenix";
     # Claude Desktop
     claude-desktop = {
-      url = "github:patrickjaja/claude-desktop-bin";
+      url = "github:patrickjaja/claude-desktop-extra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

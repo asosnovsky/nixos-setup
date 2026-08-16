@@ -27,6 +27,11 @@
         niri-touchscreen-gestures = final.callPackage ../../pkgs/niri-touchscreen-gestures { };
         # Buzz Desktop AppImage wrapper, see pkgs/buzz-desktop.
         buzz-desktop = final.callPackage ../../pkgs/buzz-desktop { };
+        # ollama pinned ahead of nixpkgs (0.32.14 vs the 0.32.7 in stable/unstable).
+        # See pkgs/ollama for hashing instructions.
+        ollama = final.callPackage ../../pkgs/ollama { };
+        ollama-rocm = final.callPackage ../../pkgs/ollama { acceleration = "rocm"; };
+        ollama-vulkan = final.callPackage ../../pkgs/ollama { acceleration = "vulkan"; };
       })
       (final: prev: {
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
