@@ -1,7 +1,7 @@
 // Laptop Monitor
 output "eDP-1" {
     mode "2256x1504@59.999"
-    scale 2
+    scale 1.5
     position x=859 y=1080
 }
 
