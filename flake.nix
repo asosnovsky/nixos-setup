@@ -49,6 +49,8 @@
     };
     # Hyprland
     hyprlauncher.url = "github:hyprwm/hyprlauncher";
+    # Hyprland compositor via flake (latest git).
+    hyprland.url = "github:hyprwm/Hyprland";
     # Secrets management
     agenix.url = "github:ryantm/agenix";
     # Claude Desktop
@@ -70,6 +72,7 @@
     , nix-flatpak
     , stylix
     , hyprlauncher
+    , hyprland
     , dms
     , noctalia
     , git-hooks
@@ -103,6 +106,7 @@
             specialArgs = {
               inherit
                 hyprlauncher
+                hyprland
                 nixpkgs-unstable
                 dms
                 noctalia

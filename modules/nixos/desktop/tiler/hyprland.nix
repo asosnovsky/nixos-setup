@@ -1,46 +1,67 @@
 { config
 , lib
 , pkgs
+, skygUtils
+, hyprland
+, noctalia
 , ...
 }:
 let
   cfg = config.skyg.nixos.desktop.tiler.hyprland;
-  # hypr-plugin-dir = pkgs.symlinkJoin {
-  #   name = "hyrpland-plugins";
-  #   paths = with pkgs.hyprlandPlugins; [
-  #     hyprexpo
-  #     hyprbars
-  #     hyprspace
-  #   ];
-  # };
+  system = pkgs.stdenv.hostPlatform.system;
+  hyprlandPkg = hyprland.packages.${system}.hyprland;
+  hyprlandPortal = hyprland.packages.${system}.xdg-desktop-portal-hyprland;
+  noctaliaPkg = noctalia.packages.${system}.default;
 in
 {
   options = {
     skyg.nixos.desktop.tiler.hyprland = {
       enable = lib.mkEnableOption "hyprland";
+      configName = lib.mkOption {
+        type = lib.types.str;
+        default = config.skyg.core.hostName;
+        description = ''
+          Name of the per-host Hyprland config directory under `configs/`.
+          The module symlinks `~/.config/hypr` -> `configs/<configName>/hypr`.
+          Defaults to the machine's hostName (e.g. `fwbook` -> `configs/fwbook/hypr`).
+        '';
+      };
     };
   };
   config = lib.mkIf cfg.enable {
     skyg.nixos.desktop.tiler.enable = true;
+
     programs.hyprland = {
       enable = true;
       withUWSM = true;
       xwayland.enable = true;
+      package = hyprlandPkg;
+      portalPackage = hyprlandPortal;
     };
     programs.uwsm.enable = true;
-    # environment.systemPackages = with pkgs; [
-    #   hyprls
-    # ];
+
     xdg.portal = {
       enable = true;
-      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      extraPortals = [ hyprlandPortal ];
     };
-    # home-manager.users."${config.skyg.user.name}".wayland.windowManager.hyprland = {
-    #   enable = true;
-    #   plugins = with pkgs; [
-    #     hyprlandPlugins.hyprexpo
-    #     hyprlandPlugins.hyprbars
-    #   ];
-    # };
+
+    # Shell + tools that the Hyprland session/config expect.
+    environment.systemPackages = with pkgs; [
+      noctaliaPkg
+      hypridle
+      wofi
+      rofi
+      wl-clipboard
+      grim
+      slurp
+      satty
+    ];
+
+    # Symlink ~/.config/hypr -> configs/<configName>/hypr (host-specific).
+    system.userActivationScripts.hyprlandConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
+      filePath = "${cfg.configName}/hypr";
+      targetPath = "hypr";
+      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+    };
   };
 }

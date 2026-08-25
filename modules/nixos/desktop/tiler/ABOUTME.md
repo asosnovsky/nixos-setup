@@ -11,7 +11,7 @@ tiler/
 ├── default.nix    # skyg.nixos.desktop.tiler.enable — DMS, keyring, polkit, shared packages
 ├── niri.nix                    # skyg.nixos.desktop.tiler.niri — niri compositor (sets tiler.enable)
 ├── niri-touchscreen-gestures.nix # skyg.nixos.desktop.tiler.niri.touchscreen-gestures — touchscreen swipe support
-├── hyprland.nix                # skyg.nixos.desktop.tiler.hyprland — Hyprland (sets tiler.enable)
+├── hyprland.nix                # skyg.nixos.desktop.tiler.hyprland — Hyprland via flake (sets tiler.enable)
 └── swww.nix                    # skyg.nixos.desktop.tiler.background — swww/waypaper wallpaper tools
 ```
 
@@ -19,6 +19,7 @@ tiler/
 
 - Enabling either `niri` or `hyprland` sets `skyg.nixos.desktop.tiler.enable = true`, which
   pulls in the shared substrate. You normally enable only the compositor option.
+- Both compositors can be enabled at once (pick the session at the greeter).
 - The shared substrate configures **gnome-keyring as the SSH agent** (so
   `programs.ssh.startAgent = false`), enables polkit, and installs control tools
   (pavucontrol, playerctl, brightnessctl, blueman) and screen-capture tools
@@ -32,8 +33,31 @@ skyg.nixos.desktop.tiler.enable                  → default.nix (usually set in
 skyg.nixos.desktop.tiler.niri.enable
 skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable  # 3/4-finger swipes → niri actions
 skyg.nixos.desktop.tiler.hyprland.enable
+skyg.nixos.desktop.tiler.hyprland.configName     # per-host config dir (default: hostName)
 skyg.nixos.desktop.tiler.background.enable
 ```
+
+## Hyprland
+
+`hyprland.nix` runs the latest Hyprland from the `hyprland` flake input (package +
+`xdg-desktop-portal-hyprland` kept in sync), launched via UWSM. It:
+
+- Installs the noctalia shell and autostart-friendly tools (grim/slurp/satty,
+  wofi/rofi, hypridle). There is no waybar/hyprpanel — the shell is noctalia.
+- Symlinks `~/.config/hypr` -> `configs/<configName>/hypr`, where `configName`
+  defaults to `config.skyg.core.hostName` (so `fwbook` -> `configs/fwbook/hypr`).
+
+The Hyprland Cachix cache (`hyprland.cachix.org`) is added in
+`modules/core/nix-substituters.nix` so the flake build doesn't compile from source.
+
+### No overview plugin
+
+We intentionally do not ship an overview plugin. hyprexpo was dropped from the
+official `hyprland-plugins` repo in 2026, and the maintained community fork
+(`sandwichfarm/hyprexpo`) chases Hyprland `main` and fails to build against
+tagged releases — it's a moving target. `Mod+Tab` falls back to `cyclenext`
+instead of niri's `toggle-overview`. Revisit if a plugin lands in nixpkgs
+kept in sync with the packaged Hyprland.
 
 ## Conventions
 

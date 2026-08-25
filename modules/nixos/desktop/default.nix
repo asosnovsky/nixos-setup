@@ -19,6 +19,7 @@ in
     ./tiler
     ./stylix
     ./printers.nix
+    ./fixes
   ];
 
   options = {

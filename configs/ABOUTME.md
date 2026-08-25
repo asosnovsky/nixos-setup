@@ -4,13 +4,18 @@ Application configuration files that are symlinked into `~/.config/` via
 `system.userActivationScripts` (using `skygUtils.makeHyperlinkScriptToConfigs`
 from `modules/skyg-utils.nix`).
 
+Most entries link `~/.config/<name>` -> `configs/<name>`. Some are host-scoped
+and live under `configs/<hostName>/` — e.g. the Hyprland module links
+`~/.config/hypr` -> `configs/<hostName>/hypr` (defaulting to the machine's
+hostName). `makeHyperlinkScriptToConfigs` takes an optional `targetPath` for
+these cases where the source subdir and `~/.config` target differ.
+
 ## Contents
 
 | Path | Description |
 |---|---|
 | `niri/` | Niri Wayland compositor config |
-| `hypr/` | Hyprland compositor config |
-| `hyprpanel/` | HyprPanel bar/widget config |
+| `fwbook/hypr/` | Hyprland config for `fwbook` (scrolling layout + noctalia); linked to `~/.config/hypr` |
 | `extra.nu` | Extra NuShell config sourced at shell startup |
 | `fwbook.knsv` | fwbook-specific Kanshi display profile |
 | `libinput-gestures.conf` | Touchpad gesture bindings |

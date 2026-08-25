@@ -30,6 +30,7 @@ in
       "https://cosmic.cachix.org/"
       "https://ai.cachix.org"
       "https://noctalia.cachix.org"
+      "https://hyprland.cachix.org"
     ] ++ cfg.urls;
     nix.settings.trusted-substituters = [
       "https://cache.flox.dev"
@@ -44,6 +45,7 @@ in
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ] ++ cfg.keys;
     nix.settings.trusted-users = [ "root" skygUser.name ];
     nix.extraOptions = ''

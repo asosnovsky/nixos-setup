@@ -18,7 +18,8 @@ desktop/
 ├── printers.nix   # CUPS printing + drivers (always on when desktop enabled)
 ├── gnome.nix      # skyg.nixos.desktop.gnome — GNOME + pop-shell
 ├── kde.nix        # skyg.nixos.desktop.kde — Plasma 6
-└── cosmic.nix     # skyg.nixos.desktop.cosmic — COSMIC DE
+├── cosmic.nix     # skyg.nixos.desktop.cosmic — COSMIC DE
+└── fixes/         # skyg.nixos.desktop.fixes — workaround and fixes (e.g., AirPods audio)
 ```
 
 ## How it composes
@@ -41,6 +42,7 @@ skyg.nixos.desktop.tiler.*         → tiler/
 skyg.nixos.desktop.stylix.enable   → stylix/   (default true)
 skyg.nixos.desktop.crypto.enable   → crypto.nix
 skyg.nixos.desktop.x11.*           → x11/
+skyg.nixos.desktop.fixes.*         → fixes/
 ```
 
 ## Conventions
