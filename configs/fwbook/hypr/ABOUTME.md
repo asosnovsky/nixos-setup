@@ -12,13 +12,23 @@ The Hyprland module links `configs/<configName>/hypr` -> `~/.config/hypr`, with
 without stepping on other machines. The old shared `configs/hypr/` (waybar +
 hyprpanel) was removed when this replaced it.
 
+## Config format: Lua
+
+Written in **Lua** (`hyprland.lua`), not hyprlang. Hyprland 0.55+ deprecated
+hyprlang in favor of Lua, and reads `~/.config/hypr/hyprland.lua`. Files are
+split under `conf/` and pulled in with `require()`.
+
+> The folder is named `conf`, not `hyprland.d`, because Hyprland's `require()`
+> treats `.` as a path separator — `require("hyprland.d/env")` would resolve to
+> `hyprland/d/env`.
+
 ## Design
 
 - **Layout:** Hyprland's native `scrolling` layout (0.54+), no plugins required.
-  This mirrors niri's scrollable-tiling model. See `hyprland.d/general.conf`.
-- **Shell:** noctalia (`noctalia-shell`), autostarted in `hyprland.d/autostart.conf`.
-  There is intentionally no waybar/hyprpanel here.
-- **Keybinds:** `hyprland.d/keybindings.conf` mirrors `configs/niri/shared/binds.kdl`
+  This mirrors niri's scrollable-tiling model. See `conf/general.lua`.
+- **Shell:** noctalia (`noctalia-shell`), autostarted in `conf/autostart.lua`
+  via `hl.on("hyprland.start", ...)`. There is intentionally no waybar/hyprpanel.
+- **Keybinds:** `conf/keybindings.lua` mirrors `configs/niri/shared/binds.kdl`
   and `configs/niri/noctalia/binds.kdl` as closely as Hyprland allows.
 - **Overview:** there is no native Hyprland overview, and no overview plugin that
   reliably builds against current Hyprland (hyprexpo was retired from the
@@ -29,23 +39,29 @@ hyprpanel) was removed when this replaced it.
 
 ```
 hypr/
-├── hyprland.conf                 # variables + sources hyprland.d/*.conf
-├── screen-record.sh              # wf-recorder toggle (bound to Mod+R)
-└── hyprland.d/
-    ├── env.conf                  # cursor size + Wayland/Qt/Electron env hints
-    ├── general.conf              # scrolling layout, gaps/border/rounding
-    ├── monitors.conf             # translated from configs/niri/shared/outputs.kdl
-    ├── inputs.conf               # touchpad tap + natural scroll, kb us, swipe
-    ├── window-rules.conf         # float small dialogs/utilities
-    ├── keybindings.conf          # niri + noctalia binds, scrolling dispatchers
-    └── autostart.conf            # noctalia, hypridle (via UWSM)
+├── hyprland.lua                 # entry point; require()s conf/*.lua in order
+├── screen-record.sh             # wf-recorder toggle (bound to Mod+R)
+└── conf/
+    ├── env.lua                  # cursor size + Wayland/Qt/Electron env hints (hl.env)
+    ├── general.lua              # scrolling layout, gaps/border/rounding (hl.config)
+    ├── monitors.lua             # hl.monitor per display (from configs/niri/.../outputs.kdl)
+    ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture
+    ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
+    ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp)
+    └── autostart.lua            # noctalia, hypridle via UWSM (hl.on hyprland.start)
 ```
 
 ## Bindings without a clean 1:1 niri mapping
 
 - `Mod+Shift+H` (show-hotkey-overlay) — no native Hyprland equivalent; left commented.
 - `Mod+Escape` (toggle-keyboard-shortcuts-inhibit) — no native equivalent; omitted.
-- `Mod+W` (toggle-column-tabbed-display) — mapped to `togglegroup` as the nearest analog.
+- `Mod+W` (toggle-column-tabbed-display) — mapped to `hl.dsp.group.toggle()` as the nearest analog.
 - `Mod+Tab` (toggle-overview) — no native overview / no buildable plugin; mapped to `cyclenext`.
-- Workspace-to-monitor moves (niri used touchpad scroll) — approximated with
-  `Mod + mouse wheel`.
+- Workspace-to-monitor moves (niri used touchpad scroll) — approximated with `Mod + mouse wheel`.
+
+## Behavior deltas from the old hyprlang config
+
+- `Ctrl+Alt+Delete` runs `uwsm stop` (not the `exit` dispatcher). The Hyprland
+  wiki warns UWSM users that `exit` breaks the ordered shutdown sequence.
+- `Mod+Shift+-/=` (window height) uses a fixed pixel delta instead of a percent,
+  since the Lua `window.resize` dispatcher takes pixels, not `%`.

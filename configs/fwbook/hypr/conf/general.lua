@@ -1,0 +1,38 @@
+-- =========================
+-- General / Layout
+-- =========================
+-- Native scrolling layout (Hyprland 0.54+) — no plugins needed. This mirrors
+-- niri's scrollable-tiling model. Gaps/border/corner-radius mirror
+-- configs/niri/shared/layout.kdl (gaps 5, border 2, corner radius 12).
+
+hl.config({
+    general = {
+        gaps_in = 5,
+        gaps_out = 5,
+        border_size = 2,
+        layout = "scrolling",
+        resize_on_border = true,
+    },
+
+    decoration = {
+        rounding = 12,
+    },
+
+    -- https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/
+    scrolling = {
+        -- Default column width as a fraction of the screen [0.1 - 1.0].
+        column_width = 0.5,
+        -- A lone column fills the screen (matches niri's single-column feel).
+        fullscreen_on_one_column = true,
+        -- Center the focused column when it comes into view (niri-like).
+        focus_fit_method = 0,
+        follow_focus = true,
+        explicit_column_widths = "0.333, 0.5, 0.667, 1.0",
+    },
+
+    -- Disable Hyprland's logo wallpaper (niri: hot-corners off has no analog).
+    misc = {
+        disable_hyprland_logo = true,
+        focus_on_activate = true,
+    },
+})
