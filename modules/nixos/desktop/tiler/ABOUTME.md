@@ -47,6 +47,10 @@ skyg.nixos.desktop.tiler.background.enable
 - Symlinks `~/.config/hypr` -> `configs/<configName>/hypr`, where `configName`
   defaults to `config.skyg.core.hostName` (so `fwbook` -> `configs/fwbook/hypr`).
 
+The config itself is written in **Lua** (`hyprland.lua` + `conf/*.lua`), not
+hyprlang — Hyprland 0.55+ deprecated hyprlang in favor of Lua. See
+`configs/fwbook/hypr/ABOUTME.md`.
+
 The Hyprland Cachix cache (`hyprland.cachix.org`) is added in
 `modules/core/nix-substituters.nix` so the flake build doesn't compile from source.
 
