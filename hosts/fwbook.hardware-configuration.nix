@@ -78,7 +78,18 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-  swapDevices = [{ device = "/swap/swapfile"; }];
+  # Disk swapfile on @swap is unused; zram is the only swap.
+  # After switch: `swapoff /swap/swapfile && rm /swap/swapfile` to reclaim 64G.
+  swapDevices = [ ];
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+  };
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 150;
+    "vm.page-cluster" = 0;
+  };
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode =
