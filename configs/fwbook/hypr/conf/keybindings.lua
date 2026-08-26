@@ -98,24 +98,24 @@ hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- =========================
 -- Noctalia shell (mirrors configs/niri/noctalia/binds.kdl)
 -- =========================
-hl.bind(mod .. " + Space", hl.dsp.exec_cmd("noctalia-shell ipc call launcher toggle"))
-hl.bind(mod .. " + S",     hl.dsp.exec_cmd("noctalia-shell ipc call controlCenter toggle"))
-hl.bind(mod .. " + comma", hl.dsp.exec_cmd("noctalia-shell ipc call settings toggle"))
+hl.bind(mod .. " + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
+hl.bind(mod .. " + S",     hl.dsp.exec_cmd("noctalia msg panel-toggle control-center"))
+hl.bind(mod .. " + comma", hl.dsp.exec_cmd("noctalia msg settings-toggle"))
 
 -- Clipboard history
 hl.bind(mod .. " + ALT + P", hl.dsp.exec_cmd('rofi -modi "clipboard:greenclip print" -show clipboard'))
 -- Dismiss all notifications
-hl.bind(mod .. " + ALT + L", hl.dsp.exec_cmd("noctalia-shell ipc call notifications dismissAll"))
+hl.bind(mod .. " + ALT + L", hl.dsp.exec_cmd("noctalia msg notification-clear-active"))
 
 -- Media & brightness
-hl.bind(mod .. " + SHIFT + up",    hl.dsp.exec_cmd("noctalia-shell ipc call volume increase"))
-hl.bind(mod .. " + SHIFT + down",  hl.dsp.exec_cmd("noctalia-shell ipc call volume decrease"))
+hl.bind(mod .. " + SHIFT + up",    hl.dsp.exec_cmd("noctalia msg volume-up"))
+hl.bind(mod .. " + SHIFT + down",  hl.dsp.exec_cmd("noctalia msg volume-down"))
 hl.bind(mod .. " + SHIFT + right", hl.dsp.exec_cmd("playerctl next"))
 hl.bind(mod .. " + SHIFT + left",  hl.dsp.exec_cmd("playerctl previous"))
 hl.bind(mod .. " + SHIFT + Space", hl.dsp.exec_cmd("playerctl play-pause"))
 
-hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("noctalia-shell ipc call volume increase"),     { locked = true })
-hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("noctalia-shell ipc call volume decrease"),     { locked = true })
-hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("noctalia-shell ipc call volume muteOutput"),   { locked = true })
-hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("noctalia-shell ipc call brightness increase"), { locked = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("noctalia-shell ipc call brightness decrease"), { locked = true })
+hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("noctalia msg volume-up"),     { locked = true })
+hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("noctalia msg volume-down"),     { locked = true })
+hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("noctalia msg volume-mute"),   { locked = true })
+hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("noctalia msg brightness-up"), { locked = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("noctalia msg brightness-down"), { locked = true })

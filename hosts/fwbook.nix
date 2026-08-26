@@ -224,6 +224,8 @@ in
       pi-coding-agent
       claude-code
       buzz-desktop
+      bwarp
+
 
     ]);
 
