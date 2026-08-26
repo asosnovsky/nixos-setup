@@ -300,10 +300,11 @@ export def "skyg openwrt" [
     --dry-run  # Render configs to .tmp/openwrt-<router>/ without touching the router
 ] {
     cd $REPO_ROOT
+    let decrypted_file = skyg decrypt $"($router).json"
     if $dry_run {
-        bash -c $"export SKYG_ROUTER=($router); age -d -i ~/.ssh/id_ed25519 secrets/($router).json.age | nix run .#openwrt-($router)-dry-run"
+        ^cat $decrypted_file | nix run .#openwrt-($router)-dry-run -- ($router)
     } else {
-        bash -c $"age -d -i ~/.ssh/id_ed25519 secrets/($router).json.age | nix run .#openwrt-($router)"
+        ^cat $decrypted_file | nix run .#openwrt-($router)
     }
 }
 
@@ -337,6 +338,7 @@ export def "skyg decrypt" [secret: string@secret-names] {
     let dest = $".tmp/unencrypted-($secret)"
     agenix -d $src | save -f $dest
     print $"Decrypted to ($dest)"
+    return $dest
 }
 
 # Encrypt a file to secrets/ folder (re-encrypts using agenix)
@@ -355,6 +357,7 @@ export def "skyg encrypt" [secret: string@secret-names, source?: string] {
     let dest = $"secrets/($secret).age"
     cat $src | EDITOR="cp /dev/stdin" agenix -e $dest
     print $"Encrypted ($dest)"
+    return $dest
 }
 
 # Compare unencrypted local version with encrypted version of a secret

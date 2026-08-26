@@ -118,10 +118,10 @@ let
 
   # Dry-run: render the configs locally and write them to .tmp/openwrt-<router>/
   # for review. No SSH, no uci, no router changes. Run from the repo root.
-  # The router name is taken from $SKYG_ROUTER (default glmain).
+  # The router name is passed as $1 (defaults to glmain).
   dryRunScript = pkgs.writeShellScriptBin "openwrt-dry-run" ''
     set -euo pipefail
-    ROUTER="$'{SKYG_ROUTER:-glmain}"
+    if [ $# -ge 1 ]; then ROUTER="$1"; else ROUTER=glmain; fi
     OUTDIR=".tmp/openwrt-$ROUTER"
     mkdir -p "$OUTDIR"
 

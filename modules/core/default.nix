@@ -58,7 +58,7 @@
         mandatoryFeatures = [ ];
       }
       {
-        hostName = "root@hl-fwdesk.lab.internal";
+        hostName = "root@fwdesk.lab.internal";
         system = "x86_64-linux";
         protocol = "ssh-ng";
         maxJobs = 4;

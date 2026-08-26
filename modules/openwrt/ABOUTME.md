@@ -37,7 +37,7 @@ age -d secrets/glmain.json.age | openwrt-deploy
 
 `openwrt-dry-run` renders the same three configs **locally** and writes them to
 `.tmp/openwrt-<router>/` for review — no SSH, no `uci`, no confirm prompt. The router name
-comes from the `SKYG_ROUTER` env var (default `glmain`).
+is passed as a command-line argument (default `glmain`).
 
 ```bash
 skyg openwrt --dry-run
