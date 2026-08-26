@@ -57,7 +57,21 @@ hypr/
 - `Mod+Escape` (toggle-keyboard-shortcuts-inhibit) — no native equivalent; omitted.
 - `Mod+W` (toggle-column-tabbed-display) — mapped to `hl.dsp.group.toggle()` as the nearest analog.
 - `Mod+Tab` (toggle-overview) — no native overview / no buildable plugin; mapped to `cyclenext`.
-- Workspace-to-monitor moves (niri used touchpad scroll) — approximated with `Mod + mouse wheel`.
+
+## Touchpad gestures (niri parity)
+
+niri's 3-finger swipes are mirrored in `conf/inputs.lua`:
+- **Horizontal** → `scroll_move` (scroll through columns along the tape)
+- **Vertical** → `workspace` (switch workspaces up/down)
+- **Mod + swipe (any direction)** → move the whole workspace to the monitor in
+  that direction (`movecurrentworkspacetomonitor`), mirroring niri's
+  `Mod+TouchpadScroll*` binds. This replaced the old `Mod + mouse wheel` approach.
+
+> The gesture action is `scroll_move` (underscore), not `scrollmove`. The
+> `mods = "SUPER"` mask is what lets the Mod + swipe variants coexist with the
+> plain swipes. Both require a Hyprland new enough to expose configurable Lua
+> gestures (0.55+). The older `scrollmove` name and the `scrollmove` action do
+> not exist — they error with "unknown action".
 
 ## Behavior deltas from the old hyprlang config
 

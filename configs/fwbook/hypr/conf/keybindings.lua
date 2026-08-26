@@ -86,10 +86,8 @@ hl.bind(mod .. " + ALT + left",  hl.dsp.window.move({ monitor = "l" }))
 hl.bind(mod .. " + ALT + right", hl.dsp.window.move({ monitor = "r" }))
 hl.bind(mod .. " + ALT + up",    hl.dsp.window.move({ monitor = "u" }))
 
--- niri moved workspaces between monitors via touchpad scroll; approximate with
--- Mod + mouse wheel (move current workspace to next/prev monitor).
-hl.bind(mod .. " + mouse_down", hl.dsp.workspace.move({ monitor = "+1" }))
-hl.bind(mod .. " + mouse_up",   hl.dsp.workspace.move({ monitor = "-1" }))
+-- niri moved workspaces between monitors via Mod + touchpad scroll. That now
+-- lives in conf/inputs.lua as Mod + 3-finger swipe gestures (mods = "SUPER").
 
 -- =========================
 -- Mouse drag (move / resize windows)

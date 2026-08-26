@@ -31,6 +31,7 @@ in
       dgop.package = unstablePkgs.dgop;
       systemd = {
         enable = true; # Systemd service for auto-start
+        target = "niri.service";
         restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes
       };
     };
