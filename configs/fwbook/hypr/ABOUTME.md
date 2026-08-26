@@ -27,7 +27,10 @@ split under `conf/` and pulled in with `require()`.
 - **Layout:** Hyprland's native `scrolling` layout (0.54+), no plugins required.
   This mirrors niri's scrollable-tiling model. See `conf/general.lua`.
 - **Shell:** noctalia (`noctalia-shell`), autostarted in `conf/autostart.lua`
-  via `hl.on("hyprland.start", ...)`. There is intentionally no waybar/hyprpanel.
+  via `hl.on("hyprland.start", ...)`. Launched with `setpriv --ambient-caps -all`
+  to drop capabilities inherited from the compositor; without it, D-Bus calls
+  inside quickshell-based apps fail silently (hyprwm/Hyprland#14844). There is
+  intentionally no waybar/hyprpanel.
 - **Keybinds:** `conf/keybindings.lua` mirrors `configs/niri/shared/binds.kdl`
   and `configs/niri/noctalia/binds.kdl` as closely as Hyprland allows.
 - **Overview:** there is no native Hyprland overview, and no overview plugin that
@@ -54,7 +57,7 @@ everything else stays on Hyprland defaults. Other `workspaces` styles available:
     ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture
     ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
     ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp)
-    └── autostart.lua            # noctalia, hypridle via UWSM (hl.on hyprland.start)
+    └── autostart.lua            # noctalia, hypridle via setpriv (hl.on hyprland.start; drops compositor caps)
 ```
 
 ## Bindings without a clean 1:1 niri mapping

@@ -6,7 +6,9 @@
 
 hl.on("hyprland.start", function()
     -- noctalia shell (bar / launcher / control center / notifications)
-    hl.exec_cmd("uwsm app -- noctalia-shell")
+    -- setpriv drops ambient capabilities inherited from the compositor;
+    -- without it, D-Bus calls inside quickshell-based apps fail silently.
+    hl.exec_cmd("setpriv --ambient-caps -all -- noctalia-shell")
     -- Idle management
-    hl.exec_cmd("uwsm app -- hypridle")
+    hl.exec_cmd("setpriv --ambient-caps -all -- hypridle")
 end)

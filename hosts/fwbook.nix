@@ -3,7 +3,6 @@
 , lib
 , user
 , unstablePkgs
-, noctalia
 , claude-desktop
 , flox
 , ...
@@ -15,7 +14,7 @@ let
     8000
     8001
   ];
-  noctaliaPkg = noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
 in
 {
   # Skyg
@@ -44,6 +43,7 @@ in
         tiler = {
           enable = true;
           hyprland.enable = true;
+          noctalia.enable = true;
           niri = {
             enable = true;
             touchscreen-gestures = {
@@ -217,9 +217,6 @@ in
 
       # Iphone Management
       idevicerestore # optional, to mount using 'ifuse'
-
-      # Misc
-      noctaliaPkg
 
       # coding agents
       claude-desktop

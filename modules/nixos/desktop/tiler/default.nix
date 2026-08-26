@@ -12,6 +12,7 @@ in
     ./hyprland.nix
     ./niri.nix
     ./niri-touchscreen-gestures.nix
+    ./noctalia.nix
     ./swww.nix
   ];
   options = {
