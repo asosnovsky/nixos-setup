@@ -44,6 +44,12 @@ hypr/
 └── conf/
     ├── env.lua                  # cursor size + Wayland/Qt/Electron env hints (hl.env)
     ├── general.lua              # scrolling layout, gaps/border/rounding (hl.config)
+    ├── animations.lua           # vertical workspace-switch animation (hl.animation)
+    ├── animations.lua           # vertical workspace slide (slidevert), niri-like (hl.animation):
+`style = "slidevert"`) to mirror niri's vertically-stacked workspaces, instead of
+Hyprland's default horizontal `slide`. Only the `workspaces` leaf is overridden;
+everything else stays on Hyprland defaults. Other `workspaces` styles available:
+`slide`, `fade`, `slidefade`, `slidefadevert`.
     ├── monitors.lua             # hl.monitor per display (from configs/niri/.../outputs.kdl)
     ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture
     ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
