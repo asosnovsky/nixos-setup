@@ -47,7 +47,7 @@
         hostName = "root@bigbox1.lab.internal";
         system = "x86_64-linux";
         protocol = "ssh-ng";
-        maxJobs = 1;
+        maxJobs = 2;
         speedFactor = 2;
         supportedFeatures = [
           "nixos-test"
@@ -62,7 +62,7 @@
         system = "x86_64-linux";
         protocol = "ssh-ng";
         maxJobs = 4;
-        speedFactor = 2;
+        speedFactor = 4;
         supportedFeatures = [
           "nixos-test"
           "benchmark"

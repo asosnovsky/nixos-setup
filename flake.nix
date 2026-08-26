@@ -51,6 +51,8 @@
     hyprlauncher.url = "github:hyprwm/hyprlauncher";
     # Hyprland compositor via flake (latest git).
     hyprland.url = "github:hyprwm/Hyprland";
+    # Hyprland touchpad gesture plugin
+    hyprgrass.url = "github:horriblename/hyprgrass";
     # Secrets management
     agenix.url = "github:ryantm/agenix";
     # Claude Desktop
@@ -73,6 +75,7 @@
     , stylix
     , hyprlauncher
     , hyprland
+    , hyprgrass
     , dms
     , noctalia
     , git-hooks
@@ -107,6 +110,7 @@
               inherit
                 hyprlauncher
                 hyprland
+                hyprgrass
                 nixpkgs-unstable
                 dms
                 noctalia

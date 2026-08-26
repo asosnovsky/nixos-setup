@@ -3,6 +3,7 @@
 , pkgs
 , skygUtils
 , hyprland
+, hyprgrass
 , noctalia
 , ...
 }:
@@ -55,6 +56,7 @@ in
       grim
       slurp
       satty
+      hyprgrass.packages.${system}.hyprgrass
     ];
 
     # Symlink ~/.config/hypr -> configs/<configName>/hypr (host-specific).
