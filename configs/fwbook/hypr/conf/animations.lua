@@ -8,6 +8,16 @@
 
 -- hl.animation requires an explicit bezier/spring (there is no built-in
 -- "default" curve name in the Lua API), so define one first.
-hl.curve("wsslide", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1.0 } } })
+hl.curve("wsslide", {
+    type = "bezier",
+    points = { { 0.05, 0.9 }, { 0.1, 1.0 } },
+})
 
-hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "wsslide", style = "slidevert" })
+
+hl.animation({
+    leaf = "workspaces",
+    enabled = true,
+    speed = 2,
+    bezier = "wsslide",
+    style = "slidevert",
+})

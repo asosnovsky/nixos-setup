@@ -59,6 +59,14 @@ in
       hyprgrass.packages.${system}.hyprgrass
     ];
 
+    # Resolved store path for the hyprgrass plugin .so, read by
+    # configs/fwbook/hypr/conf/hyprgrass.lua via os.getenv to call
+    # hl.plugin.load(...). Adding the package to systemPackages above only
+    # puts the file on disk -- Hyprland needs an explicit load call, and the
+    # store path changes on every flake update so it can't be hardcoded there.
+    environment.sessionVariables.HYPRGRASS_SO =
+      "${hyprgrass.packages.${system}.hyprgrass}/lib/libhyprgrass.so";
+
     # Symlink ~/.config/hypr -> configs/<configName>/hypr (host-specific).
     system.userActivationScripts.hyprlandConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
       filePath = "${cfg.configName}/hypr";

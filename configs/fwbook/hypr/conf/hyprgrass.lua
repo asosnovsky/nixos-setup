@@ -2,42 +2,65 @@
 -- Hyprgrass (Touchpad Gestures)
 -- =========================
 -- Hyprgrass plugin configuration for advanced touchpad gesture support.
--- Handles swipes, taps, and other multi-finger gestures on the touchpad.
 -- Documentation: https://github.com/horriblename/hyprgrass
+-- Config reference: docs/configuration.md
 
-hl.config({
-    plugin = {
-        hyprgrass = {
-            -- Bind gestures to workspace switching (4-finger swipes)
-            bind = {
-                "SUPER, swipe:4:left, workspace, +1",
-                "SUPER, swipe:4:right, workspace, -1",
-                
-                -- Hold modifier + gesture for special actions
-                "ALT, swipe:4:up, exec, rofi -show",
-                "ALT, swipe:4:down, exec, rofi -show window",
-            },
-            
-            -- Bind movements (e.g., drag to move windows)
-            bindm = {
-                -- 3-finger drag to move windows (alternative to Super+drag)
-                "SUPER, swipe:3:left, movewindow, l",
-                "SUPER, swipe:3:right, movewindow, r",
-                "SUPER, swipe:3:up, movewindow, u",
-                "SUPER, swipe:3:down, movewindow, d",
-            },
-            
-            -- Sensitivity and behavior settings
-            sensitivity = 4.0,
-            long_press_delay = 400,
-            
-            -- Gesture deadzone (in pixels)
-            edges = {
-                top = 10,
-                bottom = 10,
-                left = 10,
-                right = 10,
-            },
-        }
-    }
-})
+-- environment.systemPackages only puts libhyprgrass.so on disk -- Hyprland
+-- doesn't load plugins on its own. HYPRGRASS_SO is set in
+-- modules/nixos/desktop/tiler/hyprland.nix (sessionVariables) to the resolved
+-- store path, since that path changes on every flake update. Must run before
+-- anything below references plugin.hyprgrass config keys or hl.plugin.hyprgrass,
+-- both of which only exist once the plugin is loaded.
+hl.plugin.load(os.getenv("HYPRGRASS_SO"))
+
+-- hl.config({
+--     plugin = {
+--         hyprgrass = {
+--             -- The default sensitivity is probably too low on tablet screens,
+--             -- I recommend turning it up to 4.0
+--             sensitivity = 4.0,
+
+--             -- in milliseconds
+--             long_press_delay = 400,
+
+--             -- resize windows by long-pressing on window borders and gaps.
+--             resize_on_border_long_press = true,
+
+--             -- in pixels, the distance from the edge that is considered an edge
+--             edge_margin = 10,
+--         }
+--     }
+-- })
+
+-- -- -- =========================
+-- -- -- Custom gesture bindings
+-- -- -- =========================
+
+-- -- -- 4-finger swipes to switch workspaces
+-- hl.plugin.hyprgrass.gesture {
+--     pattern = { kind = "swipe", fingers = 4, direction = "left" },
+--     action = "workspace",
+-- }
+-- hl.plugin.hyprgrass.gesture {
+--     pattern = { kind = "swipe", fingers = 4, direction = "right" },
+--     action = "workspace",
+-- }
+
+-- -- 3-finger swipe down to close the focused window
+-- hl.plugin.hyprgrass.gesture {
+--     pattern = { kind = "swipe", fingers = 3, direction = "down" },
+--     action = "close",
+-- }
+
+-- -- 3-finger tap to toggle floating
+-- hl.plugin.hyprgrass.bind {
+--     pattern = { kind = "tap", fingers = 3 },
+--     action = hl.dsp.window.float(),
+-- }
+
+-- -- Long-press with 3 fingers to drag the focused window
+-- hl.plugin.hyprgrass.bind {
+--     pattern = { kind = "longpress", fingers = 3 },
+--     action = hl.dsp.window.drag(),
+--     mouse = true,
+-- }
