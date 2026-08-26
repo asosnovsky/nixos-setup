@@ -60,7 +60,7 @@ mod tests {
             domains,
             just_mac: false,
         }]);
-        Config { general_mappings: vec![], networks, dns_resolvers: vec![] }
+        Config { general_mappings: vec![], networks, dns_resolvers: vec![], internet_only: vec![] }
     }
 
     #[test]
@@ -80,6 +80,7 @@ mod tests {
             }],
             networks: BTreeMap::new(),
             dns_resolvers: vec![],
+            internet_only: vec![],
         };
         let result = generate(&config);
         assert!(result.contains("address=/gw.local/192.168.1.1\n"));
@@ -95,6 +96,7 @@ mod tests {
                 port: Some(853),
                 name: Some("CF".to_string()),
             }],
+            internet_only: vec![],
         };
         let result = generate(&config);
         assert!(result.contains("server=1.1.1.1#853 # CF\n"));
@@ -106,6 +108,7 @@ mod tests {
             general_mappings: vec![],
             networks: BTreeMap::new(),
             dns_resolvers: vec![],
+            internet_only: vec![],
         };
         assert!(generate(&config).is_empty());
     }

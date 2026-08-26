@@ -16,16 +16,38 @@ openwrt/
 ## How it works
 
 1. The router config lives as an **agenix secret** (e.g. `secrets/glmain.json.age`).
-2. `openwrt-deploy` reads the decrypted JSON from stdin, runs `openwrt-gen dnsmasq` and
-   `openwrt-gen ethers` to render the two target files.
-3. It SSHes to the router, shows a **colorized diff** against the current files, and prompts
-   for confirmation before writing.
-4. `dnsmasq.conf` is validated with `dnsmasq --test` on the router and **automatically
-   reverted** if the new config is invalid.
+2. `openwrt-deploy` reads the decrypted JSON from stdin, runs `openwrt-gen dnsmasq`,
+   `openwrt-gen ethers`, and `openwrt-gen firewall` to render the three target files.
+3. It SSHes to the router, shows a **colorized diff** against the current files (for the
+   firewall, only the `skyg_*`-managed rules are diffed), and prompts for confirmation.
+4. On the router it **backs up** the configs it overrides to `/etc/skyg-backups/` with a
+   timestamp, then applies them. `dnsmasq.conf` is validated with `dnsmasq --test` and the
+   firewall is committed + reloaded; **any failure auto-restores** from that timestamp's
+   backups. Backups persist so you can restore later if something breaks:
+   ```sh
+   cp /etc/skyg-backups/firewall.<ts> /etc/config/firewall
+   uci commit firewall && /etc/init.d/firewall restart
+   ```
 
 ```
 age -d secrets/glmain.json.age | openwrt-deploy
 ```
+
+### Dry run (no router changes)
+
+`openwrt-dry-run` renders the same three configs **locally** and writes them to
+`.tmp/openwrt-<router>/` for review — no SSH, no `uci`, no confirm prompt. The router name
+comes from the `SKYG_ROUTER` env var (default `glmain`).
+
+```bash
+skyg openwrt --dry-run
+# → .tmp/openwrt-glmain/dnsmasq.conf
+# → .tmp/openwrt-glmain/ethers
+# → .tmp/openwrt-glmain/firewall.batch   # the exact `uci batch` that would be applied
+```
+
+Use this to inspect what a deploy *would* do (especially the firewall rules) before running
+the real `skyg openwrt`.
 
 `router.ip` / `router.user` are taken from the `config` passed into `default.nix`.
 
@@ -35,3 +57,6 @@ age -d secrets/glmain.json.age | openwrt-deploy
 - Deploys are interactive and reviewed by a human; the script intentionally requires
   confirmation and self-reverts on a bad dnsmasq config.
 - `generator/target/` is gitignored Rust build output — ignore it.
+- Firewall rules are **managed by name**: the deploy script only touches rules named
+  `skyg_*`. It deletes existing `skyg_*` rules, adds the newly generated ones, commits, and
+  reloads — so deploys are idempotent and never clobber hand-written rules.

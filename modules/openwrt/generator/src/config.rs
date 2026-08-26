@@ -8,6 +8,9 @@ pub struct Config {
     pub networks: BTreeMap<String, Vec<Device>>,
     #[serde(default, rename = "dnsResolvers")]
     pub dns_resolvers: Vec<DnsResolver>,
+    /// Networks whose devices may only reach the internet, not the rest of the LAN.
+    #[serde(default, rename = "internetOnly")]
+    pub internet_only: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -81,5 +84,19 @@ mod tests {
         assert_eq!(resolver.ip, "1.1.1.1");
         assert_eq!(resolver.port, Some(853));
         assert_eq!(resolver.name, Some("CF".to_string()));
+    }
+
+    #[test]
+    fn test_internet_only_parsing() {
+        let json = r#"{"generalMappings": [], "networks": {}, "internetOnly": ["cam", "apl", "iot"]}"#;
+        let config: Config = serde_json::from_str(json).unwrap();
+        assert_eq!(config.internet_only, vec!["cam", "apl", "iot"]);
+    }
+
+    #[test]
+    fn test_internet_only_defaults_empty() {
+        let json = r#"{"generalMappings": [], "networks": {}}"#;
+        let config: Config = serde_json::from_str(json).unwrap();
+        assert!(config.internet_only.is_empty());
     }
 }

@@ -295,9 +295,16 @@ Report written to ($report_file)"
 }
 
 # Deploy OpenWrt router configuration
-export def "skyg openwrt" [router: string = "glmain"] {
+export def "skyg openwrt" [
+    router: string = "glmain",
+    --dry-run  # Render configs to .tmp/openwrt-<router>/ without touching the router
+] {
     cd $REPO_ROOT
-    bash -c $"age -d -i ~/.ssh/id_ed25519 secrets/($router).json.age | nix run .#openwrt-($router)"
+    if $dry_run {
+        bash -c $"export SKYG_ROUTER=($router); age -d -i ~/.ssh/id_ed25519 secrets/($router).json.age | nix run .#openwrt-($router)-dry-run"
+    } else {
+        bash -c $"age -d -i ~/.ssh/id_ed25519 secrets/($router).json.age | nix run .#openwrt-($router)"
+    }
 }
 
 # Build ISO image

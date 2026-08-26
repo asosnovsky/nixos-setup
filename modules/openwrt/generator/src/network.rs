@@ -2,6 +2,10 @@ use crate::config::Device;
 
 pub const ROOT_DOMAIN: &str = "internal";
 
+// IPv6 ULA prefix assigned to br-lan (network.lan.ip6prefix). All subnets share
+// this single /64, so IPv6 internet-only blocking is done per-device MAC.
+pub const ULA_PREFIX: &str = "fd59:de0a:bff5::/48";
+
 pub static IP_PREFIXES: &[(&str, &str)] = &[
     ("lab", "10.0.10."),
     ("k3s", "10.0.11."),
@@ -98,5 +102,10 @@ mod tests {
         let devices = vec![device("phone", None, false)];
         let result = process_network("devices", &devices);
         assert!(result[0].just_mac);
+    }
+
+    #[test]
+    fn test_ula_prefix_constant() {
+        assert_eq!(ULA_PREFIX, "fd59:de0a:bff5::/48");
     }
 }

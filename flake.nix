@@ -52,7 +52,10 @@
     # Hyprland compositor via flake (latest git).
     hyprland.url = "github:hyprwm/Hyprland";
     # Hyprland touchpad gesture plugin
-    hyprgrass.url = "github:horriblename/hyprgrass";
+    hyprgrass = {
+      url = "github:horriblename/hyprgrass";
+      inputs.hyprland.follows = "hyprland";
+    };
     # Secrets management
     agenix.url = "github:ryantm/agenix";
     # Claude Desktop
@@ -191,6 +194,7 @@
         in
         {
           openwrt-glmain = (openwrt (import ./openwrt-routers/glmain.nix)).deployScript;
+          openwrt-glmain-dry-run = (openwrt (import ./openwrt-routers/glmain.nix)).dryRunScript;
           grok-cli = lib.pkgs.${system}.grok-cli;
           # CPU variant of DwarfStar (antirez/ds4); buildable on any system.
           # GPU variants (ds4-rocm/ds4-cuda) are overlay-only — see modules/core.

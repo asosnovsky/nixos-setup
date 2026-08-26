@@ -40,7 +40,7 @@ mod tests {
             domains: None,
             just_mac,
         }]);
-        Config { general_mappings: vec![], networks, dns_resolvers: vec![] }
+        Config { general_mappings: vec![], networks, dns_resolvers: vec![], internet_only: vec![] }
     }
 
     #[test]
@@ -69,6 +69,7 @@ mod tests {
             general_mappings: vec![],
             networks: BTreeMap::new(),
             dns_resolvers: vec![],
+            internet_only: vec![],
         };
         assert!(generate(&config).is_empty());
     }

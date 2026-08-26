@@ -18,8 +18,9 @@ fn main() {
     let output = match cmd.as_str() {
         "dnsmasq" => generators::dnsmasq::generate(&config),
         "ethers" => generators::ethers::generate(&config),
+        "firewall" => generators::firewall::generate(&config),
         _ => {
-            eprintln!("usage: openwrt-gen <dnsmasq|ethers>");
+            eprintln!("usage: openwrt-gen <dnsmasq|ethers|firewall>");
             std::process::exit(1);
         }
     };
