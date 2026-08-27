@@ -81,6 +81,31 @@
     };
   };
 
+  # Drawdb
+  skyg.nixos.common.container-services.drawdb = {
+    enable = true;
+    autoUpdate.enable = true;
+    services.drawdb = {
+      image = "ghcr.io/drawdb-io/drawdb:latest";
+      ports = [
+        "3000:80"
+      ];
+    };
+  };
+
+  age.secrets.stack1.file = ../secrets/stack1.age;
+  skyg.nixos.common.container-services.stack1 = {
+    enable = true;
+    autoUpdate.enable = true;
+    composeFile = config.age.secrets.stack1.path;
+  };
+  age.secrets.stack2.file = ../secrets/stack2.age;
+  skyg.nixos.common.container-services.stack2 = {
+    enable = true;
+    autoUpdate.enable = true;
+    composeFile = config.age.secrets.stack2.path;
+  };
+
   # Scrypted backup timer (image auto-update handled by container-services autoUpdate)
   skyg.server.timers = {
     scrypted-backups = {

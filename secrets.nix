@@ -23,4 +23,8 @@ in
   "secrets/hermes-env.age".publicKeys = [ ari fwdesk ];
 
   "secrets/iu-project.age".publicKeys = [ ari minipc1 ];
+
+  # stack compose definition — minipc2
+  "secrets/stack1.age".publicKeys = [ ari minipc2 ];
+  "secrets/stack2.age".publicKeys = [ ari minipc2 ];
 }

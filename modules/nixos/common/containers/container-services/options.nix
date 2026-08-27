@@ -30,6 +30,24 @@
           description = "Seconds to wait for 'compose down' before forcibly killing containers.";
         };
 
+        composeFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          example = "config.age.secrets.my-compose.path";
+          description = ''
+            Optional path to a ready-made compose file (e.g. an agenix-decrypted
+            secret such as config.age.secrets.my-compose.path) to use verbatim as
+            the group's compose.yml, instead of rendering one from
+            services/volumes/networks.
+
+            When set, this group's services/volumes/networks/files blocks are
+            ignored; the external file must be a complete compose document. Use
+            this to keep a full definition (NFS devices, images, env, etc.) out
+            of version control while still deploying it through
+            container-services.
+          '';
+        };
+
         services = lib.mkOption {
           description = "Container services in this group (maps to compose services: block).";
           default = { };

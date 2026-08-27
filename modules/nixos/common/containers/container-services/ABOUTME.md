@@ -23,6 +23,11 @@ Custom compose-style container service groups for systemd.
 6. `systemd.nix` builds oneshot units to manage the stack
 7. `default.nix` wires tmpfiles, services, and paths together
 
+A group may instead set `composeFile` (e.g. to an agenix secret path) to use an
+external, ready-made compose file verbatim instead of rendering from options —
+useful for keeping sensitive definitions (NFS, env) out of version control.
+See `user-guide.md` → "Secret Compose Definitions".
+
 ## Adding a new feature
 
 If adding a new per-service option:

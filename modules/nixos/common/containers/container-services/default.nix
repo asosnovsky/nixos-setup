@@ -24,17 +24,25 @@ in
 
 
   config = {
-    assertions = lib.optionals (enabledGroups != { }) [
-      {
-        assertion = config.virtualisation.docker.enable or false
+    assertions =
+      (lib.optionals (enabledGroups != { })
+        [{
+          assertion = config.virtualisation.docker.enable or false
           || config.virtualisation.podman.enable or false;
-        message = ''
-          skyg.nixos.common.container-services: at least one container runtime
-          must be enabled. Set skyg.nixos.common.containers.runtime (or enable
-          virtualisation.docker / virtualisation.podman directly).
-        '';
-      }
-    ];
+          message = ''
+            skyg.nixos.common.container-services: at least one container runtime
+            must be enabled. Set skyg.nixos.common.containers.runtime (or enable
+            virtualisation.docker / virtualisation.podman directly).
+          '';
+        }])
+      ++ lib.mapAttrsToList
+        (name: grpCfg:
+          {
+            assertion = grpCfg.composeFile == null || grpCfg.services == { };
+            message =
+              "skyg.nixos.common.container-services.${name}: set either composeFile OR services, not both.";
+          })
+        enabledGroups;
 
     # Create tmpfiles rules for state dirs and file dirs
     systemd.tmpfiles.rules =
@@ -54,12 +62,17 @@ in
         (groupName: grpCfg:
           let
             fileVolumes = filesLib.mkFileVolumesForGroup groupName grpCfg;
-            composeFile = composeLib.mkComposeFile pkgs groupName grpCfg fileVolumes;
-            hasFiles = filesLib.getAllFiles grpCfg != { };
+            # An external compose file (e.g. an agenix secret) is used verbatim;
+            # otherwise render one from the group's options.
+            effectiveComposeFile =
+              if grpCfg.composeFile != null
+              then grpCfg.composeFile
+              else composeLib.mkComposeFile pkgs groupName grpCfg fileVolumes;
+            hasFiles = grpCfg.composeFile == null && filesLib.getAllFiles grpCfg != { };
           in
           lib.nameValuePair
             "container-services-${groupName}"
-            (systemdLib.mkSystemdService groupName grpCfg composeFile composeBin runtimeService hasFiles))
+            (systemdLib.mkSystemdService groupName grpCfg effectiveComposeFile composeBin runtimeService hasFiles))
         enabledGroups
       // lib.foldAttrs lib.recursiveUpdate { } (
         lib.mapAttrsToList

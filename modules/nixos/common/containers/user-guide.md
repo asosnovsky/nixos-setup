@@ -129,6 +129,38 @@ Files are:
 
 ---
 
+## Secret Compose Definitions (External `composeFile`)
+
+Keep a whole stack's definition out of version control by storing it in an
+agenix secret and pointing the group at it:
+
+```nix
+# In your host file
+age.secrets.my-stack = {
+  file = ../secrets/my-stack.age;
+};
+skyg.nixos.common.container-services.my-stack = {
+  enable = true;
+  composeFile = config.age.secrets.my-stack.path;
+};
+```
+
+When `composeFile` is set, the module:
+- Uses that file **verbatim** as the group's `compose.yml` (copied to
+  `/var/lib/container-services/<group>/compose.yml` at startup, just like a
+  rendered one).
+- Ignores this group's `services`/`volumes`/`networks`/`files` blocks — the
+  external file must be a complete compose document.
+- Requires exactly one of `composeFile` or `services` to be set (assertion).
+
+Notes:
+- `env_file:` entries in the external file resolve **relative to**
+  `/var/lib/container-services/<group>/`. Use absolute paths (e.g. another
+  agenix secret path) or inline `environment:` instead.
+- Create the secret with `skyg encrypt <secret-name>`.
+
+---
+
 ## Limitations
 
 - **One unit per group.** No per-container systemd units. Use `docker compose logs` for
