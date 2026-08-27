@@ -16,6 +16,8 @@ hl.config({
 
     decoration = {
         rounding = 12,
+        active_opacity = 1.0,
+        inactive_opacity = 0.9,
     },
 
     -- https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/
@@ -28,6 +30,16 @@ hl.config({
         focus_fit_method = 0,
         follow_focus = true,
         explicit_column_widths = "0.333, 0.5, 0.667, 1.0",
+    },
+
+    -- Cursor: use the GTK (gsettings) cursor theme instead of Hyprcursor.
+    -- sync_gsettings_theme makes Hyprland follow org.gnome.desktop.interface
+    -- cursor-theme; enable_hyprcursor = false skips the hyprcursor backend
+    -- entirely (no hyprcursor themes are installed) so the XCursor fallback
+    -- with XCURSOR_THEME from conf/env.lua is used.
+    cursor = {
+        sync_gsettings_theme = true,
+        enable_hyprcursor = false,
     },
 
     -- Disable Hyprland's logo wallpaper (niri: hot-corners off has no analog).

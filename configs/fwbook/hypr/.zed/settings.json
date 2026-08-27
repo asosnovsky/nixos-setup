@@ -1,0 +1,13 @@
+{
+  "languages": {
+    "Lua": {
+      "formatter": {
+        "external": {
+          "command": "stylua",
+          "arguments": ["--config-path", ".config/hypr/stylua.toml", "-"]
+        }
+      },
+      "format_on_save": "on"
+    }
+  }
+}

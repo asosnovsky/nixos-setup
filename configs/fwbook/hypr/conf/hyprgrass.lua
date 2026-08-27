@@ -13,54 +13,41 @@
 -- both of which only exist once the plugin is loaded.
 hl.plugin.load(os.getenv("HYPRGRASS_SO"))
 
--- hl.config({
---     plugin = {
---         hyprgrass = {
---             -- The default sensitivity is probably too low on tablet screens,
---             -- I recommend turning it up to 4.0
---             sensitivity = 4.0,
+hl.config({
+    plugin = {
+        hyprgrass = {
+            -- The default sensitivity is probably too low on tablet screens,
+            -- I recommend turning it up to 4.0
+            sensitivity = 4.0,
 
---             -- in milliseconds
---             long_press_delay = 400,
+            -- in milliseconds
+            long_press_delay = 400,
 
---             -- resize windows by long-pressing on window borders and gaps.
---             resize_on_border_long_press = true,
+            -- resize windows by long-pressing on window borders and gaps.
+            resize_on_border_long_press = true,
 
---             -- in pixels, the distance from the edge that is considered an edge
---             edge_margin = 10,
---         }
---     }
--- })
+            -- in pixels, the distance from the edge that is considered an edge
+            edge_margin = 10,
+        },
+    },
+})
 
--- -- -- =========================
--- -- -- Custom gesture bindings
--- -- -- =========================
+-- =========================
+-- Custom gesture bindings
+-- =========================
 
 -- -- -- 4-finger swipes to switch workspaces
--- hl.plugin.hyprgrass.gesture {
---     pattern = { kind = "swipe", fingers = 4, direction = "left" },
---     action = "workspace",
--- }
--- hl.plugin.hyprgrass.gesture {
---     pattern = { kind = "swipe", fingers = 4, direction = "right" },
---     action = "workspace",
--- }
+hl.plugin.hyprgrass.gesture({
+    pattern = { kind = "swipe", fingers = 4, direction = "left" },
+    action = "workspace",
+})
+hl.plugin.hyprgrass.gesture({
+    pattern = { kind = "swipe", fingers = 4, direction = "right" },
+    action = "workspace",
+})
 
--- -- 3-finger swipe down to close the focused window
--- hl.plugin.hyprgrass.gesture {
---     pattern = { kind = "swipe", fingers = 3, direction = "down" },
---     action = "close",
--- }
-
--- -- 3-finger tap to toggle floating
--- hl.plugin.hyprgrass.bind {
---     pattern = { kind = "tap", fingers = 3 },
---     action = hl.dsp.window.float(),
--- }
-
--- -- Long-press with 3 fingers to drag the focused window
--- hl.plugin.hyprgrass.bind {
---     pattern = { kind = "longpress", fingers = 3 },
---     action = hl.dsp.window.drag(),
---     mouse = true,
--- }
+-- 3-finger tap to toggle floating
+hl.plugin.hyprgrass.bind({
+    pattern = { kind = "tap", fingers = 3 },
+    action = hl.dsp.window.float(),
+})

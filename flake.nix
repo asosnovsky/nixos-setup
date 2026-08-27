@@ -137,6 +137,7 @@
             src = ./.;
             hooks = {
               nixpkgs-fmt.enable = true;
+              stylua.enable = true;
             };
           };
         in
@@ -145,6 +146,7 @@
             name = "nixos-setup";
             packages = with pkgs; [
               nixpkgs-fmt
+              stylua
               nixd
               nh
               agenix.packages.${system}.default
