@@ -20,7 +20,7 @@ home/
 
 `default.nix` exports two builder functions, both consumed by `core/user.nix`:
 
-- `makeRootUser { hostName }` — minimal root profile (jq, kubectl, btop, …) with a
+- `makeRootUser { hostName }` — minimal root profile (jq, kubectl, …) with a
   `root@<hostName>` git identity.
 - `makeCommonUser { name, fullName, email, extraGitConfigs ? [] }` — the full human profile:
   dev packages, the shared shell/program config, and the user's git identity.

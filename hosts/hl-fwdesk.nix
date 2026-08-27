@@ -193,12 +193,13 @@ in
     enable = true;
     host = "0.0.0.0";
     port = ports.ollama;
-    package = pkgs.ollama-vulkan;
+    package = pkgs.ollama-rocm;
     user = "ollama";
     home = "/var/lib/ollama";
     environmentVariables = {
       HSA_ENABLE_SDMA = "0";
       OLLAMA_FLASH_ATTENTION = "1";
+      OLLAMA_KV_CACHE_TYPE = "q8_0";
       OLLAMA_KEEP_ALIVE = "24h";
     };
   };

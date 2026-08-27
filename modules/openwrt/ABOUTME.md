@@ -18,8 +18,10 @@ openwrt/
 1. The router config lives as an **agenix secret** (e.g. `secrets/glmain.json.age`).
 2. `openwrt-deploy` reads the decrypted JSON from stdin, runs `openwrt-gen dnsmasq`,
    `openwrt-gen ethers`, and `openwrt-gen firewall` to render the three target files.
-3. It SSHes to the router, shows a **colorized diff** against the current files (for the
-   firewall, only the `skyg_*`-managed rules are diffed), and prompts for confirmation.
+3. It SSHes to the router, shows a **colorized unified diff** against the current files
+   (for the firewall, only the `skyg_*`-managed rules are diffed), each with a
+   `-> N added, M removed` summary, then lists the `skyg_*` rule names that will be
+   applied, and prompts for confirmation.
 4. On the router it **backs up** the configs it overrides to `/etc/skyg-backups/` with a
    timestamp, then applies them. `dnsmasq.conf` is validated with `dnsmasq --test` and the
    firewall is committed + reloaded; **any failure auto-restores** from that timestamp's

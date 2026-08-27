@@ -38,6 +38,9 @@ pub struct Device {
     pub domains: Option<Vec<String>>,
     #[serde(rename = "justMac", default)]
     pub just_mac: bool,
+    /// Restrict this single device to internet-only access (matched by MAC).
+    #[serde(rename = "internetOnly", default)]
+    pub internet_only: bool,
 }
 
 #[cfg(test)]
@@ -98,5 +101,29 @@ mod tests {
         let json = r#"{"generalMappings": [], "networks": {}}"#;
         let config: Config = serde_json::from_str(json).unwrap();
         assert!(config.internet_only.is_empty());
+    }
+
+    #[test]
+    fn test_device_internet_only_flag() {
+        let json = r#"{
+            "generalMappings": [],
+            "networks": {
+                "lab": [{"mac": "aa:bb:cc:dd:ee:ff", "name": "printer", "internetOnly": true}]
+            }
+        }"#;
+        let config: Config = serde_json::from_str(json).unwrap();
+        assert!(config.networks["lab"][0].internet_only);
+    }
+
+    #[test]
+    fn test_device_internet_only_defaults_false() {
+        let json = r#"{
+            "generalMappings": [],
+            "networks": {
+                "lab": [{"mac": "aa:bb:cc:dd:ee:ff", "name": "printer"}]
+            }
+        }"#;
+        let config: Config = serde_json::from_str(json).unwrap();
+        assert!(!config.networks["lab"][0].internet_only);
     }
 }

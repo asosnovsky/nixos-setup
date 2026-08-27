@@ -39,6 +39,7 @@ mod tests {
             id: None,
             domains: None,
             just_mac,
+            internet_only: false,
         }]);
         Config { general_mappings: vec![], networks, dns_resolvers: vec![], internet_only: vec![] }
     }

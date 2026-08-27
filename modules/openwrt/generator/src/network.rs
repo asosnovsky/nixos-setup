@@ -71,6 +71,7 @@ mod tests {
             id,
             domains: None,
             just_mac,
+            internet_only: false,
         }
     }
 

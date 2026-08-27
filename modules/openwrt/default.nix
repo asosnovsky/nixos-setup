@@ -13,48 +13,45 @@ let
   # Run on the router as:  TS=<timestamp> bash skyg-apply.sh
   # Expects the new files staged at /tmp/skyg_firewall.batch,
   # /tmp/dnsmasq.new.conf and /tmp/ethers.new.
-  applyScript = pkgs.writeText {
-    name = "skyg-apply.sh";
-    text = ''
-      set -euo pipefail
-      BK=/etc/skyg-backups
-      mkdir -p "$BK"
-      cp /etc/config/firewall "$BK/firewall.$TS"
-      cp /etc/dnsmasq.conf    "$BK/dnsmasq.conf.$TS"
-      cp /etc/ethers          "$BK/ethers.$TS" 2>/dev/null || true
+  applyScript = pkgs.writeText "skyg-apply.sh" ''
+    set -euo pipefail
+    BK=/etc/skyg-backups
+    mkdir -p "$BK"
+    cp /etc/config/firewall "$BK/firewall.$TS"
+    cp /etc/dnsmasq.conf    "$BK/dnsmasq.conf.$TS"
+    cp /etc/ethers          "$BK/ethers.$TS" 2>/dev/null || true
 
-      # --- Firewall: replace the skyg-managed rules ---
-      for ref in $(uci show firewall | awk -F. '/\.name=.skyg_/{print $1"."$2}'); do
-        uci -q del "$ref" || true
-      done
-      if ! uci batch < /tmp/skyg_firewall.batch; then
-        echo 'FIREWALL: uci batch failed, restoring'
-        cp "$BK/firewall.$TS" /etc/config/firewall
-        exit 1
-      fi
-      if ! uci commit firewall; then
-        echo 'FIREWALL: uci commit failed, restoring'
-        cp "$BK/firewall.$TS" /etc/config/firewall
-        exit 1
-      fi
-      /etc/init.d/firewall reload
+    # --- Firewall: replace the skyg-managed rules ---
+    for ref in $(uci show firewall | awk -F. '/\.name=.skyg_/{print $1"."$2}'); do
+      uci -q del "$ref" || true
+    done
+    if ! uci batch < /tmp/skyg_firewall.batch; then
+      echo 'FIREWALL: uci batch failed, restoring'
+      cp "$BK/firewall.$TS" /etc/config/firewall
+      exit 1
+    fi
+    if ! uci commit firewall; then
+      echo 'FIREWALL: uci commit failed, restoring'
+      cp "$BK/firewall.$TS" /etc/config/firewall
+      exit 1
+    fi
+    /etc/init.d/firewall reload
 
-      # --- dnsmasq ---
-      cp /tmp/dnsmasq.new.conf /etc/dnsmasq.conf
-      if dnsmasq --test; then
-        /etc/init.d/dnsmasq restart
-      else
-        echo 'dnsmasq config invalid, restoring'
-        cp "$BK/dnsmasq.conf.$TS" /etc/dnsmasq.conf
-        exit 1
-      fi
+    # --- dnsmasq ---
+    cp /tmp/dnsmasq.new.conf /etc/dnsmasq.conf
+    if dnsmasq --test; then
+      /etc/init.d/dnsmasq restart
+    else
+      echo 'dnsmasq config invalid, restoring'
+      cp "$BK/dnsmasq.conf.$TS" /etc/dnsmasq.conf
+      exit 1
+    fi
 
-      # --- ethers ---
-      cp /tmp/ethers.new /etc/ethers
+    # --- ethers ---
+    cp /tmp/ethers.new /etc/ethers
 
-      echo 'Done'
-    '';
-  };
+    echo 'Done'
+  '';
 in
 config:
 
@@ -73,6 +70,35 @@ let
     ETHERS=$(echo "$CONFIG"  | ${generator}/bin/openwrt-gen ethers)
     FIREWALL=$(echo "$CONFIG" | ${generator}/bin/openwrt-gen firewall)
 
+    # Colorized unified diff with a per-file change summary.
+    # $1 = label, $2 = current (may be empty), $3 = new
+    show_diff() {
+      local label="$1" old="$2" new="$3"
+      local oldf newf d
+      oldf=$(mktemp) newf=$(mktemp)
+      if [ -n "$old" ]; then printf '%s\n' "$old" > "$oldf"; else : > "$oldf"; fi
+      if [ -n "$new" ]; then printf '%s\n' "$new" > "$newf"; else : > "$newf"; fi
+      echo ""
+      echo "=== $label ==="
+      if d=$(diff -u "$oldf" "$newf"); then
+        echo "  (no changes)"
+      else
+        printf '%s\n' "$d" | awk '
+          /^---/ {printf "\033[2m%s\033[0m\n", $0; next}
+          /^\+\+\+/ {printf "\033[2m%s\033[0m\n", $0; next}
+          /^@@/  {printf "\033[36m%s\033[0m\n", $0; next}
+          /^-/   {printf "\033[31m%s\033[0m\n", $0; next}
+          /^\+/  {printf "\033[32m%s\033[0m\n", $0; next}
+          {print}
+        '
+        local added removed
+        added=$(printf '%s\n' "$d" | grep -c '^[+][^+]' || true)
+        removed=$(printf '%s\n' "$d" | grep -c '^[-][^-]' || true)
+        echo "  -> $added added, $removed removed"
+      fi
+      rm -f "$oldf" "$newf"
+    }
+
     echo "Fetching current config from $SERVER..."
     CURRENT_DNSMASQ=$(ssh "$SERVER" 'cat /etc/dnsmasq.conf' 2>/dev/null || echo "")
     CURRENT_ETHERS=$(ssh "$SERVER" 'cat /etc/ethers' 2>/dev/null || echo "")
@@ -82,23 +108,13 @@ let
     # Drop the header comment from the generated firewall for a clean diff
     NEW_FIREWALL=$(echo "$FIREWALL" | tail -n +2)
 
-    echo ""
-    echo "$DNSMASQ"
-    echo "=== dnsmasq.conf diff [START] ==="
-    comm -3 <(echo "$CURRENT_DNSMASQ" | sort) <(echo "$DNSMASQ" | sort) | awk '{if ($0 ~ /^</) print "\033[31m"$0"\033[0m"; else if ($0 ~ /^>/) print "\033[32m"$0"\033[0m"; else print}'
-    echo "=== dnsmasq.conf diff [END] ==="
-    echo ""
+    show_diff "dnsmasq.conf" "$CURRENT_DNSMASQ" "$DNSMASQ"
+    show_diff "ethers" "$CURRENT_ETHERS" "$ETHERS"
+    show_diff "firewall (skyg rules)" "$CURRENT_FIREWALL" "$NEW_FIREWALL"
 
-    echo "$ETHERS"
-    echo "=== ethers diff [START] ==="
-    comm -3 <(echo "$CURRENT_ETHERS" | sort) <(echo "$ETHERS" | sort) | awk '{if ($0 ~ /^</) print "\033[31m"$0"\033[0m"; else if ($0 ~ /^>/) print "\033[32m"$0"\033[0m"; else print}'
-    echo "=== ethers diff [END] ==="
     echo ""
-
-    echo "$NEW_FIREWALL"
-    echo "=== firewall (skyg rules) diff [START] ==="
-    comm -3 <(echo "$CURRENT_FIREWALL" | sort) <(echo "$NEW_FIREWALL" | sort) | awk '{if ($0 ~ /^</) print "\033[31m"$0"\033[0m"; else if ($0 ~ /^>/) print "\033[32m"$0"\033[0m"; else print}'
-    echo "=== firewall (skyg rules) diff [END] ==="
+    echo "skyg firewall rules to be applied:"
+    echo "$NEW_FIREWALL" | awk -F"'" '/option name/{print "  " $2}'
     echo ""
 
     read -p "Deploy to $SERVER? [y/N] " -n 1 -r < /dev/tty; echo
@@ -112,8 +128,8 @@ let
     echo "$ETHERS"   | ssh "$SERVER" 'cat > /tmp/ethers.new'
     echo "$FIREWALL" | ssh "$SERVER" 'cat > /tmp/skyg_firewall.batch'
 
-    # Back up, apply, validate, auto-restore on failure
-    ssh "$SERVER" "TS=$TS bash /tmp/skyg_apply.sh"
+    # Back up, apply, validate, auto-restore on failure (OpenWrt has no bash, use sh)
+    ssh "$SERVER" "TS=$TS sh /tmp/skyg_apply.sh"
   '';
 
   # Dry-run: render the configs locally and write them to .tmp/openwrt-<router>/

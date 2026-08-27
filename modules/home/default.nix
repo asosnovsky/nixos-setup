@@ -9,8 +9,6 @@ let
     shellAliases = {
       cat = "bat";
       ls = "eza";
-      du = "dust";
-      df = "duf";
       open = "xdg-open";
     };
   };
@@ -26,8 +24,6 @@ in
           kubectl
           kubectx
           htop
-          btop
-          duf
         ];
       };
       programs =
@@ -65,13 +61,10 @@ in
           ipfetch
           nixd
           htop
-          btop
           fastfetch
           kubectl
           kubectx
           terraform
-          dust
-          duf
         ];
       };
       programs =
