@@ -7,7 +7,7 @@ hl.animation({
     leaf = "workspaces",
     enabled = true,
     speed = 2,
-    bezier = "wsslide",
+    bezier = "default",
     style = "slidevert",
 })
 

@@ -8,8 +8,7 @@ How to add and modify homelab server roles/services. Read alongside the repo-roo
 ## Anatomy of a service module
 
 Most files here follow the same shape. When adding a new service, mirror an existing one
-(`jellyfin.nix` for a simple native service, `dockge.nix`/`scrypted.nix` for containerized
-NFS-backed services):
+(`jellyfin.nix` for a simple native service):
 
 ```nix
 { config, lib, pkgs, ... }:
@@ -41,7 +40,7 @@ Then add it to `services/default.nix`'s `imports` list (and to the `services/ABO
    choice from `modules/nixos/common/containers/`. Don't hardcode `docker run` in a service
    (the `openwrt` deploy script is the only sanctioned shell-out, and it lives elsewhere).
 5. **NFS-backed volumes**: create them with `system.activationScripts` + `docker volume
-   create --driver local --opt type=nfs` (see `dockge.nix`), and reference homelab hosts by
+   create --driver local --opt type=nfs`, and reference homelab hosts by
    their `*.lab.internal` names.
 6. **Scheduled jobs** (backups, auto-updates) should use the `skyg.server.timers.<name>`
    helper in `timers.nix` rather than hand-writing `systemd.timers`/`systemd.services`.

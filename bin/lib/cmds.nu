@@ -342,7 +342,12 @@ export def "skyg decrypt" [secret: string@secret-names] {
 }
 
 # Encrypt a file to secrets/ folder (re-encrypts using agenix)
-export def "skyg encrypt" [secret: string@secret-names, source?: string] {
+#   --yaml   Validate the content as YAML (via yq) before encrypting
+export def "skyg encrypt" [
+    secret: string@secret-names,
+    source?: string,
+    --yaml  # Validate the content as YAML (via yq) before encrypting
+] {
     cd $REPO_ROOT
     let src = $source | default $".tmp/unencrypted-($secret)"
     if not ($src | path exists) {
@@ -354,6 +359,23 @@ export def "skyg encrypt" [secret: string@secret-names, source?: string] {
         }
     }
     vi $src
+
+    if $yaml {
+        # `complete` captures stdout/stderr/exit_code; `try/catch` guards a missing yq
+        let lint = (try { yq e '.' $src | complete } catch { null })
+        if $lint == null {
+            print $"❌ Could not run yq — is it on PATH? Add 'yq' to the devShell in flake.nix."
+            return
+        }
+        if $lint.exit_code != 0 {
+            print $"❌ YAML validation failed for ($src):"
+            print ($lint.stderr | str trim)
+            print $"Fix the syntax, then re-run: skyg encrypt ($secret) --yaml"
+            return
+        }
+        print $"✅ YAML valid: ($src)"
+    }
+
     let dest = $"secrets/($secret).age"
     cat $src | EDITOR="cp /dev/stdin" agenix -e $dest
     print $"Encrypted ($dest)"

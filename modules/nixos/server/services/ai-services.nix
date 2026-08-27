@@ -24,13 +24,13 @@ in
     networking.firewall.allowedTCPPorts = openPorts;
     virtualisation.oci-containers = {
       containers = {
-        ollama = {
-          autoStart = true;
-          image = "ollama/ollama";
-          extraOptions = [ "--device=nvidia.com/gpu=all" ];
-          ports = [ "11434:11434" ];
-          volumes = [ "ollama:/root/.ollama" ];
-        };
+        # ollama = {
+        #   autoStart = true;
+        #   image = "ollama/ollama";
+        #   extraOptions = [ "--device=nvidia.com/gpu=all" ];
+        #   ports = [ "11434:11434" ];
+        #   volumes = [ "ollama:/root/.ollama" ];
+        # };
         openwakeword = {
           autoStart = true;
           image = "rhasspy/wyoming-openwakeword";

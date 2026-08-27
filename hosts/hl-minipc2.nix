@@ -21,39 +21,6 @@
   # Disable firewall
   networking.firewall.enable = false;
 
-  # Dockge container service group
-  skyg.nixos.common.container-services.dockge = {
-    enable = true;
-    services.dockge = {
-      image = "louislam/dockge:1";
-      ports = [ "5001:5001" ];
-      volumes = [
-        "/var/run/docker.sock:/var/run/docker.sock"
-        "dockge-data:/app/data"
-        "dockge-stacks:/opt/stacks"
-      ];
-      environment.DOCKGE_STACKS_DIR = "/opt/stacks";
-    };
-    volumes = {
-      dockge-data = {
-        driver = "local";
-        driver_opts = {
-          type = "nfs";
-          o = "addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
-          device = ":/mnt/Data/apps/arrs/dockge/data";
-        };
-      };
-      dockge-stacks = {
-        driver = "local";
-        driver_opts = {
-          type = "nfs";
-          o = "addr=terra1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
-          device = ":/mnt/Data/apps/arrs/dockge/stacks";
-        };
-      };
-    };
-  };
-
   # Scrypted container service group
   skyg.nixos.common.container-services.scrypted = {
     enable = true;
@@ -90,6 +57,28 @@
       ports = [
         "3000:80"
       ];
+    };
+  };
+
+  # Portainer Service
+  skyg.nixos.common.container-services.portainer = {
+    enable = true;
+    autoUpdate.enable = true;
+    services.portainer = {
+      image = "portainer/portainer-ce:lts";
+      volumes = [
+        "/var/run/docker.sock:/var/run/docker.sock"
+        "portainer_data:/data"
+      ];
+      ports = [
+        "9443:9443"
+        "8000:8000"
+      ];
+    };
+    volumes = {
+      portainer_data = {
+        name = "portainer_data";
+      };
     };
   };
 

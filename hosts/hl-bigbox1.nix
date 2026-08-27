@@ -40,7 +40,30 @@
     networkDrives.enable = true;
   };
 
-  # Dockge container service group
+  # Portainer Agent
+  age.secrets.portainer-agent-bigbox1.file = ../secrets/portainer-agent-bigbox1.age;
+  skyg.nixos.common.container-services.portainer-agent = {
+    enable = true;
+    autoUpdate.enable = true;
+    services.agent = {
+      image = "portainer/agent:2.45.0";
+      volumes = [
+        "/var/run/docker.sock:/var/run/docker.sock"
+        "/var/lib/docker/volumes:/var/lib/docker/volumes"
+        "portainer_agent_data:/data"
+      ];
+      environmentFiles = [ config.age.secrets.portainer-agent-bigbox1.path ];
+      environment = {
+        EDGE_INSECURE_POLL = "1";
+        EDGE = "1";
+      };
+    };
+    volumes.portainer_agent_data = {
+      name = "portainer_data";
+    };
+  };
+
+  # Jellyfin container service group
   skyg.nixos.common.container-services.jellyfin = {
     enable = true;
     autoUpdate.enable = true;

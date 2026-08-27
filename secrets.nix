@@ -5,6 +5,7 @@ let
   minipc3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbvoe/UvhpRSWVXMCyj/qzuR7WnJdNF7CYRmmJE3yYu root@minisf1";
   terra1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHBKI8gqd7DDubShle4D3JGq61BP1NBKCZ81V3C9uyym root@nixos";
   fwdesk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHbBcdMpNPaELUzHRIoRkTUQde+mBQ87Ra2R+974FuUy root@hl-fwdesk";
+  bigbox1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl5xiH4aFlmDWdoU+KmERLYOeOQK2aKP7jenY2G3rFb root@nixos";
 in
 {
   "secrets/dns-addresses.conf.age".publicKeys = [
@@ -27,4 +28,7 @@ in
   # stack compose definition — minipc2
   "secrets/stack1.age".publicKeys = [ ari minipc2 ];
   "secrets/stack2.age".publicKeys = [ ari minipc2 ];
+
+  # portainer agent envs
+  "secrets/portainer-agent-bigbox1.age".publicKeys = [ ari bigbox1 ];
 }
