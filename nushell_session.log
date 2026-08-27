@@ -1,0 +1,480 @@
+Script started on 2026-08-27 12:53:46-04:00 [TERM="xterm-ghostty" TTY="/dev/pts/5" COLUMNS="90" LINES="46"]
+complete: command not found
+
+\[[1;32m\][\[]0;ari@fwbook: ~/nixos-setup\]ari@fwbook:~/nixos-setup]$\[[0m\] skyg openwrt
+warning: unknown setting 'eval-cores'
+warning: unknown setting 'lazy-trees'
+Decrypted to .tmp/unencrypted-glmain.json
+[?25l[0m[K[K[35;1mwarning:[0m Git tree '/home/ari/nixos-setup' has uncommitted changes[0m
+[0m[K[K[?25hFetching current config from root@10.0.0.1...
+
+=== dnsmasq.conf ===
+  (no changes)
+
+=== ethers ===
+  (no changes)
+
+=== firewall (skyg rules) ===
+  (no changes)
+
+skyg firewall rules to be applied:
+  skyg_cam_drop_lan
+  skyg_cam_drop_lan_v6_9C8ECD25831F
+  skyg_cam_drop_lan_v6_A0603203868A
+  skyg_cam_drop_lan_v6_489E9D4A3280
+  skyg_cam_drop_lan_v6_EC71DBA1078C
+  skyg_cam_drop_lan_v6_3460F9D7513F
+  skyg_cam_drop_lan_v6_EC71DB0C5A6E
+  skyg_cam_drop_lan_v6_EC71DB2E6FF5
+  skyg_mac_489EBDCB07E3_drop_lan
+  skyg_mac_489EBDCB07E3_drop_lan_v6
+  skyg_mac_CC6A108B7DD3_drop_lan
+  skyg_mac_CC6A108B7DD3_drop_lan_v6
+  skyg_mac_F0704F54F3F0_drop_lan
+  skyg_mac_F0704F54F3F0_drop_lan_v6
+  skyg_mac_3CE90E6214D8_drop_lan
+  skyg_mac_3CE90E6214D8_drop_lan_v6
+  skyg_mac_1C9DC23961F8_drop_lan
+  skyg_mac_1C9DC23961F8_drop_lan_v6
+  skyg_mac_D8BE65F2ED18_drop_lan
+  skyg_mac_D8BE65F2ED18_drop_lan_v6
+  skyg_mac_B04A39F7E58E_drop_lan
+  skyg_mac_B04A39F7E58E_drop_lan_v6
+  skyg_mac_001BA9B937B7_drop_lan
+  skyg_mac_001BA9B937B7_drop_lan_v6
+  skyg_mac_FCEE28064754_drop_lan
+  skyg_mac_FCEE28064754_drop_lan_v6
+  skyg_mac_6074F44DB8C5_drop_lan
+  skyg_mac_6074F44DB8C5_drop_lan_v6
+  skyg_mac_DC4F22240CE4_drop_lan
+  skyg_mac_DC4F22240CE4_drop_lan_v6
+  skyg_mac_446132FC10EC_drop_lan
+  skyg_mac_446132FC10EC_drop_lan_v6
+  skyg_mac_9483C431D5CE_drop_lan
+  skyg_mac_9483C431D5CE_drop_lan_v6
+
+Deploy to root@10.0.0.1? [y/N] y
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+Warning: Option @zone[1].masq6 is unknown
+Warning: Section @zone[1] (wan) cannot resolve device of network 'wwan'
+Warning: Section @zone[1] (wan) cannot resolve device of network 'secondwan'
+Warning: Option 'sambasharewan'.dest_proto is unknown
+Warning: Section 'sambasharewan' does not specify a protocol, assuming TCP+UDP
+Warning: Option 'sambasharelan'.dest_proto is unknown
+Warning: Section 'sambasharelan' does not specify a protocol, assuming TCP+UDP
+Warning: Option 'glnas_ser'.dest_proto is unknown
+Warning: Section 'glnas_ser' does not specify a protocol, assuming TCP+UDP
+Warning: Option 'webdav_wan'.dest_proto is unknown
+Warning: Section 'webdav_wan' does not specify a protocol, assuming TCP+UDP
+Warning: Section 'wgserver_drop_leaked_dns' refers to not existing zone 'wgserver'
+Warning: Section 'ovpnserver_drop_leaked_dns' refers to not existing zone 'ovpnserver'
+Warning: Section 'wgserver_drop_leaked_adgdns' refers to not existing zone 'wgserver'
+Warning: Section 'ovpnserver_drop_leaked_adgdns' refers to not existing zone 'ovpnserver'
+Warning: Section @redirect[0] (GL-) has no target specified, defaulting to DNAT
+Warning: Section @redirect[1] (GL-) has no target specified, defaulting to DNAT
+ * Clearing IPv4 filter table
+ * Clearing IPv4 nat table
+ * Clearing IPv4 mangle table
+ * Clearing IPv4 raw table
+ * Populating IPv4 filter table
+   * Rule 'guest_drop_leaked_dns'
+   * Rule 'guest_drop_leak_adgdns'
+   * Rule 'Allow-DHCP-Renew'
+   * Rule 'Allow-IGMP'
+   * Rule 'Allow-IPSec-ESP'
+   * Rule 'Allow-ISAKMP'
+   * Rule 'Allow-DHCP'
+   * Rule 'Allow-DNS'
+   * Rule #12
+   * Rule #13
+   * Rule #14
+   * Rule #15
+   * Rule 'lan_drop_leaked_dns'
+   * Rule 'lan_drop_leak_adgdns'
+   * Rule #20
+   * Rule #28
+   * Rule #30
+   * Rule #32
+   * Rule #34
+   * Rule #36
+   * Rule #38
+   * Rule #40
+   * Rule #42
+   * Rule #44
+   * Rule #46
+   * Rule #48
+   * Rule #50
+   * Rule #52
+   * Redirect 'GL-'
+   * Redirect 'GL-'
+   * Forward 'lan' -> 'wan'
+   * Forward 'guest' -> 'wan'
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv4 nat table
+   * Redirect 'GL-'
+   * Redirect 'GL-'
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv4 mangle table
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv4 raw table
+   * Zone 'lan'
+     - Using automatic conntrack helper attachment
+   * Zone 'wan'
+   * Zone 'guest'
+     - Using automatic conntrack helper attachment
+ * Clearing IPv6 filter table
+ * Clearing IPv6 nat table
+ * Clearing IPv6 mangle table
+ * Clearing IPv6 raw table
+ * Populating IPv6 filter table
+   * Rule 'guest_drop_leaked_dns'
+   * Rule 'guest_drop_leak_adgdns'
+   * Rule 'Allow-DHCPv6'
+   * Rule 'Allow-MLD'
+   * Rule 'Allow-ICMPv6-Input'
+   * Rule 'Allow-ICMPv6-Forward'
+   * Rule 'Allow-IPSec-ESP'
+   * Rule 'Allow-ISAKMP'
+   * Rule 'Allow-DHCP'
+   * Rule 'Allow-DNS'
+   * Rule #12
+   * Rule #13
+   * Rule #14
+   * Rule #15
+   * Rule 'Allow-DHCP-IPV6'
+   * Rule 'Allow-ICMP-IPV6'
+   * Rule 'lan_drop_leaked_dns'
+   * Rule 'lan_drop_leak_adgdns'
+   * Rule #21
+   * Rule #22
+   * Rule #23
+   * Rule #24
+   * Rule #25
+   * Rule #26
+   * Rule #27
+   * Rule #29
+   * Rule #31
+   * Rule #33
+   * Rule #35
+   * Rule #37
+   * Rule #39
+   * Rule #41
+   * Rule #43
+   * Rule #45
+   * Rule #47
+   * Rule #49
+   * Rule #51
+   * Rule #53
+   * Forward 'lan' -> 'wan'
+   * Forward 'guest' -> 'wan'
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv6 nat table
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv6 mangle table
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv6 raw table
+   * Zone 'lan'
+     - Using automatic conntrack helper attachment
+   * Zone 'wan'
+   * Zone 'guest'
+     - Using automatic conntrack helper attachment
+ * Set tcp_ecn to off
+ * Set tcp_syncookies to on
+ * Set tcp_window_scaling to on
+ * Running script '/etc/firewall.nat6'
+nat6: Firewall config="cfg06dc81" zone="lan" zone_masq6="0".
+nat6: Firewall config="cfg07dc81" zone="wan" zone_masq6="1".
+nat6: Found firewall zone_name="wan" with zone_masq6="1" zone_masq6_privacy="1".
+nat6: Setting up masquerading nat6 for zone_name="wan" with zone_masq6_privacy="1"
+nat6: Ensuring ip6tables chain="zone_wan_postrouting" contains our MASQUERADE.
+nat6: Ensuring ip6tables chain="zone_wan_input" contains our permissive DNAT rule.
+nat6: Ensuring ip6tables chain="zone_wan_forward" contains our permissive DNAT rule.
+nat6: Found device="eth1" for network_name="wan".
+nat6: Enabling IPv6 temporary addresses for device="eth1".
+nat6: Accepting router advertisements on eth1 even if forwarding is enabled (required for temporary addresses)
+nat6: Using temporary addresses for outgoing connections on interface eth1
+nat6: Already configured device="eth1", so leaving as is.
+nat6: Done setting up nat6 for zone="wan" on devices: eth1
+nat6: Firewall config="cfg13dc81" zone="guest" zone_masq6="0".
+ * Running script '/etc/firewall.dns_order'
+ * Running script '/usr/bin/gl_block.sh'
+ * Running script '/etc/firewall.dmz.exclude'
+dnsmasq: syntax check OK.
+udhcpc: started, v1.33.2
+udhcpc: sending discover
+udhcpc: no lease, failing
+Done
+
+\[[1;32m\][\[]0;ari@fwbook: ~/nixos-setup\]ari@fwbook:~/nixos-setup]$\[[0m\] ^[[A    skyg openwrt
+warning: unknown setting 'eval-cores'
+warning: unknown setting 'lazy-trees'
+Decrypted to .tmp/unencrypted-glmain.json
+[?25l[0m[K[K[35;1mwarning:[0m Git tree '/home/ari/nixos-setup' has uncommitted changes[0m
+[0m[K[K[?25hFetching current config from root@10.0.0.1...
+
+=== dnsmasq.conf ===
+  (no changes)
+
+=== ethers ===
+  (no changes)
+
+=== firewall (skyg rules) ===
+  (no changes)
+
+skyg firewall rules to be applied:
+  skyg_cam_drop_lan
+  skyg_cam_drop_lan_v6_9C8ECD25831F
+  skyg_cam_drop_lan_v6_A0603203868A
+  skyg_cam_drop_lan_v6_489E9D4A3280
+  skyg_cam_drop_lan_v6_EC71DBA1078C
+  skyg_cam_drop_lan_v6_3460F9D7513F
+  skyg_cam_drop_lan_v6_EC71DB0C5A6E
+  skyg_cam_drop_lan_v6_EC71DB2E6FF5
+  skyg_mac_489EBDCB07E3_drop_lan
+  skyg_mac_489EBDCB07E3_drop_lan_v6
+  skyg_mac_CC6A108B7DD3_drop_lan
+  skyg_mac_CC6A108B7DD3_drop_lan_v6
+  skyg_mac_F0704F54F3F0_drop_lan
+  skyg_mac_F0704F54F3F0_drop_lan_v6
+  skyg_mac_3CE90E6214D8_drop_lan
+  skyg_mac_3CE90E6214D8_drop_lan_v6
+  skyg_mac_1C9DC23961F8_drop_lan
+  skyg_mac_1C9DC23961F8_drop_lan_v6
+  skyg_mac_D8BE65F2ED18_drop_lan
+  skyg_mac_D8BE65F2ED18_drop_lan_v6
+  skyg_mac_B04A39F7E58E_drop_lan
+  skyg_mac_B04A39F7E58E_drop_lan_v6
+  skyg_mac_001BA9B937B7_drop_lan
+  skyg_mac_001BA9B937B7_drop_lan_v6
+  skyg_mac_FCEE28064754_drop_lan
+  skyg_mac_FCEE28064754_drop_lan_v6
+  skyg_mac_6074F44DB8C5_drop_lan
+  skyg_mac_6074F44DB8C5_drop_lan_v6
+  skyg_mac_DC4F22240CE4_drop_lan
+  skyg_mac_DC4F22240CE4_drop_lan_v6
+  skyg_mac_446132FC10EC_drop_lan
+  skyg_mac_446132FC10EC_drop_lan_v6
+  skyg_mac_9483C431D5CE_drop_lan
+  skyg_mac_9483C431D5CE_drop_lan_v6
+
+Deploy to root@10.0.0.1? [y/N] y
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Warning: remote port forwarding failed for listen path /tmp/ssh-notify.sock
+Warning: Option @zone[1].masq6 is unknown
+Warning: Section @zone[1] (wan) cannot resolve device of network 'wwan'
+Warning: Section @zone[1] (wan) cannot resolve device of network 'secondwan'
+Warning: Option 'sambasharewan'.dest_proto is unknown
+Warning: Section 'sambasharewan' does not specify a protocol, assuming TCP+UDP
+Warning: Option 'sambasharelan'.dest_proto is unknown
+Warning: Section 'sambasharelan' does not specify a protocol, assuming TCP+UDP
+Warning: Option 'glnas_ser'.dest_proto is unknown
+Warning: Section 'glnas_ser' does not specify a protocol, assuming TCP+UDP
+Warning: Option 'webdav_wan'.dest_proto is unknown
+Warning: Section 'webdav_wan' does not specify a protocol, assuming TCP+UDP
+Warning: Section 'wgserver_drop_leaked_dns' refers to not existing zone 'wgserver'
+Warning: Section 'ovpnserver_drop_leaked_dns' refers to not existing zone 'ovpnserver'
+Warning: Section 'wgserver_drop_leaked_adgdns' refers to not existing zone 'wgserver'
+Warning: Section 'ovpnserver_drop_leaked_adgdns' refers to not existing zone 'ovpnserver'
+Warning: Section @redirect[0] (GL-) has no target specified, defaulting to DNAT
+Warning: Section @redirect[1] (GL-) has no target specified, defaulting to DNAT
+ * Clearing IPv4 filter table
+ * Clearing IPv4 nat table
+ * Clearing IPv4 mangle table
+ * Clearing IPv4 raw table
+ * Populating IPv4 filter table
+   * Rule 'guest_drop_leaked_dns'
+   * Rule 'guest_drop_leak_adgdns'
+   * Rule 'Allow-DHCP-Renew'
+   * Rule 'Allow-IGMP'
+   * Rule 'Allow-IPSec-ESP'
+   * Rule 'Allow-ISAKMP'
+   * Rule 'Allow-DHCP'
+   * Rule 'Allow-DNS'
+   * Rule #12
+   * Rule #13
+   * Rule #14
+   * Rule #15
+   * Rule 'lan_drop_leaked_dns'
+   * Rule 'lan_drop_leak_adgdns'
+   * Rule #20
+   * Rule #28
+   * Rule #30
+   * Rule #32
+   * Rule #34
+   * Rule #36
+   * Rule #38
+   * Rule #40
+   * Rule #42
+   * Rule #44
+   * Rule #46
+   * Rule #48
+   * Rule #50
+   * Rule #52
+   * Redirect 'GL-'
+   * Redirect 'GL-'
+   * Forward 'lan' -> 'wan'
+   * Forward 'guest' -> 'wan'
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv4 nat table
+   * Redirect 'GL-'
+   * Redirect 'GL-'
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv4 mangle table
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv4 raw table
+   * Zone 'lan'
+     - Using automatic conntrack helper attachment
+   * Zone 'wan'
+   * Zone 'guest'
+     - Using automatic conntrack helper attachment
+ * Clearing IPv6 filter table
+ * Clearing IPv6 nat table
+ * Clearing IPv6 mangle table
+ * Clearing IPv6 raw table
+ * Populating IPv6 filter table
+   * Rule 'guest_drop_leaked_dns'
+   * Rule 'guest_drop_leak_adgdns'
+   * Rule 'Allow-DHCPv6'
+   * Rule 'Allow-MLD'
+   * Rule 'Allow-ICMPv6-Input'
+   * Rule 'Allow-ICMPv6-Forward'
+   * Rule 'Allow-IPSec-ESP'
+   * Rule 'Allow-ISAKMP'
+   * Rule 'Allow-DHCP'
+   * Rule 'Allow-DNS'
+   * Rule #12
+   * Rule #13
+   * Rule #14
+   * Rule #15
+   * Rule 'Allow-DHCP-IPV6'
+   * Rule 'Allow-ICMP-IPV6'
+   * Rule 'lan_drop_leaked_dns'
+   * Rule 'lan_drop_leak_adgdns'
+   * Rule #21
+   * Rule #22
+   * Rule #23
+   * Rule #24
+   * Rule #25
+   * Rule #26
+   * Rule #27
+   * Rule #29
+   * Rule #31
+   * Rule #33
+   * Rule #35
+   * Rule #37
+   * Rule #39
+   * Rule #41
+   * Rule #43
+   * Rule #45
+   * Rule #47
+   * Rule #49
+   * Rule #51
+   * Rule #53
+   * Forward 'lan' -> 'wan'
+   * Forward 'guest' -> 'wan'
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv6 nat table
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv6 mangle table
+   * Zone 'lan'
+   * Zone 'wan'
+   * Zone 'guest'
+ * Populating IPv6 raw table
+   * Zone 'lan'
+     - Using automatic conntrack helper attachment
+   * Zone 'wan'
+   * Zone 'guest'
+     - Using automatic conntrack helper attachment
+ * Set tcp_ecn to off
+ * Set tcp_syncookies to on
+ * Set tcp_window_scaling to on
+ * Running script '/etc/firewall.nat6'
+nat6: Firewall config="cfg06dc81" zone="lan" zone_masq6="0".
+nat6: Firewall config="cfg07dc81" zone="wan" zone_masq6="1".
+nat6: Found firewall zone_name="wan" with zone_masq6="1" zone_masq6_privacy="1".
+nat6: Setting up masquerading nat6 for zone_name="wan" with zone_masq6_privacy="1"
+nat6: Ensuring ip6tables chain="zone_wan_postrouting" contains our MASQUERADE.
+nat6: Ensuring ip6tables chain="zone_wan_input" contains our permissive DNAT rule.
+nat6: Ensuring ip6tables chain="zone_wan_forward" contains our permissive DNAT rule.
+nat6: Found device="eth1" for network_name="wan".
+nat6: Enabling IPv6 temporary addresses for device="eth1".
+nat6: Accepting router advertisements on eth1 even if forwarding is enabled (required for temporary addresses)
+nat6: Using temporary addresses for outgoing connections on interface eth1
+nat6: Already configured device="eth1", so leaving as is.
+nat6: Done setting up nat6 for zone="wan" on devices: eth1
+nat6: Firewall config="cfg13dc81" zone="guest" zone_masq6="0".
+ * Running script '/etc/firewall.dns_order'
+ * Running script '/usr/bin/gl_block.sh'
+ * Running script '/etc/firewall.dmz.exclude'
+dnsmasq: syntax check OK.
+udhcpc: started, v1.33.2
+udhcpc: sending discover
+Done
+udhcpc: no lease, failing
+
+\[[1;32m\][\[]0;ari@fwbook: ~/nixos-setup\]ari@fwbook:~/nixos-setup]$\[[0m\] 
+\[[1;32m\][\[]0;ari@fwbook: ~/nixos-setup\]ari@fwbook:~/nixos-setup]$\[[0m\] ^C
+
+\[[1;32m\][\[]0;ari@fwbook: ~/nixos-setup\]ari@fwbook:~/nixos-setup]$\[[0m\] exit
+
+Script done on 2026-08-27 12:54:13-04:00 [COMMAND_EXIT_CODE="130"]

@@ -1,8 +1,8 @@
 use crate::config::Config;
 use crate::network::{prefix_for, process_network, ULA_PREFIX};
 
-/// Renders UCI firewall rules (in `uci batch` format) that restrict devices to
-/// internet-only access.
+/// Renders UCI firewall rules (in `uci` declarative import/export syntax — suitable for
+/// `uci -m import firewall`) that restrict devices to internet-only access.
 ///
 /// Two sources of restriction:
 /// - **Network-level** (`config.internet_only`): for each restricted network,
@@ -12,7 +12,10 @@ use crate::network::{prefix_for, process_network, ULA_PREFIX};
 /// - **Device-level** (a device with `internetOnly: true`): IPv4 + IPv6 DROP rules
 ///   matched by that device's MAC, on any network.
 ///
-/// Rules are named `skyg_*` so the deploy script can manage exactly the rules it owns.
+/// Every rule is a real named section (`config rule 'skyg_...'`, name unique per rule) so
+/// the deploy script can address and manage exactly the rules it owns. Every rule also sets
+/// `proto 'all'` — without it, fw3 defaults to matching TCP+UDP only, which would silently
+/// let ICMP (ping) and other protocols through.
 pub fn generate(config: &Config) -> String {
     let mut out = String::new();
     out.push_str("# Managed by skyg openwrt — do not edit by hand\n");
@@ -27,33 +30,37 @@ pub fn generate(config: &Config) -> String {
         let v4_prefix = prefix_for(network);
         let v4_subnet = format!("{}.0/24", v4_prefix.trim_end_matches('.'));
         out.push_str(&format!(
-            "config rule\n\
-             \toption name 'skyg_{net}_drop_lan'\n\
+            "config rule 'skyg_{net}_drop_lan'\n\
              \toption src 'lan'\n\
              \toption dest 'lan'\n\
              \toption src_ip '{subnet}'\n\
              \toption dest_ip '10.0.0.0/16'\n\
+             \toption proto 'all'\n\
              \toption target 'DROP'\n\
              \toption family 'ipv4'\n",
             net = network,
             subnet = v4_subnet,
         ));
+        out.push_str("\n");
 
         // IPv6: block each known device's MAC from reaching the ULA LAN.
         for pd in process_network(network, devices) {
+            let slug = mac_slug(&pd.device.mac);
             out.push_str(&format!(
-                "config rule\n\
-                 \toption name 'skyg_{net}_drop_lan_v6'\n\
+                "config rule 'skyg_{net}_drop_lan_v6_{slug}'\n\
                  \toption src 'lan'\n\
                  \toption dest 'lan'\n\
                  \toption src_mac '{mac}'\n\
                  \toption dest_ip '{ula}'\n\
+                 \toption proto 'all'\n\
                  \toption target 'DROP'\n\
                  \toption family 'ipv6'\n",
                 net = network,
+                slug = slug,
                 mac = pd.device.mac,
                 ula = ULA_PREFIX,
             ));
+            out.push_str("\n");
         }
     }
 
@@ -65,30 +72,32 @@ pub fn generate(config: &Config) -> String {
             }
             let slug = mac_slug(&pd.device.mac);
             out.push_str(&format!(
-                "config rule\n\
-                 \toption name 'skyg_mac_{slug}_drop_lan'\n\
+                "config rule 'skyg_mac_{slug}_drop_lan'\n\
                  \toption src 'lan'\n\
                  \toption dest 'lan'\n\
                  \toption src_mac '{mac}'\n\
                  \toption dest_ip '10.0.0.0/16'\n\
+                 \toption proto 'all'\n\
                  \toption target 'DROP'\n\
                  \toption family 'ipv4'\n",
                 slug = slug,
                 mac = pd.device.mac,
             ));
+            out.push_str("\n");
             out.push_str(&format!(
-                "config rule\n\
-                 \toption name 'skyg_mac_{slug}_drop_lan_v6'\n\
+                "config rule 'skyg_mac_{slug}_drop_lan_v6'\n\
                  \toption src 'lan'\n\
                  \toption dest 'lan'\n\
                  \toption src_mac '{mac}'\n\
                  \toption dest_ip '{ula}'\n\
+                 \toption proto 'all'\n\
                  \toption target 'DROP'\n\
                  \toption family 'ipv6'\n",
                 slug = slug,
                 mac = pd.device.mac,
                 ula = ULA_PREFIX,
             ));
+            out.push_str("\n");
         }
     }
 
@@ -151,6 +160,7 @@ mod tests {
         assert!(result.contains("skyg_cam_drop_lan"));
         assert!(result.contains("option src_ip '10.0.13.0/24'"));
         assert!(result.contains("option dest_ip '10.0.0.0/16'"));
+        assert!(result.contains("option proto 'all'"));
         assert!(result.contains("option target 'DROP'"));
         assert!(result.contains("option family 'ipv4'"));
     }
@@ -164,6 +174,16 @@ mod tests {
         assert!(result.contains("option src_mac 'aa:bb:cc:dd:ee:02'"));
         assert!(result.contains("option dest_ip 'fd59:de0a:bff5::/48'"));
         assert!(result.contains("option family 'ipv6'"));
+    }
+
+    #[test]
+    fn test_network_level_v6_rules_have_unique_names_per_device() {
+        // Two devices on a network-level-restricted network must not collide on one
+        // UCI section name, or only the last device's rule would actually apply.
+        let config = config_with_devices(vec!["cam".to_string()]);
+        let result = generate(&config);
+        assert!(result.contains("config rule 'skyg_cam_drop_lan_v6_aabbccddee01'"));
+        assert!(result.contains("config rule 'skyg_cam_drop_lan_v6_aabbccddee02'"));
     }
 
     #[test]
@@ -195,8 +215,20 @@ mod tests {
         assert!(result.contains("option src_mac '11:22:33:44:55:66'"));
         assert!(result.contains("option dest_ip '10.0.0.0/16'"));
         assert!(result.contains("option dest_ip 'fd59:de0a:bff5::/48'"));
+        assert!(result.contains("option proto 'all'"));
         // No subnet rules were generated (no network-level internetOnly).
         assert!(!result.contains("skyg_lab_drop_lan\n"));
+    }
+
+    #[test]
+    fn test_every_rule_blocks_all_protocols() {
+        // A DROP rule without `proto` only blocks TCP+UDP (fw3 default) — every rule must
+        // explicitly set `proto 'all'` so ICMP (ping) etc. is blocked too, not just TCP/UDP.
+        let config = config_with_devices(vec!["cam".to_string()]);
+        let result = generate(&config);
+        let rule_count = result.matches("config rule").count();
+        let proto_count = result.matches("option proto 'all'").count();
+        assert_eq!(rule_count, proto_count);
     }
 
     #[test]
