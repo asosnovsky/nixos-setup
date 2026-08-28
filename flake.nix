@@ -51,9 +51,13 @@
     hyprlauncher.url = "github:hyprwm/hyprlauncher";
     # Hyprland compositor via flake (latest git).
     hyprland.url = "github:hyprwm/Hyprland";
-    # Hyprland touchpad gesture plugin
-    hyprgrass = {
-      url = "github:horriblename/hyprgrass";
+
+    # Hyprland niri-like scroll overview plugin.
+    # `new-release` branch, not `main`: our hyprland input is a git build, and
+    # main still includes the pre-refactor managers/EventManager.hpp (fails to
+    # compile against Hyprland 0.56+git). new-release targets current git.
+    scrolloverview = {
+      url = "github:yayuuu/hyprland-scroll-overview/new-release";
       inputs.hyprland.follows = "hyprland";
     };
     # Secrets management
@@ -78,7 +82,7 @@
     , stylix
     , hyprlauncher
     , hyprland
-    , hyprgrass
+    , scrolloverview
     , dms
     , noctalia
     , git-hooks
@@ -113,7 +117,7 @@
               inherit
                 hyprlauncher
                 hyprland
-                hyprgrass
+                scrolloverview
                 nixpkgs-unstable
                 dms
                 noctalia

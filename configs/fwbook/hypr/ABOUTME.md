@@ -32,11 +32,20 @@ split under `conf/` and pulled in with `require()`.
   inside quickshell-based apps fail silently (hyprwm/Hyprland#14844). There is
   intentionally no waybar/hyprpanel.
 - **Keybinds:** `conf/keybindings.lua` mirrors `configs/niri/shared/binds.kdl`
-  and `configs/niri/noctalia/binds.kdl` as closely as Hyprland allows.
-- **Overview:** there is no native Hyprland overview, and no overview plugin that
-  reliably builds against current Hyprland (hyprexpo was retired from the
-  official plugins repo; the community fork chases `main`). `Mod+Tab` falls back
-  to `cyclenext` instead of niri's `toggle-overview`.
+  and `configs/niri/dms/binds.kdl` as closely as Hyprland allows.
+- **Overview:** Pure-Lua workspace overview (`conf/overview.lua`), no plugin. It
+  enumerates workspaces via `hl.get_workspaces()` and presents them in a
+  `wofi --dmenu` picker, dispatching the chosen workspace with
+  `hyprctl dispatch workspace`. Hyprland's Lua API has no "render a workspace
+  to a texture" primitive, so this is a switcher-style overview (id, name,
+  window count, active/empty/urgent flags) rather than live scaled thumbnails.
+  Bound to `Mod+Tab` (niri parity) and `Mod+G`.
+- **Overview (plugin, WIP):** ScrollOverview (`conf/scrolloverview.lua`), a
+  niri-like overview plugin (github.com/yayuuu/hyprland-scroll-overview), is
+  the live-thumbnail alternative. Currently **disabled** (commented out in
+  `hyprland.lua`) while it's being debugged; would load via `hl.plugin.load`
+  from the `SCROLLOVERVIEW_SO` session variable set in
+  `modules/nixos/desktop/tiler/hyprland.nix`.
 
 ## Files
 
@@ -44,20 +53,26 @@ split under `conf/` and pulled in with `require()`.
 hypr/
 ├── hyprland.lua                 # entry point; require()s conf/*.lua in order
 ├── screen-record.sh             # wf-recorder toggle (bound to Mod+R)
+├── xdph.conf                    # xdph screencopy workaround (force_shm); hyprlang, read by xdph itself
+├── stylua.toml                  # stylua formatter settings for the Lua files
+├── .luarc.json                  # lua-language-server config (uses types/ as library)
+├── dms/                         # DMS-auto-generated Hyprland overrides (colors/layout/windowrules);
+│                                # not loaded by default — require() them from hyprland.lua to enable
+├── types/
+│   └── hl.lua                   # EmmyLua type stubs for the `hl` global (editor-only, never executed)
 └── conf/
     ├── env.lua                  # cursor size + Wayland/Qt/Electron env hints (hl.env)
     ├── general.lua              # scrolling layout, gaps/border/rounding (hl.config)
-    ├── animations.lua           # vertical workspace-switch animation (hl.animation)
-    ├── animations.lua           # vertical workspace slide (slidevert), niri-like (hl.animation):
-`style = "slidevert"`) to mirror niri's vertically-stacked workspaces, instead of
-Hyprland's default horizontal `slide`. Only the `workspaces` leaf is overridden;
-everything else stays on Hyprland defaults. Other `workspaces` styles available:
-`slide`, `fade`, `slidefade`, `slidefadevert`.
+    ├── animations.lua           # workspaces slide = "slidevert" (niri-like); only the `workspaces`
+    │                            # leaf overridden — other styles: slide, fade, slidefade, slidefadevert
     ├── monitors.lua             # hl.monitor per display (from configs/niri/.../outputs.kdl)
     ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture
     ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
     ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp)
-    └── autostart.lua            # noctalia, hypridle via setpriv (hl.on hyprland.start; drops compositor caps)
+    ├── autostart.lua            # noctalia, hypridle via setpriv (hl.on hyprland.start; drops compositor caps)
+    ├── overview.lua             # pure-Lua workspace switcher overview (wofi picker, Mod+Tab/Mod+G)
+    └── scrolloverview.lua       # ScrollOverview plugin (niri-like, live thumbnails) — WIP/disabled;
+                                 # loads via $SCROLLOVERVIEW_SO, require() commented out in hyprland.lua
 ```
 
 ## Bindings without a clean 1:1 niri mapping
@@ -65,7 +80,8 @@ everything else stays on Hyprland defaults. Other `workspaces` styles available:
 - `Mod+Shift+H` (show-hotkey-overlay) — no native Hyprland equivalent; left commented.
 - `Mod+Escape` (toggle-keyboard-shortcuts-inhibit) — no native equivalent; omitted.
 - `Mod+W` (toggle-column-tabbed-display) — mapped to `hl.dsp.group.toggle()` as the nearest analog.
-- `Mod+Tab` (toggle-overview) — no native overview / no buildable plugin; mapped to `cyclenext`.
+- `Mod+Tab` (toggle-overview) — pure-Lua overview (`conf/overview.lua`);
+  previously the ScrollOverview plugin, and `cyclenext` before that existed.
 
 ## Touchpad gestures (niri parity)
 

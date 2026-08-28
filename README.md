@@ -143,7 +143,7 @@ Secrets are encrypted using [agenix](https://github.com/ryantm/agenix) and store
 
 1. **Get the host's SSH public key**: `cat /etc/ssh/ssh_host_ed25519_key.pub`
 2. **Add to `secrets.nix`**: Create a variable with the key and add it to each secret's `publicKeys` list
-3. **Re-key**: Run `skyg secrets rekey` to re-encrypt the `.age` files
+3. **Re-encrypt**: for each affected secret run `skyg decrypt <name>` then `skyg encrypt <name>` to re-encrypt it against the updated key set
 
 For more details, see `secrets/ABOUTME.md`.
 

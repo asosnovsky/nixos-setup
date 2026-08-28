@@ -13,6 +13,7 @@ Packages here are exposed via an overlay defined in `modules/core/default.nix`.
 | `niri-touchscreen-gestures/` | Python daemon that reads multi-touch events from a touchscreen via `evdev`, detects 2/3/4-finger swipes (up/down/left/right), and dispatches configurable `niri msg action` commands. Configured via TOML; exposed as `pkgs.niri-touchscreen-gestures`. |
 | `ollama/` | Ollama local LLM inference server, pinned ahead of nixpkgs (0.32.14 vs 0.32.7 in stable/unstable). Derived from nixpkgs master's 0.32.13 derivation (FetchContent-based llama.cpp, Vulkan/ROCm backends) bumped to 0.32.14. Exposed as `pkgs.ollama` (cpu), `pkgs.ollama-rocm` (Strix Halo / gfx1151), `pkgs.ollama-vulkan`. |
 | `buzz-desktop/` | Block Buzz desktop (Type-2 AppImage from `block/buzz`). Wrapped with `appimageTools.wrapType2` plus extra FHS libs (`elfutils`, `zstd`, WebKit/tray, GStreamer good/bad) so it runs on NixOS. Exposed as `pkgs.buzz-desktop` (`buzz-desktop` binary + desktop entry / icons). |
+| `claude-desktop/` | Claude Desktop (Linux) — `.deb` fetched from `downloads.claude.ai`, unpacked and re-wrapped with `makeWrapper` (binary moved aside, `LD_LIBRARY_PATH` pointed at its bundled libs). Exposed as the `claude-desktop` flake output (via `pkgs.callPackage` in `flake.nix`, not the core overlay) and installed on `fwbook`. |
 
 ## Adding a New Package
 

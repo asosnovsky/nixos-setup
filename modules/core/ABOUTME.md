@@ -16,10 +16,13 @@ core/
 
 ## What lives here
 
-- **Overlays** (`default.nix`): exposes `pkgs.grok-cli` (from `pkgs/grok-cli`), `pkgs.buzz-desktop` (from `pkgs/buzz-desktop`), and patches
+- **Overlays** (`default.nix`): exposes the `pkgs/` packages — `grok-cli`, `ds4`
+  (+`ds4-rocm`/`ds4-cuda`), `colibri` (+`colibri-rocm`), `niri-touchscreen-gestures`,
+  `buzz-desktop`, `ollama` (+`ollama-rocm`/`ollama-vulkan`) — and patches
   `python3Packages.pipx` to skip its flaky install check on nixpkgs 26.05.
-- **Distributed builds** (`default.nix`): registers `bigbox1.lab.internal` as a remote
-  `x86_64-linux` build machine and enables `builders-use-substitutes`.
+- **Distributed builds** (`default.nix`): registers `bigbox1.lab.internal` and
+  `fwdesk.lab.internal` as remote `x86_64-linux` build machines and enables
+  `builders-use-substitutes`.
 - **User** (`user.nix`): defines `skyg.user.{name,fullName,email}` plus
   `skyg.home-manager.{version,extraImports}`. When `skyg.user.enable` is set it wires up
   Home Manager for both `root` and the named user using the functions in `modules/home`.

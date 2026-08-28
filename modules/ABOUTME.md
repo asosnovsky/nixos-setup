@@ -16,7 +16,7 @@ modules/
 ├── home/              # Home Manager: shell, programs, git, fonts, services
 ├── nixos/
 │   ├── common/        # Core system settings, networking, SSH, QEMU, fonts, hardware
-│   ├── server/        # Server services: K3s, Gitea, AI stack, DNS, Dockge, ARRs...
+│   ├── server/        # Server services: K3s/K8s, DNS, AI stack, ARRs, media…
 │   └── desktop/       # Desktop: tiler (niri/hyprland), packages, theming, crypto
 └── openwrt/           # OpenWrt router config generator
 ```

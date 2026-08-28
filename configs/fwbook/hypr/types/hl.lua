@@ -28,8 +28,9 @@
 
 ---@class hl.dsp.FocusOpts
 ---@field direction? "left"|"right"|"up"|"down"   Focus by direction
----@field workspace?  string                        e.g. "e-1", "e+1", integer
+---@field workspace?  string|integer                e.g. "e-1", "e+1", or a numeric id
 ---@field monitor?    string                        e.g. "+1", "-1", name
+---@field on_current_monitor? boolean               Switch to the workspace on the current monitor
 
 ---@class hl.dsp.MoveOpts
 ---@field direction?  "left"|"right"|"up"|"down"
@@ -141,8 +142,8 @@ dsp.workspace = dsp_workspace
 ---@field repeating? boolean  Fire repeatedly while held (note: key is `repeating`, not `repeat`)
 
 ---Register a keybind. Returns a handle with a `:set_enabled(bool)` method.
----@param keys   string              Modifier + key string, e.g. "SUPER + T"
----@param action hl.DispatcherValue  Return value of an hl.dsp.* factory
+---@param keys   string                          Modifier + key string, e.g. "SUPER + T"
+---@param action hl.DispatcherValue | fun()      An hl.dsp.* factory result, or a Lua callback
 ---@param opts?  hl.BindOpts
 ---@return hl.BindHandle
 function hl.bind(keys, action, opts) end
@@ -350,32 +351,71 @@ local plugin = {}
 ---Load a Hyprland plugin from its .so path.
 ---@param path string  Absolute path to the shared library
 function plugin.load(path) end
+-- ---------------------------------------------------------------------------
+-- hl.get_workspaces — runtime introspection
+-- ---------------------------------------------------------------------------
 
----@class hl.plugin.hyprgrass
-local plugin_hyprgrass = {}
+---@class HL.Monitor
+---@field id          integer
+---@field name        string
+---@field description? string
+---@field width?      integer
+---@field height?     integer
+---@field x?          integer
+---@field y?          integer
+---@field scale?      number
+---@field focused?    boolean
+---@field active_workspace? HL.Workspace
 
----@class hl.HyprGrassPattern
----@field kind      "swipe"|"tap"|"pinch"
----@field fingers   number
----@field direction? "left"|"right"|"up"|"down"
+---@class HL.Workspace
+---@field id           integer
+---@field name         string
+---@field config_name? string   Config-specified name (empty/absent for auto)
+---@field windows?     integer  Number of windows on the workspace
+---@field special?     boolean  Is a special (scratchpad) workspace
+---@field active?      boolean  Is active on its monitor
+---@field visible?     boolean
+---@field has_urgent?  boolean
+---@field is_empty?    boolean
+---@field monitor?     HL.Monitor
 
----@class hl.HyprGrassGestureOpts
----@field pattern hl.HyprGrassPattern
----@field action  string|hl.DispatcherValue
+---All non-inert workspaces.
+---@return HL.Workspace[]
+function hl.get_workspaces() end
 
----@class hl.HyprGrassBindOpts
----@field pattern hl.HyprGrassPattern
----@field action  hl.DispatcherValue
+-- ---------------------------------------------------------------------------
+-- hl.print — log to the Hyprland log
+-- ---------------------------------------------------------------------------
 
----Register a hyprgrass gesture.
----@param opts hl.HyprGrassGestureOpts
-function plugin_hyprgrass.gesture(opts) end
+---@param ... any
+function hl.print(...) end
 
----Register a hyprgrass tap/press bind.
----@param opts hl.HyprGrassBindOpts
-function plugin_hyprgrass.bind(opts) end
+-- ---------------------------------------------------------------------------
+-- hl.dispatch — execute a dispatcher closure now
+-- ---------------------------------------------------------------------------
 
-plugin.hyprgrass = plugin_hyprgrass
+---Run a dispatcher closure immediately (same as firing a bound key's action).
+---@param action hl.DispatcherValue
+function hl.dispatch(action) end
+
+-- ---------------------------------------------------------------------------
+-- hl.timer — deferred / repeating callbacks
+-- ---------------------------------------------------------------------------
+
+---@class hl.TimerOpts
+---@field timeout number   Interval / delay in milliseconds
+---@field type?   "repeat"|"oneshot"
+
+---@class hl.TimerHandle
+local TimerHandle = {}
+---Cancel this timer.
+function TimerHandle:cancel() end
+
+---Schedule a callback on a repeating or one-shot timer.
+---@param callback fun()
+---@param opts     hl.TimerOpts
+---@return hl.TimerHandle
+function hl.timer(callback, opts) end
 
 -- ---------------------------------------------------------------------------
 -- Global `hl` declaration

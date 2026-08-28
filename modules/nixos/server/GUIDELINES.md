@@ -45,15 +45,11 @@ Then add it to `services/default.nix`'s `imports` list (and to the `services/ABO
 6. **Scheduled jobs** (backups, auto-updates) should use the `skyg.server.timers.<name>`
    helper in `timers.nix` rather than hand-writing `systemd.timers`/`systemd.services`.
 7. **Secrets** (tokens, API keys, join tokens) come from **agenix** (`config.age.secrets.*`)
-   or an `environmentFile` path — never hardcoded, never committed. See `openclaw.nix` for
-   the agenix-token pattern and `k3s/`/`dns/routing/` for `envPath`/secret-file patterns.
+   or an `environmentFile` path — never hardcoded, never committed. See `colibri.nix`/
+   `signal-cli.nix` for the `environmentFile` (agenix) pattern and `k3s/`/`dns/routing/`
+   for `envPath`/secret-file patterns.
 8. **Stable identities.** Where a service stores data on NFS, keep its `uid`/`gid` fixed and
    unique (see `arrs/` and `jellyfin.nix`) so ownership survives across hosts.
-
-## Gotcha: openclaw.nix
-
-`openclaw.nix` is **not** imported by `services/default.nix`. If you enable it, import it
-explicitly. Don't assume every file in `services/` is wired in.
 
 ## Validation
 

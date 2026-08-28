@@ -12,6 +12,7 @@ tiler/
 ├── niri.nix                    # skyg.nixos.desktop.tiler.niri — niri compositor (sets tiler.enable)
 ├── niri-touchscreen-gestures.nix # skyg.nixos.desktop.tiler.niri.touchscreen-gestures — touchscreen swipe support
 ├── hyprland.nix                # skyg.nixos.desktop.tiler.hyprland — Hyprland via flake (sets tiler.enable)
+├── noctalia.nix                # skyg.nixos.desktop.tiler.noctalia — noctalia shell + per-host config symlink
 └── swww.nix                    # skyg.nixos.desktop.tiler.background — swww/waypaper wallpaper tools
 ```
 
@@ -34,6 +35,8 @@ skyg.nixos.desktop.tiler.niri.enable
 skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable  # 3/4-finger swipes → niri actions
 skyg.nixos.desktop.tiler.hyprland.enable
 skyg.nixos.desktop.tiler.hyprland.configName     # per-host config dir (default: hostName)
+skyg.nixos.desktop.tiler.noctalia.enable         # standalone noctalia + config symlink
+skyg.nixos.desktop.tiler.noctalia.configName     # per-host config dir (default: hostName)
 skyg.nixos.desktop.tiler.background.enable
 ```
 
@@ -43,7 +46,12 @@ skyg.nixos.desktop.tiler.background.enable
 `xdg-desktop-portal-hyprland` kept in sync), launched via UWSM. It:
 
 - Installs the noctalia shell and autostart-friendly tools (grim/slurp/satty,
-  wofi/rofi, hypridle). There is no waybar/hyprpanel — the shell is noctalia.
+  wofi/rofi, hypridle, wl-clipboard). There is no waybar/hyprpanel — the shell is noctalia.
+- Hyprland plugins (=scrolloverview overview): the packages are
+  installed and their `.so` paths exported as session variables (`SCROLLOVERVIEW_SO`);
+  `scrolloverview.lua` call `hl.plugin.load` on them. The store path changes on every
+  flake update, so it can't be hardcoded in the config. The active plugin is toggled
+  by the `*_SO` line here plus the matching `require()` in `hyprland.lua`.
 - Symlinks `~/.config/hypr` -> `configs/<configName>/hypr`, where `configName`
   defaults to `config.skyg.core.hostName` (so `fwbook` -> `configs/fwbook/hypr`).
 

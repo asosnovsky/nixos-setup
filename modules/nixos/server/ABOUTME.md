@@ -16,14 +16,14 @@ server/
 ├── dns/           # Local DNS resolver, certbot, local CA
 ├── k3s/           # Single-binary K3s cluster role
 ├── k8s/           # Full upstream Kubernetes (master/node)
-└── services/      # Self-hosted apps (jellyfin, audiobookshelf, comfyui, scrypted, dockge, ai…)
+└── services/      # Self-hosted apps (jellyfin, audiobookshelf, comfyui, ds4, colibri, ai…)
 ```
 
 ## Notable details
 
 - **`timers.nix`** is a reusable helper: anything added to `skyg.server.timers.<name>`
-  (with `script`, `OnCalendar`, `wantedBy`) becomes a systemd timer + oneshot service. Other
-  modules (e.g. `services/scrypted.nix`) use it for backups/auto-updates.
+  (with `script`, `OnCalendar`, `wantedBy`) becomes a systemd timer + oneshot service. Host
+  files (e.g. `hosts/hl-minipc2.nix`'s scrypted-backups) use it for backups/auto-updates.
 - **`exporters.nix`** enables the Prometheus node exporter with the systemd collector and
   opens port 9100.
 - Naming: this tree mostly uses the legacy `skyg.server.*` prefix for cross-cutting modules

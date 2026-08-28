@@ -14,6 +14,7 @@ common/
 ├── user.nix         # skyg.user.createSystemUser — creates the system user/groups + zsh shell
 ├── fonts.nix        # System font packages + fontconfig defaults (Fira Code, Noto, …)
 ├── ssh-server.nix   # skyg.nixos.common.ssh-server — hardened sshd + master pubkey
+├── ssh-notify.nix   # skyg.nixos.common.ssh-notify — forward notify-send from SSH sessions to a desktop client
 ├── qemu.nix         # skyg.core.qemu — QEMU/quickemu + SPICE guest tooling
 ├── containers/      # Docker vs Podman runtime selection
 ├── hardware/        # GPU, fan control, audio, laptop power, Coral TPU udev
@@ -39,6 +40,7 @@ skyg.core.hostName               → networking.nix
 skyg.user.createSystemUser       → user.nix
 skyg.core.qemu.*                 → qemu.nix
 skyg.nixos.common.ssh-server.*   → ssh-server.nix
+skyg.nixos.common.ssh-notify.*   → ssh-notify.nix
 skyg.nixos.common.containers.*   → containers/
 skyg.nixos.common.hardware.*     → hardware/
 skyg.nixos.common.pritunl.*      → pritunl/

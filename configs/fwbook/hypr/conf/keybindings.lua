@@ -25,8 +25,9 @@ hl.bind(mod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 
--- niri: toggle-overview — no native overview / no buildable plugin; cycle windows.
-hl.bind(mod .. " + Tab", hl.dsp.window.cycle_next())
+-- hl.bind(mod .. " + Tab", function()
+--     hl.plugin.scrolloverview.overview("toggle all")
+-- end)
 -- niri: focus-monitor-next
 hl.bind(mod .. " + SHIFT + Tab", hl.dsp.focus({ monitor = "+1" }))
 

@@ -69,6 +69,8 @@ breaks the composition model.
 You must **live and die by these rules** and hold yourself accountable to them.
 These are not suggestions — they are non-negotiable.
 
+### KEEP EVERYTHING CONCISE, shorter concise comments are preferable, less jargon and more common words.
+
 ---
 
 ## Safe Operations
@@ -79,6 +81,7 @@ These are always safe to perform without asking:
 - Editing host files (`hosts/<hostname>.nix`) to add/remove packages or options
 - Editing module files in `modules/`
 - `ABOUTME.md` should be seen as the 'living memory' of a folder, it should contain general information about what's in the folder and capture decisions made at the time of development the features.
+- **Keep ABOUTME.md current:** whenever you add, remove, or rename files, options, commands, or behaviour in a folder, check that folder's `ABOUTME.md` still matches reality and update it as part of the same change. If you discover an existing `ABOUTME.md` that is stale (dead file/option/command references, missing entries, wrong paths), fix it in the same way.
 - Adding new packages to `pkgs/`
 - Editing configs in `configs/`
 
@@ -86,7 +89,7 @@ These are always safe to perform without asking:
 
 ## When In Doubt
 
-If you are unsure whether a command is safe, **assume it is not safe and don't run it.**
+If you are unsure whether a command is safe, **assume it is NOT SAFE and don't run it.**
 
 Instead: describe what you would do and ask the user for permission.
 
