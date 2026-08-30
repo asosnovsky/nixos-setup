@@ -1,3 +1,5 @@
+
+
 # NixOS System Configurations
 
 My comprehensive Nix configurations for managing multiple hosts, including local machines and remote servers.
@@ -61,9 +63,8 @@ The `skyg` script is your main interface for managing these configurations. It's
 
 #### System Management
 
-- **`skyg build`** - Build the current system configuration
-- **`skyg switch`** - Switch to a new configuration (with confirmation)
-- **`skyg test`** - Test a configuration without switching
+- **`skyg os switch`** - Rebuild and switch to a new configuration
+- **`skyg os test`** - Test a configuration without switching
 - **`skyg rollback`** - Rollback to the previous generation
 
 #### Profile Management
@@ -104,11 +105,10 @@ Example: `skyg hm switch ari` or `skyg hm switch`
 skyg profiles
 
 # Build and switch to new configuration
-skyg build
-skyg switch
+skyg os switch
 
 # Test configuration before switching
-skyg test
+skyg os test
 
 # Update dependencies
 skyg update nixpkgs
