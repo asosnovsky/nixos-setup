@@ -75,10 +75,10 @@ hypr/
 - `Mod+Shift+H` (show-hotkey-overlay) — no native Hyprland equivalent; left commented.
 - `Mod+Escape` (toggle-keyboard-shortcuts-inhibit) — no native equivalent; omitted.
 - `Mod+W` (toggle-column-tabbed-display) — mapped to `hl.dsp.group.toggle()` as the nearest
-  analog. Additional group binds were added on top: `Mod+Shift+W` (merge into an adjacent
-  group), `Mod+Alt+W` (pull out of a group), `Mod+Shift+Left/Right` (cycle through the
-  active group's tabs; no-op outside a group, so they share keys with `playerctl`), and
-  `Mod+Shift+G` (lock/unlock the group).
+  analog. Additional group binds were added on top via `hyprctl dispatch` (the extra
+  dispatchers aren't wrapped by `hl.dsp`): `Mod+Shift+W` (merge into an adjacent group),
+  `Mod+Alt+W` (pull out of a group), `Mod+Alt+Left/Right` (cycle through the active
+  group's tabs; no-op outside a group), and `Mod+Shift+G` (lock/unlock the group).
 - `Mod+Tab` (toggle-overview) — the Quickshell scrolling overview (see above);
   previously a pure-Lua wofi picker, then the ScrollOverview plugin, and
   `cyclenext` before that.

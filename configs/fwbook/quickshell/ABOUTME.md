@@ -59,7 +59,9 @@ overview/
 │                         # anchorScreen for the whole open session; builds the browsed
 │                         # monitor's workspace/window model from Quickshell.Hyprland,
 │                         # owns selection state, key handling, and HyprlandFocusGrab
-├── MonitorBar.qml        # row of clickable per-monitor pills, highlights browsedMonitor
+├── MonitorBar.qml        # mini-map of clickable per-monitor pills, positioned AND sized
+│                         # proportionally to each monitor's real x/y/resolution (like a
+│                         # display-arrangement UI); highlights browsedMonitor
 ├── WorkspaceRow.qml      # one workspace = carousel Row of WindowCards + label
 ├── WindowCard.qml        # live ScreencopyView preview + icon/title footer + selection ring
 └── Theme.qml             # plain QtObject with colors/sizes/carousel tuning, instantiated
