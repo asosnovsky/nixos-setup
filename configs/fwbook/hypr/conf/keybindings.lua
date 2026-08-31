@@ -1,15 +1,11 @@
 -- =========================
 -- Keybindings
 -- =========================
--- Mirrors configs/niri/shared/binds.kdl and configs/niri/noctalia/binds.kdl,
--- adapted to Hyprland's scrolling-layout dispatchers (hl.dsp.layout("...")).
-
 local mod = "SUPER"
 
 -- =========================
 -- General / Apps
 -- =========================
--- niri: Mod+Shift+H show-hotkey-overlay — no native Hyprland equivalent.
 hl.bind(mod .. " + T", hl.dsp.exec_cmd("ghostty"))
 hl.bind(mod .. " + Z", hl.dsp.exec_cmd("flatpak run app.zen_browser.zen"))
 hl.bind(mod .. " + B", hl.dsp.exec_cmd("chromium"))
@@ -21,20 +17,16 @@ hl.bind(mod .. " + Q", hl.dsp.window.close())
 -- =========================
 hl.bind(mod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mod .. " + right", hl.dsp.focus({ direction = "right" }))
--- niri workspaces are vertical stacks; map Up/Down to workspace switching.
 hl.bind(mod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 
--- niri: toggle-overview -> Quickshell scrolling overview (see conf/inputs.lua
 -- for the 4-finger swipe equivalent)
 hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs -c overview ipc call overview toggle"))
--- niri: focus-monitor-next
 hl.bind(mod .. " + SHIFT + Tab", hl.dsp.focus({ monitor = "+1" }))
 
 -- =========================
 -- Window Management
 -- =========================
--- niri swap-window-left/right -> swap focused window with neighbour in direction
 -- hl.bind(mod .. " + CTRL + right", function()
 -- 	hl.dispatch(hl.dsp.resize({x = 1, relative = true}))
 -- 	hl.dispatch(hl.dsp.layout("swapcol r"))
@@ -43,51 +35,20 @@ hl.bind(mod .. " + CTRL + right", hl.dsp.layout("swapcol r"))
 hl.bind(mod .. " + CTRL + left", hl.dsp.layout("swapcol l"))
 -- hl.bind(mod .. " + CTRL + right", hl.dsp.window.move({ direction = "right" }))
 -- hl.bind(mod .. " + CTRL + left", hl.dsp.window.move({ direction = "left" }))
--- niri move-window-to-workspace-up/down (same monitor, follow the window)
 hl.bind(mod .. " + CTRL + up", hl.dsp.window.move({ workspace = "r-1", follow = true }))
 hl.bind(mod .. " + CTRL + down", hl.dsp.window.move({ workspace = "r+1", follow = true }))
-
--- niri: toggle-column-tabbed-display (closest: group/tab windows together)
-hl.bind(mod .. " + W", hl.dsp.group.toggle())
--- niri: (no feat.) group the focused window into the neighbour's tab group
--- (these dispatchers aren't in hl.dsp; use hyprctl like the gesture binds)
-hl.bind(mod .. " + SHIFT + W", function()
-    hl.exec_cmd("hyprctl dispatch moveintogroup l")
-end)
--- niri: (no feat.) pull the focused window out of its group back to a tile
-hl.bind(mod .. " + ALT + W", function()
-    hl.exec_cmd("hyprctl dispatch moveoutofgroup l")
-end)
--- niri: (no feat.) cycle through the active group's tabs (no-op outside a group)
-hl.bind(mod .. " + ALT + right", function()
-    hl.exec_cmd("hyprctl dispatch changegroupactive f")
-end)
-hl.bind(mod .. " + ALT + left", function()
-    hl.exec_cmd("hyprctl dispatch changegroupactive b")
-end)
--- niri: (no feat.) lock/unlock the group so its tabs can't be rearranged
-hl.bind(mod .. " + SHIFT + G", function()
-    hl.exec_cmd("hyprctl dispatch lockactivegroup toggle")
-end)
--- niri: maximize-column -> cycle through preset column widths (colresize +conf)`
 hl.bind(mod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 -- hl.bind(mod .. " + F", hl.dsp.layout("colresize +conf"))
--- niri: fullscreen-window (true fullscreen)
 hl.bind(mod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
--- niri: reset-window-height (scrolling has no per-window height; refit column)
 hl.bind(mod .. " + CTRL + F", hl.dsp.layout("fit_into_view"))
--- niri: toggle-window-floating
 hl.bind(mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
--- niri: center-column (recenter focused column in view)
 hl.bind(mod .. " + C", hl.dsp.layout("focus current"))
 
 -- =========================
 -- Resizing
 -- =========================
--- niri set-column-width -/+10%  ->  scrolling colresize
 hl.bind(mod .. " + minus", hl.dsp.layout("colresize -0.1"))
 hl.bind(mod .. " + equal", hl.dsp.layout("colresize +0.1"))
--- niri set-window-height -/+10% -> pixel delta (Lua resize takes px, not %)
 hl.bind(mod .. " + SHIFT + minus", hl.dsp.window.resize({ x = 0, y = -50, relative = true }))
 hl.bind(mod .. " + SHIFT + equal", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
 
@@ -101,21 +62,16 @@ hl.bind(mod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/screen-record.sh"))
 -- =========================
 -- Session
 -- =========================
--- niri: Mod+Escape toggle-keyboard-shortcuts-inhibit — no native equivalent.
 -- UWSM: use `uwsm stop` instead of the `exit` dispatcher (ordered shutdown).
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("uwsm stop"))
 
 -- =========================
 -- Monitor Movement
 -- =========================
--- niri move-column-to-monitor-{down,left,right,up}
 hl.bind(mod .. " + ALT + down", hl.dsp.window.move({ monitor = "d" }))
 hl.bind(mod .. " + ALT + left", hl.dsp.window.move({ monitor = "l" }))
 hl.bind(mod .. " + ALT + right", hl.dsp.window.move({ monitor = "r" }))
 hl.bind(mod .. " + ALT + up", hl.dsp.window.move({ monitor = "u" }))
-
--- niri moved workspaces between monitors via Mod + touchpad scroll. That now
--- lives in conf/inputs.lua as Mod + 3-finger swipe gestures (mods = "SUPER").
 
 -- =========================
 -- Mouse drag (move / resize windows)
