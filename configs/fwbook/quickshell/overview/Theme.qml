@@ -10,5 +10,15 @@ QtObject {
     readonly property real cornerRadius: 10
     readonly property real cardHeight: 180
     readonly property real cardSpacing: 20
-    readonly property real rowSpacing: 28
+
+    // Carousel layout: fixed step distances between slots on each axis, and
+    // per-step falloff for opacity/scale as items recede from the centered
+    // (selected) slot.
+    readonly property real carouselStepX: cardHeight * 2.6 + cardSpacing
+    readonly property real carouselStepY: cardHeight + 70
+    readonly property real carouselFadeStep: 0.35
+    readonly property real carouselMaxFade: 0.85
+    readonly property real carouselScaleStep: 0.08
+    readonly property real carouselMaxScaleReduction: 0.3
+    readonly property int carouselDuration: 220
 }

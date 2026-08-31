@@ -164,9 +164,8 @@ PanelWindow {
             event.accepted = true;
         }
 
-        Column {
-            anchors.centerIn: parent
-            spacing: root.theme.rowSpacing
+        Item {
+            anchors.fill: parent
 
             Repeater {
                 model: root.rows
@@ -180,6 +179,23 @@ PanelWindow {
                     toplevels: modelData.toplevels
                     selectedIndex: index === root.selectedRow ? root.selectedCol : -1
                     live: root.visible
+
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenterOffset: (index - root.selectedRow) * root.theme.carouselStepY
+                    opacity: 1 - Math.min(Math.abs(index - root.selectedRow) * root.theme.carouselFadeStep, root.theme.carouselMaxFade)
+                    scale: 1 - Math.min(Math.abs(index - root.selectedRow) * root.theme.carouselScaleStep, root.theme.carouselMaxScaleReduction)
+
+                    Behavior on anchors.verticalCenterOffset {
+                        NumberAnimation { duration: root.theme.carouselDuration; easing.type: Easing.OutCubic }
+                    }
+                    Behavior on opacity {
+                        NumberAnimation { duration: root.theme.carouselDuration }
+                    }
+                    Behavior on scale {
+                        NumberAnimation { duration: root.theme.carouselDuration }
+                    }
 
                     onCardClicked: colIndex => {
                         root.selectedRow = index;
