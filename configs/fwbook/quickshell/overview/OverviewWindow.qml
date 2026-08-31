@@ -90,12 +90,24 @@ PanelWindow {
         }
     }
 
+    // This Hyprland build no longer accepts classic freeform dispatch text
+    // ("focuswindow address:0x...") at all — `hyprctl dispatch <text>` always
+    // evaluates <text> as a Lua expression (`hl.dispatch(<text>)`), so the
+    // text itself must already be a valid hl.dsp.* dispatcher call. Verified
+    // directly against this host: `hl.dsp.focus({workspace = N})` and
+    // `hl.dsp.focus({window = "address:0x..."})` both work; the classic
+    // `focuswindow address:...` / `workspace N` forms both error out.
     function activateSelection() {
         const row = root.rows[root.selectedRow];
         if (!row) { root.requestClose(); return; }
-        if (!row.workspace.active) Hyprland.dispatch("workspace " + row.workspace.id);
+        if (!row.workspace.active) {
+            Quickshell.execDetached(["hyprctl", "dispatch", `hl.dsp.focus({workspace = ${row.workspace.id}})`]);
+        }
         const tl = row.toplevels[root.selectedCol];
-        if (tl) Hyprland.dispatch("focuswindow address:" + tl.address);
+        if (tl) {
+            const addr = tl.address.startsWith("0x") ? tl.address : "0x" + tl.address;
+            Quickshell.execDetached(["hyprctl", "dispatch", `hl.dsp.focus({window = "address:${addr}"})`]);
+        }
         root.requestClose();
     }
 
