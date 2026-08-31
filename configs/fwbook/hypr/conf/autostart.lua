@@ -9,6 +9,8 @@ hl.on("hyprland.start", function()
     -- setpriv drops ambient capabilities inherited from the compositor;
     -- without it, D-Bus calls inside quickshell-based apps fail silently.
     hl.exec_cmd("setpriv --ambient-caps -all -- noctalia")
+    -- Scrolling overview (Quickshell); toggled via Mod+Tab / 4-finger swipe
+    hl.exec_cmd("setpriv --ambient-caps -all -- qs -c overview")
     -- Idle management
     hl.exec_cmd("setpriv --ambient-caps -all -- hypridle")
 end)

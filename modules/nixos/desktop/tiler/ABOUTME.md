@@ -13,6 +13,7 @@ tiler/
 ├── niri-touchscreen-gestures.nix # skyg.nixos.desktop.tiler.niri.touchscreen-gestures — touchscreen swipe support
 ├── hyprland.nix                # skyg.nixos.desktop.tiler.hyprland — Hyprland via flake (sets tiler.enable)
 ├── noctalia.nix                # skyg.nixos.desktop.tiler.noctalia — noctalia shell + per-host config symlink
+├── quickshell.nix              # skyg.nixos.desktop.tiler.quickshell — qs package + per-host config symlink
 └── swww.nix                    # skyg.nixos.desktop.tiler.background — swww/waypaper wallpaper tools
 ```
 
@@ -37,6 +38,8 @@ skyg.nixos.desktop.tiler.hyprland.enable
 skyg.nixos.desktop.tiler.hyprland.configName     # per-host config dir (default: hostName)
 skyg.nixos.desktop.tiler.noctalia.enable         # standalone noctalia + config symlink
 skyg.nixos.desktop.tiler.noctalia.configName     # per-host config dir (default: hostName)
+skyg.nixos.desktop.tiler.quickshell.enable       # qs package + config symlink (e.g. fwbook's overview)
+skyg.nixos.desktop.tiler.quickshell.configName   # per-host config dir (default: hostName)
 skyg.nixos.desktop.tiler.background.enable
 ```
 
@@ -47,11 +50,8 @@ skyg.nixos.desktop.tiler.background.enable
 
 - Installs the noctalia shell and autostart-friendly tools (grim/slurp/satty,
   wofi/rofi, hypridle, wl-clipboard). There is no waybar/hyprpanel — the shell is noctalia.
-- Hyprland plugins (=scrolloverview overview): the packages are
-  installed and their `.so` paths exported as session variables (`SCROLLOVERVIEW_SO`);
-  `scrolloverview.lua` call `hl.plugin.load` on them. The store path changes on every
-  flake update, so it can't be hardcoded in the config. The active plugin is toggled
-  by the `*_SO` line here plus the matching `require()` in `hyprland.lua`.
+- No Hyprland overview plugin — the scrolling overview is a standalone Quickshell
+  config (`quickshell.nix`, see below), not a Hyprland plugin.
 - Symlinks `~/.config/hypr` -> `configs/<configName>/hypr`, where `configName`
   defaults to `config.skyg.core.hostName` (so `fwbook` -> `configs/fwbook/hypr`).
 
@@ -62,14 +62,18 @@ hyprlang — Hyprland 0.55+ deprecated hyprlang in favor of Lua. See
 The Hyprland Cachix cache (`hyprland.cachix.org`) is added in
 `modules/core/nix-substituters.nix` so the flake build doesn't compile from source.
 
-### No overview plugin
+### Quickshell
 
-We intentionally do not ship an overview plugin. hyprexpo was dropped from the
-official `hyprland-plugins` repo in 2026, and the maintained community fork
-(`sandwichfarm/hyprexpo`) chases Hyprland `main` and fails to build against
-tagged releases — it's a moving target. `Mod+Tab` falls back to `cyclenext`
-instead of niri's `toggle-overview`. Revisit if a plugin lands in nixpkgs
-kept in sync with the packaged Hyprland.
+`quickshell.nix` installs `pkgs.quickshell` (the `qs` binary) and symlinks
+`~/.config/quickshell` -> `configs/<configName>/quickshell`, mirroring the
+Hyprland/noctalia modules. It's a general-purpose Quickshell config host, not
+Hyprland-specific — `fwbook` uses it for the scrolling overview
+(`configs/fwbook/quickshell/overview/`, see
+`configs/fwbook/hypr/ABOUTME.md`), a standalone `qs -c overview` process
+independent of noctalia/DMS. We previously tried Hyprland overview plugins
+(hyprexpo, then a community `hyprland-scroll-overview` fork); both were
+dropped as moving targets that chased Hyprland `main` and failed to build
+against tagged releases. Quickshell avoids the plugin-ABI churn entirely.
 
 ## Conventions
 

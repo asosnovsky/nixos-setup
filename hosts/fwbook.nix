@@ -44,6 +44,7 @@ in
           enable = true;
           hyprland.enable = true;
           noctalia.enable = true;
+          quickshell.enable = true;
           niri = {
             enable = true;
             touchscreen-gestures = {

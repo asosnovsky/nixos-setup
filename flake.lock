@@ -455,27 +455,6 @@
     "flake-parts_3": {
       "inputs": {
         "nixpkgs-lib": [
-          "scrolloverview",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1782949081,
-        "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_4": {
-      "inputs": {
-        "nixpkgs-lib": [
           "stylix",
           "nixpkgs"
         ]
@@ -1411,22 +1390,6 @@
         "url": "https://flakehub.com/f/NixOS/nixpkgs/0.1"
       }
     },
-    "nixpkgs_10": {
-      "locked": {
-        "lastModified": 1785090369,
-        "narHash": "sha256-m0pDuRJG7EDo9ri+4Ksu83VsI+PlxNC9lNBfydejce4=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "624af665418d3c65d544145b4d34ad696439570e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1784160687,
@@ -1726,7 +1689,6 @@
         "nixpkgs": "nixpkgs_9",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
-        "scrolloverview": "scrolloverview",
         "stylix": "stylix",
         "systems": "systems_6"
       }
@@ -1748,29 +1710,6 @@
         "type": "github"
       }
     },
-    "scrolloverview": {
-      "inputs": {
-        "flake-parts": "flake-parts_3",
-        "hyprland": [
-          "hyprland"
-        ],
-        "nixpkgs": "nixpkgs_10"
-      },
-      "locked": {
-        "lastModified": 1787510763,
-        "narHash": "sha256-+mvHHi5Ou9RB6G5E3qMoxkATtAFuFoJlIev0yfkDI0Q=",
-        "owner": "yayuuu",
-        "repo": "hyprland-scroll-overview",
-        "rev": "a8e47fa769be1f0bdceb9869b2dfea97a84a1ecc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yayuuu",
-        "ref": "new-release",
-        "repo": "hyprland-scroll-overview",
-        "type": "github"
-      }
-    },
     "stylix": {
       "inputs": {
         "base16": "base16",
@@ -1778,7 +1717,7 @@
         "base16-helix": "base16-helix",
         "base16-vim": "base16-vim",
         "firefox-gnome-theme": "firefox-gnome-theme",
-        "flake-parts": "flake-parts_4",
+        "flake-parts": "flake-parts_3",
         "gnome-shell": "gnome-shell",
         "nixpkgs": [
           "nixpkgs"

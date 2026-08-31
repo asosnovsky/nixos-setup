@@ -3,7 +3,6 @@
 , pkgs
 , skygUtils
 , hyprland
-, scrolloverview
 , noctalia
 , ...
 }:
@@ -56,11 +55,7 @@ in
       grim
       slurp
       satty
-      scrolloverview.packages.${system}.scrolloverview
     ];
-    # Resolved store path for the scrolloverview plugin
-    environment.sessionVariables.SCROLLOVERVIEW_SO =
-      "${scrolloverview.packages.${system}.scrolloverview}/lib/libscrolloverview.so";
 
     # Symlink ~/.config/hypr -> configs/<configName>/hypr (host-specific).
     system.userActivationScripts.hyprlandConfig.text = skygUtils.makeHyperlinkScriptToConfigs {

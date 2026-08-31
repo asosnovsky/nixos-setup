@@ -33,19 +33,16 @@ split under `conf/` and pulled in with `require()`.
   intentionally no waybar/hyprpanel.
 - **Keybinds:** `conf/keybindings.lua` mirrors `configs/niri/shared/binds.kdl`
   and `configs/niri/dms/binds.kdl` as closely as Hyprland allows.
-- **Overview:** Pure-Lua workspace overview (`conf/overview.lua`), no plugin. It
-  enumerates workspaces via `hl.get_workspaces()` and presents them in a
-  `wofi --dmenu` picker, dispatching the chosen workspace with
-  `hyprctl dispatch workspace`. Hyprland's Lua API has no "render a workspace
-  to a texture" primitive, so this is a switcher-style overview (id, name,
-  window count, active/empty/urgent flags) rather than live scaled thumbnails.
-  Bound to `Mod+Tab` (niri parity) and `Mod+G`.
-- **Overview (plugin, WIP):** ScrollOverview (`conf/scrolloverview.lua`), a
-  niri-like overview plugin (github.com/yayuuu/hyprland-scroll-overview), is
-  the live-thumbnail alternative. Currently **disabled** (commented out in
-  `hyprland.lua`) while it's being debugged; would load via `hl.plugin.load`
-  from the `SCROLLOVERVIEW_SO` session variable set in
-  `modules/nixos/desktop/tiler/hyprland.nix`.
+- **Overview:** A standalone Quickshell config (`configs/fwbook/quickshell/overview/`,
+  symlinked to `~/.config/quickshell/overview` by the
+  `skyg.nixos.desktop.tiler.quickshell` module) provides a niri-like scrolling
+  overview — a vertical stack of workspace rows, each a horizontal strip of
+  that workspace's windows with live screencopy previews. It runs as its own
+  `qs -c overview` daemon (autostarted in `conf/autostart.lua`), toggled over
+  Quickshell's IPC (`qs -c overview ipc call overview toggle`) from `Mod+Tab`
+  (`conf/keybindings.lua`) and a 4-finger swipe up/down (`conf/inputs.lua`).
+  Arrow keys move the selection, Enter focuses + closes, Esc cancels. See
+  `configs/fwbook/quickshell/ABOUTME.md` for the QML implementation.
 
 ## Files
 
@@ -68,11 +65,8 @@ hypr/
     ├── monitors.lua             # hl.monitor per display (from configs/niri/.../outputs.kdl)
     ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture
     ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
-    ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp)
-    ├── autostart.lua            # noctalia, hypridle via setpriv (hl.on hyprland.start; drops compositor caps)
-    ├── overview.lua             # pure-Lua workspace switcher overview (wofi picker, Mod+Tab/Mod+G)
-    └── scrolloverview.lua       # ScrollOverview plugin (niri-like, live thumbnails) — WIP/disabled;
-                                 # loads via $SCROLLOVERVIEW_SO, require() commented out in hyprland.lua
+    ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp); Mod+Tab toggles the Quickshell overview
+    └── autostart.lua            # noctalia, Quickshell overview, hypridle via setpriv (hl.on hyprland.start; drops compositor caps)
 ```
 
 ## Bindings without a clean 1:1 niri mapping
@@ -80,8 +74,9 @@ hypr/
 - `Mod+Shift+H` (show-hotkey-overlay) — no native Hyprland equivalent; left commented.
 - `Mod+Escape` (toggle-keyboard-shortcuts-inhibit) — no native equivalent; omitted.
 - `Mod+W` (toggle-column-tabbed-display) — mapped to `hl.dsp.group.toggle()` as the nearest analog.
-- `Mod+Tab` (toggle-overview) — pure-Lua overview (`conf/overview.lua`);
-  previously the ScrollOverview plugin, and `cyclenext` before that existed.
+- `Mod+Tab` (toggle-overview) — the Quickshell scrolling overview (see above);
+  previously a pure-Lua wofi picker, then the ScrollOverview plugin, and
+  `cyclenext` before that.
 
 ## Touchpad gestures (niri parity)
 
@@ -91,6 +86,9 @@ niri's 3-finger swipes are mirrored in `conf/inputs.lua`:
 - **Mod + swipe (any direction)** → move the whole workspace to the monitor in
   that direction (`movecurrentworkspacetomonitor`), mirroring niri's
   `Mod+TouchpadScroll*` binds. This replaced the old `Mod + mouse wheel` approach.
+- **4-finger up/down** → open/close the Quickshell scrolling overview (see
+  Overview above). `hl.gesture` is a discrete trigger, so there's no
+  swipe-progress animation.
 
 > The gesture action is `scroll_move` (underscore), not `scrollmove`. The
 > `mods = "SUPER"` mask is what lets the Mod + swipe variants coexist with the

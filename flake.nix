@@ -52,14 +52,6 @@
     # Hyprland compositor via flake (latest git).
     hyprland.url = "github:hyprwm/Hyprland";
 
-    # Hyprland niri-like scroll overview plugin.
-    # `new-release` branch, not `main`: our hyprland input is a git build, and
-    # main still includes the pre-refactor managers/EventManager.hpp (fails to
-    # compile against Hyprland 0.56+git). new-release targets current git.
-    scrolloverview = {
-      url = "github:yayuuu/hyprland-scroll-overview/new-release";
-      inputs.hyprland.follows = "hyprland";
-    };
     # Secrets management
     agenix.url = "github:ryantm/agenix";
     # Claude Desktop
@@ -82,7 +74,6 @@
     , stylix
     , hyprlauncher
     , hyprland
-    , scrolloverview
     , dms
     , noctalia
     , git-hooks
@@ -117,7 +108,6 @@
               inherit
                 hyprlauncher
                 hyprland
-                scrolloverview
                 nixpkgs-unstable
                 dms
                 noctalia

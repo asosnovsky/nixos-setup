@@ -13,6 +13,7 @@ in
     ./niri.nix
     ./niri-touchscreen-gestures.nix
     ./noctalia.nix
+    ./quickshell.nix
     ./swww.nix
   ];
   options = {

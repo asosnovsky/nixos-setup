@@ -25,9 +25,9 @@ hl.bind(mod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 
--- hl.bind(mod .. " + Tab", function()
---     hl.plugin.scrolloverview.overview("toggle all")
--- end)
+-- niri: toggle-overview -> Quickshell scrolling overview (see conf/inputs.lua
+-- for the 4-finger swipe equivalent)
+hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs -c overview ipc call overview toggle"))
 -- niri: focus-monitor-next
 hl.bind(mod .. " + SHIFT + Tab", hl.dsp.focus({ monitor = "+1" }))
 

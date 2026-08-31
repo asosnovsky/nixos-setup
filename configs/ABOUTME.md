@@ -16,6 +16,7 @@ these cases where the source subdir and `~/.config` target differ.
 |---|---|
 | `niri/` | Niri Wayland compositor config |
 | `fwbook/hypr/` | Hyprland config for `fwbook` (scrolling layout + noctalia); linked to `~/.config/hypr` |
+| `fwbook/quickshell/` | Quickshell configs for `fwbook` (scrolling overview); linked to `~/.config/quickshell` |
 | `extra.nu` | Extra NuShell config sourced at shell startup |
 | `fwbook.knsv` | fwbook-specific Kanshi display profile |
 | `libinput-gestures.conf` | Touchpad gesture bindings |
