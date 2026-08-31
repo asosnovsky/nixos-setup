@@ -7,11 +7,11 @@ PanelWindow {
     id: root
 
     required property bool shellOpen
+    required property string browsedMonitor
     signal requestClose()
+    signal requestBrowseMonitor(string name)
 
-    readonly property var monitor: Hyprland.monitorFor(root.screen)
-    readonly property bool monitorFocused: monitor && Hyprland.focusedMonitor && monitor.id === Hyprland.focusedMonitor.id
-    visible: root.shellOpen && root.monitorFocused
+    visible: root.shellOpen
 
     color: "transparent"
 
@@ -40,13 +40,12 @@ PanelWindow {
         });
     }
 
-    // Workspace rows for this monitor, top-to-bottom by workspace id. Special
-    // (scratchpad) workspaces have negative ids and are excluded.
+    // Workspace rows for the browsed monitor, top-to-bottom by workspace id.
+    // Special (scratchpad) workspaces have negative ids and are excluded.
     readonly property var rows: {
-        const mon = root.monitor;
-        if (!mon || !Hyprland.workspaces) return [];
+        if (!root.browsedMonitor || !Hyprland.workspaces) return [];
         const workspaces = Hyprland.workspaces.values
-            .filter(ws => ws && ws.id > 0 && ws.monitor && ws.monitor.name === mon.name)
+            .filter(ws => ws && ws.id > 0 && ws.monitor && ws.monitor.name === root.browsedMonitor)
             .sort((a, b) => a.id - b.id);
         return workspaces.map(ws => ({ workspace: ws, toplevels: root.sortedToplevels(ws) }));
     }
@@ -104,21 +103,24 @@ PanelWindow {
         root.requestClose();
     }
 
-    // Switches Hyprland's focused monitor; the overview stays open since
-    // `shellOpen` is shared across all monitors' OverviewWindow instances —
-    // this one's `monitorFocused` goes false as the next monitor's goes true,
-    // so the overlay hands off to that monitor's own instance.
+    // Advances which monitor's overview is being browsed (see shell.qml) —
+    // purely local UI state, doesn't touch Hyprland's real focused monitor.
     function cycleMonitor() {
-        Quickshell.execDetached(["hyprctl", "dispatch", `hl.dsp.focus({monitor = "+1"})`]);
+        const mons = root.sortedMonitors;
+        if (mons.length === 0) return;
+        const curIdx = Math.max(0, mons.findIndex(m => m.name === root.browsedMonitor));
+        const mon = mons[(curIdx + 1) % mons.length];
+        root.requestBrowseMonitor(mon.name);
     }
 
     readonly property var sortedMonitors: Hyprland.monitors ? Hyprland.monitors.values.slice().sort((a, b) => a.id - b.id) : []
 
-    // Jump straight to the Nth monitor (0-based), bound to number keys 1-9.
+    // Jump straight to the Nth monitor's overview (0-based), bound to number
+    // keys 1-9 and the monitor bar.
     function focusMonitorByIndex(i) {
         const mon = root.sortedMonitors[i];
         if (!mon) return;
-        Quickshell.execDetached(["hyprctl", "dispatch", `hl.dsp.focus({monitor = "${mon.name}"})`]);
+        root.requestBrowseMonitor(mon.name);
     }
 
     onVisibleChanged: {
@@ -223,6 +225,16 @@ PanelWindow {
                 return;
             }
             event.accepted = true;
+        }
+
+        MonitorBar {
+            anchors.top: parent.top
+            anchors.topMargin: 24
+            anchors.horizontalCenter: parent.horizontalCenter
+            theme: root.theme
+            monitors: root.sortedMonitors
+            focusedMonitorName: root.browsedMonitor
+            onMonitorClicked: index => root.focusMonitorByIndex(index)
         }
 
         Item {

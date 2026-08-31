@@ -49,6 +49,15 @@ hl.bind(mod .. " + CTRL + down", hl.dsp.window.move({ workspace = "r+1", follow 
 
 -- niri: toggle-column-tabbed-display (closest: group/tab windows together)
 hl.bind(mod .. " + W", hl.dsp.group.toggle())
+-- niri: (no feat.) group the focused window into the neighbour's tab group
+hl.bind(mod .. " + SHIFT + W", hl.dsp.group.move({ direction = "l", mode = "into" }))
+-- niri: (no feat.) pull the focused window out of its group back to a tile
+hl.bind(mod .. " + ALT + W", hl.dsp.group.move({ direction = "l", mode = "outof" }))
+-- niri: (no feat.) cycle through the active group's tabs (no-op outside a group)
+hl.bind(mod .. " + SHIFT + left", hl.dsp.group.activate("b"))
+hl.bind(mod .. " + SHIFT + right", hl.dsp.group.activate("f"))
+-- niri: (no feat.) lock/unlock the group so its tabs can't be rearranged
+hl.bind(mod .. " + SHIFT + G", hl.dsp.group.lock())
 -- niri: maximize-column -> cycle through preset column widths (colresize +conf)`
 hl.bind(mod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 -- hl.bind(mod .. " + F", hl.dsp.layout("colresize +conf"))

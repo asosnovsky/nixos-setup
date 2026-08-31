@@ -111,9 +111,28 @@ function dsp_window.drag() end
 ---@class hl.dsp.group
 local dsp_group = {}
 
+---@class hl.dsp.GroupMoveOpts
+---@field direction "l"|"r"   Merge into / pull out of the group on this side
+---@field mode?     "into"|"outof"  Defaults to "into"
+
 ---Toggle the focused window's group/tab mode.
 ---@return hl.DispatcherValue
 function dsp_group.toggle() end
+
+---Merge the focused window into an adjacent group ("into") or pull it out
+---back to a normal tile ("outof").
+---@param opts hl.dsp.GroupMoveOpts
+---@return hl.DispatcherValue
+function dsp_group.move(opts) end
+
+---Cycle focus through the members of the active group's tab bar.
+---@param dir "b"|"f"  b = back, f = forward
+---@return hl.DispatcherValue
+function dsp_group.activate(dir) end
+
+---Lock/unlock the focused group so its tabs can't be rearranged.
+---@return hl.DispatcherValue
+function dsp_group.lock() end
 
 ---@class hl.dsp.workspace
 local dsp_workspace = {}
