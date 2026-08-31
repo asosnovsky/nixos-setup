@@ -8,6 +8,7 @@ Item {
 
     required property var theme
     required property var monitors
+    required property var monitorStats
     required property string focusedMonitorName
 
     signal monitorClicked(int index)
@@ -67,7 +68,11 @@ Item {
                 width: parent.width - 4
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
-                text: (pill.index + 1) + ": " + pill.modelData.name
+                text: {
+                    const s = root.monitorStats[pill.index];
+                    return (pill.index + 1) + ": " + pill.modelData.name
+                        + (s ? "  " + s.workspaces + "/" + s.windows : "");
+                }
                 color: root.theme.textColor
                 font.pixelSize: Math.max(9, Math.min(11, pill.height * 0.3))
                 font.bold: pill.active

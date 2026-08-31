@@ -115,6 +115,14 @@ PanelWindow {
 
     readonly property var sortedMonitors: Hyprland.monitors ? Hyprland.monitors.values.slice().sort((a, b) => a.id - b.id) : []
 
+    // Per-monitor {workspaces, windows} totals for the monitor bar pills.
+    readonly property var monitorStats: root.sortedMonitors.map(mon => {
+        const workspaces = Hyprland.workspaces ? Hyprland.workspaces.values
+            .filter(ws => ws && ws.id > 0 && ws.monitor && ws.monitor.name === mon.name) : [];
+        const windows = workspaces.reduce((n, ws) => n + (ws.toplevels ? ws.toplevels.values.length : 0), 0);
+        return { workspaces: workspaces.length, windows: windows };
+    })
+
     // Jump straight to the Nth monitor's overview (0-based), bound to number
     // keys 1-9 and the monitor bar.
     function focusMonitorByIndex(i) {
@@ -233,6 +241,7 @@ PanelWindow {
             anchors.horizontalCenter: parent.horizontalCenter
             theme: root.theme
             monitors: root.sortedMonitors
+            monitorStats: root.monitorStats
             focusedMonitorName: root.browsedMonitor
             onMonitorClicked: index => root.focusMonitorByIndex(index)
         }

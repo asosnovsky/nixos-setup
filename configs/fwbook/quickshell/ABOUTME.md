@@ -61,7 +61,8 @@ overview/
 │                         # owns selection state, key handling, and HyprlandFocusGrab
 ├── MonitorBar.qml        # mini-map of clickable per-monitor pills, positioned AND sized
 │                         # proportionally to each monitor's real x/y/resolution (like a
-│                         # display-arrangement UI); highlights browsedMonitor
+│                         # display-arrangement UI); highlights browsedMonitor; each pill
+│                         # shows that monitor's "workspaces/windows" count
 ├── WorkspaceRow.qml      # one workspace = carousel Row of WindowCards + label
 ├── WindowCard.qml        # live ScreencopyView preview + icon/title footer + selection ring
 └── Theme.qml             # plain QtObject with colors/sizes/carousel tuning, instantiated
