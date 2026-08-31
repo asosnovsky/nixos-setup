@@ -10,6 +10,7 @@ Item {
     required property bool live
 
     signal cardClicked(int index)
+    signal cardHovered(int index)
 
     // Slot cards are centered on when nothing in this row is selected (e.g.
     // it's not the active row), so an inactive row still reads as centered.
@@ -64,6 +65,7 @@ Item {
                 }
 
                 onActivated: root.cardClicked(index)
+                onHovered: root.cardHovered(index)
             }
         }
 

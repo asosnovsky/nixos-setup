@@ -104,6 +104,23 @@ PanelWindow {
         root.requestClose();
     }
 
+    // Switches Hyprland's focused monitor; the overview stays open since
+    // `shellOpen` is shared across all monitors' OverviewWindow instances —
+    // this one's `monitorFocused` goes false as the next monitor's goes true,
+    // so the overlay hands off to that monitor's own instance.
+    function cycleMonitor() {
+        Quickshell.execDetached(["hyprctl", "dispatch", `hl.dsp.focus({monitor = "+1"})`]);
+    }
+
+    readonly property var sortedMonitors: Hyprland.monitors ? Hyprland.monitors.values.slice().sort((a, b) => a.id - b.id) : []
+
+    // Jump straight to the Nth monitor (0-based), bound to number keys 1-9.
+    function focusMonitorByIndex(i) {
+        const mon = root.sortedMonitors[i];
+        if (!mon) return;
+        Quickshell.execDetached(["hyprctl", "dispatch", `hl.dsp.focus({monitor = "${mon.name}"})`]);
+    }
+
     onVisibleChanged: {
         if (root.visible) {
             Hyprland.refreshMonitors();
@@ -137,6 +154,36 @@ PanelWindow {
         anchors.fill: parent
         focus: root.visible
 
+        // Hovering a card recenters the carousel, which can slide a
+        // different card under an otherwise-stationary cursor and retrigger
+        // hover on it ("combo hover"). A pure movement-distance check isn't
+        // enough — ordinary mouse/trackpad jitter (a few px) clears a small
+        // threshold on its own. So: hard-lock all hover triggers for the
+        // duration of the recentering animation (nothing can retrigger while
+        // cards are still sliding), and additionally require the cursor to
+        // have moved well past jitter range since the last accepted trigger.
+        HoverHandler {
+            id: mouseTracker
+        }
+        property point lastHoverAcceptPos: Qt.point(-1, -1)
+        property bool hoverLocked: false
+        Timer {
+            id: hoverLockTimer
+            interval: root.theme.carouselDuration
+            onTriggered: focusScope.hoverLocked = false
+        }
+        function shouldAcceptHover() {
+            if (focusScope.hoverLocked) return false;
+            const cur = mouseTracker.point.position;
+            const dx = cur.x - focusScope.lastHoverAcceptPos.x;
+            const dy = cur.y - focusScope.lastHoverAcceptPos.y;
+            if ((dx * dx + dy * dy) <= 1600) return false; // 40px
+            focusScope.lastHoverAcceptPos = cur;
+            focusScope.hoverLocked = true;
+            hoverLockTimer.restart();
+            return true;
+        }
+
         Keys.onPressed: event => {
             switch (event.key) {
             case Qt.Key_Left:
@@ -157,6 +204,20 @@ PanelWindow {
                 break;
             case Qt.Key_Escape:
                 root.requestClose();
+                break;
+            case Qt.Key_M:
+                root.cycleMonitor();
+                break;
+            case Qt.Key_1:
+            case Qt.Key_2:
+            case Qt.Key_3:
+            case Qt.Key_4:
+            case Qt.Key_5:
+            case Qt.Key_6:
+            case Qt.Key_7:
+            case Qt.Key_8:
+            case Qt.Key_9:
+                root.focusMonitorByIndex(event.key - Qt.Key_1);
                 break;
             default:
                 return;
@@ -201,6 +262,11 @@ PanelWindow {
                         root.selectedRow = index;
                         root.selectedCol = colIndex;
                         root.activateSelection();
+                    }
+                    onCardHovered: colIndex => {
+                        if (!focusScope.shouldAcceptHover()) return;
+                        root.selectedRow = index;
+                        root.selectedCol = colIndex;
                     }
                 }
             }

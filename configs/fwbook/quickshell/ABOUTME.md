@@ -20,7 +20,10 @@ plugin (Hyprland has none maintained against tagged releases — see
   to match the Hyprland `scrolling` layout's tape order.
 - **Controls:** Arrow keys move the selection (Left/Right = window in the row,
   Up/Down = workspace row), Enter focuses the selection and closes, Esc
-  cancels. No mouse-driven drag/resize.
+  cancels, `M` cycles to the next monitor's overview, number keys 1-9 jump
+  straight to the Nth monitor (sorted by Hyprland's monitor id). Hovering a
+  window card also recenters the carousel on it (selection-only, doesn't
+  focus/close). No drag/resize.
 - **Previews:** live via `Quickshell.Wayland.ScreencopyView`, capturing each
   window's `HyprlandToplevel.wayland` handle. Capture only runs while the
   overview is visible (`live` is bound to the window's visibility).

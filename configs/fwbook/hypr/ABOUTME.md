@@ -41,7 +41,8 @@ split under `conf/` and pulled in with `require()`.
   `qs -c overview` daemon (autostarted in `conf/autostart.lua`), toggled over
   Quickshell's IPC (`qs -c overview ipc call overview toggle`) from `Mod+Tab`
   (`conf/keybindings.lua`) and a 4-finger swipe up/down (`conf/inputs.lua`).
-  Arrow keys move the selection, Enter focuses + closes, Esc cancels. See
+  Arrow keys move the selection, Enter focuses + closes, Esc cancels, `M`
+  cycles to the next monitor, 1-9 jump straight to a monitor by index. See
   `configs/fwbook/quickshell/ABOUTME.md` for the QML implementation.
 
 ## Files

@@ -11,6 +11,7 @@ Rectangle {
     required property bool live
 
     signal activated()
+    signal hovered()
 
     readonly property var ipc: root.toplevel ? root.toplevel.lastIpcObject : null
     readonly property real aspect: (ipc && ipc.size && ipc.size[0] > 0 && ipc.size[1] > 0) ? ipc.size[0] / ipc.size[1] : (16 / 9)
@@ -64,6 +65,8 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
         onClicked: root.activated()
+        onEntered: root.hovered()
     }
 }
