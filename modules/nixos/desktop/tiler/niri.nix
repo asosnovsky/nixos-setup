@@ -2,6 +2,7 @@
 , lib
 , pkgs
 , skygUtils
+, unstablePkgs
 , ...
 }:
 let
@@ -28,6 +29,16 @@ in
     system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
       filePath = "niri";
       configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+    };
+
+    programs.dank-material-shell = {
+      enable = true;
+      dgop.package = unstablePkgs.dgop;
+      systemd = {
+        enable = true; # Systemd service for auto-start
+        target = "niri.service";
+        restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes
+      };
     };
     xdg.portal = {
       enable = true;

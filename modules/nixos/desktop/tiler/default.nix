@@ -1,7 +1,6 @@
 { config
 , lib
 , pkgs
-, unstablePkgs
 , ...
 }:
 let
@@ -27,15 +26,6 @@ in
       extraGroups = [
         "input"
       ];
-    };
-    programs.dank-material-shell = {
-      enable = true;
-      dgop.package = unstablePkgs.dgop;
-      systemd = {
-        enable = true; # Systemd service for auto-start
-        target = "niri.service";
-        restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes
-      };
     };
 
     # =========================
@@ -79,6 +69,9 @@ in
       satty # image annotation
       slurp
       wf-recorder # video capture
+      # Video Wallpaper
+      mpv
+      mpvpaper
     ];
   };
 }
