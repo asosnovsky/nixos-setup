@@ -21,4 +21,8 @@ QtObject {
     readonly property real carouselScaleStep: 0.08
     readonly property real carouselMaxScaleReduction: 0.3
     readonly property int carouselDuration: 220
+
+    // A two-finger swipe must cross this many pixels (or angleDelta units)
+    // before the selection steps once.
+    readonly property int swipeThreshold: 120
 }

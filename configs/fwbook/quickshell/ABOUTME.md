@@ -19,7 +19,9 @@ plugin (Hyprland has none maintained against tagged releases — see
   horizontal strip of that workspace's windows (columns), sorted by x-position
   to match the Hyprland `scrolling` layout's tape order.
 - **Controls:** Arrow keys move the selection (Left/Right = window in the row,
-  Up/Down = workspace row), Enter focuses the selection and closes, Esc
+  Up/Down = workspace row), a two-finger trackpad swipe does the same
+  (vertical = workspace row, horizontal = window in the row), Enter focuses
+  the selection and closes, Esc
   cancels, `M` cycles to the next monitor's overview, number keys 1-9 jump
   straight to the Nth monitor (sorted by Hyprland's monitor id) — also
   clickable via the monitor bar at the top of the screen. Hovering a window

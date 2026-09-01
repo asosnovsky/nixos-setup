@@ -235,6 +235,44 @@ PanelWindow {
             event.accepted = true;
         }
 
+        // Two-finger trackpad swipe moves the selection like the arrow keys:
+        // vertical swipe = workspace rows, horizontal swipe = windows in a
+        // row. High-res trackpads report swipes as pixel deltas (angleDelta is
+        // tiny/zero), so prefer pixelDelta and fall back to angleDelta (for
+        // notch-style mice). Deltas accumulate on the dominant axis and a
+        // single step is taken once the swipe crosses the threshold.
+        WheelHandler {
+            id: swipeHandler
+            target: focusScope
+            property real accY: 0
+            property real accX: 0
+
+            function step(dRow, dCol) {
+                root.moveSelection(dRow, dCol);
+                swipeHandler.accY = 0;
+                swipeHandler.accX = 0;
+            }
+
+            onWheel: event => {
+                console.log("WHEEL px=" + event.pixelDelta.x + "," + event.pixelDelta.y
+                    + " ang=" + event.angleDelta.x + "," + event.angleDelta.y);
+                const px = event.pixelDelta;
+                const ang = event.angleDelta;
+                const dx = px.x !== 0 ? px.x : ang.x;
+                const dy = px.y !== 0 ? px.y : ang.y;
+                swipeHandler.accX += dx;
+                swipeHandler.accY += dy;
+
+                if (Math.abs(swipeHandler.accY) >= Math.abs(swipeHandler.accX)) {
+                    if (swipeHandler.accY <= -root.theme.swipeThreshold) swipeHandler.step(-1, 0);
+                    else if (swipeHandler.accY >= root.theme.swipeThreshold) swipeHandler.step(1, 0);
+                } else {
+                    if (swipeHandler.accX <= -root.theme.swipeThreshold) swipeHandler.step(0, 1);
+                    else if (swipeHandler.accX >= root.theme.swipeThreshold) swipeHandler.step(0, -1);
+                }
+            }
+        }
+
         MonitorBar {
             anchors.top: parent.top
             anchors.topMargin: 24
