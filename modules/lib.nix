@@ -131,6 +131,31 @@ in
       ] ++ configuration;
     };
 
+  makeSdImage =
+    { system ? "aarch64-linux"
+    , hostName
+    , systemStateVersion ? "26.05"
+    , homeManagerVersion ? "26.05"
+    , configuration ? [ ]
+    }: nixpkgs.lib.nixosSystem {
+      specialArgs = specialArgs // {
+        inherit system skygUtils user;
+        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+      };
+      inherit system;
+      modules = osModules ++ [
+        "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+        (import ./main.nix {
+          inherit
+            user
+            hostName
+            systemStateVersion
+            homeManagerVersion
+            ;
+        })
+      ] ++ configuration;
+    };
+
   makeDarwinModule =
     { system ? "x86_64-darwin"
     , user

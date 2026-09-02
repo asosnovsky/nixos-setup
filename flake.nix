@@ -287,6 +287,15 @@
               ./hosts/hl-pi1.hardware-configuration.nix
             ];
           };
+          # Fully-baked bootable SD card image for hl-pi1 — builds the whole
+          # target system off-Pi (see nix.buildMachines/binfmt on fwdesk /
+          # hl-bigbox1) so flashing it needs no on-device rebuild.
+          hl-pi1-sd-image = lib.makeSdImage {
+            hostName = "hl-pi1";
+            configuration = [
+              ./hosts/hl-pi1.nix
+            ];
+          };
           hl-terra1 = lib.makeNixOs {
             hostName = "hl-terra1";
             configuration = [

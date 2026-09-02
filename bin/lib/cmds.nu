@@ -315,6 +315,13 @@ export def "skyg build-iso" [] {
     ls -l result/iso
 }
 
+# Build hl-pi1 SD card image (fully-baked, no on-device rebuild needed)
+export def "skyg build-pi-sd-image" [] {
+    cd $REPO_ROOT
+    nix build .#nixosConfigurations.hl-pi1-sd-image.config.system.build.sdImage
+    ls -l result/sd-image
+}
+
 # Home Manager operations
 export def "skyg hm" [action: string@hm-actions, profile: string = "ari"] {
     cd $REPO_ROOT
