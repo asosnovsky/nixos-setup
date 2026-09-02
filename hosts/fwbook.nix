@@ -69,6 +69,8 @@ in
   };
   virtualisation.waydroid.enable = true;
   hardware.enableRedistributableFirmware = true;
+  # QEMU emulation for building aarch64 (e.g. hl-pi1) locally instead of on-device
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # Tailscale
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];

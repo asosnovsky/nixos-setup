@@ -112,6 +112,8 @@ in
   # Boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # QEMU emulation for building aarch64 (e.g. hl-pi1) as a remote build machine
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # Tailscale
   services.tailscale.enable = true;
   # Desktop Env - DankGreeter

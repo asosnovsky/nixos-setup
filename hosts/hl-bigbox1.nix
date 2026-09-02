@@ -28,13 +28,8 @@
         amdgpu.enable = true;
         udevrules.coraltpu.enable = true;
       };
-      server.k3s = {
-        enable = false;
-        envPath = "/opt/k3s/k3s.env";
-      };
       server.services = {
         ai.enable = true;
-        jellyfin.enable = false;
       };
     };
     networkDrives.enable = true;
@@ -131,9 +126,6 @@
   };
 
   services.displayManager.defaultSession = "gnome";
-  services.displayManager.gdm.enable = false;
-
-  services.autosuspend.enable = false;
   services.displayManager.autoLogin = {
     enable = true;
     user = config.skyg.user.name;
@@ -147,23 +139,6 @@
   systemd.targets.hybrid-sleep.enable = false;
   services.displayManager.gdm.autoSuspend = false;
   services.displayManager.gdm.autoLogin.delay = 0;
-  # Remote Desktop
-  services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "${pkgs.gnome-session}/bin/gnome-session";
-  services.xrdp.openFirewall = true;
-  # Sunshine
-  services.sunshine = {
-    enable = false;
-    autoStart = false;
-    capSysAdmin = true;
-    openFirewall = true;
-  };
-  # security.wrappers.sunshine = {
-  #   owner = "root";
-  #   group = "root";
-  #   capabilities = "cap_sys_admin+p";
-  #   source = "${pkgs.sunshine}/bin/sunshine";
-  # };
   #  Firewall & permissions
   networking.firewall.enable = false;
   users.users.ari.extraGroups = [ "input" ];
@@ -173,6 +148,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
+  # QEMU emulation for building aarch64 (e.g. hl-pi1) as a remote build machine
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   boot.kernelPackages = pkgs.linuxPackages_latest; # linuxPackages_hardened was removed in 26.05
   # Wake on Lan
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
@@ -184,12 +161,4 @@
     docker
     runc
   ];
-  # Steam
-  programs.steam = {
-    enable = false;
-    extest.enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-  };
 }
