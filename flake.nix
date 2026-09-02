@@ -115,6 +115,7 @@
                 hermes-agent
                 claude-desktop
                 flox
+                determinate
                 ;
             };
           }
@@ -276,6 +277,14 @@
             configuration = [
               ./hosts/hl-minipc3.nix
               ./hosts/hl-minipc3.hardware-configuration.nix
+            ];
+          };
+          hl-pi1 = lib.makeNixOs {
+            system = "aarch64-linux";
+            hostName = "hl-pi1";
+            configuration = [
+              ./hosts/hl-pi1.nix
+              ./hosts/hl-pi1.hardware-configuration.nix
             ];
           };
           hl-terra1 = lib.makeNixOs {
