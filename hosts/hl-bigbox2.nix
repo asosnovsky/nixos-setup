@@ -10,6 +10,8 @@ let
 in
 {
   skyg = {
+    gc.rootDays = 30;
+    gc.userDays = 30;
     user.enable = true;
     nixos.common = {
       ssh-server.enable = true;

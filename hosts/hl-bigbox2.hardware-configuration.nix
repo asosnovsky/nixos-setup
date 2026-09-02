@@ -12,7 +12,7 @@
   boot.extraModulePackages = [ ];
   boot.loader.grub = {
     enable = true;
-    device = "/dev/sdb"; # install GRUB to MBR
+    device = "/dev/sda"; # install GRUB to MBR
     efiSupport = false;
   };
 
