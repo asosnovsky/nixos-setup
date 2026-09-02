@@ -27,8 +27,9 @@ core/
   `skyg.home-manager.{version,extraImports}`. When `skyg.user.enable` is set it wires up
   Home Manager for both `root` and the named user using the functions in `modules/home`.
 - **Substituters** (`nix-substituters.nix`): the standing list of caches (local `minipc1`
-  cache, cache.nixos.org, cachix caches for cuda/cosmic/ai/noctalia, flox, devenv) and the
-  trusted public keys. Extra entries can be appended per-host via `skyg.core.substituters.{urls,keys}`.
+  and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/cosmic/ai/noctalia, flox,
+  devenv) and the trusted public keys. Extra entries can be appended per-host via
+  `skyg.core.substituters.{urls,keys}`.
 
 ## Option Namespace
 

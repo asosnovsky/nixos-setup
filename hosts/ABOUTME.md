@@ -28,6 +28,7 @@ hosts/
 | `hl-minipc1.nix` | hl-minipc1 | Core infra: Gitea, nix-serve, Docker registry |
 | `hl-minipc2.nix` | hl-minipc2 | Container/media server |
 | `hl-minipc3.nix` | hl-minipc3 | K3s worker node |
+| `hl-pi1.nix` | hl-pi1 | Raspberry Pi CM4 (aarch64) — headless server, SSH only |
 | `hl-terra1.nix` | hl-terra1 | NFS storage + Jellyfin backup |
 | `iso.nix` | iso | Bootable NixOS installer image |
 

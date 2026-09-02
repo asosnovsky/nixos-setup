@@ -10,6 +10,7 @@
     ./ssh-server.nix
     ./ssh-notify.nix
     ./qemu.nix
+    ./binary-cache.nix
     ./pritunl
   ];
   config = {

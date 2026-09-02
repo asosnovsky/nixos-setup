@@ -16,6 +16,7 @@ common/
 ├── ssh-server.nix   # skyg.nixos.common.ssh-server — hardened sshd + master pubkey
 ├── ssh-notify.nix   # skyg.nixos.common.ssh-notify — forward notify-send from SSH sessions to a desktop client
 ├── qemu.nix         # skyg.core.qemu — QEMU/quickemu + SPICE guest tooling
+├── binary-cache.nix # skyg.nixos.common.cachePush — push finished builds to the bigbox2 cache
 ├── containers/      # Docker vs Podman runtime selection
 ├── hardware/        # GPU, fan control, audio, laptop power, Coral TPU udev
 └── pritunl/         # Pritunl VPN client service
@@ -41,6 +42,7 @@ skyg.user.createSystemUser       → user.nix
 skyg.core.qemu.*                 → qemu.nix
 skyg.nixos.common.ssh-server.*   → ssh-server.nix
 skyg.nixos.common.ssh-notify.*   → ssh-notify.nix
+skyg.nixos.common.cachePush.*    → binary-cache.nix
 skyg.nixos.common.containers.*   → containers/
 skyg.nixos.common.hardware.*     → hardware/
 skyg.nixos.common.pritunl.*      → pritunl/

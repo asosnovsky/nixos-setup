@@ -21,11 +21,14 @@ in
       bigBox2.enable = false;
     };
   };
-  # services.nix-serve = {
-  #   enable = true;
-  #   secretKeyFile = "/home/ari/cache-keys/bigbox2.lab.internal.private";
-  #   port = ports.nixServe;
-  # };
+  # Nix binary cache server (bigbox2 is the cache store for all builds)
+  services.nix-serve = {
+    enable = true;
+    secretKeyFile = "/home/ari/cache-keys/cache-priv-key.pem";
+    port = ports.nixServe;
+  };
+  # bigbox2 is the cache itself — don't push builds back to itself.
+  skyg.nixos.common.cachePush.enable = false;
   # firmware updater
   services.fwupd.enable = true;
   services.nfs.server = {

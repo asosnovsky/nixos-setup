@@ -23,6 +23,7 @@ in
   config = {
     nix.settings.substituters = [
       "http://minipc1.lab.internal:5000"
+      "http://bigbox2.lab.internal:5000"
       "https://cache.nixos.org"
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
@@ -40,6 +41,7 @@ in
     ] ++ cfg.urls;
     nix.settings.trusted-public-keys = [
       "minipc1.lab.internal:buUlsyg+xRqkUk0MWACmIyRUtHIOPQQzg7nc4qZCc4E="
+      "bigbox2.lab.internal:hQVdN2RYFVq4hUu0L9h7VVJ+tpqdqmtHKYsHO+1WATs="
       "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
