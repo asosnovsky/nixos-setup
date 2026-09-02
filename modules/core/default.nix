@@ -45,9 +45,9 @@
     nix.buildMachines = [
       {
         hostName = "root@bigbox1.lab.internal";
-        system = "x86_64-linux";
+        systems = [ "x86_64-linux" "aarch64-linux" ];
         protocol = "ssh-ng";
-        maxJobs = 2;
+        maxJobs = 25;
         speedFactor = 2;
         supportedFeatures = [
           "nixos-test"
@@ -59,9 +59,9 @@
       }
       {
         hostName = "root@fwdesk.lab.internal";
-        system = "x86_64-linux";
+        systems = [ "x86_64-linux" "aarch64-linux" ];
         protocol = "ssh-ng";
-        maxJobs = 4;
+        maxJobs = 50;
         speedFactor = 4;
         supportedFeatures = [
           "nixos-test"
