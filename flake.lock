@@ -1690,7 +1690,8 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
         "stylix": "stylix",
-        "systems": "systems_6"
+        "systems": "systems_6",
+        "tether": "tether"
       }
     },
     "rust-analyzer-src": {
@@ -1831,6 +1832,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tether": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788494641,
+        "narHash": "sha256-3AV6UCAPw3A2bYXvxHN2xfcOk0Ch/OzYKCuaVCgg83g=",
+        "owner": "zackb",
+        "repo": "tether",
+        "rev": "530d219dcbea42cbea116cc307f6a7b751bafbbc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zackb",
+        "repo": "tether",
         "type": "github"
       }
     },

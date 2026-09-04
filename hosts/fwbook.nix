@@ -234,6 +234,18 @@ in
     ]);
 
   services.usbmuxd.enable = true;
+  # Tether — iPhone ↔ Linux Wayland bridge
+  programs.tether = {
+    enable = true;
+    wifi = {
+      enable = true;
+      openFirewall = true;
+    };
+    bluetooth = {
+      enable = true;
+      adapters = [ "hci0" ];
+    };
+  };
   services.flatpak.packages = [
     "com.cassidyjames.butler"
     "io.dbeaver.DBeaverCommunity"

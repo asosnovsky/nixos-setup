@@ -59,6 +59,11 @@
       url = "github:patrickjaja/claude-desktop-extra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Tether — iPhone ↔ Linux Wayland bridge
+    tether = {
+      url = "github:zackb/tether";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     { self
@@ -81,6 +86,7 @@
     , agenix
     , hermes-agent
     , claude-desktop
+    , tether
     }:
     let
       # Libs
@@ -116,6 +122,7 @@
                 claude-desktop
                 flox
                 determinate
+                tether
                 ;
             };
           }

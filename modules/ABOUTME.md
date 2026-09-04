@@ -8,6 +8,7 @@ All reusable NixOS and Home Manager modules. Every host gets the full module tre
 ```
 modules/
 ├── lib.nix            # makeNixOs / makeIso / makeHomeManagerUsers / makeDarwinModule / eachSystem
+│                      #   (registers the `tether` flake input's NixOS module → programs.tether.*)
 ├── main.nix           # Base module imported by every host: core/ + nixos/ + network-drives.nix
 ├── skyg-utils.nix     # makeHyperlinkScriptToConfigs (symlinks configs/ → ~/.config/)
 ├── macos.nix          # macOS / nix-darwin module

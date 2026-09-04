@@ -47,6 +47,7 @@ let
     specialArgs.dms.nixosModules.greeter
     specialArgs.nix-index-database.nixosModules.nix-index
     specialArgs.hermes-agent.nixosModules.default
+    specialArgs.tether.nixosModules.default
     { programs.nix-index-database.comma.enable = true; }
   ];
 
