@@ -24,7 +24,7 @@ bin/
 | `skyg remote switch <host>` | Deploy to a remote host |
 | `skyg hm switch` | Apply Home Manager config |
 | `skyg update [input]` | Update flake inputs |
-| `skyg build-iso` | Build bootable ISO |
+| `skyg build-image iso|pi1|pi2` | Build bootable image — ISO (`iso`) or Pi SD card image (`pi1`, `pi2`) |
 | `skyg openwrt` | Deploy OpenWrt config |
 | `skyg rollback` | Roll back to previous generation |
 | `skyg profiles` | List valid local/remote profiles |

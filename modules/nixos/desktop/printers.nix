@@ -1,6 +1,11 @@
 { pkgs, lib, config, ... }:
 {
-  config = lib.mkIf config.skyg.nixos.desktop.enable {
+  options = {
+    skyg.nixos.desktop.printers = {
+      enable = lib.mkEnableOption "Enable Printers";
+    };
+  };
+  config = lib.mkIf config.skyg.nixos.desktop.printers.enable {
 
     services.flatpak.overrides = {
       "org.chromium.Chromium" = {

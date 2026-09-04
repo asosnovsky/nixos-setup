@@ -37,6 +37,7 @@ in
       desktop = {
         enable = true;
         crypto.enable = true;
+        printers.enable = true;
         fixes = {
           airpod-bluetooth.enabled = true;
         };

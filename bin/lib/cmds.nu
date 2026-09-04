@@ -308,18 +308,19 @@ export def "skyg openwrt" [
     }
 }
 
-# Build ISO image
-export def "skyg build-iso" [] {
+# Build a bootable image: ISO, or Pi SD card image (fully-baked, no on-device rebuild)
+export def "skyg build-image" [
+    target: string@image-targets
+] {
     cd $REPO_ROOT
-    nix build .#nixosConfigurations.iso.config.system.build.isoImage
-    ls -l result/iso
-}
-
-# Build hl-pi1 SD card image (fully-baked, no on-device rebuild needed)
-export def "skyg build-pi-sd-image" [] {
-    cd $REPO_ROOT
-    nix build .#nixosConfigurations.hl-pi1-sd-image.config.system.build.sdImage
-    ls -l result/sd-image
+    let spec = (match $target {
+        "iso" => { config: "iso", out: "iso", attr: "isoImage" }
+        "pi1" => { config: "hl-pi1-sd-image", out: "sd-image", attr: "sdImage" }
+        "pi2" => { config: "hl-pi2-sd-image", out: "sd-image", attr: "sdImage" }
+        _ => { error make { msg: $"Unknown image target '($target)'. Expected: iso, pi1, pi2" } }
+    })
+    nix build $".#nixosConfigurations.($spec.config).config.system.build.($spec.attr)"
+    ls -l $"result/($spec.out)"
 }
 
 # Home Manager operations

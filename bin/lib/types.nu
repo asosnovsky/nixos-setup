@@ -8,6 +8,10 @@ export def remote-cmds [] {
     ["test", "dry-activate", "run", "switch", "build", "boot"]
 }
 
+export def image-targets [] {
+    ["iso", "pi1", "pi2"]
+}
+
 
 export def secret-names [] {
     cd $REPO_ROOT

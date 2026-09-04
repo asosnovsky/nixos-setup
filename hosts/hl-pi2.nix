@@ -13,7 +13,7 @@
         tiler = {
           enable = true;
           hyprland.enable = true;
-          noctalia.enable = true;
+          noctalia.enable = false;
           quickshell.enable = true;
         };
       };
@@ -30,7 +30,7 @@
     })
   );
 
-  # CM4 boots via Pi firmware + U-Boot reading extlinux.conf (set up by the
+  # Pi 4 boots via Pi firmware + U-Boot reading extlinux.conf (set up by the
   # official NixOS SD image) — not systemd-boot/EFI like the other hosts.
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
