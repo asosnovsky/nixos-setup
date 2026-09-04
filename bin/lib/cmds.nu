@@ -315,8 +315,8 @@ export def "skyg build-image" [
     cd $REPO_ROOT
     let spec = (match $target {
         "iso" => { config: "iso", out: "iso", attr: "isoImage" }
-        "pi1" => { config: "hl-pi1-sd-image", out: "sd-image", attr: "sdImage" }
-        "pi2" => { config: "hl-pi2-sd-image", out: "sd-image", attr: "sdImage" }
+        "pi1" => { config: "hl-pi1", out: "sd-image", attr: "sdImage" }
+        "pi2" => { config: "hl-pi2", out: "sd-image", attr: "sdImage" }
         _ => { error make { msg: $"Unknown image target '($target)'. Expected: iso, pi1, pi2" } }
     })
     nix build $".#nixosConfigurations.($spec.config).config.system.build.($spec.attr)"

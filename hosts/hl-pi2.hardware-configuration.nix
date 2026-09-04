@@ -6,6 +6,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  boot.zfs.forceImportRoot = false;
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_SD";

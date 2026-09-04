@@ -26,6 +26,16 @@ in
           Defaults to the machine's hostName (e.g. `fwbook` -> `configs/fwbook/hypr`).
         '';
       };
+      configLink = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = ''
+            Whether to symlink `~/.config/hypr` -> `configs/<configName>/hypr`.
+            Disable on hosts that manage their own Hyprland config elsewhere.
+          '';
+        };
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -58,10 +68,12 @@ in
     ];
 
     # Symlink ~/.config/hypr -> configs/<configName>/hypr (host-specific).
-    system.userActivationScripts.hyprlandConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
-      filePath = "${cfg.configName}/hypr";
-      targetPath = "hypr";
-      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+    system.userActivationScripts.hyprlandConfig = lib.mkIf cfg.configLink.enable {
+      text = skygUtils.makeHyperlinkScriptToConfigs {
+        filePath = "${cfg.configName}/hypr";
+        targetPath = "hypr";
+        configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+      };
     };
   };
 }

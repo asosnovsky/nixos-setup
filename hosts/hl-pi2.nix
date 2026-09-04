@@ -1,4 +1,4 @@
-{ lib, pkgs, determinate, ... }:
+{ lib, pkgs, config, determinate, ... }:
 {
   skyg = {
     user.enable = true;
@@ -13,6 +13,7 @@
         tiler = {
           enable = true;
           hyprland.enable = true;
+          hyprland.configLink.enable = false;
           noctalia.enable = false;
           quickshell.enable = true;
         };
@@ -38,6 +39,18 @@
   # Serial console, useful for headless debugging over UART.
   boot.kernelParams = [ "console=ttyS0,115200n8" "console=tty0" ];
 
-  # SD image has no swap partition; use compressed RAM swap instead.
   zramSwap.enable = true;
+  programs.dank-material-shell.greeter = {
+    enable = true;
+    compositor.name = "hyprland";
+    configHome = "/home/${config.skyg.user.name}";
+  };
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = config.skyg.user.name;
+  };
+  services.displayManager.defaultSession = "hyprland";
+  environment.systemPackages = with pkgs; [
+    foot
+  ];
 }

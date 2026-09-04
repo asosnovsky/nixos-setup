@@ -279,7 +279,7 @@
               ./hosts/hl-minipc3.hardware-configuration.nix
             ];
           };
-          hl-pi1 = lib.makeNixOs {
+          hl-pi1 = lib.makeSdImage {
             system = "aarch64-linux";
             hostName = "hl-pi1";
             configuration = [
@@ -287,29 +287,12 @@
               ./hosts/hl-pi1.hardware-configuration.nix
             ];
           };
-          # Fully-baked bootable SD card image for hl-pi1 — builds the whole
-          # target system off-Pi (see nix.buildMachines/binfmt on fwdesk /
-          # hl-bigbox1) so flashing it needs no on-device rebuild.
-          hl-pi1-sd-image = lib.makeSdImage {
-            hostName = "hl-pi1";
-            configuration = [
-              ./hosts/hl-pi1.nix
-            ];
-          };
-          hl-pi2 = lib.makeNixOs {
+          hl-pi2 = lib.makeSdImage {
             system = "aarch64-linux";
             hostName = "hl-pi2";
             configuration = [
               ./hosts/hl-pi2.nix
               ./hosts/hl-pi2.hardware-configuration.nix
-            ];
-          };
-          # Fully-baked bootable SD card image for hl-pi2 — builds the whole
-          # target system off-Pi so flashing it needs no on-device rebuild.
-          hl-pi2-sd-image = lib.makeSdImage {
-            hostName = "hl-pi2";
-            configuration = [
-              ./hosts/hl-pi2.nix
             ];
           };
           hl-terra1 = lib.makeNixOs {
