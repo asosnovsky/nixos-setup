@@ -122,6 +122,12 @@ in
     compositor.name = "niri";
     configHome = "/home/ari";
   };
+  # Boot straight into Steam Big Picture as ari, no password
+  services.displayManager.defaultSession = "steam";
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "ari";
+  };
   # Firmware updater
   services.fwupd.enable = true;
   # Bluetooth

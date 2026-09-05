@@ -68,6 +68,9 @@ in
       ];
     };
   };
+  # Genera settings
+  nix.settings.cores = 4;
+  nix.settings.max-jobs = 10;
   virtualisation.waydroid.enable = true;
   hardware.enableRedistributableFirmware = true;
   # QEMU emulation for building aarch64 (e.g. hl-pi1) locally instead of on-device
