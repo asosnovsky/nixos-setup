@@ -1,15 +1,17 @@
-{ ... }:
+{ lib, ... }:
 {
   imports = [
     ./user.nix
     ./macos.nix
     ./nix-substituters.nix
   ];
+  options = {
+    skyg.rootDir = lib.mkOption {
+      type = lib.types.path;
+      description = "Top-level path of the nixos-setup repo (set by the flake).";
+    };
+  };
   config = {
-    # Workaround: pipx 1.8.0 test suite fails in nixpkgs 26.05 due to a whitespace
-    # normalization regression in PEP 508 URL specifiers (space before @ in URLs).
-    # Must use pythonPackagesExtensions to patch the python3Packages.pipx that
-    # the build system actually uses, not just the top-level pkgs.pipx wrapper.
     nixpkgs.overlays = [
       (final: _prev: {
         # xAI Grok CLI — prebuilt binary, see pkgs/grok-cli.

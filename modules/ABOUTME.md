@@ -29,6 +29,7 @@ All custom options live under `skyg.*`. Never introduce options outside this nam
 ```
 skyg.user.*               → core/user.nix
 skyg.networkDrives.*      → network-drives.nix
+skyg.rootDir              → core/default.nix (set by the flake; repo root store path)
 skyg.nixos.common.*       → nixos/common/
 skyg.nixos.desktop.*      → nixos/desktop/
 skyg.nixos.server.*       → nixos/server/

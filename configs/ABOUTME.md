@@ -16,6 +16,7 @@ these cases where the source subdir and `~/.config` target differ.
 |---|---|
 | `niri/` | Niri Wayland compositor config |
 | `fwbook/hypr/` | Hyprland config for `fwbook` (scrolling layout + noctalia); linked to `~/.config/hypr` |
+| `hl-fwdesk/hypr/` | Hyprland config for `hl-fwdesk` (Steam console); **baked into the build** via `mountAsSource`, linked to `~/.config/hypr` |
 | `fwbook/quickshell/` | Quickshell configs for `fwbook` (scrolling overview); linked to `~/.config/quickshell` |
 | `extra.nu` | Extra NuShell config sourced at shell startup |
 | `fwbook.knsv` | fwbook-specific Kanshi display profile |
@@ -26,3 +27,7 @@ these cases where the source subdir and `~/.config` target differ.
 - Changes here take effect on next login or when the activation script runs
 - These are **not** NixOS options — they are plain config files managed as repo content
 - The symlink mechanism is defined in `modules/skyg-utils.nix`
+- Hosts can embed their config in the build by setting
+  `configLink.mountAsSource = true`; the dir is then read from the flake's
+  store path (`skyg.rootDir`) instead of the live `~/nixos-setup/configs`
+  checkout. See `modules/nixos/desktop/tiler/hyprland.nix`.

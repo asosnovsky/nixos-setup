@@ -12,6 +12,21 @@ let
   hyprlandPkg = hyprland.packages.${system}.hyprland;
   hyprlandPortal = hyprland.packages.${system}.xdg-desktop-portal-hyprland;
   noctaliaPkg = noctalia.packages.${system}.default;
+
+  # When mountAsSource is set, build a real, GC-protected copy of the hypr config
+  # dir. The flake self-source path (skyg.rootDir) is not referenced by the system
+  # closure, so it gets garbage-collected and the ~/.config/hypr symlink dangles.
+  # This derivation is added to the system profile, pinning it against GC.
+  bakedHyprConfig = pkgs.stdenv.mkDerivation {
+    pname = "${cfg.configName}-hypr-config";
+    version = "1";
+    src = "${config.skyg.rootDir}/configs/${cfg.configName}/hypr";
+    buildPhase = "true";
+    installPhase = ''
+      mkdir -p "$out/${cfg.configName}"
+      cp -r "$src" "$out/${cfg.configName}/hypr"
+    '';
+  };
 in
 {
   options = {
@@ -33,6 +48,17 @@ in
           description = ''
             Whether to symlink `~/.config/hypr` -> `configs/<configName>/hypr`.
             Disable on hosts that manage their own Hyprland config elsewhere.
+          '';
+        };
+        mountAsSource = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = ''
+            If `configLink.enable` is true, embed the config dir in the build.
+            A GC-protected copy of the config is baked into the system closure
+            (via a derivation added to the system profile) instead of symlinking
+            to the live `~/nixos-setup/configs` checkout, making the config part
+            of the built system and reproducible.
           '';
         };
       };
@@ -65,14 +91,18 @@ in
       grim
       slurp
       satty
-    ];
+    ] ++ (lib.optionals cfg.configLink.mountAsSource [ bakedHyprConfig ]);
 
     # Symlink ~/.config/hypr -> configs/<configName>/hypr (host-specific).
     system.userActivationScripts.hyprlandConfig = lib.mkIf cfg.configLink.enable {
       text = skygUtils.makeHyperlinkScriptToConfigs {
         filePath = "${cfg.configName}/hypr";
         targetPath = "hypr";
-        configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+        configSource =
+          if cfg.configLink.mountAsSource then
+            "${bakedHyprConfig}"
+          else
+            "/home/${config.skyg.user.name}/nixos-setup/configs";
       };
     };
   };

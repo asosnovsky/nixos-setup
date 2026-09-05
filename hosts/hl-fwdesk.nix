@@ -52,7 +52,13 @@ in
         enable = true;
         tiler = {
           enable = true;
-          niri.enable = true;
+          hyprland = {
+            enable = true;
+            configLink = {
+              enable = true;
+              mountAsSource = true;
+            };
+          };
         };
       };
       server.services.comfyui = {
@@ -119,11 +125,11 @@ in
   # Desktop Env - DankGreeter
   programs.dank-material-shell.greeter = {
     enable = true;
-    compositor.name = "niri";
+    compositor.name = "hyprland";
     configHome = "/home/ari";
   };
-  # Boot straight into Steam Big Picture as ari, no password
-  services.displayManager.defaultSession = "steam";
+  # Boot straight into the Hyprland desktop as ari, no password (Steam Big Picture auto-starts)
+  services.displayManager.defaultSession = "hyprland";
   services.displayManager.autoLogin = {
     enable = true;
     user = "ari";

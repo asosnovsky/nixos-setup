@@ -1,6 +1,7 @@
 { user
 , systemStateVersion
 , hostName
+, rootDir
 , ...
 }:
 { lib, ... }: {
@@ -15,6 +16,7 @@
     fullName = lib.mkDefault user.fullName;
     email = lib.mkDefault user.email;
   };
+  skyg.rootDir = rootDir;
   skyg.core.hostName = hostName;
   skyg.home-manager.version = lib.mkDefault "26.05";
   system.stateVersion = systemStateVersion;

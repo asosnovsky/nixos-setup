@@ -98,6 +98,7 @@
               fullName = "Ari Sosnovsky";
               email = "ariel@sosnovsky.ca";
             };
+            rootDir = ./.;
             inherit
               nixpkgs
               nixpkgs-unstable

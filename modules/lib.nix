@@ -1,6 +1,7 @@
 { nixpkgs
 , nixpkgs-unstable
 , user
+, rootDir
 , determinate
 , home-manager
 , nix-darwin
@@ -101,6 +102,7 @@ in
         (import ./main.nix {
           inherit
             user
+            rootDir
             hostName
             systemStateVersion;
         })
@@ -124,6 +126,7 @@ in
         (import ./main.nix {
           inherit
             user
+            rootDir
             hostName
             systemStateVersion
             homeManagerVersion
@@ -149,6 +152,7 @@ in
         (import ./main.nix {
           inherit
             user
+            rootDir
             hostName
             systemStateVersion
             homeManagerVersion
@@ -184,6 +188,7 @@ in
         (import ./main.nix {
           inherit
             user
+            rootDir
             homeManagerVersion
             hostName
             systemStateVersion;
