@@ -24,6 +24,7 @@ these cases where the source subdir and `~/.config` target differ.
 | `extra.nu` | Extra NuShell config sourced at shell startup |
 | `fwbook.knsv` | fwbook-specific Kanshi display profile |
 | `libinput-gestures.conf` | Touchpad gesture bindings |
+| `hypr-types/hl.lua` | Shared EmmyLua type stubs for the `hl` global; each host's Hyprland `.luarc.json` points here via `workspace.library` |
 
 ## Notes
 

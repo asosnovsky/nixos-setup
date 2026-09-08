@@ -21,4 +21,5 @@ Symlinked to `~/.config/hypr` by the `skyg.nixos.desktop.tiler.hyprland` module
 | `conf/window-rules.lua` | Float rules for utility dialogs |
 | `conf/keybindings.lua` | Minimal binds: `Super+Return` (foot), `Ctrl+Alt+Delete` (`uwsm stop`) |
 | `conf/autostart.lua` | Auto-launches the Quickshell clock (`qs -c clock`) on start |
-| `types/hl.lua` | Lua-language-server type stubs for the `hl` global |
+
+Shared `hl` type stubs live in `configs/hypr-types/hl.lua` (pointed at by `.luarc.json`).

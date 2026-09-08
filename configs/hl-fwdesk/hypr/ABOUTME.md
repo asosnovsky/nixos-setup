@@ -20,4 +20,5 @@ and symlinked to `~/.config/hypr` by the skyg hyprland module.
 | `conf/window-rules.lua` | Float rules for control dialogs |
 | `conf/keybindings.lua` | Keyboard/mouse binds |
 | `conf/autostart.lua` | Auto-launches Steam Big Picture (`steam -tenfoot`) on start |
-| `types/hl.lua` | Lua-language-server type stubs for the `hl` global |
+
+Shared `hl` type stubs live in `configs/hypr-types/hl.lua` (pointed at by `.luarc.json`).
