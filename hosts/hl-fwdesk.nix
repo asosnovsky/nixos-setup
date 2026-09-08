@@ -54,6 +54,7 @@ in
           enable = true;
           hyprland = {
             enable = true;
+            tools.enable = true;
             configLink = {
               enable = true;
               mountAsSource = true;

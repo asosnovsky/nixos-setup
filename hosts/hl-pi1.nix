@@ -10,6 +10,7 @@
       };
       desktop = {
         enable = true;
+        slimMode = true;
         tiler = {
           enable = true;
           hyprland.enable = true;

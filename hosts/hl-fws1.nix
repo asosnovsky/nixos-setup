@@ -1,16 +1,26 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
-  skyg.user.enable = true;
-  skyg.nixos.common.ssh-server.enable = true;
-  skyg.server.dns.routing = {
-    enable = true;
-    openFirewall = true;
-    addressesSecretName = "dns-addresses.conf";
-  };
-  skyg.nixos.server.k3s.enable = true;
-  skyg.server.admin.enable = true;
-  skyg.networkDrives = {
-    enable = true;
+  skyg = {
+    user.enable = true;
+    nixos = {
+      common.ssh-server.enable = true;
+      common.hardware = {
+        sound.enable = true;
+        pipewire.enable = true;
+      };
+      desktop = {
+        enable = true;
+        slimMode = true;
+        tiler = {
+          enable = true;
+          hyprland.enable = true;
+          hyprland.configLink = {
+            enable = false;
+            mountAsSource = true;
+          };
+        };
+      };
+    };
   };
   # firmware updater
   services.fwupd.enable = true;
@@ -21,6 +31,15 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
 
-  # Kernel
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # Greeter
+  programs.dank-material-shell.greeter = {
+    enable = true;
+    compositor.name = "hyprland";
+    configHome = "/home/${config.skyg.user.name}";
+  };
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = config.skyg.user.name;
+  };
+  services.displayManager.defaultSession = "hyprland";
 }

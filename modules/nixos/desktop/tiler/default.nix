@@ -18,6 +18,17 @@ in
   options = {
     skyg.nixos.desktop.tiler = {
       enable = lib.mkEnableOption "Enable libraries for tiling window managers";
+      apps = {
+        control = {
+          enable = lib.mkEnableOption "control apps (pavucontrol, playerctl, brightnessctl, blueman)";
+        };
+        gnome = {
+          enable = lib.mkEnableOption "GNOME apps (nautilus, gnome-calendar, seahorse, gcr)";
+        };
+        media = {
+          enable = lib.mkEnableOption "media/capture apps (wf-recorder, mpv, mpvpaper)";
+        };
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -46,32 +57,37 @@ in
     security.polkit.enable = true;
     programs.ssh.startAgent = true;
 
-    environment.systemPackages = with pkgs; [
-      # Protocols and libraries
-      xwayland-satellite
-      libnotify
-      kdePackages.qtwebsockets
+    # Always-on tiler plumbing: Wayland protocols, notification lib, secrets lib.
+    environment.systemPackages = with pkgs;
+      [
+        # Protocols and libraries
+        xwayland-satellite
+        libnotify
+        kdePackages.qtwebsockets
 
-      # Keyring / secrets
-      libsecret
-      gcr
-      seahorse
-
-      # Control Tools
-      pavucontrol
-      playerctl
-      brightnessctl
-      blueman
-      # Apps
-      gnome-calendar
-      nautilus
-      # Screen capture and recording tools
-      satty # image annotation
-      slurp
-      wf-recorder # video capture
-      # Video Wallpaper
-      mpv
-      mpvpaper
-    ];
+        # Keyring / secrets library
+        libsecret
+      ]
+      # App groups are opt-in so slim hosts (e.g. hl-pi1) don't pull them in.
+      ++ (lib.optionals cfg.apps.control.enable [
+        # Control Tools
+        pavucontrol
+        playerctl
+        brightnessctl
+        blueman
+      ])
+      ++ (lib.optionals cfg.apps.gnome.enable [
+        # GNOME apps
+        gnome-calendar
+        nautilus
+        seahorse
+        gcr
+      ])
+      ++ (lib.optionals cfg.apps.media.enable [
+        # Screen capture / video wallpaper
+        wf-recorder
+        mpv
+        mpvpaper
+      ]);
   };
 }

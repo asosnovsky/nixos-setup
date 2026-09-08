@@ -43,7 +43,15 @@ in
         };
         tiler = {
           enable = true;
-          hyprland.enable = true;
+          apps = {
+            control.enable = true;
+            gnome.enable = true;
+            media.enable = true;
+          };
+          hyprland = {
+            enable = true;
+            tools.enable = true;
+          };
           noctalia.enable = true;
           quickshell.enable = true;
           niri = {

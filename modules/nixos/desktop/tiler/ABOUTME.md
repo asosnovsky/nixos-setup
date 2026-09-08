@@ -23,19 +23,25 @@ tiler/
   pulls in the shared substrate. You normally enable only the compositor option.
 - Both compositors can be enabled at once (pick the session at the greeter).
 - The shared substrate configures **gnome-keyring as the SSH agent** (so
-  `programs.ssh.startAgent = false`), enables polkit, and installs control tools
-  (pavucontrol, playerctl, brightnessctl, blueman) and screen-capture tools
-  (slurp, satty, wf-recorder).
+  `programs.ssh.startAgent = false`), enables polkit, and installs only the always-needed
+  plumbing (xwayland-satellite, libnotify, qtwebsockets, libsecret). The control apps
+  (pavucontrol, playerctl, brightnessctl, blueman), GNOME apps (nautilus, gnome-calendar,
+  seahorse, gcr), and media/capture apps (wf-recorder, mpv, mpvpaper) are opt-in via
+  `apps.*` so slim hosts (e.g. hl-pi1) don't pull them in.
 - `background` is an independent opt-in for swww + waypaper wallpaper management.
 
 ## Option Namespace
 
 ```
 skyg.nixos.desktop.tiler.enable                  → default.nix (usually set indirectly)
+skyg.nixos.desktop.tiler.apps.control.enable     → default.nix (pavucontrol, playerctl, brightnessctl, blueman)
+skyg.nixos.desktop.tiler.apps.gnome.enable       → default.nix (nautilus, gnome-calendar, seahorse, gcr)
+skyg.nixos.desktop.tiler.apps.media.enable       → default.nix (wf-recorder, mpv, mpvpaper)
 skyg.nixos.desktop.tiler.niri.enable
 skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable  # 3/4-finger swipes → niri actions
 skyg.nixos.desktop.tiler.hyprland.enable
 skyg.nixos.desktop.tiler.hyprland.configName     # per-host config dir (default: hostName)
+skyg.nixos.desktop.tiler.hyprland.tools.enable   # hypridle, wofi, rofi, grim, slurp, satty
 skyg.nixos.desktop.tiler.noctalia.enable         # standalone noctalia + config symlink
 skyg.nixos.desktop.tiler.noctalia.configName     # per-host config dir (default: hostName)
 skyg.nixos.desktop.tiler.quickshell.enable       # qs package + config symlink (e.g. fwbook's overview)
@@ -74,6 +80,14 @@ independent of noctalia/DMS. We previously tried Hyprland overview plugins
 (hyprexpo, then a community `hyprland-scroll-overview` fork); both were
 dropped as moving targets that chased Hyprland `main` and failed to build
 against tagged releases. Quickshell avoids the plugin-ABI churn entirely.
+
+### Hyprland shell tools (opt-in)
+
+The shell/utility apps that were previously installed unconditionally with Hyprland
+(hypridle, wofi, rofi, grim, slurp, satty) are now gated behind
+`skyg.nixos.desktop.tiler.hyprland.tools.enable`. `wl-clipboard` stays always-on. Hosts
+whose Hyprland config actually invokes these (e.g. `fwbook`) enable the flag; a pure
+clock box (`hl-pi1`) does not.
 
 ## Conventions
 

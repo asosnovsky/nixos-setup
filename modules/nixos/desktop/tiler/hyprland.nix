@@ -3,7 +3,6 @@
 , pkgs
 , skygUtils
 , hyprland
-, noctalia
 , ...
 }:
 let
@@ -11,7 +10,6 @@ let
   system = pkgs.stdenv.hostPlatform.system;
   hyprlandPkg = hyprland.packages.${system}.hyprland;
   hyprlandPortal = hyprland.packages.${system}.xdg-desktop-portal-hyprland;
-  noctaliaPkg = noctalia.packages.${system}.default;
 
   # When mountAsSource is set, build a real, GC-protected copy of the hypr config
   # dir. The flake self-source path (skyg.rootDir) is not referenced by the system
@@ -62,6 +60,9 @@ in
           '';
         };
       };
+      tools = {
+        enable = lib.mkEnableOption "Hyprland shell tools (hypridle, wofi, rofi, grim, slurp, satty)";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -81,17 +82,18 @@ in
       extraPortals = [ hyprlandPortal ];
     };
 
-    # Shell + tools that the Hyprland session/config expect.
+    # wl-clipboard is always needed; the rest are opt-in so headless-style
+    # configs (e.g. hl-pi1) don't pull the whole shell toolchain.
     environment.systemPackages = with pkgs; [
-      noctaliaPkg
+      wl-clipboard
+    ] ++ (lib.optionals cfg.tools.enable [
       hypridle
       wofi
       rofi
-      wl-clipboard
       grim
       slurp
       satty
-    ] ++ (lib.optionals cfg.configLink.mountAsSource [ bakedHyprConfig ]);
+    ]) ++ (lib.optionals cfg.configLink.mountAsSource [ bakedHyprConfig ]);
 
     # Symlink ~/.config/hypr -> configs/<configName>/hypr (host-specific).
     system.userActivationScripts.hyprlandConfig = lib.mkIf cfg.configLink.enable {

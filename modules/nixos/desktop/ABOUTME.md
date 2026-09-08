@@ -8,12 +8,10 @@ have their own sub-options so a host enables only the stack it actually uses.
 
 ```
 desktop/
-├── default.nix    # skyg.nixos.desktop.enable — display manager, dbus, libinput, pipewire, xdg portals
-├── wayland.nix    # Wayland session vars (NIXOS_OZONE_WL) + clipboard/utils
-├── x11/           # X11 server + libinput-gestures (skyg.nixos.desktop.x11.*)
+├── default.nix    # skyg.nixos.desktop.enable — display manager, dbus, pipewire, xdg portals
+│                  #                       slimMode — skip Xorg/browser/heavy desktop apps
 ├── tiler/         # Tiling WMs (niri / hyprland) + DankMaterialShell + swww
 ├── stylix/        # System-wide theming via Stylix (gruvbox-dark-hard)
-├── packages.nix   # Desktop apps: chromium, flatpak, vlc, ghostty, clipboard tools
 ├── crypto.nix     # skyg.nixos.desktop.crypto — hardware wallet apps + udev rules
 ├── printers.nix   # CUPS printing + drivers (always on when desktop enabled)
 ├── gnome.nix      # skyg.nixos.desktop.gnome — GNOME + pop-shell
@@ -25,25 +23,36 @@ desktop/
 ## How it composes
 
 - `default.nix` (`skyg.nixos.desktop.enable`) provides the shared desktop substrate: display
-  manager, dbus, libinput, PipeWire (pulse/jack), upower, avahi, and the full xdg portal set.
+  manager, dbus, PipeWire (only when enabled), upower, avahi, and the XDG portal set.
+  Everything else is opt-in.
+- `slimMode` keeps the core substrate + tiler but skips the heavy desktop apps and Xorg
+  (`packages.nix`/`wayland.nix`/`x11` were folded into `default.nix`; slim hosts use a
+  headless-style desktop such as a clock box).
 - The DE/WM modules (`gnome`, `kde`, `cosmic`, `tiler`) are independent enables — pick the
   one(s) a host should offer.
-- `packages.nix`, `wayland.nix`, and `printers.nix` activate automatically with the master
-  desktop enable; `crypto` is a separate opt-in.
+- `printers.nix` activates automatically with the master desktop enable; `crypto` is a
+  separate opt-in.
 
 ## Option Namespace
 
 ```
 skyg.nixos.desktop.enable          → default.nix (master switch)
+skyg.nixos.desktop.slimMode        → default.nix (minimal desktop, no Xorg/heavy apps)
 skyg.nixos.desktop.gnome.enable    → gnome.nix
 skyg.nixos.desktop.kde.enable      → kde.nix
 skyg.nixos.desktop.cosmic.enable   → cosmic.nix
 skyg.nixos.desktop.tiler.*         → tiler/
 skyg.nixos.desktop.stylix.enable   → stylix/   (default true)
 skyg.nixos.desktop.crypto.enable   → crypto.nix
-skyg.nixos.desktop.x11.*           → x11/
 skyg.nixos.desktop.fixes.*         → fixes/
 ```
+
+## Notes
+
+- The old `packages.nix`, `wayland.nix`, and `x11/` modules were folded into `default.nix`:
+  the desktop apps and Xorg/XWayland now install only in full (non-slim) mode.
+- Tiler app groups (`control`, `gnome`, `media`) and Hyprland shell `tools` are opt-in — see
+  `tiler/ABOUTME.md`.
 
 ## Conventions
 
