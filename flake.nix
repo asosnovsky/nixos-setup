@@ -148,13 +148,13 @@
           default = pkgs.mkShell {
             name = "nixos-setup";
             packages = with pkgs; [
+              kdePackages.qtdeclarative
               nixpkgs-fmt
               stylua
               nixd
               nh
               agenix.packages.${system}.default
               age
-              # yq-go — YAML linting used by `skyg encrypt --yaml`
               yq
               home-manager.packages.${system}.home-manager
               rustc

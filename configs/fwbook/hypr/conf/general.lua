@@ -1,15 +1,11 @@
 -- =========================
 -- General / Layout
 -- =========================
--- Native scrolling layout (Hyprland 0.54+) — no plugins needed. This mirrors
--- niri's scrollable-tiling model. Gaps/border/corner-radius mirror
--- configs/niri/shared/layout.kdl (gaps 5, border 2, corner radius 12).
-
 hl.config({
     general = {
-        gaps_in = 5,
-        gaps_out = 5,
-        border_size = 2,
+        gaps_in = 0,
+        gaps_out = 1,
+        border_size = 1,
         layout = "scrolling",
         resize_on_border = true,
     },
@@ -20,29 +16,19 @@ hl.config({
         inactive_opacity = 0.9,
     },
 
-    -- https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/
     scrolling = {
-        -- Default column width as a fraction of the screen [0.1 - 1.0].
-        column_width = 0.5,
-        -- A lone column fills the screen (matches niri's single-column feel).
+        column_width = 1,
         fullscreen_on_one_column = true,
-        -- Center the focused column when it comes into view (niri-like).
         focus_fit_method = 0,
         follow_focus = true,
-        explicit_column_widths = "0.333, 0.5, 0.667, 1.0",
+        explicit_column_widths = "0.5, 1.0",
     },
 
-    -- Cursor: use the GTK (gsettings) cursor theme instead of Hyprcursor.
-    -- sync_gsettings_theme makes Hyprland follow org.gnome.desktop.interface
-    -- cursor-theme; enable_hyprcursor = false skips the hyprcursor backend
-    -- entirely (no hyprcursor themes are installed) so the XCursor fallback
-    -- with XCURSOR_THEME from conf/env.lua is used.
     cursor = {
         sync_gsettings_theme = true,
         enable_hyprcursor = false,
     },
 
-    -- Disable Hyprland's logo wallpaper (niri: hot-corners off has no analog).
     misc = {
         disable_hyprland_logo = true,
         focus_on_activate = true,

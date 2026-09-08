@@ -52,7 +52,6 @@ hypr/
 ├── hyprland.lua                 # entry point; require()s conf/*.lua in order
 ├── screen-record.sh             # wf-recorder toggle (bound to Mod+R)
 ├── xdph.conf                    # xdph screencopy workaround (force_shm); hyprlang, read by xdph itself
-├── stylua.toml                  # stylua formatter settings for the Lua files
 ├── .luarc.json                  # lua-language-server config (uses types/ as library)
 ├── dms/                         # DMS-auto-generated Hyprland overrides (colors/layout/windowrules);
 │                                # not loaded by default — require() them from hyprland.lua to enable

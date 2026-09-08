@@ -85,20 +85,12 @@ export def "skyg update" [input_name: string = ""] {
 export def "skyg os" [
 	cmd: string@remote-cmds,
 	--build-host: string@remote_targets = "",
-	# --max-jobs: int = 0,
-	# --cores: int = -1,
 ] {
     cd $REPO_ROOT
     mut runcmd = $"nh os ($cmd)"
     if $build_host != "" {
         $runcmd = $"($runcmd) --build-host ($build_host).lab.internal"
     }
-    # if $max_jobs > 0 {
-    #     $runcmd = $"($runcmd) --max-jobs ($max_jobs)"
-    # }
-    # if $cores >= 0 {
-    #     $runcmd = $"($runcmd) --cores ($cores)"
-    # }
     $runcmd | print
     bash -c $runcmd
 }
@@ -319,8 +311,13 @@ export def "skyg build-image" [
         "pi2" => { config: "hl-pi2", out: "sd-image", attr: "sdImage" }
         _ => { error make { msg: $"Unknown image target '($target)'. Expected: iso, pi1, pi2" } }
     })
-    nix build $".#nixosConfigurations.($spec.config).config.system.build.($spec.attr)"
-    ls -l $"result/($spec.out)"
+    let imageBuildTime = date now | format date "%Y.%m.%d_%H_%M_%S";
+    let rootOutputFolder = $REPO_ROOT | path join "build" $spec.config;
+    let outPutFolder = $rootOutputFolder | path join $imageBuildTime;
+		rm -rf $rootOutputFolder;
+    mkdir $rootOutputFolder;
+    nix build $"#nixosConfigurations.($spec.config).config.system.build.($spec.attr)" -o $outPutFolder
+    printf $outPutFolder
 }
 
 # Home Manager operations

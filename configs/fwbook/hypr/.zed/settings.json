@@ -4,7 +4,7 @@
       "formatter": {
         "external": {
           "command": "stylua",
-          "arguments": ["--config-path", ".config/hypr/stylua.toml", "-"]
+          "arguments": ["-"]
         }
       },
       "format_on_save": "on"

@@ -31,18 +31,58 @@ hl.bind(mod .. " + SHIFT + Tab", hl.dsp.focus({ monitor = "+1" }))
 -- 	hl.dispatch(hl.dsp.resize({x = 1, relative = true}))
 -- 	hl.dispatch(hl.dsp.layout("swapcol r"))
 -- end)
-hl.bind(mod .. " + CTRL + right", hl.dsp.layout("swapcol r"))
-hl.bind(mod .. " + CTRL + left", hl.dsp.layout("swapcol l"))
--- hl.bind(mod .. " + CTRL + right", hl.dsp.window.move({ direction = "right" }))
--- hl.bind(mod .. " + CTRL + left", hl.dsp.window.move({ direction = "left" }))
-hl.bind(mod .. " + CTRL + up", hl.dsp.window.move({ workspace = "r-1", follow = true }))
-hl.bind(mod .. " + CTRL + down", hl.dsp.window.move({ workspace = "r+1", follow = true }))
+-- hl.bind(mod .. " + SHIFT + right", hl.dsp.layout("swapcol r"))
+-- hl.bind(mod .. " + SHIFT + left", hl.dsp.layout("swapcol l"))
+hl.bind(
+    mod .. " + SHIFT + right",
+    hl.dsp.window.move({
+        direction = "right",
+        follow = true,
+        group_aware = true,
+        into_or_create_group = true,
+    })
+)
+hl.bind(
+    mod .. " + SHIFT + left",
+    hl.dsp.window.move({
+        direction = "left",
+        follow = true,
+        group_aware = true,
+        into_or_create_group = true,
+    })
+)
+hl.bind(
+    mod .. " + SHIFT + up",
+    hl.dsp.window.move({ workspace = "r-1", follow = true, group_aware = true })
+)
+hl.bind(
+    mod .. " + SHIFT + down",
+    hl.dsp.window.move({ workspace = "r+1", follow = true, group_aware = true })
+)
 hl.bind(mod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
--- hl.bind(mod .. " + F", hl.dsp.layout("colresize +conf"))
+hl.bind(
+    mod .. " + CTRL + right",
+    hl.dsp.window.move({ direction = "right", into_or_create_group = "right" })
+)
+hl.bind(
+    mod .. " + CTRL + left",
+    hl.dsp.window.move({ direction = "left", into_or_create_group = "left" })
+)
+hl.bind(
+    mod .. " + CTRL + up",
+    hl.dsp.window.move({ direction = "up", into_or_create_group = "up" })
+)
+hl.bind(
+    mod .. " + CTRL + down",
+    hl.dsp.window.move({ direction = "down", into_or_create_group = "down" })
+)
+
+hl.bind(mod .. " + G", hl.dsp.group.toggle())
+
 hl.bind(mod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
-hl.bind(mod .. " + CTRL + F", hl.dsp.layout("fit_into_view"))
 hl.bind(mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mod .. " + C", hl.dsp.layout("focus current"))
+hl.bind("ALT + TAB", hl.dsp.window.cycle_next())
 
 -- =========================
 -- Resizing
@@ -95,12 +135,12 @@ hl.bind(
 hl.bind(mod .. " + ALT + L", hl.dsp.exec_cmd("noctalia msg notification-clear-active"))
 
 -- Media & brightness
-hl.bind(mod .. " + SHIFT + up", hl.dsp.exec_cmd("noctalia msg volume-up"))
-hl.bind(mod .. " + SHIFT + down", hl.dsp.exec_cmd("noctalia msg volume-down"))
-hl.bind(mod .. " + SHIFT + right", hl.dsp.exec_cmd("playerctl next"))
-hl.bind(mod .. " + SHIFT + left", hl.dsp.exec_cmd("playerctl previous"))
-hl.bind(mod .. " + SHIFT + Space", hl.dsp.exec_cmd("playerctl play-pause"))
-
+hl.bind(mod .. " + M + up", hl.dsp.exec_cmd("noctalia msg volume-up"))
+hl.bind(mod .. " + M + down", hl.dsp.exec_cmd("noctalia msg volume-down"))
+hl.bind(mod .. " + M + right", hl.dsp.exec_cmd("playerctl next"))
+hl.bind(mod .. " + M + left", hl.dsp.exec_cmd("playerctl previous"))
+hl.bind(mod .. " + M + Space", hl.dsp.exec_cmd("playerctl play-pause"))
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"), { locked = true })

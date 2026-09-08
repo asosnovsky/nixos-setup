@@ -1,4 +1,4 @@
-{ lib, pkgs, determinate, ... }:
+{ lib, pkgs, config, determinate, ... }:
 {
   skyg = {
     user.enable = true;
@@ -13,7 +13,7 @@
         tiler = {
           enable = true;
           hyprland.enable = true;
-          noctalia.enable = true;
+          noctalia.enable = false;
           quickshell.enable = true;
         };
       };
@@ -40,4 +40,18 @@
 
   # SD image has no swap partition; use compressed RAM swap instead.
   zramSwap.enable = true;
+
+  programs.dank-material-shell.greeter = {
+    enable = true;
+    compositor.name = "hyprland";
+    configHome = "/home/${config.skyg.user.name}";
+  };
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = config.skyg.user.name;
+  };
+  services.displayManager.defaultSession = "hyprland";
+  environment.systemPackages = with pkgs; [
+    foot
+  ];
 }

@@ -17,6 +17,8 @@ these cases where the source subdir and `~/.config` target differ.
 | `niri/` | Niri Wayland compositor config |
 | `fwbook/hypr/` | Hyprland config for `fwbook` (scrolling layout + noctalia); linked to `~/.config/hypr` |
 | `hl-fwdesk/hypr/` | Hyprland config for `hl-fwdesk` (Steam console); **baked into the build** via `mountAsSource`, linked to `~/.config/hypr` |
+| `hl-pi1/hypr/` | Hyprland config for `hl-pi1` (clock box); linked to `~/.config/hypr` |
+| `hl-pi1/quickshell/` | Quickshell configs for `hl-pi1` (full-screen clock + calendar); linked to `~/.config/quickshell` |
 | `fwbook/quickshell/` | Quickshell configs for `fwbook` (scrolling overview); linked to `~/.config/quickshell` |
 | `extra.nu` | Extra NuShell config sourced at shell startup |
 | `fwbook.knsv` | fwbook-specific Kanshi display profile |
