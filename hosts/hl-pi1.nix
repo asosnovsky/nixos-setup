@@ -13,6 +13,10 @@
         tiler = {
           enable = true;
           hyprland.enable = true;
+          hyprland.configLink = {
+            enable = true;
+            mountAsSource = true;
+          };
           noctalia.enable = false;
           quickshell.enable = true;
         };

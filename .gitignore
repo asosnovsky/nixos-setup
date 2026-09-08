@@ -21,6 +21,7 @@ diffs
 .locks
 result.diff
 .tmp
+build
 
 # Rust build artifacts
 target

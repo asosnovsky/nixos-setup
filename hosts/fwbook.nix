@@ -138,6 +138,9 @@ in
       libusb1
       lshw
       jq
+      parted
+      gparted-full
+      f3
 
       # Work
       postgresql
@@ -249,7 +252,11 @@ in
       adapters = [ "hci0" ];
     };
   };
+  services.flatpak.enable = true;
   services.flatpak.packages = [
+    "io.github.kolunmi.Bazaar"
+    "com.spotify.Client"
+    "org.pipewire.Helvum"
     "com.cassidyjames.butler"
     "io.dbeaver.DBeaverCommunity"
     "com.google.Chrome"
