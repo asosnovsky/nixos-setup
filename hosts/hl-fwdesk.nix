@@ -302,12 +302,8 @@ in
   virtualisation.docker = {
     enable = true;
     daemon.settings = {
-      # Allows containers to access /dev/kfd and /dev/dri
       "default-runtime" = "runc";
     };
   };
   services.flatpak.enable = true;
-  services.flatpak.packages = [
-    "org.chromium.Chromium"
-  ];
 }

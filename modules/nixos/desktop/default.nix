@@ -30,7 +30,7 @@ let
     services.libinput.enable = true;
     environment.systemPackages = with pkgs; [
       # Browser
-      chromium
+      (chromium.override { enableWideVine = true; })
       # General utils
       libinput
       busybox
