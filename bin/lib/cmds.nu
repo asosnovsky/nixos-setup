@@ -118,6 +118,28 @@ export def "skyg remote" [
     bash -c $runcmd
 }
 
+# Fresh-install a remote machine via nixos-anywhere, using its disko config
+# Errors out if hosts/<profile>.disko.nix is missing — refuses to wipe a disk blind
+export def "skyg remote install" [
+    target: string@remote_targets,
+] {
+    cd $REPO_ROOT
+    let target_host = $"root@($target).lab.internal"
+    let profile = $"hl-($target)"
+    if not (is-valid-profile $profile true) {
+        print $"Invalid Remote Profile '(ansi green_bold)($target)(ansi reset)', please select one of:"
+        return (remote_targets)
+    }
+    let disko_file = $"hosts/($profile).disko.nix"
+    if not ($disko_file | path exists) {
+        error make { msg: $"Missing disko config: ($disko_file). Refusing to install ($profile) without a disko layout." }
+    }
+    $"Installing [(ansi green_bold)($profile)(ansi reset)] on ($target_host) via nixos-anywhere, using ($disko_file)" | print
+    let runcmd = $"nix run github:nix-community/nixos-anywhere -- --flake .#($profile) ($target_host)"
+    $runcmd | print
+    bash -c $runcmd
+}
+
 # Boot all remote hosts except the current machine (fwbook)
 # Checks online status first, runs `skyg remote boot --build-host fwdesk <host>` for each online host,
 # and writes a summary report to .tmp/boot-report.txt

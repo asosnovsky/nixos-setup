@@ -22,6 +22,7 @@ bin/
 |---|---|
 | `skyg os switch` | Rebuild and switch local system |
 | `skyg remote switch <host>` | Deploy to a remote host |
+| `skyg remote install <host>` | Fresh-install a remote host via nixos-anywhere, using `hosts/<profile>.disko.nix` (errors if that file is missing) |
 | `skyg hm switch` | Apply Home Manager config |
 | `skyg update [input]` | Update flake inputs |
 | `skyg build-image iso|pi1|pi2` | Build bootable image — ISO (`iso`) or Pi SD card image (`pi1`, `pi2`) |

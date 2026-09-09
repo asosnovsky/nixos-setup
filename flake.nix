@@ -65,6 +65,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     herdr.url = "github:herdrdev/herdr";
+    # Declarative disk partitioning (for nixos-anywhere installs)
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     { self
@@ -89,6 +94,7 @@
     , tether
     , herdr
     , claude-desktop
+    , disko
     }:
     let
       # Libs
@@ -237,7 +243,9 @@
             configuration = [
               ./hosts/hl-fws1.nix
               ./hosts/hl-fws1.hardware-configuration.nix
+              ./hosts/hl-fws1.disko.nix
               nixos-hardware.nixosModules.framework-11th-gen-intel
+              disko.nixosModules.disko
             ];
           };
           hl-fwdesk = lib.makeNixOs {
