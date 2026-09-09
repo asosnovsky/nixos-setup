@@ -137,7 +137,10 @@ export def "skyg remote install" [
     $"Installing [(ansi green_bold)($profile)(ansi reset)] on ($target_host) via nixos-anywhere, using ($disko_file)" | print
     let runcmd = $"nix run github:nix-community/nixos-anywhere -- --flake .#($profile) ($target_host)"
     $runcmd | print
-    bash -c $runcmd
+    let bash_path = (which bash | get 0.path)
+    with-env { SHELL: $bash_path } {
+        bash -c $runcmd
+    }
 }
 
 # Boot all remote hosts except the current machine (fwbook)

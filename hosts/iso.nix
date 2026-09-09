@@ -3,6 +3,9 @@
   # Root access without password
   users.users.root.initialHashedPassword = "";
   security.sudo.wheelNeedsPassword = false;
+  # Remote-install tools (nix ssh-store, nixos-anywhere) run non-interactive commands over SSH
+  # that zsh's glob-nomatch abort breaks; keep root on bash for this image only.
+  users.users.root.shell = lib.mkForce pkgs.bash;
 
   # Networking
   networking.networkmanager.enable = true;
