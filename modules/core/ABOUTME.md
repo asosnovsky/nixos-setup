@@ -18,8 +18,7 @@ core/
 
 - **Overlays** (`default.nix`): exposes the `pkgs/` packages — `grok-cli`, `ds4`
   (+`ds4-rocm`/`ds4-cuda`), `colibri` (+`colibri-rocm`), `niri-touchscreen-gestures`,
-  `buzz-desktop`, `ollama` (+`ollama-rocm`/`ollama-vulkan`) — and patches
-  `python3Packages.pipx` to skip its flaky install check on nixpkgs 26.05.
+  `buzz-desktop`, — and patches `python3Packages.pipx` to skip its flaky install check on nixpkgs 26.05.
 - **Distributed builds** (`default.nix`): registers `bigbox1.lab.internal` and
   `fwdesk.lab.internal` as remote `x86_64-linux` build machines and enables
   `builders-use-substitutes`.

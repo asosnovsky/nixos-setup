@@ -10,7 +10,7 @@ independent `skyg.nixos.server.services.<name>.enable` flag. Most run as OCI con
 ```
 services/
 ├── default.nix        # imports the services below
-├── ai-services.nix    # skyg.nixos.server.services.ai — ollama + Wyoming (whisper/piper/wake)
+├── ai-services.nix    # skyg.nixos.server.services.ai — Wyoming (whisper/piper/wake)
 ├── audiobookshelf.nix # skyg.nixos.server.services.audiobookshelf — audiobook/podcast server
 ├── ds4.nix            # skyg.nixos.server.services.ds4 — ds4-server HTTP API (DwarfStar local inference)
 ├── jellyfin.nix       # skyg.nixos.server.services.jellyfin — media server (uid/gid 7777)
@@ -21,7 +21,7 @@ services/
 
 ## Notable details
 
-- **`ai-services.nix`** runs ollama (GPU-passthrough) and openwakeword as containers and
+- **`ai-services.nix`** openwakeword as containers and
   enables NixOS-native Wyoming faster-whisper + piper. Opens 11434/10200/10300/10400.
 - **`ds4.nix`** runs `ds4-server` (the OpenAI/Anthropic-compatible HTTP API for DwarfStar
   DeepSeek V4 inference) as a native systemd service. `package` selects the backend

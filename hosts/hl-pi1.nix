@@ -1,12 +1,23 @@
-{ lib, pkgs, config, determinate, ... }:
+{ lib
+, pkgs
+, config
+, determinate
+, ...
+}:
 {
   skyg = {
-    user.enable = true;
+    user.enable = false;
     nixos = {
-      common.ssh-server.enable = true;
-      common.hardware = {
-        sound.enable = true;
-        pipewire.enable = true;
+      common = {
+        minimal = true;
+        fonts.minimal = true;
+        ssh-server.enable = true;
+        containers.enable = false;
+        networking.nfsServer.enable = false;
+        hardware = {
+          sound.enable = true;
+          pipewire.enable = true;
+        };
       };
       desktop = {
         enable = true;

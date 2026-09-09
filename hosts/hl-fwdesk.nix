@@ -1,7 +1,6 @@
 { pkgs
 , config
-, skygUtils
-, lib
+, unstablePkgs
 , ...
 }:
 let
@@ -153,12 +152,13 @@ in
       # development
       zed-editor-fhs
       nix-prefetch
+      herdr
 
       # Steam
       mangohud
 
       # LLM Stuff
-      ollama-rocm
+      unstablePkgs.ollama-rocm
       grok-cli
       # stable-diffusion-cpp-rocm
       lmstudio

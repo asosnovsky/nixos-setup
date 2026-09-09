@@ -10,6 +10,13 @@ in
         type = lib.types.str;
       };
     };
+    skyg.nixos.common.networking = {
+      nfsServer.enable = lib.mkOption {
+        description = "Enable the NFS server (services.nfs.server).";
+        type = lib.types.bool;
+        default = true;
+      };
+    };
   };
   config = {
     # Define hostname.
@@ -19,7 +26,7 @@ in
     networking.networkmanager.enable = true;
 
     # NFS Support
-    services.nfs.server.enable = true;
+    services.nfs.server.enable = config.skyg.nixos.common.networking.nfsServer.enable;
 
     # Disable the flaky nm service
     systemd.services.NetworkManager-wait-online.enable = false;

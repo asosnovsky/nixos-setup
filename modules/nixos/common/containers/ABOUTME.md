@@ -37,6 +37,7 @@ consistently (compose tooling, user group membership, OCI backend, metrics).
 ### Option namespace
 
 ```
+skyg.nixos.common.containers.enable                 → false to disable the container runtime entirely
 skyg.nixos.common.containers.runtime               → "docker" | "podman"
 skyg.nixos.common.containers.enableOnBoot
 skyg.nixos.common.containers.localDockerRegistries

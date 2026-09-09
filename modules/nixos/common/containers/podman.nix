@@ -3,7 +3,7 @@ let
   cfg = config.skyg.nixos.common.containers;
 in
 {
-  config = lib.mkIf (cfg.runtime == "podman") {
+  config = lib.mkIf (cfg.enable && cfg.runtime == "podman") {
     virtualisation.oci-containers.backend = "podman";
     virtualisation = {
       podman = {

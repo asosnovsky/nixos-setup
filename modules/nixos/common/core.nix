@@ -13,6 +13,11 @@
         default = 7;
       };
     };
+    nixos.common.minimal = lib.mkOption {
+      type = lib.types.bool;
+      description = "Minimal common system: skip heavy always-on packages for lean hosts.";
+      default = false;
+    };
   };
   config = let skyg = config.skyg; in {
 
@@ -29,35 +34,39 @@
       enable = true;
       clean.enable = true;
     };
-    environment.systemPackages = with pkgs; [
-      # shell tools
-      git
-      usbutils
+    environment.systemPackages =
+      (with pkgs; [
+        # shell tools
+        git
+        usbutils
 
-      # system utils
-      nfs-utils
-      lm_sensors
-      hwinfo
-      dig
-      iperf
+        # shell tools
+        wget
+      ])
+      # On lean hosts, skip the heavy server/nix-dev extra tools.
+      ++ (lib.optionals (!config.skyg.nixos.common.minimal) (with pkgs; [
+        # system utils
+        nfs-utils
+        lm_sensors
+        hwinfo
+        dig
+        iperf
 
-      # misc
-      glib-networking
-      glib
-      glibc
+        # misc
+        glib-networking
+        glib
+        glibc
 
-      # printer
-      system-config-printer
+        # printer
+        system-config-printer
 
-      # nix utils
-      nix-index
-      nil
-      cachix
-      nixpkgs-fmt
-      nvd
-      # shell tools
-      wget
-    ];
+        # nix utils
+        nix-index
+        nil
+        cachix
+        nixpkgs-fmt
+        nvd
+      ]));
     services.xserver.excludePackages = with pkgs; [
       xterm
     ];

@@ -9,10 +9,10 @@ Most leaf modules expose a `skyg.nixos.common.*` enable flag and stay inert unti
 ```
 common/
 ├── default.nix      # Imports everything below + always-on env defaults
-├── core.nix         # System packages, nh, nix-ld, timezone (Toronto), locale, GC cron
-├── networking.nix   # skyg.core.hostName, NetworkManager, NFS server
+├── core.nix         # System packages, nh, nix-ld, timezone (Toronto), locale, GC cron; skyg.nixos.common.minimal
+├── networking.nix   # skyg.core.hostName, NetworkManager, NFS server (skyg.nixos.common.networking.nfsServer)
 ├── user.nix         # skyg.user.createSystemUser — creates the system user/groups + zsh shell
-├── fonts.nix        # System font packages + fontconfig defaults (Fira Code, Noto, …)
+├── fonts.nix        # System font packages + fontconfig defaults (Fira Code, Noto, …); skyg.nixos.common.fonts.minimal
 ├── ssh-server.nix   # skyg.nixos.common.ssh-server — hardened sshd + master pubkey
 ├── ssh-notify.nix   # skyg.nixos.common.ssh-notify — forward notify-send from SSH sessions to a desktop client
 ├── qemu.nix         # skyg.core.qemu — QEMU/quickemu + SPICE guest tooling
@@ -43,7 +43,10 @@ skyg.core.qemu.*                 → qemu.nix
 skyg.nixos.common.ssh-server.*   → ssh-server.nix
 skyg.nixos.common.ssh-notify.*   → ssh-notify.nix
 skyg.nixos.common.cachePush.*    → binary-cache.nix
-skyg.nixos.common.containers.*   → containers/
+skyg.nixos.common.minimal             → core.nix (skip heavy always-on system packages)
+skyg.nixos.common.fonts.minimal       → fonts.nix (install only a minimal font set)
+skyg.nixos.common.networking.nfsServer → networking.nix (enable/disable the NFS server)
+skyg.nixos.common.containers.*         → containers/
 skyg.nixos.common.hardware.*     → hardware/
 skyg.nixos.common.pritunl.*      → pritunl/
 ```

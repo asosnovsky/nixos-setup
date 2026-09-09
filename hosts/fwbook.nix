@@ -3,8 +3,6 @@
 , lib
 , user
 , unstablePkgs
-, claude-desktop
-, flox
 , ...
 }:
 let
@@ -214,7 +212,7 @@ in
       orca-slicer
       devcontainer
       gpu-screen-recorder
-      flox.packages.${pkgs.stdenv.hostPlatform.system}.default
+      flox_dev
 
       # Run macos apps
       darling-dmg
@@ -243,6 +241,7 @@ in
       claude-code
       buzz-desktop
       bubblewrap
+      herdr
 
 
     ]);

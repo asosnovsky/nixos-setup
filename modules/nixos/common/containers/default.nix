@@ -8,6 +8,11 @@
   ];
   options = {
     skyg.nixos.common.containers = {
+      enable = lib.mkOption {
+        description = "Whether to enable the container runtime (docker/podman).";
+        type = lib.types.bool;
+        default = true;
+      };
       runtime = lib.mkOption {
         description = "Docker vs podman";
         type = lib.types.str;

@@ -11,6 +11,7 @@ in
   };
 
   config = lib.mkIf (cfg.name != "" && cfg.createSystemUser) {
+    programs.zsh.enable = true;
     users.users.root = {
       shell = pkgs.zsh;
     };

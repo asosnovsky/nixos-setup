@@ -120,7 +120,7 @@ option. Default should be `false` unless the feature is universally required.
 - When in doubt, keep it in the host file and extract later if reuse emerges
 
 ### Package Placement
-- Packages needed on all desktops → `modules/nixos/desktop/packages.nix`
+- Packages needed on all desktops → `modules/nixos/desktop/default.nix` (non-slim mode)
 - Packages for one host only → `environment.systemPackages` in the host file
 - Custom/third-party packages not in nixpkgs → `pkgs/<name>/default.nix` with an overlay in `modules/core/default.nix`
 
