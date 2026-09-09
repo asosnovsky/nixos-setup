@@ -51,6 +51,9 @@ in
         enable = true;
         tiler = {
           enable = true;
+          noctalia = {
+            enable = true;
+          };
           hyprland = {
             enable = true;
             tools.enable = true;

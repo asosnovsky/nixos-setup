@@ -9,30 +9,35 @@ let
   cfg = config.skyg.nixos.desktop.tiler.noctalia;
   system = pkgs.stdenv.hostPlatform.system;
   noctaliaPkg = noctalia.packages.${system}.default;
+  bakedConfig = skygUtils.bakeConfig {
+    configName = cfg.configLink.name;
+    configType = "noctalia";
+  };
 in
 {
   options = {
     skyg.nixos.desktop.tiler.noctalia = {
       enable = lib.mkEnableOption "noctalia";
-      configName = lib.mkOption {
-        type = lib.types.str;
-        default = config.skyg.core.hostName;
-        description = ''
-          Name of the per-host noctalia config directory under `configs/`.
-          The module symlinks `~/.config/noctalia` -> `configs/<configName>/noctalia`.
-          Defaults to the machine's hostName (e.g. `fwbook` -> `configs/fwbook/noctalia`).
-        '';
+      configLink = skygUtils.makeConfigLinkOptions {
+        hostName = config.skyg.core.hostName;
+        configType = "noctalia";
       };
     };
   };
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ noctaliaPkg ];
+    environment.systemPackages = [ noctaliaPkg ] ++ (lib.optionals cfg.configLink.mountAsSource [ bakedConfig ]);
 
     # Symlink ~/.config/noctalia -> configs/<configName>/noctalia (host-specific).
-    system.userActivationScripts.noctaliaCfg.text = skygUtils.makeHyperlinkScriptToConfigs {
-      filePath = "${cfg.configName}/noctalia";
-      targetPath = "noctalia";
-      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+    system.userActivationScripts.noctaliaCfg = lib.mkIf cfg.configLink.enable {
+      text = skygUtils.makeHyperlinkScriptToConfigs {
+        filePath = "${cfg.configLink.name}/noctalia";
+        targetPath = "noctalia";
+        configSource =
+          if cfg.configLink.mountAsSource then
+            "${bakedConfig}"
+          else
+            "/home/${config.skyg.user.name}/nixos-setup/configs";
+      };
     };
   };
 }

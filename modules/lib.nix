@@ -15,6 +15,7 @@ let
   skygUtils = import ./skyg-utils.nix {
     pkgs = allPkgs.x86_64-linux;
     lib = nixpkgs.lib;
+    rootDir = rootDir;
   };
   eachSystem = nixpkgs.lib.genAttrs (import systems);
   allPkgs = eachSystem (

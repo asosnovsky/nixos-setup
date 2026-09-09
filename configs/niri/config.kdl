@@ -17,7 +17,6 @@ include "shared/index.kdl"
 // For DankMaterialShell (DMS)
 include "dms/index.kdl"
 
-// For Noctalia
 //include "noctalia/index.kdl"
 
 

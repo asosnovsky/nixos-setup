@@ -50,7 +50,10 @@ in
             enable = true;
             tools.enable = true;
           };
-          noctalia.enable = true;
+          noctalia = {
+            enable = true;
+            configLink.enable = true;
+          };
           quickshell.enable = true;
           niri = {
             enable = true;
