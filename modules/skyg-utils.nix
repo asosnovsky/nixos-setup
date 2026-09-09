@@ -23,6 +23,9 @@
       sourcePath = "${configSource}/${filePath}";
     in
     ''
+      if [[ -d "${homePath}" && ! -h "${homePath}" ]]; then
+        mv "${homePath}" "${homePath}.backup.$(date +%Y_%m_%d_%H_%M_%S)"
+      fi
       rm -f "${homePath}"
       if [[ ! -h "${homePath}" ]]; then
         ln -s "${sourcePath}" "${homePath}" || {

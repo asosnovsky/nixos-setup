@@ -10,16 +10,24 @@
       };
       desktop = {
         enable = true;
-        slimMode = true;
         tiler = {
           enable = true;
           hyprland.enable = true;
           hyprland.configLink = {
-            enable = false;
+            enable = true;
             mountAsSource = true;
           };
         };
       };
+    };
+  };
+
+  # dms
+  programs.dank-material-shell = {
+    enable = true;
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
     };
   };
   # firmware updater

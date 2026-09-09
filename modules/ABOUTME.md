@@ -10,7 +10,8 @@ modules/
 ├── lib.nix            # makeNixOs / makeIso / makeHomeManagerUsers / makeDarwinModule / eachSystem
 │                      #   (registers the `tether` flake input's NixOS module → programs.tether.*)
 ├── main.nix           # Base module imported by every host: core/ + nixos/ + network-drives.nix
-├── skyg-utils.nix     # makeHyperlinkScriptToConfigs (symlinks configs/ → ~/.config/)
+├── skyg-utils.nix     # makeHyperlinkScriptToConfigs (symlinks configs/ → ~/.config/;
+│                      #   backs up an existing real dir to <path>.backup.<timestamp>)
 ├── macos.nix          # macOS / nix-darwin module
 ├── network-drives.nix # skyg.networkDrives — NFS automount options
 ├── core/              # User, binary caches, distributed builds, macOS workarounds
