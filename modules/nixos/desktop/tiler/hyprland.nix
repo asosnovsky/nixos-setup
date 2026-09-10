@@ -43,6 +43,19 @@ in
     xdg.portal = {
       enable = true;
       extraPortals = [ hyprlandPortal ];
+      config.hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "hyprland" ];
+      };
+    };
+
+    # hyprland-share-picker (spawned by this portal) is built against a
+    # different Qt6 than the system's Kvantum plugin (separate hyprland
+    # flake input), so loading Stylix's Kvantum theme in it segfaults.
+    # Blank the theme vars for just this service; other Qt apps keep Kvantum.
+    systemd.user.services.xdg-desktop-portal-hyprland.environment = {
+      QT_QPA_PLATFORMTHEME = "";
+      QT_STYLE_OVERRIDE = "";
     };
 
     # wl-clipboard is always needed; the rest are opt-in so headless-style

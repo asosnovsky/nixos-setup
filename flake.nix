@@ -10,6 +10,7 @@
     };
     # Nixpkgs
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    determinate.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     flox.url = "github:flox/flox/latest";

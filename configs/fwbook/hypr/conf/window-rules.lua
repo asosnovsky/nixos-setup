@@ -11,6 +11,11 @@ hl.window_rule({
     float = true,
 })
 hl.window_rule({
+    name = "float-hyprland-share-picker",
+    match = { title = "Select what to share" },
+    float = true,
+})
+hl.window_rule({
     name = "float-blueman",
     match = { class = "^(blueman-manager)$" },
     float = true,
