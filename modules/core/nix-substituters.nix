@@ -27,7 +27,7 @@ in
       "https://cache.nixos.org"
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
-      "https://cuda-maintainers.cachix.org"
+      "https://cache.nixos-cuda.org"
       "https://cosmic.cachix.org/"
       "https://ai.cachix.org"
       "https://noctalia.cachix.org"
@@ -36,7 +36,7 @@ in
     nix.settings.trusted-substituters = [
       "https://cache.flox.dev"
       "https://devenv.cachix.org"
-      "https://cuda-maintainers.cachix.org"
+      "https://cache.nixos-cuda.org"
       "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="
     ] ++ cfg.urls;
     nix.settings.trusted-public-keys = [
@@ -48,6 +48,7 @@ in
       "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
     ] ++ cfg.keys;
     nix.settings.trusted-users = [ "root" skygUser.name ];
     nix.extraOptions = ''

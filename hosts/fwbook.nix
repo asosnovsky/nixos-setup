@@ -150,6 +150,8 @@ in
       parted
       gparted-full
       f3
+      nixd
+      kdePackages.qtdeclarative
 
       # Work
       postgresql

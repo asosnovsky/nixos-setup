@@ -31,15 +31,15 @@ in
       configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
     };
 
-    programs.dank-material-shell = {
-      enable = true;
-      dgop.package = unstablePkgs.dgop;
-      systemd = {
-        enable = true; # Systemd service for auto-start
-        target = "niri.service";
-        restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes
-      };
-    };
+    # programs.dank-material-shell = {
+    #   enable = true;
+    #   dgop.package = unstablePkgs.dgop;
+    #   systemd = {
+    #     enable = true; # Systemd service for auto-start
+    #     target = "niri.service";
+    #     restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes
+    #   };
+    # };
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [

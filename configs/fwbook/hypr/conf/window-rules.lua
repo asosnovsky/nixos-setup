@@ -7,13 +7,14 @@
 
 hl.window_rule({
     name = "float-pavucontrol",
-    match = { class = "^(pavucontrol)$" },
+    match = { class = "org.pulseaudio.pavucontrol" },
     float = true,
 })
 hl.window_rule({
     name = "float-hyprland-share-picker",
     match = { title = "Select what to share" },
     float = true,
+    stay_focused = true,
 })
 hl.window_rule({
     name = "float-blueman",
@@ -39,4 +40,16 @@ hl.window_rule({
     name = "float-save-file",
     match = { title = "^(Save File)$" },
     float = true,
+})
+hl.window_rule({
+    match = { initial_title = "Slack - Huddle Preview" },
+    float = true,
+    name = "float-slack-huddle",
+})
+hl.window_rule({
+    match = { float = true },
+    name = "float-style",
+    no_screen_share = true,
+    xray = true,
+    -- stay_focused = true
 })

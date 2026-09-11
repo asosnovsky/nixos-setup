@@ -17,6 +17,9 @@
             enable = true;
             mountAsSource = true;
           };
+          quickshell = {
+            enable = true;
+          };
         };
       };
     };

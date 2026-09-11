@@ -11,8 +11,3 @@ hl.config({
         rounding = 12,
     },
 })
-
-hl.layer_rule({
-    match = { namespace = "^dms:bar$" },
-    xray = true,
-})

@@ -1,0 +1,29 @@
+{
+	"show_completions_on_input": true,
+  "languages": {
+    "QML": {
+      "colorize_brackets": true,
+      "inlay_hints": {
+        "show_background": true,
+        "enabled": true
+      },
+      "show_whitespaces": "all",
+      "show_completions_on_input": true,
+      "always_treat_brackets_as_autoclosed": true,
+      "format_on_save": "on",
+      "language_servers": ["qmljs"]
+    }
+  },
+  "lsp": {
+	  "qmljs": {
+			"enable_lsp_tasks": true,
+      "binary": {
+        "path": "qmlls",
+        "arguments": ["-E"]
+      },
+      "initialization_options": {
+        "buildDir": "."
+      }
+    }
+  }
+}

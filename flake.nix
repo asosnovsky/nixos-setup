@@ -146,6 +146,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
+          qtDocs = pkgs.qt6.qtdoc;
           pre-commit-check = git-hooks.lib.${system}.run {
             src = ./.;
             hooks = {
@@ -157,8 +158,12 @@
         {
           default = pkgs.mkShell {
             name = "nixos-setup";
+            QMLLS_DOC_DIR = "${qtDocs}/share/doc/qt6";
+            QML_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml:${pkgs.quickshell}/lib/qt-6/qml";
+            QT_PLUGIN_PATH = "${pkgs.qt6.qtdeclarative}/lib/qt-6/plugins";
             packages = with pkgs; [
-              kdePackages.qtdeclarative
+              qtDocs
+              qt6.qtdeclarative
               nixpkgs-fmt
               stylua
               nixd
