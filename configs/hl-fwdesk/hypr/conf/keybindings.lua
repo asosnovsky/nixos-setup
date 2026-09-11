@@ -41,8 +41,8 @@ hl.bind(mod .. " + P", hl.dsp.exec_cmd('grim -g "$(slurp)" - | satty -f -'))
 -- =========================
 -- Session
 -- =========================
--- UWSM: use `uwsm stop` instead of the `exit` dispatcher (ordered shutdown).
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("uwsm stop"))
+hl.bind("ALT + TAB", hl.dsp.exec_cmd("noctalia msg window-switcher toggle"))
 
 -- =========================
 -- Mouse drag (move / resize windows)

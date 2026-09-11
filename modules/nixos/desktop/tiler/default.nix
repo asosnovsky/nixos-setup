@@ -46,6 +46,8 @@ in
     services.gnome.gcr-ssh-agent.enable = false; # use standard SSH agent instead
     security.pam.services.greetd = {
       enableGnomeKeyring = true;
+      fprintAuth = true;
+      u2fAuth = true;
       text = lib.mkDefault ''
         auth      include  login
         account   include  login

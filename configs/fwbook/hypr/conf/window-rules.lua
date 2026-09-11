@@ -47,9 +47,20 @@ hl.window_rule({
     name = "float-slack-huddle",
 })
 hl.window_rule({
+    match = { class = "com.gabm.satty" },
+    float = true,
+    name = "float-satty",
+})
+hl.window_rule({
+    match = { class = "dev.noctalia.Noctalia" },
+    float = true,
+    name = "float-noctalia",
+    center = true,
+    size = { "(monitor_w*0.5)", "(monitor_h*0.9)" },
+})
+hl.window_rule({
     match = { float = true },
     name = "float-style",
     no_screen_share = true,
     xray = true,
-    -- stay_focused = true
 })

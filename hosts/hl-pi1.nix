@@ -57,7 +57,7 @@
   # SD image has no swap partition; use compressed RAM swap instead.
   zramSwap.enable = true;
 
-  programs.dank-material-shell.greeter = {
+  services.displayManager.dms-greeter = {
     enable = true;
     compositor.name = "hyprland";
     configHome = "/home/${config.skyg.user.name}";

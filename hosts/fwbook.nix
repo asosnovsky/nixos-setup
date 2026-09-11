@@ -88,7 +88,7 @@ in
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
   # Desktop Env - DankGreeter
-  programs.dank-material-shell.greeter = {
+  services.displayManager.dms-greeter = {
     enable = true;
     compositor.name = "niri";
     configHome = "/home/${user.name}";
@@ -152,6 +152,8 @@ in
       f3
       nixd
       kdePackages.qtdeclarative
+      piper-tts
+      ffmpeg
 
       # Work
       postgresql
@@ -249,6 +251,8 @@ in
       herdr
 
 
+      # My apps
+      skygqts
     ]);
 
   services.usbmuxd.enable = true;

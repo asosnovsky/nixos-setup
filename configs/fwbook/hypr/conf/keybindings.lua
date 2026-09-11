@@ -82,7 +82,7 @@ hl.bind(mod .. " + G", hl.dsp.group.toggle())
 hl.bind(mod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 hl.bind(mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mod .. " + C", hl.dsp.layout("focus current"))
-hl.bind("ALT + TAB", hl.dsp.window.cycle_next())
+hl.bind("ALT + TAB", hl.dsp.exec_cmd("noctalia msg window-switcher toggle"))
 
 -- =========================
 -- Resizing
@@ -135,14 +135,16 @@ hl.bind(
 hl.bind(mod .. " + ALT + L", hl.dsp.exec_cmd("noctalia msg notification-clear-active"))
 
 -- Media & brightness
-hl.bind(mod .. " + M + up", hl.dsp.exec_cmd("noctalia msg volume-up"))
-hl.bind(mod .. " + M + down", hl.dsp.exec_cmd("noctalia msg volume-down"))
-hl.bind(mod .. " + M + right", hl.dsp.exec_cmd("playerctl next"))
-hl.bind(mod .. " + M + left", hl.dsp.exec_cmd("playerctl previous"))
-hl.bind(mod .. " + M + Space", hl.dsp.exec_cmd("playerctl play-pause"))
+-- hl.bind(mod .. " + M + up", hl.dsp.exec_cmd("noctalia msg volume-up"))
+-- hl.bind(mod .. " + M + down", hl.dsp.exec_cmd("noctalia msg volume-down"))
+-- hl.bind(mod .. " + M + right", hl.dsp.exec_cmd("playerctl next"))
+-- hl.bind(mod .. " + M + left", hl.dsp.exec_cmd("playerctl previous"))
+-- hl.bind(mod .. " + M + Space", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"), { locked = true })
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("noctalia msg brightness-up"), { locked = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("noctalia msg brightness-down"), { locked = true })
+
+hl.bind(mod .. " + M", hl.dsp.exec_cmd("wl-paste --primary | piper -m en_US-hfc_female-medium"))

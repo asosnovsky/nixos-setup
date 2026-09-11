@@ -1,4 +1,4 @@
-{ lib, herdr, flox, claude-desktop, ... }:
+{ lib, herdr, flox, claude-desktop, skygqts, ... }:
 {
   imports = [
     ./user.nix
@@ -35,6 +35,7 @@
         herdr = herdr.packages.${final.system}.default;
         # flox (flox/flox) — see flake.nix input.
         flox_dev = flox.packages.${final.system}.default;
+        skygqts = skygqts.packages.${final.system}.default;
       })
       (final: prev: {
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [

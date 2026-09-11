@@ -43,7 +43,7 @@
   boot.tmp.useTmpfs = true;
 
   # Greeter
-  programs.dank-material-shell.greeter = {
+  services.displayManager.dms-greeter = {
     enable = true;
     compositor.name = "hyprland";
     configHome = "/home/${config.skyg.user.name}";
@@ -53,4 +53,9 @@
     user = config.skyg.user.name;
   };
   services.displayManager.defaultSession = "hyprland";
+
+  # environment
+  environment.systemPackages = with pkgs; [
+    skygqts
+  ];
 }

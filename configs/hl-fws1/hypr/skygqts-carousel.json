@@ -1,0 +1,35 @@
+{
+	"autoStart": true,
+	"apps": [
+		{
+			"name": "Sosnovsky Video",
+			"image": "~/.config/hypr/images/jellyfin.png",
+			"exec": ["chromium", "--app=http://bigbox1.lab.internal:8096"]
+		},
+		{
+			"name": "Netflix",
+			"image": "~/.config/hypr/images/Netflix.svg",
+			"exec": ["chromium", "--app=https://www.netflix.com"]
+		},
+		{
+			"name": "Paramount+",
+			"image": "https://www.paramountplus.com/assets/pplus/PPlus_Logo_1200x630_BLUE.png",
+			"exec": ["chromium", "--app=https://www.paramountplus.com"]
+		},
+		{
+			"name": "Prime Video",
+			"image": "https://m.media-amazon.com/images/G/01/digital/video/DVUI/favicons/mstile-310x150.png",
+			"exec": ["chromium", "--app=https://www.primevideo.com"]
+		},
+		{
+			"name": "Chromium",
+			"image": "~/.config/hypr/images/Chromium.svg",
+			"exec": ["chromium"]
+		},
+		{
+			"name": "Settings",
+			"image": "~/.config/hypr/images/settings.png",
+			"exec": ["dms", "ipc", "call", "settings", "toggle"]
+		}
+	]
+}

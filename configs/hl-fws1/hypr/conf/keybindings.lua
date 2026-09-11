@@ -61,7 +61,7 @@ hl.bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"))
 
 hl.bind("XF86ChannelUp", hl.dsp.focus({ direction = "right" }))
 hl.bind("XF86ChannelDown", hl.dsp.focus({ direction = "left" }))
-hl.bind("XF86HomePage", hl.dsp.exec_cmd("dms ipc spotlight toggle"))
+hl.bind("XF86HomePage", hl.dsp.exec_cmd("skygqts carousel ~/.config/hypr/skygqts-carousel.json"))
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
 
@@ -70,7 +70,7 @@ hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"), { l
 -- hl.bind("XF86Launch6", hl.dsp.exec_cmd("")) -- TV Series
 -- hl.bind("F7", hl.dsp.exec_cmd("")) -- Void
 -- hl.bind("XF86Launch5", hl.dsp.exec_cmd("")) -- ⭐ Fav
--- hl.bind("F4", hl.dsp.exec_cmd("")) -- Server
+hl.bind("F4", hl.dsp.exec_cmd("dms ipc spotlight toggle")) -- Server
 -- hl.bind("Menu", hl.dsp.exec_cmd("")) -- Menu
 -- hl.bind("F6", hl.dsp.exec_cmd("")) -- Guide
 -- hl.bind("XF86Back", hl.dsp.exec_cmd("")) -- Back

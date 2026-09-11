@@ -126,7 +126,7 @@ in
   # Tailscale
   services.tailscale.enable = true;
   # Desktop Env - DankGreeter
-  programs.dank-material-shell.greeter = {
+  services.displayManager.dms-greeter = {
     enable = true;
     compositor.name = "hyprland";
     configHome = "/home/ari";
@@ -136,6 +136,10 @@ in
   services.displayManager.autoLogin = {
     enable = true;
     user = "ari";
+  };
+  # home manager - only configure if skyg.user.enable is true
+  home-manager.users.${user.name} = lib.mkIf config.skyg.user.enable {
+    services.blueman-applet.enable = true;
   };
   # Firmware updater
   services.fwupd.enable = true;
@@ -170,6 +174,9 @@ in
 
       # Hermes gateway - Signal bridge (used to link the device + run the daemon)
       signal-cli
+
+      # bluetooth
+      blueman
     ]);
   services.usbmuxd.enable = true;
   # Steam

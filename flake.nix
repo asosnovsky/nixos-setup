@@ -1,5 +1,8 @@
 {
   inputs = {
+    # my apps
+    skygqts.url = "git+ssh://gitea@minipc1.lab.internal:22/ari/skygqts.git";
+    skygqts.inputs.nixpkgs.follows = "nixpkgs";
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
@@ -74,6 +77,7 @@
   };
   outputs =
     { self
+    , skygqts
     , nixpkgs-unstable
     , flox
     , determinate
@@ -130,6 +134,7 @@
                 nix-index-database
                 hermes-agent
                 claude-desktop
+                skygqts
                 flox
                 determinate
                 tether

@@ -131,7 +131,7 @@ system-level and HM-level options. The HM entry point is `modules/home/default.n
 ### Greeter
 Both desktop hosts (`fwbook`, `hl-fwdesk`) use DankMaterialShell greeter via:
 ```nix
-programs.dank-material-shell.greeter = {
+services.displayManager.dms-greeter = {
   enable = true;
   compositor.name = "niri";
   configHome = "/home/<username>";
