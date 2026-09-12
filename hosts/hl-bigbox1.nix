@@ -150,7 +150,8 @@
   boot.tmp.useTmpfs = true;
   # QEMU emulation for building aarch64 (e.g. hl-pi1) as a remote build machine
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest; # linuxPackages_hardened was removed in 26.05
+  # linuxPackages_hardened was removed in 26.05; _latest is 7.2 and NVIDIA 595 cannot build against it
+  boot.kernelPackages = pkgs.linuxPackages;
   # Wake on Lan
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
   networking.interfaces.lo.wakeOnLan.enable = true;

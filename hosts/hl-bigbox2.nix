@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   ports = {
     nixServe = 5000;
@@ -9,6 +9,9 @@ let
   openPorts = builtins.attrValues ports;
 in
 {
+  # BIOS GRUB must land on the MBR Kingston disk that holds /boot.
+  # hardware-config still says /dev/sda (GPT home disk) which cannot embed GRUB.
+  boot.loader.grub.device = lib.mkForce "/dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B7785904215";
   skyg = {
     gc.rootDays = 30;
     gc.userDays = 30;
