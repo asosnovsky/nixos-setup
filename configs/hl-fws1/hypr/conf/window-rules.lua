@@ -35,3 +35,8 @@ hl.window_rule({
     match = { title = "^(Save File)$" },
     float = true,
 })
+hl.window_rule({
+    match = { class = "^chrome-.*" },
+    fullscreen = true,
+    name = "fulll-chrome",
+})

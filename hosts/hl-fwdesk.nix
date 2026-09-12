@@ -137,10 +137,6 @@ in
     enable = true;
     user = "ari";
   };
-  # home manager - only configure if skyg.user.enable is true
-  home-manager.users.${user.name} = lib.mkIf config.skyg.user.enable {
-    services.blueman-applet.enable = true;
-  };
   # Firmware updater
   services.fwupd.enable = true;
   # Bluetooth

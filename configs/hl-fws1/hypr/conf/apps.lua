@@ -1,19 +1,3 @@
--- =========================
--- Environment
--- =========================
--- Mirrors the environment block in configs/niri/shared/general.kdl.
-
-hl.env("XCURSOR_SIZE", "24")
-hl.env("XCURSOR_THEME", "Adwaita")
-hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_THEME", "")
--- No HYPRCURSOR_THEME set: no hyprcursor themes are installed, so Hyprland
--- falls back to XCursor (XCURSOR_THEME) rather than showing its built-in default.
-hl.env("NIXOS_OZONE_WL", "1")
-hl.env("QT_QPA_PLATFORM", "wayland")
-hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
-hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
-
 ---@param s string
 ---@return string
 local function escape_pattern(s)
@@ -68,6 +52,7 @@ local function make_commandable(tag, cmd, is_target_window)
             if not is_target_window(w) then
                 return -- not our window, keep listening
             end
+            hl.notification.create({ title = cmd, text = "Window opened", color = 1 })
             sub:remove()
             timeout:set_enabled(false)
             hl.dispatch(hl.dsp.window.tag({ tag = "+" .. tag, window = w }))

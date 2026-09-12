@@ -30,6 +30,7 @@
 ---@field direction? "left"|"right"|"up"|"down"   Focus by direction
 ---@field workspace?  string|integer                e.g. "e-1", "e+1", or a numeric id
 ---@field monitor?    string                        e.g. "+1", "-1", name
+---@field window?     HL.Window                     Focus a specific window
 ---@field on_current_monitor? boolean               Switch to the workspace on the current monitor
 
 ---@class hl.dsp.MoveOpts
@@ -107,6 +108,15 @@ function dsp_window.resize(opts) end
 ---Begin an interactive mouse drag (move) on the focused window.
 ---@return hl.DispatcherValue
 function dsp_window.drag() end
+
+---@class hl.dsp.TagOpts
+---@field tag     string      Tag expression, e.g. "+skyg-Netflix"
+---@field window? HL.Window   Window to tag (focused window if omitted)
+
+---Set or unset tags on a window.
+---@param opts hl.dsp.TagOpts
+---@return hl.DispatcherValue
+function dsp_window.tag(opts) end
 
 ---@class hl.dsp.group
 local dsp_group = {}
@@ -332,9 +342,15 @@ function RuleHandle:set_enabled(enabled) end
 -- hl.on — event hooks
 -- ---------------------------------------------------------------------------
 
+---@class HL.EventSubscription
+local EventSubscription = {}
+---Stop listening for this event.
+function EventSubscription:remove() end
+
 ---Register a callback for a Hyprland event.
 ---@param event    string    e.g. "hyprland.start", "window.open", "monitor.added"
----@param callback fun()
+---@param callback fun(...: any)
+---@return HL.EventSubscription
 function hl.on(event, callback) end
 
 -- ---------------------------------------------------------------------------
@@ -356,8 +372,11 @@ local plugin = {}
 ---@param path string  Absolute path to the shared library
 function plugin.load(path) end
 -- ---------------------------------------------------------------------------
--- hl.get_workspaces — runtime introspection
+-- hl.get_workspaces / hl.get_windows — runtime introspection
 -- ---------------------------------------------------------------------------
+
+---@alias HL.MonitorSelector   string|integer|HL.Monitor
+---@alias HL.WorkspaceSelector string|integer|HL.Workspace
 
 ---@class HL.Monitor
 ---@field id          integer
@@ -383,9 +402,44 @@ function plugin.load(path) end
 ---@field is_empty?    boolean
 ---@field monitor?     HL.Monitor
 
+---@class HL.Window
+---@field address      string
+---@field class        string
+---@field title        string
+---@field initial_class string
+---@field initial_title string
+---@field active        boolean
+---@field floating      boolean
+---@field fullscreen    integer
+---@field mapped        boolean
+---@field pinned        boolean
+---@field hidden        boolean
+---@field visible       boolean
+---@field xwayland      boolean
+---@field pid           integer
+---@field stable_id     string
+---@field focus_history_id integer
+---@field monitor?      HL.Monitor
+---@field workspace?    HL.Workspace
+---@field tags?         string|table
+
+---@class HL.WindowQueryFilter
+---@field class?     string                    Regex matched against window class (app_id)
+---@field title?     string                    Regex matched against window title
+---@field tag?       string                    Match by window tag (see hl.dsp.window.tag)
+---@field floating?  boolean
+---@field mapped?    boolean
+---@field monitor?   HL.MonitorSelector
+---@field workspace? HL.WorkspaceSelector
+
 ---All non-inert workspaces.
 ---@return HL.Workspace[]
 function hl.get_workspaces() end
+
+---Windows matching an optional filter (all windows when omitted).
+---@param filters? HL.WindowQueryFilter
+---@return HL.Window[]
+function hl.get_windows(filters) end
 
 -- ---------------------------------------------------------------------------
 -- hl.print — log to the Hyprland log
@@ -414,6 +468,9 @@ function hl.dispatch(action) end
 local TimerHandle = {}
 ---Cancel this timer.
 function TimerHandle:cancel() end
+---Enable or disable this timer.
+---@param enabled boolean
+function TimerHandle:set_enabled(enabled) end
 
 ---Schedule a callback on a repeating or one-shot timer.
 ---@param callback fun()

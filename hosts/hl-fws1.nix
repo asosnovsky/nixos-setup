@@ -58,4 +58,10 @@
   environment.systemPackages = with pkgs; [
     skygqts
   ];
+
+  # Flatpaks
+  services.flatpak.enable = true;
+  services.flatpak.packages = [
+    "com.spotify.Client"
+  ];
 }

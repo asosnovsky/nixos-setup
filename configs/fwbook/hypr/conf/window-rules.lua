@@ -64,3 +64,8 @@ hl.window_rule({
     no_screen_share = true,
     xray = true,
 })
+hl.window_rule({
+    match = { class = "^chrome-.*" },
+    fullscreen = true,
+    name = "fulll-chrome",
+})
