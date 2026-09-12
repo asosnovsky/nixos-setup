@@ -7,7 +7,7 @@ end
 ---@param url string
 ---@return fun(w: HL.Window): boolean
 local function make_target_validation_for_chromium_apps(url)
-    local host = url:match("^https?://([^/]+)")
+    local host = url:match("^https?://([^/:]+)")
     local host_pattern = escape_pattern(host)
     ---@param w HL.Window
     ---@return boolean
@@ -21,25 +21,24 @@ end
 
 ---Focus an already-tagged window if one exists.
 ---@param tag string
----@return boolean
+---@return HL.Window | nil
 local function attempt_to_switch_to_existing(tag)
     local existing = hl.get_windows({ tag = tag })
-
     if existing and #existing > 0 then
-        hl.dispatch(hl.dsp.focus({ window = existing[1] }))
-        return true
+        return existing[1]
     end
-    return false
+    return nil
 end
 
 ---@param tag string
 ---@param cmd string
 ---@param is_target_window fun(w: HL.Window): boolean
----@return fun()
+---@return fun(): hl.DispatcherValue
 local function make_commandable(tag, cmd, is_target_window)
     return function()
-        if attempt_to_switch_to_existing(tag) then
-            return
+        local existing = attempt_to_switch_to_existing(tag)
+        if existing ~= nil then
+            return hl.dsp.focus({ window = existing })
         end
 
         ---@type HL.EventSubscription
@@ -52,7 +51,6 @@ local function make_commandable(tag, cmd, is_target_window)
             if not is_target_window(w) then
                 return -- not our window, keep listening
             end
-            hl.notification.create({ title = cmd, text = "Window opened", color = 1 })
             sub:remove()
             timeout:set_enabled(false)
             hl.dispatch(hl.dsp.window.tag({ tag = "+" .. tag, window = w }))
@@ -62,7 +60,7 @@ local function make_commandable(tag, cmd, is_target_window)
             sub:remove()
         end, { timeout = 5000, type = "oneshot" })
 
-        hl.dispatch(hl.dsp.exec_cmd(cmd))
+        return hl.dsp.exec_cmd(cmd)
     end
 end
 

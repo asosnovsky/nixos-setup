@@ -5,32 +5,32 @@
 		{
 			"name": "Sosnovsky Video",
 			"image": "/home/ari/.config/hypr/images/jellyfin.png",
-			"exec": ["hyprctl", "eval", "'CarouselApps.jellyfin()'"]
+			"hyprlandDispatch": "CarouselApps.jellyfin()"
 		},
 		{
 			"name": "Netflix",
 			"image": "/home/ari/.config/hypr/images/Netflix.svg",
-			"exec": ["hyprctl", "eval", "'CarouselApps.netflix()'"]
+			"hyprlandDispatch": "CarouselApps.netflix()"
 		},
 		{
 			"name": "Paramount+",
 			"image": "https://www.paramountplus.com/assets/pplus/PPlus_Logo_1200x630_BLUE.png",
-			"exec": ["hyprctl", "eval", "'CarouselApps.paramountplus()'"]
+			"hyprlandDispatch": "CarouselApps.paramountplus()"
 		},
 		{
 			"name": "Prime Video",
 			"image": "https://m.media-amazon.com/images/G/01/digital/video/DVUI/favicons/mstile-310x150.png",
-			"exec": ["hyprctl", "eval", "'CarouselApps.primevideo()'"]
+			"hyprlandDispatch": "CarouselApps.primevideo()"
 		},
 		{
 			"name": "YouTube",
 			"image": "/home/ari/.config/hypr/images/youtube.webp",
-			"exec": ["hyprctl", "eval", "'CarouselApps.youtube()'"]
+			"hyprlandDispatch": "CarouselApps.youtube()"
 		},
 		{
 			"name": "Chromium",
 			"image": "/home/ari/.config/hypr/images/Chromium.svg",
-			"exec": ["hyprctl", "eval", "'CarouselApps.chromium()'"]
+			"hyprlandDispatch": "CarouselApps.chromium()"
 		},
 		{
 			"name": "Spotify",

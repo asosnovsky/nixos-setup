@@ -23,7 +23,7 @@ end
 ---@param url string
 ---@return fun(w: HL.Window): boolean
 local function make_target_validation_for_chromium_apps(url)
-    local host = url:match("^https?://([^/]+)")
+    local host = url:match("^https?://([^/:]+)")
     local host_pattern = escape_pattern(host)
     ---@param w HL.Window
     ---@return boolean
