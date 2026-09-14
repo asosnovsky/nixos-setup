@@ -1824,11 +1824,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789253894,
-        "narHash": "sha256-BeVVFNhJWN4TIci9Y+aC36ir8OlPzcMjerO7M4Bx2C4=",
+        "lastModified": 1789255361,
+        "narHash": "sha256-u0N1zS2PjsP+Er73et2wWKqKjxbm2lUPA9mRmu8dfTM=",
         "ref": "refs/heads/main",
-        "rev": "70a6437c7f2e6914d956e07df33fb73d1f7cf251",
-        "revCount": 11,
+        "rev": "ed75fa0db90a6666165f0fb5d0441bdac21a8a1a",
+        "revCount": 12,
         "type": "git",
         "url": "ssh://gitea@minipc1.lab.internal:22/ari/skygqts.git"
       },

@@ -33,12 +33,13 @@ end
 ---@param tag string
 ---@param cmd string
 ---@param is_target_window fun(w: HL.Window): boolean
----@return fun(): hl.DispatcherValue
+---@return fun()
 local function make_commandable(tag, cmd, is_target_window)
     return function()
         local existing = attempt_to_switch_to_existing(tag)
         if existing ~= nil then
-            return hl.dsp.focus({ window = existing })
+            hl.dispatch(hl.dsp.focus({ window = existing }))
+            return
         end
 
         ---@type HL.EventSubscription
@@ -60,7 +61,7 @@ local function make_commandable(tag, cmd, is_target_window)
             sub:remove()
         end, { timeout = 5000, type = "oneshot" })
 
-        return hl.dsp.exec_cmd(cmd)
+        hl.dispatch(hl.dsp.exec_cmd(cmd))
     end
 end
 
@@ -72,7 +73,7 @@ local function web_app(name, url)
     local is_target_window = make_target_validation_for_chromium_apps(url)
     return make_commandable(
         tag,
-        string.format("chromium --app=%s --new-window", url),
+        string.format("chromium --app=%s --kiosk --start-fullscreen --new-window", url),
         is_target_window
     )
 end

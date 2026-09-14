@@ -118,10 +118,12 @@ export def "skyg remote" [
     bash -c $runcmd
 }
 
-# Fresh-install a remote machine via nixos-anywhere, using its disko config
-# Errors out if hosts/<profile>.disko.nix is missing — refuses to wipe a disk blind
+# Fresh-install a remote machine via nixos-anywhere, using its disko config.
+# Always reformats every disk in the disko file — a second run is as destructive as the first.
+# Missing disko file, live disk OS (without --force-wipe), or mistyped hostname all abort.
 export def "skyg remote install" [
     target: string@remote_targets,
+    --force-wipe, # wipe even if the host already runs NixOS from disk
 ] {
     cd $REPO_ROOT
     let target_host = $"root@($target).lab.internal"
@@ -134,6 +136,48 @@ export def "skyg remote install" [
     if not ($disko_file | path exists) {
         error make { msg: $"Missing disko config: ($disko_file). Refusing to install ($profile) without a disko layout." }
     }
+
+    print ""
+    print $"(ansi red_bold)WARNING: this WIPES every disk listed in ($disko_file).(ansi reset)"
+    print "This is not a switch. Use `skyg remote switch` / `skyg remote boot` to update an installed host."
+    print ""
+    print "Disks in the disko file:"
+    let disks = (
+        open $disko_file
+        | lines
+        | where { |l| ($l | str contains "device") and ($l | str contains "=") }
+        | each { |l| $l | str trim }
+    )
+    for line in $disks {
+        print $"  ($line)"
+    }
+    print ""
+
+    let ssh = $"ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new ($target_host)"
+    let root_fstype = (try {
+        bash -c $"($ssh) 'findmnt -n -o FSTYPE /' 2>/dev/null" | str trim
+    } catch { "" })
+
+    if $root_fstype == "" {
+        print $"(ansi yellow)Could not SSH to ($target_host) to check for a live OS.(ansi reset)"
+    } else {
+        print $"Remote / fstype: ($root_fstype)"
+        let installer_fs = ["overlay" "tmpfs" "squashfs"]
+        if not ($root_fstype in $installer_fs) {
+            if not $force_wipe {
+                error make { msg: $"($target_host) already boots from disk (root fstype ($root_fstype)). Refusing to wipe. Use `skyg remote switch ($target)` to update, or pass --force-wipe to reinstall." }
+            }
+            print $"(ansi yellow)--force-wipe set: proceeding against a live disk OS.(ansi reset)"
+        } else {
+            print "Remote looks like an installer live image (ok to install)."
+        }
+    }
+
+    let confirm = (input $"Type ($target) to continue: " | str trim)
+    if $confirm != $target {
+        error make { msg: $"Aborted: typed '($confirm)', expected '($target)'." }
+    }
+
     $"Installing [(ansi green_bold)($profile)(ansi reset)] on ($target_host) via nixos-anywhere, using ($disko_file)" | print
     let runcmd = $"nix run github:nix-community/nixos-anywhere -- --flake .#($profile) ($target_host)"
     $runcmd | print

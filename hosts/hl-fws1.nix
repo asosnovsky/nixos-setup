@@ -56,7 +56,11 @@
 
   # environment
   environment.systemPackages = with pkgs; [
+    # my goodies
     skygqts
+    # --- 4. CEC control over the Framework HDMI card ---
+    v4l-utils
+    libcec
   ];
 
   # Flatpaks
@@ -64,4 +68,31 @@
   services.flatpak.packages = [
     "com.spotify.Client"
   ];
+
+  # Chromium Configuration
+  programs.chromium.enable = true;
+  programs.chromium.extraOpts = {
+    "DeveloperToolsAvailability" = 2;
+  };
+
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+    extraConfig.pipewire-pulse."10-raop-discover" = {
+      context.modules = [
+        { name = "libpipewire-module-raop-discover"; }
+      ];
+    };
+  };
+  security.rtkit.enable = true;
+
+  # Send audio to AirPlay speakers
+  services.avahi.enable = true;
+
+  # AirPlay receiver
+  services.shairport-sync = {
+    enable = true;
+    arguments = "-o pw";
+  };
 }

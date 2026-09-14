@@ -18,25 +18,25 @@ bin/
 
 ## Key Commands
 
-| Command | Description |
-|---|---|
-| `skyg os switch` | Rebuild and switch local system |
-| `skyg remote switch <host>` | Deploy to a remote host |
-| `skyg remote install <host>` | Fresh-install a remote host via nixos-anywhere, using `hosts/<profile>.disko.nix` (errors if that file is missing) |
-| `skyg hm switch` | Apply Home Manager config |
-| `skyg update [input]` | Update flake inputs |
-| `skyg build-image iso|pi1|pi2` | Build bootable image — ISO (`iso`) or Pi SD card image (`pi1`, `pi2`) |
-| `skyg openwrt` | Deploy OpenWrt config |
-| `skyg rollback` | Roll back to previous generation |
-| `skyg profiles` | List valid local/remote profiles |
-| `skyg check` | Run `nix flake check --no-build` |
-| `skyg check-flake-versions` | Verify NixOS release version consistency in flake.nix |
-| `skyg remote boot-all` | Boot all remote hosts (builds on `fwdesk`) |
-| `skyg remote status` | Check status of all remote hosts |
-| `skyg secrets` | List known secret names |
-| `skyg decrypt <secret>` | Decrypt a secret to `.tmp/unencrypted-<secret>` |
-| `skyg encrypt <secret> [--yaml]` | Encrypt a working copy back into the secret |
-| `skyg compare-secret <secret>` | Diff the working copy against the stored secret |
+| Command                          | Description                                                                                                                                                                                                                                                         |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `skyg os switch`                 | Rebuild and switch local system                                                                                                                                                                                                                                     |
+| `skyg remote switch <host>`      | Deploy to a remote host                                                                                                                                                                                                                                             |
+| `skyg remote install <host>`     | Fresh-install a remote host via nixos-anywhere, using `hosts/<profile>.disko.nix`. Always wipes the disks in that file. Aborts if the file is missing, if the host already boots NixOS from disk (unless `--force-wipe`), or if you do not type the short hostname. |
+| `skyg hm switch`                 | Apply Home Manager config                                                                                                                                                                                                                                           |
+| `skyg update [input]`            | Update flake inputs                                                                                                                                                                                                                                                 |
+| `skyg build-image iso            | pi1                                                                                                                                                                                                                                                                 | pi2` | Build bootable image — ISO (`iso`) or Pi SD card image (`pi1`, `pi2`) |
+| `skyg openwrt`                   | Deploy OpenWrt config                                                                                                                                                                                                                                               |
+| `skyg rollback`                  | Roll back to previous generation                                                                                                                                                                                                                                    |
+| `skyg profiles`                  | List valid local/remote profiles                                                                                                                                                                                                                                    |
+| `skyg check`                     | Run `nix flake check --no-build`                                                                                                                                                                                                                                    |
+| `skyg check-flake-versions`      | Verify NixOS release version consistency in flake.nix                                                                                                                                                                                                               |
+| `skyg remote boot-all`           | Boot all remote hosts (builds on `fwdesk`)                                                                                                                                                                                                                          |
+| `skyg remote status`             | Check status of all remote hosts                                                                                                                                                                                                                                    |
+| `skyg secrets`                   | List known secret names                                                                                                                                                                                                                                             |
+| `skyg decrypt <secret>`          | Decrypt a secret to `.tmp/unencrypted-<secret>`                                                                                                                                                                                                                     |
+| `skyg encrypt <secret> [--yaml]` | Encrypt a working copy back into the secret                                                                                                                                                                                                                         |
+| `skyg compare-secret <secret>`   | Diff the working copy against the stored secret                                                                                                                                                                                                                     |
 
 ## Agent Note
 

@@ -1,3 +1,5 @@
+require("conf/apps")
+
 -- =========================
 -- Keybindings
 -- =========================
@@ -43,13 +45,13 @@ hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- Remote Control
 -- =========================
 ---- bottom colors
--- hl.bind("F10", hl.dsp.exec_cmd("")) -- red
-hl.bind("F11", hl.dsp.exec_cmd("chromium")) -- green
--- hl.bind("F12", hl.dsp.exec_cmd("")) -- blue
--- hl.bind("XF86Tools", hl.dsp.exec_cmd("")) -- blue
+hl.bind("F10", CarouselApps.netflix) -- red
+hl.bind("F11", CarouselApps.chromium) -- green
+hl.bind("F12", CarouselApps.primevideo) -- yellow
+hl.bind("XF86Tools", CarouselApps.paramountplus) -- blue
 
 ---- bottom 3
--- hl.bind("F8", hl.dsp.exec_cmd("")) -- cog
+hl.bind("F8", hl.dsp.exec_cmd("dms ipc call settings toggle")) -- cog
 hl.bind("XF86AudioRecord", hl.dsp.window.close()) -- red dot
 -- hl.bind("F9", hl.dsp.exec_cmd("")) -- PVR
 

@@ -8,8 +8,9 @@ Key non-negotiable rules from that file:
 
 - **Always present a plan first** and wait for user approval before making any
   changes — no matter how small the task.
-- **Never run builds or system switches** (`nixos-rebuild`, `nh os`, `skyg os`,
-  `nix build`, `nix flake check`, etc.) — zero exceptions, even if asked.
+- **Never run builds, system switches, or remote installs** (`nixos-rebuild`,
+  `nh os`, `skyg os`, `skyg remote install`, `nixos-anywhere`, `nix build`,
+  `nix flake check`, etc.) — zero exceptions, even if asked.
 - Never edit `flake.lock`, `*.hardware-configuration.nix`, or anything in
   `secrets/`.
 - Never add `imports = [...]` to host files.
