@@ -147,4 +147,4 @@ hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"), { locked =
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("noctalia msg brightness-up"), { locked = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("noctalia msg brightness-down"), { locked = true })
 
-hl.bind(mod .. " + M", hl.dsp.exec_cmd("wl-paste --primary | piper -m en_US-hfc_female-medium"))
+hl.bind(mod .. " + M", hl.dsp.exec_cmd("nu ~/.config/hypr/speak-selection.nu"))

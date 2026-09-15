@@ -51,6 +51,7 @@ split under `conf/` and pulled in with `require()`.
 hypr/
 ├── hyprland.lua                 # entry point; require()s conf/*.lua in order
 ├── screen-record.sh             # wf-recorder toggle (bound to Mod+R)
+├── speak-selection.nu           # piper TTS of primary selection (bound to Mod+M); press again to stop
 ├── xdph.conf                    # xdph screencopy workaround (force_shm); hyprlang, read by xdph itself
 ├── .luarc.json                  # lua-language-server config (library = ../../hypr-types)
 ├── dms/                         # DMS-auto-generated Hyprland overrides (colors/layout/windowrules);
@@ -83,6 +84,7 @@ hypr/
 ## Touchpad gestures (niri parity)
 
 niri's 3-finger swipes are mirrored in `conf/inputs.lua`:
+
 - **Horizontal** → `scroll_move` (scroll through columns along the tape)
 - **Vertical** → `workspace` (switch workspaces up/down)
 - **Mod + swipe (any direction)** → move the whole workspace to the monitor in
