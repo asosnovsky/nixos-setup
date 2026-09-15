@@ -40,3 +40,9 @@ hl.window_rule({
     fullscreen = true,
     name = "fulll-chrome",
 })
+-- HDMI AVI content type Cinema (Wayland "video") for the whole box.
+hl.window_rule({
+    name = "hdmi-cinema",
+    match = { class = ".*" },
+    content = "video",
+})

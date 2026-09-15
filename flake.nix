@@ -3,6 +3,7 @@
     # my apps
     skygqts.url = "git+ssh://gitea@minipc1.lab.internal:22/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
+    hermenix.url = "git+ssh://gitea@minipc1.lab.internal:22/ari/hermenix.git";
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
@@ -78,6 +79,7 @@
   outputs =
     { self
     , skygqts
+    , hermenix
     , nixpkgs-unstable
     , flox
     , determinate
@@ -135,6 +137,7 @@
                 hermes-agent
                 claude-desktop
                 skygqts
+                hermenix
                 flox
                 determinate
                 tether
@@ -266,6 +269,7 @@
               ./hosts/hl-fwdesk.nix
               ./hosts/hl-fwdesk.hardware-configuration.nix
               nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+              hermenix.nixosModules.default
             ];
           };
           hl-bigbox1 = lib.makeNixOs {

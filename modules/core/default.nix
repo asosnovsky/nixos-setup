@@ -1,4 +1,4 @@
-{ lib, herdr, flox, claude-desktop, skygqts, ... }:
+{ lib, herdr, flox, claude-desktop, skygqts, hermenix, ... }:
 {
   imports = [
     ./user.nix
@@ -36,6 +36,8 @@
         # flox (flox/flox) — see flake.nix input.
         flox_dev = flox.packages.${final.system}.default;
         skygqts = skygqts.packages.${final.system}.default;
+        # hermenix CLI (setup/migrate/remote) — see flake.nix input.
+        hermenix = hermenix.packages.${final.system}.hermenix;
       })
       (final: prev: {
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [

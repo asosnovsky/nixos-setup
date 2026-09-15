@@ -154,6 +154,7 @@ in
       kdePackages.qtdeclarative
       piper-tts
       ffmpeg
+      oreo-cursors-plus
 
       # Work
       postgresql
@@ -253,6 +254,7 @@ in
 
       # My apps
       skygqts
+      hermenix
     ]);
 
   services.usbmuxd.enable = true;

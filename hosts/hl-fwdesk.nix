@@ -27,8 +27,6 @@ let
     ports.comfyui
     ports.libretranslate
     ports.ds4
-    ports.hermes
-    ports.hermesDashboard
     ports.vnc
   ];
 in
@@ -233,44 +231,26 @@ in
   };
   systemd.services.libretranslate.environment.ARGOS_DEVICE_TYPE = "cpu";
 
-  # Hermes Agent gateway (Docker container)
-  age.secrets.hermes-env.file = ../secrets/hermes-env.age;
-  skyg.nixos.common.container-services.hermes-agent = {
+  # Hermes Agent — hardened, self-managing NixOS VM
+  services.hermenix = {
     enable = true;
-    timeoutStopSec = 210;
-    services = {
-      hermes = {
-        image = "nousresearch/hermes-agent";
-        command = [ "gateway" "run" ];
-        ports = [
-          "${toString ports.hermes}:8642"
-          "${toString ports.hermesDashboard}:9119"
-        ];
-        volumes = [
-          "/var/lib/hermes:/opt/data"
-          # Expose the host Nix store + daemon so nix works inside the container
-          "/nix/store:/nix/store:ro"
-          "/nix/var/nix/daemon-socket:/nix/var/nix/daemon-socket"
-        ];
-        environmentFiles = [ config.age.secrets.hermes-env.path ];
-        environment = {
-          PUID = "1000";
-          PGID = "100";
-          HERMES_HOME = "/opt/data";
-          NIX_REMOTE = "daemon";
-          NIX_CONFIG = "experimental-features = nix-command flakes";
-          PATH = "${pkgs.nix}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
-        };
-        shm_size = "1g";
-        extra_hosts = [ "host.docker.internal:host-gateway" ];
-        networks = [
-          "main"
-        ];
-      };
-    };
-    networks = {
-      "main" = { };
-    };
+    disk.baseDir = "/var/lib/hermes-vm";
+    disk.stateSize = "60G";
+    network.externalInterface = "enp191s0";
+    vcpu = 8;
+    mem = 16384;
+    hermesHome = "/var/lib/hermes";
+    hostAccess = [
+      { port = ports.ollama; }
+      { port = ports.ds4; }
+    ];
+    lanAccess = [
+      { address = "10.0.12.1"; port = 80; } # Home Assistant
+    ];
+    publish = [
+      { hostPort = ports.hermes; guestPort = 8642; }
+      { hostPort = ports.hermesDashboard; guestPort = 9119; }
+    ];
   };
   hardware.enableAllFirmware = true;
   hardware.amdgpu = {

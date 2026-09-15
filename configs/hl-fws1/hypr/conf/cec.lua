@@ -5,7 +5,9 @@
 ---@param cmd string  raw cec-client command, e.g. "on" or "as"
 ---@param target integer  CEC logical address (0 = TV)
 local function cec_send(cmd, target)
-    hl.exec_cmd(string.format("bash -c \"echo '%s %d' | cec-client -s -d 1\"", cmd, target))
+    hl.exec_cmd(
+        string.format("bash -c \"echo '%s %d' | cec-client -s -d 1 -o SkygBox -t p\"", cmd, target)
+    )
 end
 
 ---Wake a CEC device and make this box its active source.

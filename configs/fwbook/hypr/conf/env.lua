@@ -4,7 +4,7 @@
 -- Mirrors the environment block in configs/niri/shared/general.kdl.
 
 hl.env("XCURSOR_SIZE", "24")
-hl.env("XCURSOR_THEME", "Adwaita")
+hl.env("XCURSOR_THEME", "oreo_spark_orange_bordered_cursors")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_THEME", "")
 -- No HYPRCURSOR_THEME set: no hyprcursor themes are installed, so Hyprland

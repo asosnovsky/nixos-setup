@@ -16,7 +16,7 @@ hl.config({
     },
 
     cursor = {
-        enable_hyprcursor = false,
+        enable_hyprcursor = true,
     },
 
     misc = {

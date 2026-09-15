@@ -326,6 +326,7 @@ function hl.animation(opts) end
 ---@field rounding?      number                  Override corner rounding
 ---@field move?          string                  Position string, e.g. "20 monitor_h-120"
 ---@field suppress_event? string                 Event name to suppress, e.g. "maximize"
+---@field content?       "none"|"photo"|"video"|"game"  HDMI AVI content type
 
 ---Add a window rule. Returns a handle with a `:set_enabled(bool)` method.
 ---@param opts hl.WindowRuleOpts
