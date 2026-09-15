@@ -5,25 +5,30 @@ in
 {
   options = {
     skyg.nixos.desktop.fixes.airpod-bluetooth = {
-      enabled = lib.mkEnableOption "Fix robotic/distorted audio with AirPods over Bluetooth";
+      enabled = lib.mkEnableOption "AirPods Bluetooth mic via HFP (lower call quality)";
     };
   };
 
   config = lib.mkIf (cfg.enabled && config.skyg.nixos.desktop.enable) {
-    # Fix robotic/distorted audio with AirPods over Bluetooth.
-    # WirePlumber 0.5 (nixpkgs 26.05+) auto-switches BT devices from A2DP to
-    # HFP whenever any app opens a mic stream (Chromium, Slack, etc.), which
-    # degrades both speaker and mic quality to 8 kHz CVSD/mSBC and causes the
-    # robotic sound. Disabling auto-switch keeps AirPods in A2DP permanently;
-    # meeting apps fall back to the laptop's built-in mic for input.
+    # Switch AirPods to HFP when a mic is needed so the AirPods mic
+    # shows as an input. Call audio is HFP (mSBC if supported), not A2DP.
     services.pipewire.wireplumber.extraConfig = {
       "51-airpods-bluetooth" = {
         "monitor.bluez.properties" = {
-          "bluez5.msbc-support" = false;
+          "bluez5.enable-msbc" = true;
+          "bluez5.msbc-support" = true;
           "bluez5.hfphsp-backend" = "native";
+          "bluez5.roles" = [
+            "a2dp_sink"
+            "a2dp_source"
+            "hsp_hs"
+            "hsp_ag"
+            "hfp_hf"
+            "hfp_ag"
+          ];
         };
         "wireplumber.settings" = {
-          "bluetooth.autoswitch-to-headset-profile" = false;
+          "bluetooth.autoswitch-to-headset-profile" = true;
         };
       };
     };

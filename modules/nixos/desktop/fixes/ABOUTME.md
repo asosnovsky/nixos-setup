@@ -6,13 +6,15 @@ Various workarounds and fixes for desktop/workstation issues.
 
 ```
 fixes/
-└── default.nix    # skyg.nixos.desktop.fixes.airpod-bluetooth.enabled — AirPods distorted/robotic audio fix
+└── default.nix    # skyg.nixos.desktop.fixes.airpod-bluetooth.enabled — AirPods HFP mic
 ```
 
 ## Behaviour
 
 ### AirPods Bluetooth Audio Fix
+
 When `skyg.nixos.desktop.fixes.airpod-bluetooth.enabled` is set to `true`:
-- WirePlumber's auto-switching behavior is disabled for the AirPods.
-- Prevents switching from high-quality A2DP profile to low-quality HFP/HSP mono profile when a mic stream opens.
-- Dictates that AirPods stay in A2DP permanently, while meeting/chat apps fall back to the laptop's built-in mic for input.
+
+- WirePlumber auto-switches AirPods from A2DP to HFP when an app opens a mic.
+- Enables native HFP plus mSBC so the AirPods mic shows as an input.
+- Call audio is headset quality (mSBC if the buds support it), not A2DP.
