@@ -1,3 +1,5 @@
+require("conf/cec")
+
 ---@param s string
 ---@return string
 local function escape_pattern(s)
@@ -36,6 +38,8 @@ end
 ---@return fun()
 local function make_commandable(tag, cmd, is_target_window)
     return function()
+        Cec.wake_and_switch()
+
         local existing = attempt_to_switch_to_existing(tag)
         if existing ~= nil then
             hl.dispatch(hl.dsp.focus({ window = existing }))
