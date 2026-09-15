@@ -28,6 +28,11 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    # DankShell greeter (moved out of the dms repo)
+    dank-greeter = {
+      url = "github:AvengeMedia/dank-greeter";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # Noctalia
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -93,6 +98,7 @@
     , hyprlauncher
     , hyprland
     , dms
+    , dank-greeter
     , noctalia
     , git-hooks
     , nix-index-database
@@ -132,6 +138,7 @@
                 hyprland
                 nixpkgs-unstable
                 dms
+                dank-greeter
                 noctalia
                 nix-index-database
                 hermes-agent

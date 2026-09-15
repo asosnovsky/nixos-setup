@@ -88,7 +88,7 @@ in
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
   # Desktop Env - DankGreeter
-  services.displayManager.dms-greeter = {
+  programs.dms-greeter = {
     enable = true;
     compositor.name = "niri";
     configHome = "/home/${user.name}";

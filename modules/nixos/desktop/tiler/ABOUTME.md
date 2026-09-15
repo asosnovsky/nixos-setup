@@ -92,7 +92,7 @@ clock box (`hl-pi1`) does not.
 ## Conventions
 
 - Don't set `tiler.enable` directly — enable a compositor and let it flip the shared switch.
-- Greeter is DMS-managed (`programs.dank-material-shell`); never hand-roll `services.greetd`.
+- Greeter is managed by the `dank-greeter` module (`programs.dms-greeter`); never hand-roll `services.greetd`.
 - Keyring provides the SSH agent here — keep `programs.ssh.startAgent` off.
 
 ## Touchscreen Gestures (niri only)

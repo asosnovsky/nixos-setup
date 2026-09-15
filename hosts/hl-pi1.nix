@@ -41,7 +41,7 @@
   # nested seccomp doesn't work through the translation layer. Skip the test
   # suite for this build only — Determinate Nix itself stays enabled.
   nix.package = lib.mkForce (
-    determinate.inputs.nix.packages.${pkgs.stdenv.system}.default.overrideAttrs (old: {
+    determinate.inputs.nix.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       doCheck = false;
     })
   );
@@ -57,7 +57,7 @@
   # SD image has no swap partition; use compressed RAM swap instead.
   zramSwap.enable = true;
 
-  services.displayManager.dms-greeter = {
+  programs.dms-greeter = {
     enable = true;
     compositor.name = "hyprland";
     configHome = "/home/${config.skyg.user.name}";

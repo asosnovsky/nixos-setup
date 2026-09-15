@@ -124,7 +124,7 @@ in
   # Tailscale
   services.tailscale.enable = true;
   # Desktop Env - DankGreeter
-  services.displayManager.dms-greeter = {
+  programs.dms-greeter = {
     enable = true;
     compositor.name = "hyprland";
     configHome = "/home/ari";

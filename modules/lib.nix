@@ -46,7 +46,7 @@ let
     nix-flatpak.nixosModules.nix-flatpak
     agenix.nixosModules.default
     specialArgs.dms.nixosModules.dank-material-shell
-    specialArgs.dms.nixosModules.greeter
+    specialArgs.dank-greeter.nixosModules.default
     specialArgs.nix-index-database.nixosModules.nix-index
     specialArgs.hermes-agent.nixosModules.default
     specialArgs.tether.nixosModules.default

@@ -30,14 +30,14 @@
         # Buzz Desktop AppImage wrapper, see pkgs/buzz-desktop.
         buzz-desktop = final.callPackage ../../pkgs/buzz-desktop { };
         # Claude Desktop (Linux), see pkgs/claude-desktop.
-        claude-desktop = claude-desktop.packages.${final.system}.default;
+        claude-desktop = claude-desktop.packages.${final.stdenv.hostPlatform.system}.default;
         # herdr (herdrdev/herdr) — see flake.nix input.
-        herdr = herdr.packages.${final.system}.default;
+        herdr = herdr.packages.${final.stdenv.hostPlatform.system}.default;
         # flox (flox/flox) — see flake.nix input.
-        flox_dev = flox.packages.${final.system}.default;
-        skygqts = skygqts.packages.${final.system}.default;
+        flox_dev = flox.packages.${final.stdenv.hostPlatform.system}.default;
+        skygqts = skygqts.packages.${final.stdenv.hostPlatform.system}.default;
         # hermenix CLI (setup/migrate/remote) — see flake.nix input.
-        hermenix = hermenix.packages.${final.system}.hermenix;
+        hermenix = hermenix.packages.${final.stdenv.hostPlatform.system}.hermenix;
       })
       (final: prev: {
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [

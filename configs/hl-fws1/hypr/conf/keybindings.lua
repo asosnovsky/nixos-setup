@@ -64,8 +64,26 @@ hl.bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"))
 hl.bind("XF86ChannelUp", hl.dsp.focus({ direction = "right" }))
 hl.bind("XF86ChannelDown", hl.dsp.focus({ direction = "left" }))
 hl.bind("XF86HomePage", hl.dsp.exec_cmd("skygqts carousel ~/.config/hypr/skygqts-carousel.json"))
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up"), { locked = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down"), { locked = true })
+---- volume keys just remote-control the TV over CEC; the machine's own
+---- volume is pinned at 100%/unmuted (see force_max_volume) so all real
+---- volume control happens on the TV, not in software.
+local function force_max_volume()
+    hl.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 100%")
+    hl.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ 0")
+end
+
+hl.bind("XF86AudioRaiseVolume", function()
+    force_max_volume()
+    Cec.volume_up()
+end, { locked = true })
+hl.bind("XF86AudioLowerVolume", function()
+    force_max_volume()
+    Cec.volume_down()
+end, { locked = true })
+hl.bind("XF86AudioMute", function()
+    force_max_volume()
+    Cec.mute()
+end, { locked = true })
 
 ---- middle
 -- hl.bind("F5", hl.dsp.exec_cmd("")) -- LIVE TV
