@@ -16,6 +16,7 @@ let
     colibri = 8001;
     hermes = 8642;
     hermesDashboard = 9119;
+    hermesCache = 5001;
     vnc = 5930;
   };
   openPorts = [
@@ -171,6 +172,9 @@ in
 
       # bluetooth
       blueman
+
+      # my apps
+      hermenix
     ]);
   services.usbmuxd.enable = true;
   # Steam
@@ -240,6 +244,7 @@ in
     vcpu = 8;
     mem = 16384;
     hermesHome = "/var/lib/hermes";
+    hostCache.port = ports.hermesCache; # 5000 collides with libretranslate
     hostAccess = [
       { port = ports.ollama; }
       { port = ports.ds4; }
