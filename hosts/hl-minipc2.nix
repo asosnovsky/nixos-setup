@@ -1,4 +1,23 @@
 { pkgs, config, ... }:
+let
+  macvlanNetwork = {
+    lan = {
+      driver = "macvlan";
+      driver_opts = {
+        parent = "enp2s0";
+      };
+      ipam = {
+        config = [
+          {
+            subnet = "10.0.0.0/16";
+            gateway = "10.0.0.1";
+            ip_range = "10.0.101.240/28";
+          }
+        ];
+      };
+    };
+  };
+in
 {
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
@@ -54,10 +73,16 @@
     autoUpdate.enable = true;
     services.drawdb = {
       image = "ghcr.io/drawdb-io/drawdb:latest";
-      ports = [
-        "3000:80"
-      ];
+      environment = {
+        PORT = "80";
+      };
+      networks = {
+        lan = {
+          ipv4_address = "10.0.101.2";
+        };
+      };
     };
+    networks = macvlanNetwork;
   };
 
   # Portainer Service

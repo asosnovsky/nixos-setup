@@ -831,11 +831,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1789499413,
-        "narHash": "sha256-RyMbCILS77BUTZqT1/ST3cVUsflfnp/7rm6S25MG4jA=",
+        "lastModified": 1789573245,
+        "narHash": "sha256-Uw1DJF/XubQrnzjPftoE6yBGIYKQ1UjMYpG6k2ye6VA=",
         "ref": "refs/heads/main",
-        "rev": "41ea93a28fc3b2a80231330c5f6d57f5f988af6b",
-        "revCount": 7,
+        "rev": "e5f150b17e3ac19b3082246734741885fb141a2d",
+        "revCount": 18,
         "type": "git",
         "url": "ssh://gitea@minipc1.lab.internal:22/ari/hermenix.git"
       },

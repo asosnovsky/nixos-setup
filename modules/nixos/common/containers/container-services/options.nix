@@ -139,11 +139,20 @@
               };
 
               networks = lib.mkOption {
-                type = lib.types.listOf lib.types.str;
+                type = lib.types.either (lib.types.listOf lib.types.str) (lib.types.attrsOf lib.types.anything);
                 default = [ ];
+                example = {
+                  lan = { ipv4_address = "10.0.101.1"; };
+                };
                 description = ''
                   Networks to join. Empty list = attach to the group's
                   auto-created bridge network (named after the group).
+
+                  Accepts either a plain list of network names, or an attrset
+                  mapping network name -> per-network attrs (e.g.
+                  ipv4_address, aliases) for compose's mapping form of the
+                  networks: key -- needed to assign a static IP on a
+                  macvlan/custom network.
                 '';
               };
 
