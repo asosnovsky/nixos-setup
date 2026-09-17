@@ -1,0 +1,2 @@
+include "./binds.kdl"
+include "./startup.kdl"

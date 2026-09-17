@@ -15,9 +15,9 @@ include "shared/index.kdl"
 // Uncomment ONE of the following to use that environment:
 
 // For DankMaterialShell (DMS)
-include "dms/index.kdl"
+// include "dms/index.kdl"
 
-//include "noctalia/index.kdl"
+include "noctalia/index.kdl"
 
 
 //include "dms/binds.kdl"

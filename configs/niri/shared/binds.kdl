@@ -54,6 +54,7 @@ binds {
     Print { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
     Mod+P { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
     Mod+R { spawn "/home/ari/.config/niri/screen-record.sh"; }
+    Mod+M { spawn "nu" "~/.config/hypr/speak-selection.nu"; }
 
     // =========================
     // Misc

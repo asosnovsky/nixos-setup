@@ -1,0 +1,27 @@
+binds {
+
+		Mod+Shift+A { spawn "noctalia"; }
+		ALT+Tab { spawn "noctalia" "msg" "window-switcher" "toggle"; }
+		Mod+Space { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+		Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
+    Mod+comma { spawn "noctalia" "msg" "settings-toggle"; }
+
+    // // =========================
+    // // DMS Integration
+    // // =========================
+    Mod+Alt+L hotkey-overlay-title="Notifications: Clear" { spawn "noctalia" "msg" "notification-clear-active"; }
+    // Mod+Alt+K hotkey-overlay-title="Notifications: Toggle" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+    // Mod+Alt+N hotkey-overlay-title="Workspace: Rename" { spawn "dms" "ipc" "workspace-rename" "toggle"; }
+    // Mod+Alt+P hotkey-overlay-title="Clipboard: Toggle" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+    // Mod+Shift+Space hotkey-overlay-title="PlayerCtrl: Toggle" { spawn "playerctl" "play-pause"; }
+
+    // // =========================
+    // // DMS Media & Brightness
+    // // =========================
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-up"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-down"; }
+    XF86AudioMute allow-when-locked=true { spawn "noctalia" "msg" "volume-mute"; }
+    // XF86AudioMicMute allow-when-locked=true { spawn "noctalia" "msg" "call" "audio" "micmute"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia" "msg" "brightness-up"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia" "msg" "brightness-down"; }
+}
