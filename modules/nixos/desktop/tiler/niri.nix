@@ -7,11 +7,19 @@
 }:
 let
   cfg = config.skyg.nixos.desktop.tiler.niri;
+  bakedConfig = skygUtils.bakeConfig {
+    configName = cfg.configLink.name;
+    configType = "niri";
+  };
 in
 {
   options = {
     skyg.nixos.desktop.tiler.niri = {
       enable = lib.mkEnableOption "niri";
+      configLink = skygUtils.makeConfigLinkOptions {
+        hostName = config.skyg.core.hostName;
+        configType = "niri";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -25,10 +33,18 @@ in
       xwayland-satellite
       adwaita-icon-theme
       papirus-icon-theme
-    ];
-    system.userActivationScripts.niriConfig.text = skygUtils.makeHyperlinkScriptToConfigs {
-      filePath = "niri";
-      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+    ] ++ (lib.optionals cfg.configLink.mountAsSource [ bakedConfig ]);
+
+    system.userActivationScripts.niriConfig = lib.mkIf cfg.configLink.enable {
+      text = skygUtils.makeHyperlinkScriptToConfigs {
+        filePath = "${cfg.configLink.name}/niri";
+        targetPath = "niri";
+        configSource =
+          if cfg.configLink.mountAsSource then
+            "${bakedConfig}"
+          else
+            "/home/${config.skyg.user.name}/nixos-setup/configs";
+      };
     };
 
     # programs.dank-material-shell = {

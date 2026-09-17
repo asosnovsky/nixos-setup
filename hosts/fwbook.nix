@@ -57,6 +57,7 @@ in
           quickshell.enable = true;
           niri = {
             enable = true;
+            configLink.enable = true;
             touchscreen-gestures = {
               enable = true;
               touchOutput = "eDP-1";

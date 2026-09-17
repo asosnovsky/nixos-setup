@@ -9,6 +9,7 @@ binds {
     // =========================
     Mod+Shift+H { show-hotkey-overlay; }
     Mod+T { spawn "ghostty"; }
+    Mod+A { spawn "ghostty" "-e" "pi"; }
     Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }

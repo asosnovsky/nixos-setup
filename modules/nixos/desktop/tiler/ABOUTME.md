@@ -38,6 +38,9 @@ skyg.nixos.desktop.tiler.apps.control.enable     → default.nix (pavucontrol, p
 skyg.nixos.desktop.tiler.apps.gnome.enable       → default.nix (nautilus, gnome-calendar, seahorse, gcr)
 skyg.nixos.desktop.tiler.apps.media.enable       → default.nix (wf-recorder, mpv, mpvpaper)
 skyg.nixos.desktop.tiler.niri.enable
+skyg.nixos.desktop.tiler.niri.configLink.enable      # symlink ~/.config/niri -> configs/<name>/niri
+skyg.nixos.desktop.tiler.niri.configLink.name        # per-host config dir (default: hostName)
+skyg.nixos.desktop.tiler.niri.configLink.mountAsSource # bake config into the build closure
 skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable  # 3/4-finger swipes → niri actions
 skyg.nixos.desktop.tiler.hyprland.enable
 skyg.nixos.desktop.tiler.hyprland.configName     # per-host config dir (default: hostName)

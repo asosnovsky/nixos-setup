@@ -14,7 +14,8 @@ these cases where the source subdir and `~/.config` target differ.
 
 | Path | Description |
 |---|---|
-| `niri/` | Niri Wayland compositor config |
+| `niri/` | Niri Wayland compositor config (legacy shared location — will be removed after hosts migrate to `<hostName>/niri/`) |
+| `fwbook/niri/` | Niri config for `fwbook`; linked to `~/.config/niri` by the `skyg.nixos.desktop.tiler.niri` module (mirrors the hyprland pattern) |
 | `fwbook/hypr/` | Hyprland config for `fwbook` (scrolling layout + noctalia); linked to `~/.config/hypr` |
 | `hl-fwdesk/hypr/` | Hyprland config for `hl-fwdesk` (Steam console); **baked into the build** via `mountAsSource`, linked to `~/.config/hypr` |
 | `hl-pi1/hypr/` | Hyprland config for `hl-pi1` (clock box); linked to `~/.config/hypr` |
