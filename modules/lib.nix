@@ -52,9 +52,17 @@ let
     specialArgs.tether.nixosModules.default
     { programs.nix-index-database.comma.enable = true; }
   ];
-
-  # Shared function to create home-manager user configuration
   makeHomeConfig = {}: import ./home { };
+  allUnstablePkgs = eachSystem (
+    system:
+    import nixpkgs-unstable {
+      inherit system;
+      config = {
+        allowUnfree = true;
+      };
+    }
+  );
+
 in
 {
   eachSystem = eachSystem;
@@ -75,7 +83,7 @@ in
       extraSpecialArgs = specialArgs // {
         inherit system skygUtils;
         user = userConfig;
-        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+        unstablePkgs = allUnstablePkgs.${system};
       };
       modules = [
         {
@@ -96,7 +104,7 @@ in
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
         inherit system skygUtils user;
-        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+        unstablePkgs = allUnstablePkgs.${system};
       };
       inherit system;
       modules = osModules ++ [
@@ -119,7 +127,7 @@ in
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
         inherit system skygUtils user;
-        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+        unstablePkgs = allUnstablePkgs.${system};
       };
       inherit system;
       modules = osModules ++ [
@@ -145,7 +153,7 @@ in
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
         inherit system skygUtils user;
-        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+        unstablePkgs = allUnstablePkgs.${system};
       };
       inherit system;
       modules = osModules ++ [
@@ -174,7 +182,7 @@ in
       inherit system;
       specialArgs = specialArgs // {
         inherit system skygUtils user;
-        unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+        unstablePkgs = allUnstablePkgs.${system};
       };
       modules = [
         determinate.darwinModules.default

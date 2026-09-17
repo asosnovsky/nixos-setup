@@ -233,7 +233,9 @@ in
 
       # Work
       gdk
-      slack
+      unstablePkgs.slack
+      unstablePkgs.slacky
+      unstablePkgs.slack-term
 
       # IPhone Tethering
       libimobiledevice
@@ -244,8 +246,8 @@ in
 
       # coding agents
       claude-desktop
-      grok-cli
-      pi-coding-agent
+      unstablePkgs.grok-build
+      unstablePkgs.pi-coding-agent
       claude-code
       buzz-desktop
       bubblewrap

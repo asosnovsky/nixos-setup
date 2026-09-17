@@ -40,7 +40,6 @@ To use the custom packages in your own NixOS/Home Manager configuration:
     in {
       environment.systemPackages = with pkgs; [
         niri-touchscreen-gestures
-        grok-cli
         ds4
       ];
     };
@@ -51,7 +50,7 @@ You can also import `nixos-setup.lib` to reuse `makeNixOs`, `makeHomeManagerUser
 
 See [`pkgs/ABOUTME.md`](pkgs/ABOUTME.md) for details on each package.
 
-**Key packages:** `niri-touchscreen-gestures` (run `niri-touchscreen-gestures` — uses built-in defaults), `grok-cli`, and `ds4` (local LLM inference with CPU/ROCm/CUDA support).
+**Key packages:** `niri-touchscreen-gestures` (run `niri-touchscreen-gestures` — uses built-in defaults), and `ds4` (local LLM inference with CPU/ROCm/CUDA support).
 
 ## Quick Start
 
@@ -130,7 +129,7 @@ All packages from `pkgs/` are available in your configuration as `pkgs.<name>` t
 Example:
 
 ```nix
-environment.systemPackages = with pkgs; [ niri-touchscreen-gestures grok-cli ds4 ];
+environment.systemPackages = with pkgs; [ niri-touchscreen-gestures ds4 ];
 ```
 
 See [`pkgs/ABOUTME.md`](pkgs/ABOUTME.md) for details on each package.
@@ -150,6 +149,7 @@ For more details, see `secrets/ABOUTME.md`.
 ## Host Profiles
 
 Available profiles include:
+
 - **Local**: `fwbook` (Framework laptop)
 - **Remote**: `hl-bigbox1`, `hl-bigbox2`, `hl-fwdesk`, `hl-fws1`, `hl-minipc1`, `hl-minipc2`, `hl-minipc3`, `hl-terra1`
 - **ISO**: `iso` (bootable image)

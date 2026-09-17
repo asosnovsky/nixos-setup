@@ -232,7 +232,6 @@
         {
           openwrt-glmain = (openwrt (import ./openwrt-routers/glmain.nix)).deployScript;
           openwrt-glmain-dry-run = (openwrt (import ./openwrt-routers/glmain.nix)).dryRunScript;
-          grok-cli = lib.pkgs.${system}.grok-cli;
           ds4 = lib.pkgs.${system}.ds4;
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
           colibri = lib.pkgs.${system}.colibri;

@@ -161,7 +161,7 @@ in
 
       # LLM Stuff
       unstablePkgs.ollama-rocm
-      grok-cli
+      unstablePkgs.grok-build
       # stable-diffusion-cpp-rocm
       lmstudio
       # DwarfStar (antirez/ds4) — ROCm build for Strix Halo (gfx1151).
