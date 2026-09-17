@@ -77,4 +77,22 @@ rec {
   mkComposeFile = pkgs: groupName: grpCfg: fileVolumesByService:
     (pkgs.formats.yaml { }).generate "compose.yml"
       (mkComposeAttrs groupName grpCfg fileVolumesByService);
+
+  # Build the overrides attrset (networks/volumes/extraConfig only) used
+  # alongside an external composeFile. Passed as an earlier -f file so the
+  # composeFile's own definitions win on any overlapping keys.
+  mkOverridesAttrs = grpCfg:
+    lib.optionalAttrs (grpCfg.networks != { })
+      {
+        networks = grpCfg.networks;
+      }
+    // lib.optionalAttrs (grpCfg.volumes != { }) {
+      volumes = grpCfg.volumes;
+    }
+    // grpCfg.extraConfig;
+
+  # Render the overrides file to the Nix store.
+  mkOverridesFile = pkgs: groupName: grpCfg:
+    (pkgs.formats.yaml { }).generate "compose-overrides-${groupName}.yml"
+      (mkOverridesAttrs grpCfg);
 }

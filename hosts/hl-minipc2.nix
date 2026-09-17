@@ -17,6 +17,11 @@ let
       };
     };
   };
+  staticIp = ip: {
+    lan = {
+      ipv4_address = ip;
+    };
+  };
 in
 {
   skyg.user.enable = true;
@@ -76,11 +81,7 @@ in
       environment = {
         PORT = "80";
       };
-      networks = {
-        lan = {
-          ipv4_address = "10.0.101.2";
-        };
-      };
+      networks = staticIp "10.0.101.2";
     };
     networks = macvlanNetwork;
   };
@@ -95,16 +96,18 @@ in
         "/var/run/docker.sock:/var/run/docker.sock"
         "portainer_data:/data"
       ];
-      ports = [
-        "9443:9443"
-        "8000:8000"
-      ];
+      # ports = [
+      #   "9443:9443"
+      #   "8000:8000"
+      # ];
+      networks = staticIp "10.0.101.5";
     };
     volumes = {
       portainer_data = {
         name = "portainer_data";
       };
     };
+    networks = macvlanNetwork;
   };
 
   age.secrets.stack1.file = ../secrets/stack1.age;
@@ -112,12 +115,14 @@ in
     enable = true;
     autoUpdate.enable = true;
     composeFile = config.age.secrets.stack1.path;
+    networks = macvlanNetwork;
   };
   age.secrets.stack2.file = ../secrets/stack2.age;
   skyg.nixos.common.container-services.stack2 = {
     enable = true;
     autoUpdate.enable = true;
     composeFile = config.age.secrets.stack2.path;
+    networks = macvlanNetwork;
   };
 
   # Scrypted backup timer (image auto-update handled by container-services autoUpdate)

@@ -18,6 +18,15 @@ let
   autoUpdateGroups = lib.filterAttrs (_: g: g.autoUpdate.enable) enabledGroups;
   optionsModule = import ./options.nix { inherit lib; };
 
+  # When composeFile is set, networks/volumes/extraConfig declared alongside it
+  # are rendered as a base overrides file merged in via an earlier -f flag, so
+  # the composeFile's own definitions win on any overlapping keys.
+  mkOverridesFileFor = groupName: grpCfg:
+    if grpCfg.composeFile != null
+      && (grpCfg.networks != { } || grpCfg.volumes != { } || grpCfg.extraConfig != { })
+    then composeLib.mkOverridesFile pkgs groupName grpCfg
+    else null;
+
 in
 {
   options = optionsModule.options;
@@ -62,17 +71,18 @@ in
         (groupName: grpCfg:
           let
             fileVolumes = filesLib.mkFileVolumesForGroup groupName grpCfg;
-            # An external compose file (e.g. an agenix secret) is used verbatim;
-            # otherwise render one from the group's options.
+            # An external compose file (e.g. an agenix secret) is used for
+            # services; otherwise render one from the group's options.
             effectiveComposeFile =
               if grpCfg.composeFile != null
               then grpCfg.composeFile
               else composeLib.mkComposeFile pkgs groupName grpCfg fileVolumes;
+            overridesFile = mkOverridesFileFor groupName grpCfg;
             hasFiles = grpCfg.composeFile == null && filesLib.getAllFiles grpCfg != { };
           in
           lib.nameValuePair
             "container-services-${groupName}"
-            (systemdLib.mkSystemdService groupName grpCfg effectiveComposeFile composeBin runtimeService hasFiles))
+            (systemdLib.mkSystemdService groupName grpCfg effectiveComposeFile overridesFile composeBin runtimeService hasFiles))
         enabledGroups
       // lib.foldAttrs lib.recursiveUpdate { } (
         lib.mapAttrsToList
@@ -92,7 +102,7 @@ in
       )
       // lib.mapAttrs'
         (groupName: grpCfg:
-          let units = systemdLib.mkUpdateUnits groupName grpCfg composeBin runtimeBin;
+          let units = systemdLib.mkUpdateUnits groupName grpCfg (mkOverridesFileFor groupName grpCfg) composeBin runtimeBin;
           in lib.nameValuePair "container-services-${groupName}-update" units.services."container-services-${groupName}-update")
         autoUpdateGroups;
 
@@ -109,7 +119,7 @@ in
     systemd.timers =
       lib.mapAttrs'
         (groupName: grpCfg:
-          let units = systemdLib.mkUpdateUnits groupName grpCfg composeBin runtimeBin;
+          let units = systemdLib.mkUpdateUnits groupName grpCfg (mkOverridesFileFor groupName grpCfg) composeBin runtimeBin;
           in lib.nameValuePair "container-services-${groupName}-update" units.timers."container-services-${groupName}-update")
         autoUpdateGroups;
   };

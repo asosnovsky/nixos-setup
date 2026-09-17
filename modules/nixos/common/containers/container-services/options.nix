@@ -36,15 +36,19 @@
           example = "config.age.secrets.my-compose.path";
           description = ''
             Optional path to a ready-made compose file (e.g. an agenix-decrypted
-            secret such as config.age.secrets.my-compose.path) to use verbatim as
-            the group's compose.yml, instead of rendering one from
-            services/volumes/networks.
+            secret such as config.age.secrets.my-compose.path) to use as the
+            group's compose.yml, instead of rendering one from services.
 
-            When set, this group's services/volumes/networks/files blocks are
-            ignored; the external file must be a complete compose document. Use
-            this to keep a full definition (NFS devices, images, env, etc.) out
-            of version control while still deploying it through
-            container-services.
+            When set, this group's services/files blocks are ignored; the
+            external file must define services itself. However, networks/
+            volumes/extraConfig set alongside composeFile ARE used: they're
+            rendered into a base overrides file passed to compose via an
+            earlier -f flag, so the composeFile is merged in as an override on
+            top (compose's native multi-file merge — composeFile's own
+            definitions win on any overlapping keys). Use this to keep a full
+            service definition (NFS devices, images, env, etc.) out of version
+            control while still deploying it through container-services, with
+            shared/host-specific networks or volumes still declared in Nix.
           '';
         };
 

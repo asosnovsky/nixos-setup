@@ -8,6 +8,7 @@ staged on disk, and managed by a systemd oneshot unit.
 | What | Path |
 | ---- | ---- |
 | Staged compose file | `/var/lib/container-services/<group>/compose.yml` |
+| Staged overrides file (composeFile groups with networks/volumes/extraConfig set) | `/var/lib/container-services/<group>/compose.overrides.yml` |
 | Nix store source | `/nix/store/…-compose.yml` (copied on each activation) |
 | Systemd unit | `container-services-<group>.service` |
 | Container logs | `docker compose -p <group> logs -f <service>` |
@@ -142,15 +143,26 @@ age.secrets.my-stack = {
 skyg.nixos.common.container-services.my-stack = {
   enable = true;
   composeFile = config.age.secrets.my-stack.path;
+  # Optional: merged in as a base layer, overridden by composeFile itself
+  # on any overlapping keys.
+  networks = {
+    lan = {
+      driver = "macvlan";
+      driver_opts.parent = "enp2s0";
+    };
+  };
 };
 ```
 
 When `composeFile` is set, the module:
-- Uses that file **verbatim** as the group's `compose.yml` (copied to
-  `/var/lib/container-services/<group>/compose.yml` at startup, just like a
-  rendered one).
-- Ignores this group's `services`/`volumes`/`networks`/`files` blocks — the
-  external file must be a complete compose document.
+- Copies that file to `/var/lib/container-services/<group>/compose.yml` at
+  startup, just like a rendered one. It must define `services` itself —
+  ignores this group's `services`/`files` blocks.
+- If this group also sets `networks`/`volumes`/`extraConfig`, those are
+  rendered to `/var/lib/container-services/<group>/compose.overrides.yml` and
+  passed to compose **before** the composeFile (`-f compose.overrides.yml -f
+  compose.yml`), so compose's native multi-file merge applies —
+  composeFile's own definitions win on any overlapping keys.
 - Requires exactly one of `composeFile` or `services` to be set (assertion).
 
 Notes:

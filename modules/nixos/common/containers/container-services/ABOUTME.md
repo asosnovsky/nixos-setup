@@ -9,7 +9,7 @@ Custom compose-style container service groups for systemd.
 | `default.nix` | Main module entry point; imports options and wires everything |
 | `options.nix` | All `skyg.nixos.common.container-services.*` option declarations |
 | `lib.nix` | Shared helpers (runtime dispatch, path sanitization, env file collection) |
-| `compose.nix` | YAML composition (mkComposeService, mkComposeAttrs, mkComposeFile) |
+| `compose.nix` | YAML composition (mkComposeService, mkComposeAttrs, mkComposeFile, mkOverridesFile) |
 | `files.nix` | File mounting logic (getAllFiles, mkFileVolumesForService, mkFilesService) |
 | `systemd.nix` | Systemd unit builders (mkSystemdService, mkPathUnit, mkEnvReloadService) |
 
@@ -24,8 +24,11 @@ Custom compose-style container service groups for systemd.
 7. `default.nix` wires tmpfiles, services, and paths together
 
 A group may instead set `composeFile` (e.g. to an agenix secret path) to use an
-external, ready-made compose file verbatim instead of rendering from options —
-useful for keeping sensitive definitions (NFS, env) out of version control.
+external, ready-made compose file for `services` instead of rendering from
+options — useful for keeping sensitive definitions (NFS, env) out of version
+control. `networks`/`volumes`/`extraConfig` set alongside `composeFile` still
+apply: they're rendered as a base overrides file merged in via an earlier
+compose `-f` flag, with `composeFile` itself taking precedence on overlaps.
 See `user-guide.md` → "Secret Compose Definitions".
 
 ## Adding a new feature

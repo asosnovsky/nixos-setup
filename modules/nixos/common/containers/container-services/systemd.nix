@@ -2,10 +2,14 @@
 
 {
   # Create a systemd oneshot service that manages the compose stack.
-  mkSystemdService = groupName: grpCfg: composeFile: composeBin: runtimeService: hasFiles:
+  mkSystemdService = groupName: grpCfg: composeFile: overridesFile: composeBin: runtimeService: hasFiles:
     let
       stateDir = grpCfg.stateDir;
       fileServiceDep = if hasFiles then "container-services-${groupName}-files.service" else null;
+      composeFileArgs =
+        if overridesFile != null
+        then "-f ${stateDir}/compose.overrides.yml -f ${stateDir}/compose.yml"
+        else "-f ${stateDir}/compose.yml";
     in
     {
       description = "Container service group '${groupName}'";
@@ -29,19 +33,26 @@
         Type = "oneshot";
         RemainAfterExit = true;
         TimeoutStopSec = grpCfg.timeoutStopSec;
-        ExecStartPre = "${pkgs.coreutils}/bin/cp ${composeFile} ${stateDir}/compose.yml";
-        ExecStart = "${composeBin} -p ${groupName} -f ${stateDir}/compose.yml up -d --remove-orphans";
-        ExecStop = "${composeBin} -p ${groupName} -f ${stateDir}/compose.yml down";
+        ExecStartPre =
+          [ "${pkgs.coreutils}/bin/cp ${composeFile} ${stateDir}/compose.yml" ]
+          ++ lib.optional (overridesFile != null)
+            "${pkgs.coreutils}/bin/cp ${overridesFile} ${stateDir}/compose.overrides.yml";
+        ExecStart = "${composeBin} -p ${groupName} ${composeFileArgs} up -d --remove-orphans";
+        ExecStop = "${composeBin} -p ${groupName} ${composeFileArgs} down";
       };
     };
 
   # Create the update service + timer for a group's autoUpdate config.
-  mkUpdateUnits = groupName: grpCfg: composeBin: runtimeBin:
+  mkUpdateUnits = groupName: grpCfg: overridesFile: composeBin: runtimeBin:
     let
       auCfg = grpCfg.autoUpdate;
       stateDir = grpCfg.stateDir;
       unitName = "container-services-${groupName}-update";
-      composeCmd = "${composeBin} -p ${groupName} -f ${stateDir}/compose.yml";
+      composeFileArgs =
+        if overridesFile != null
+        then "-f ${stateDir}/compose.overrides.yml -f ${stateDir}/compose.yml"
+        else "-f ${stateDir}/compose.yml";
+      composeCmd = "${composeBin} -p ${groupName} ${composeFileArgs}";
     in
     {
       services."${unitName}" = {
