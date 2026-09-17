@@ -53,7 +53,7 @@ hl.bind("XF86Tools", CarouselApps.paramountplus) -- blue
 ---- bottom 3
 hl.bind("F8", hl.dsp.exec_cmd("dms ipc call settings toggle")) -- cog
 hl.bind("XF86AudioRecord", hl.dsp.window.close()) -- red dot
--- hl.bind("F9", hl.dsp.exec_cmd("")) -- PVR
+hl.bind("F9", CarouselApps.jellyfin) -- PVR
 
 ---- play controls
 hl.bind("XF86AudioRewind", hl.dsp.exec_cmd("playerctl previous"))
@@ -64,26 +64,21 @@ hl.bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"))
 hl.bind("XF86ChannelUp", hl.dsp.focus({ direction = "right" }))
 hl.bind("XF86ChannelDown", hl.dsp.focus({ direction = "left" }))
 hl.bind("XF86HomePage", hl.dsp.exec_cmd("skygqts carousel ~/.config/hypr/skygqts-carousel.json"))
----- volume keys just remote-control the TV over CEC; the machine's own
----- volume is pinned at 100%/unmuted (see force_max_volume) so all real
----- volume control happens on the TV, not in software.
-local function force_max_volume()
-    hl.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 100%")
-    hl.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ 0")
-end
-
-hl.bind("XF86AudioRaiseVolume", function()
-    force_max_volume()
-    Cec.volume_up()
-end, { locked = true })
-hl.bind("XF86AudioLowerVolume", function()
-    force_max_volume()
-    Cec.volume_down()
-end, { locked = true })
-hl.bind("XF86AudioMute", function()
-    force_max_volume()
-    Cec.mute()
-end, { locked = true })
+hl.bind(
+    "XF86AudioRaiseVolume",
+    hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+"),
+    { locked = true }
+)
+hl.bind(
+    "XF86AudioLowerVolume",
+    hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-"),
+    { locked = true }
+)
+hl.bind(
+    "XF86AudioMute",
+    hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+    { locked = true }
+)
 
 ---- middle
 -- hl.bind("F5", hl.dsp.exec_cmd("")) -- LIVE TV
@@ -91,7 +86,7 @@ end, { locked = true })
 -- hl.bind("F7", hl.dsp.exec_cmd("")) -- Void
 -- hl.bind("XF86Launch5", hl.dsp.exec_cmd("")) -- ⭐ Fav
 hl.bind("F4", hl.dsp.exec_cmd("dms ipc spotlight toggle")) -- Server
--- hl.bind("Menu", hl.dsp.exec_cmd("")) -- Menu
+hl.bind("Menu", hl.dsp.exec_cmd("dms ipc hypr toggleOverview")) -- Menu
 -- hl.bind("F6", hl.dsp.exec_cmd("")) -- Guide
 -- hl.bind("XF86Back", hl.dsp.exec_cmd("")) -- Back
 -- hl.bind("F3", hl.dsp.exec_cmd("")) -- Last
