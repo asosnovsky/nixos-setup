@@ -12,6 +12,8 @@ binds {
     // =========================
     // DMS Integration
     // =========================
+    Print { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
+    Mod+P { spawn "sh" "-c" "dms screenshot --stdout | satty -f -"; }
     Alt+Ctrl+Delete hotkey-overlay-title="Task Manager: Toggle" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
     Mod+Alt+L hotkey-overlay-title="Notifications: Clear" { spawn "dms" "ipc" "notifications" "dismissAllPopups"; }
     Mod+Alt+K hotkey-overlay-title="Notifications: Toggle" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
