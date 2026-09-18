@@ -7,7 +7,7 @@ export def skyg [] {
     print $REPO_ROOT
     let subcmds = (help commands |
     		where name starts-with "skyg " |
-    		each { |c| $c.name | split row " " | get 1 } |
+    		each {|c| $c.name | split row " " | get 1 } |
     		uniq | str join ', ')
     print $"Subcommands: ($subcmds)"
     print "Run: skyg <subcommand> --help"
@@ -22,7 +22,7 @@ export def "skyg profiles" [only_remote: bool = false] {
 }
 
 export def "skyg check" [] {
-	nix flake check --no-build
+    nix flake check --no-build
 }
 
 # Validate that all versioned flake inputs use the same NixOS release
@@ -40,7 +40,7 @@ export def "skyg check-flake-versions" [] {
     })
 
     let versions = ($url_lines
-        | each { |row| $row.item | parse --regex '.*release-(?P<version>\d+\.\d+).*' | get version }
+        | each {|row| $row.item | parse --regex '.*release-(?P<version>\d+\.\d+).*' | get version }
         | flatten
         | uniq)
 
@@ -53,13 +53,13 @@ export def "skyg check-flake-versions" [] {
     print ""
     for version in $versions {
         print $"  release-($version):"
-        $url_lines | where { |row| $row.item | str contains $"release-($version)" } | each { |row|
+        $url_lines | where {|row| $row.item | str contains $"release-($version)" } | each { |row|
             print $"    line ($row.index + 1): ($row.item | str trim)"
         }
     }
     print ""
     print "All versioned inputs (home-manager, stylix, etc.) must use the same NixOS release."
-    error make { msg: "Mismatched NixOS release versions" }
+    error make {msg: "Mismatched NixOS release versions"}
 }
 
 # rollback configuration
@@ -80,12 +80,8 @@ export def "skyg update" [input_name: string = ""] {
     git diff flake.lock | print
 }
 
-
 # Build local os
-export def "skyg os" [
-	cmd: string@remote-cmds,
-	--build-host: string@remote_targets = "",
-] {
+export def "skyg os" [cmd: string, --build-host: string = ""] {
     cd $REPO_ROOT
     mut runcmd = $"nh os ($cmd)"
     if $build_host != "" {
@@ -134,7 +130,7 @@ export def "skyg remote install" [
     }
     let disko_file = $"hosts/($profile).disko.nix"
     if not ($disko_file | path exists) {
-        error make { msg: $"Missing disko config: ($disko_file). Refusing to install ($profile) without a disko layout." }
+        error make {msg: $"Missing disko config: ($disko_file). Refusing to install ($profile) without a disko layout."}
     }
 
     print ""
@@ -145,8 +141,8 @@ export def "skyg remote install" [
     let disks = (
         open $disko_file
         | lines
-        | where { |l| ($l | str contains "device") and ($l | str contains "=") }
-        | each { |l| $l | str trim }
+        | where {|l| ($l | str contains "device") and ($l | str contains "=") }
+        | each {|l| $l | str trim }
     )
     for line in $disks {
         print $"  ($line)"
@@ -165,7 +161,7 @@ export def "skyg remote install" [
         let installer_fs = ["overlay" "tmpfs" "squashfs"]
         if not ($root_fstype in $installer_fs) {
             if not $force_wipe {
-                error make { msg: $"($target_host) already boots from disk (root fstype ($root_fstype)). Refusing to wipe. Use `skyg remote switch ($target)` to update, or pass --force-wipe to reinstall." }
+                error make {msg: $"($target_host) already boots from disk (root fstype ($root_fstype)). Refusing to wipe. Use `skyg remote switch ($target)` to update, or pass --force-wipe to reinstall."}
             }
             print $"(ansi yellow)--force-wipe set: proceeding against a live disk OS.(ansi reset)"
         } else {
@@ -173,15 +169,15 @@ export def "skyg remote install" [
         }
     }
 
-    let confirm = (input $"Type ($target) to continue: " | str trim)
+    let confirm = input $"Type ($target) to continue: " | str trim
     if $confirm != $target {
-        error make { msg: $"Aborted: typed '($confirm)', expected '($target)'." }
+        error make {msg: $"Aborted: typed '($confirm)', expected '($target)'."}
     }
 
     $"Installing [(ansi green_bold)($profile)(ansi reset)] on ($target_host) via nixos-anywhere, using ($disko_file)" | print
     let runcmd = $"nix run github:nix-community/nixos-anywhere -- --flake .#($profile) ($target_host)"
     $runcmd | print
-    let bash_path = (which bash | get 0.path)
+    let bash_path = which bash | get 0.path
     with-env { SHELL: $bash_path } {
         bash -c $runcmd
     }
@@ -200,7 +196,7 @@ export def "skyg remote boot-all" [
     let report_file = ".tmp/boot-report.txt"
 
     # Discover remote targets from the flake (same logic as skyg remote)
-    let all_hosts = (remote_targets | where { |h| $h != $current_host })
+    let all_hosts = remote_targets | where {|h| $h != $current_host }
 
     print $"Found ($all_hosts | length) candidate hosts excluding ($current_host)"
 
@@ -257,7 +253,7 @@ Starting parallel boots (concurrency: 2)..."
     }
 
     # Write report
-    let timestamp = (date now | format date "%Y-%m-%d %H:%M:%S")
+    let timestamp = date now | format date "%Y-%m-%d %H:%M:%S"
     let report = $"Boot Report - ($timestamp)
 
 Total hosts considered: ($all_hosts | length)
@@ -284,7 +280,7 @@ export def "skyg remote status" [] {
     let current_host = "fwbook"
     let report_file = ".tmp/status-report.txt"
 
-    let all_hosts = (remote_targets | where { |h| $h != $current_host })
+    let all_hosts = remote_targets | where {|h| $h != $current_host }
     print $"Checking status for ($all_hosts | length) remotes..."
 
     let results = ($all_hosts | each { |host|
@@ -302,8 +298,8 @@ export def "skyg remote status" [] {
         }
 
         let info = (try {
-            let booted = (bash -c $"ssh ($target) 'readlink /run/booted-system' 2>/dev/null" | str trim)
-            let current = (bash -c $"ssh ($target) 'readlink /run/current-system' 2>/dev/null" | str trim)
+            let booted = bash -c $"ssh ($target) 'readlink /run/booted-system' 2>/dev/null" | str trim
+            let current = bash -c $"ssh ($target) 'readlink /run/current-system' 2>/dev/null" | str trim
             let reboot_pending = ($booted != $current)
 
             # Compare what the local flake currently evaluates to vs remote's active system
@@ -331,7 +327,7 @@ export def "skyg remote status" [] {
         $info
     })
 
-    let timestamp = (date now | format date "%Y-%m-%d %H:%M:%S")
+    let timestamp = date now | format date "%Y-%m-%d %H:%M:%S"
     let lines = ($results | each { |r|
         if $r.status == "offline" {
             $"- ($r.host): (ansi yellow)OFFLINE(ansi reset)"
@@ -370,9 +366,7 @@ export def "skyg openwrt" [
 }
 
 # Build a bootable image: ISO, or Pi SD card image (fully-baked, no on-device rebuild)
-export def "skyg build-image" [
-    target: string@image-targets
-] {
+export def "skyg build-image" [target: string] {
     cd $REPO_ROOT
     let spec = (match $target {
         "iso" => { config: "iso", out: "iso", attr: "isoImage" }
@@ -380,17 +374,17 @@ export def "skyg build-image" [
         "pi2" => { config: "hl-pi2", out: "sd-image", attr: "sdImage" }
         _ => { error make { msg: $"Unknown image target '($target)'. Expected: iso, pi1, pi2" } }
     })
-    let imageBuildTime = date now | format date "%Y.%m.%d_%H_%M_%S";
-    let rootOutputFolder = $REPO_ROOT | path join "build" $spec.config;
-    let outPutFolder = $rootOutputFolder | path join $imageBuildTime;
-		rm -rf $rootOutputFolder;
-    mkdir $rootOutputFolder;
+    let imageBuildTime = date now | format date "%Y.%m.%d_%H_%M_%S"
+    let rootOutputFolder = $REPO_ROOT | path join "build" $spec.config
+    let outPutFolder = $rootOutputFolder | path join $imageBuildTime
+    rm -rf $rootOutputFolder
+    mkdir $rootOutputFolder
     nix build $"#nixosConfigurations.($spec.config).config.system.build.($spec.attr)" -o $outPutFolder
     printf $outPutFolder
 }
 
 # Home Manager operations
-export def "skyg hm" [action: string@hm-actions, profile: string = "ari"] {
+export def "skyg hm" [action: string, profile: string = "ari"] {
     cd $REPO_ROOT
     $"Running home-manager ($action) for profile ($profile)" | print
     home-manager $action --flake $".#($profile)"
@@ -402,11 +396,11 @@ export def "skyg secrets" [] {
 }
 
 # Decrypt a secret from secrets/ folder
-export def "skyg decrypt" [secret: string@secret-names] {
+export def "skyg decrypt" [secret: string] {
     cd $REPO_ROOT
     let src = $"secrets/($secret).age"
     if not ($src | path exists) {
-        error make { msg: $"Secret not found: ($src)" }
+        error make {msg: $"Secret not found: ($src)"}
     }
     mkdir .tmp
     let dest = $".tmp/unencrypted-($secret)"
@@ -435,8 +429,13 @@ export def "skyg encrypt" [
     vi $src
 
     if $yaml {
+
         # `complete` captures stdout/stderr/exit_code; `try/catch` guards a missing yq
-        let lint = (try { yq e '.' $src | complete } catch { null })
+        let lint = (
+            try {
+                yq e '.' $src | complete
+            } catch { null }
+        )
         if $lint == null {
             print $"❌ Could not run yq — is it on PATH? Add 'yq' to the devShell in flake.nix."
             return
@@ -451,13 +450,13 @@ export def "skyg encrypt" [
     }
 
     let dest = $"secrets/($secret).age"
-    cat $src | EDITOR="cp /dev/stdin" agenix -e $dest
+    cat $src | agenix -e $dest
     print $"Encrypted ($dest)"
     return $dest
 }
 
 # Compare unencrypted local version with encrypted version of a secret
-export def "skyg compare-secret" [secret: string@secret-names] {
+export def "skyg compare-secret" [secret: string] {
     cd $REPO_ROOT
     let unencrypted = $".tmp/unencrypted-($secret)"
     let encrypted = $"secrets/($secret).age"

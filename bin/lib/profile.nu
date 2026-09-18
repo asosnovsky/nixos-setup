@@ -3,7 +3,7 @@ const REPO_ROOT = path self | path dirname | path dirname | path dirname
 export def valid_profiles [] {
     cd $REPO_ROOT
     nix eval .#nixosConfigurations --apply 'builtins.attrNames' --json err> /dev/null
-        | from json
+    | from json
 }
 
 export def valid_remote_profiles [] {

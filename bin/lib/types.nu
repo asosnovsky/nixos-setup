@@ -5,15 +5,21 @@ export def hm-actions [] {
 }
 
 export def remote-cmds [] {
-    ["test", "dry-activate", "run", "switch", "build", "boot"]
+    [
+        "test"
+        "dry-activate"
+        "run"
+        "switch"
+        "build"
+        "boot"
+    ]
 }
 
 export def image-targets [] {
     ["iso", "pi1", "pi2"]
 }
 
-
 export def secret-names [] {
     cd $REPO_ROOT
-    glob secrets/*.age | each { |f| $f | path basename | str replace ".age" "" }
+    glob secrets/*.age | each {|f| $f | path basename | str replace ".age" "" }
 }
