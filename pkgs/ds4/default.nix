@@ -112,7 +112,7 @@ let
       # Append store include/lib paths to the upstream ROCm flags (hipcc is the
       # raw ROCm compiler, not the nix cc-wrapper, so it needs explicit -I/-L).
       "ROCM_CFLAGS=-O3 -ffast-math -g -fno-finite-math-only -pthread -D__HIP_PLATFORM_AMD__ -Wno-unused-command-line-argument --offload-arch=${rocmArch} ${rocmIncludeFlags}"
-      "ROCM_LDLIBS=-lm -pthread ${rocmLinkFlags} -lhipblas -lhipblaslt"
+      "ROCM_LDLIBS=-lm -pthread ${rocmLinkFlags} -lhipblas -lhipblaslt -lrocblas"
     ];
     cuda = [
       # Replace upstream's hardcoded /usr/local/cuda + sbsa-linux (aarch64)
@@ -123,13 +123,13 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "ds4" + lib.optionalString (backend != "cpu") "-${backend}";
-  version = "0-unstable-2026-08-05";
+  version = "0-unstable-2026-09-16";
 
   src = fetchFromGitHub {
     owner = "antirez";
     repo = "ds4";
-    rev = "b0309611041655f4e45671cfd9c9886aff161406";
-    hash = "sha256-yBPQqX8oI9fElGiXfz72iWwIS8ZQpK4Bl9TWLZSa6JU=";
+    rev = "8db1d1d155cb0400a86a86b9c62d0defb3a6148b";
+    hash = "sha256-d0TRJH5/cNlDrgJy2i9eEUuSAlnka0BvxDXlXIwMwrE=";
   };
 
   enableParallelBuilding = true;
