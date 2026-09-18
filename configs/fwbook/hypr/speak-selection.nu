@@ -1,5 +1,9 @@
 #!/usr/bin/env nu
 
+let piperFolder = $env.HOME | path join ".local/share/piper"
+let piperSoundCacheFolder = $env.HOME | path join ".local/share/piper-cache"
+let modelName = "en_US-hfc_female-medium"
+
 def pidfile [] {
     $"($env.XDG_RUNTIME_DIR? | default "/tmp")/hypr-speak.pid"
 }
@@ -21,20 +25,44 @@ def kill-tree [pid: int] {
     let _ = (^kill -KILL $pid | complete)
 }
 
-def main [] {
-    let file = (pidfile)
-
-    if ($file | path exists) {
+def terminate-last [file: string] {
+	if ($file | path exists) {
         let old = (try { open --raw $file | str trim | into int } catch { null })
         rm --force $file
         if $old != null and (pid-alive $old) {
             kill-tree $old
-            return
+            return true
         }
+    }
+    return false
+}
+
+# Show a failure notification. Works with `complete` results
+# ({exit_code, stderr, ...}) and `catch` error records.
+def notify-error [context: string, err: record] {
+    let exit = ($err | get -o exit_code)
+    let detail = if $exit != null {
+        let stderr = ($err | get -o stderr | default "")
+        if ($stderr | is-empty) { $"exit ($exit)" } else { $"exit ($exit): ($stderr | str trim | lines | last)" }
+    } else {
+        $err.msg
+    }
+    let reply = notify-send -i dialog-error -A Yes="Copy to Clipboard" $"piper failed ($context)" $detail
+    if $reply == "Yes" {
+        ($err | get -o stderr | default "") | ^xclip
+    }
+}
+
+def main [--cache] {
+    let file = (pidfile)
+    if (terminate-last $file) {
+	    notify-send -i dialog-information "Piper" "Stopped"
+    	return
     }
 
     let paste = (^wl-paste --primary | complete)
     if $paste.exit_code != 0 {
+		    notify-send -i dialog-warning "Piper" "No text, make sure to copy something to clipboard"
         return
     }
 
@@ -45,12 +73,42 @@ def main [] {
         | str trim)
 
     if ($text | is-empty) {
+		    notify-send -i dialog-warning "Piper" "No text, make sure to copy something to clipboard"
         return
     }
 
+    # cache key includes the model so different voices don't collide
+    let text_sha = ($"($modelName)|($text)" | hash sha256)
+    let cache_file = $piperSoundCacheFolder | path join $"($text_sha).wav"
+
     $"($nu.pid)" | save --force $file
+
     try {
-        $text | ^piper -m en_US-hfc_female-medium
+        notify-send -i dialog-information $"Piper `($modelName)`" $"Text: ($text)"
+
+        # skip piper when the audio is already cached
+        if not ($cache and ($cache_file | path exists)) {
+            ^mkdir -p $piperSoundCacheFolder
+            let res = ($text | ^piper -m $modelName --data-dir $piperFolder --output-file $cache_file | complete)
+            if $res.exit_code != 0 {
+                notify-error "piper" $res
+                rm --force $cache_file
+                return
+            }
+        }
+
+        let res = (^ffplay -nodisp -autoexit $cache_file | complete)
+        if $res.exit_code != 0 {
+            notify-error "ffplay" $res
+            return
+        }
+    } catch { |err|
+        notify-error "unexpected" $err
     }
     rm --force $file
+
+    # no caching → don't leave the audio file behind
+    if not $cache {
+        rm --force $cache_file
+    }
 }

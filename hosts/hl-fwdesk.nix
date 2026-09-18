@@ -173,8 +173,6 @@ in
       # bluetooth
       blueman
 
-      # my apps
-      hermenix
     ]);
   services.usbmuxd.enable = true;
   # Steam
@@ -243,7 +241,7 @@ in
     network.externalInterface = "enp191s0";
     vcpu = 8;
     mem = 16384;
-    hermesHome = "/var/lib/hermes";
+    hermesHome = "/var/lib/hermes/.hermes";
     hostCache.port = ports.hermesCache; # 5000 collides with libretranslate
     hostAccess = [
       { port = ports.ollama; }

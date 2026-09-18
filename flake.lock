@@ -1039,11 +1039,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1789680476,
-        "narHash": "sha256-UOBb4V5OxAKOpgB6N8lRnbtkTRrwTaVzmvcxfmwyisI=",
+        "lastModified": 1789749213,
+        "narHash": "sha256-bYj5LouChA0lYv8c0L06EmT+nNiOwzhWYSAkROBTxSA=",
         "ref": "refs/heads/main",
-        "rev": "a538f70bf7cc3d0535f1d5996eb8d807b988621e",
-        "revCount": 36,
+        "rev": "c8ff8b1f25345e6437c33a708927e430da37dba3",
+        "revCount": 37,
         "type": "git",
         "url": "ssh://gitea@minipc1.lab.internal:22/ari/hermenix.git"
       },
