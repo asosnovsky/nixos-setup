@@ -20,13 +20,30 @@ let
       "--port ${toString port}"
 
       (optionalString (ctx != null) "--ctx ${toString ctx}")
+      (optionalString (tokens != null) "--tokens ${toString tokens}")
       (optionalString (threads != null) "--threads ${toString threads}")
-      (optionalString (batchSize != null) "--batch-size ${toString batchSize}")
+      (optionalString (power != null) "--power ${toString power}")
+      (optionalString (prefillChunk != null) "--prefill-chunk ${toString prefillChunk}")
+      (optionalString (batchedSession != null) "--batched-session ${toString batchedSession}")
+      (optionalString (mixedPrefillQuantum != null) "--mixed-prefill-quantum ${toString mixedPrefillQuantum}")
+      (optionalString (vision != null) "--vision ${escapeShellArg vision}")
+      (optionalString (trace != null) "--trace ${escapeShellArg trace}")
       (optionalString (kvDiskDir != null) "--kv-disk-dir ${escapeShellArg kvDiskDir}")
       (optionalString (kvDiskSpaceMb != null) "--kv-disk-space-mb ${toString kvDiskSpaceMb}")
-      (optionalString noKvOffload "--no-kv-offload")
+      (optionalString (kvCacheMinTokens != null) "--kv-cache-min-tokens ${toString kvCacheMinTokens}")
+      (optionalString (kvCacheColdMaxTokens != null) "--kv-cache-cold-max-tokens ${toString kvCacheColdMaxTokens}")
+      (optionalString (kvCacheContinuedIntervalTokens != null) "--kv-cache-continued-interval-tokens ${toString kvCacheContinuedIntervalTokens}")
+      (optionalString (kvCacheBoundaryTrimTokens != null) "--kv-cache-boundary-trim-tokens ${toString kvCacheBoundaryTrimTokens}")
+      (optionalString (kvCacheBoundaryAlignTokens != null) "--kv-cache-boundary-align-tokens ${toString kvCacheBoundaryAlignTokens}")
+      (optionalString kvCacheRejectDifferentQuant "--kv-cache-reject-different-quant")
+      (optionalString (toolMemoryMaxIds != null) "--tool-memory-max-ids ${toString toolMemoryMaxIds}")
       (optionalString cors "--cors")
-      (optionalString (gpuDeviceIds != null) "--gpu ${escapeShellArg gpuDeviceIds}")
+      (optionalString (gpuDevices != null) "--gpu-devices ${escapeShellArg gpuDevices}")
+      (optionalString ssdStreaming "--ssd-streaming")
+      (optionalString ssdStreamingCold "--ssd-streaming-cold")
+      (optionalString (ssdStreamingCacheExperts != null) "--ssd-streaming-cache-experts ${escapeShellArg ssdStreamingCacheExperts}")
+      (optionalString (ssdStreamingFullLayers != null) "--ssd-streaming-full-layers ${toString ssdStreamingFullLayers}")
+      (optionalString (ssdStreamingPreloadExperts != null) "--ssd-streaming-preload-experts ${toString ssdStreamingPreloadExperts}")
     ]);
 in
 {
@@ -77,6 +94,13 @@ in
         type = types.nullOr types.int;
       };
 
+      tokens = mkOption {
+        description = "Default max output tokens when clients omit a limit.";
+        default = null;
+        example = 4096;
+        type = types.nullOr types.int;
+      };
+
       threads = mkOption {
         description = "Number of inference threads (default: CPU core count).";
         default = null;
@@ -84,11 +108,46 @@ in
         type = types.nullOr types.int;
       };
 
-      batchSize = mkOption {
-        description = "Token batch size for prompt processing.";
+      power = mkOption {
+        description = "GPU duty-cycle target, 1..100 (default: 100).";
         default = null;
-        example = 512;
+        example = 80;
         type = types.nullOr types.int;
+      };
+
+      prefillChunk = mkOption {
+        description = "Graph prefill chunk size in tokens.";
+        default = null;
+        example = 4096;
+        type = types.nullOr types.int;
+      };
+
+      batchedSession = mkOption {
+        description = "Keep N resident sessions and batch decode-ready requests.";
+        default = null;
+        example = 4;
+        type = types.nullOr types.int;
+      };
+
+      mixedPrefillQuantum = mkOption {
+        description = "Prefill chunk size while generations are active (default: 128; GLM-5.3 minimum: 1024).";
+        default = null;
+        example = 128;
+        type = types.nullOr types.int;
+      };
+
+      vision = mkOption {
+        description = "Path to the vision encoder GGUF for the selected model.";
+        default = null;
+        example = "/var/lib/ds4/vision.gguf";
+        type = types.nullOr types.str;
+      };
+
+      trace = mkOption {
+        description = "Write prompts, cache decisions, output, and tool calls to this file.";
+        default = null;
+        example = "/var/lib/ds4/trace.log";
+        type = types.nullOr types.str;
       };
 
       kvDiskDir = mkOption {
@@ -105,10 +164,52 @@ in
         type = types.nullOr types.int;
       };
 
-      noKvOffload = mkOption {
-        description = "Disable KV cache offloading to disk entirely.";
+      kvCacheMinTokens = mkOption {
+        description = "Do not save/load KV checkpoints shorter than this many tokens (default: 512).";
+        default = null;
+        example = 512;
+        type = types.nullOr types.int;
+      };
+
+      kvCacheColdMaxTokens = mkOption {
+        description = "Save cold first prompts up to this many tokens; 0 disables (default: 30000).";
+        default = null;
+        example = 30000;
+        type = types.nullOr types.int;
+      };
+
+      kvCacheContinuedIntervalTokens = mkOption {
+        description = "Save aligned continued frontiers every N tokens; 0 disables (default: 10000).";
+        default = null;
+        example = 10000;
+        type = types.nullOr types.int;
+      };
+
+      kvCacheBoundaryTrimTokens = mkOption {
+        description = "Trim tail tokens for cold boundary saves (default: 32).";
+        default = null;
+        example = 32;
+        type = types.nullOr types.int;
+      };
+
+      kvCacheBoundaryAlignTokens = mkOption {
+        description = "Align cold boundary saves to this multiple (default: 2048).";
+        default = null;
+        example = 2048;
+        type = types.nullOr types.int;
+      };
+
+      kvCacheRejectDifferentQuant = mkOption {
+        description = "Reject KV checkpoints written with different routed-expert quantization.";
         default = false;
         type = types.bool;
+      };
+
+      toolMemoryMaxIds = mkOption {
+        description = "Exact tool-call IDs kept in RAM (default: 100000).";
+        default = null;
+        example = 100000;
+        type = types.nullOr types.int;
       };
 
       cors = mkOption {
@@ -117,11 +218,44 @@ in
         type = types.bool;
       };
 
-      gpuDeviceIds = mkOption {
+      gpuDevices = mkOption {
         description = "GPU device IDs for multi-GPU inference (e.g. '0,1').";
         default = null;
         example = "0,1";
         type = types.nullOr types.str;
+      };
+
+      ssdStreaming = mkOption {
+        description = "Opt in to SSD-backed model streaming instead of full residency (Metal/CUDA/ROCm).";
+        default = false;
+        type = types.bool;
+      };
+
+      ssdStreamingCacheExperts = mkOption {
+        description = "SSD streaming cache target: N requests dynamic expert slots; NGB also reserves two full prefill layers.";
+        default = null;
+        example = "64";
+        type = types.nullOr types.str;
+      };
+
+      ssdStreamingCold = mkOption {
+        description = "SSD streaming: skip the default popularity-based expert-cache preload.";
+        default = false;
+        type = types.bool;
+      };
+
+      ssdStreamingFullLayers = mkOption {
+        description = "GLM Metal streaming: keep the first N routed layers fully resident (default: auto; 0 disables).";
+        default = null;
+        example = 8;
+        type = types.nullOr types.int;
+      };
+
+      ssdStreamingPreloadExperts = mkOption {
+        description = "SSD streaming: upfront popularity preload count (DeepSeek auto-seeds by default; GLM demand-fills unless set).";
+        default = null;
+        example = 128;
+        type = types.nullOr types.int;
       };
 
       environment = mkOption {

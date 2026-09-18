@@ -2,7 +2,23 @@
 
 let
   cfg = config.skyg.nixos.common.ssh-notify;
-  socketPath = "/tmp/ssh-notify.sock";
+
+  # Client-side listen socket. Fixed/shared is fine here: socat's `fork`
+  # mode accepts unbounded connections over this path's lifetime, one per
+  # `notify-send` call from any concurrently forwarded SSH session.
+  #
+  # NOTE: assumes a single interactive uid (1000) on the desktop host, same
+  # as the rest of this single-user setup.
+  localSocketPath = "/run/user/1000/ssh-notify/listener.sock";
+
+  # Remote-side (server) forwarded socket. Uses OpenSSH's %C token (hash of
+  # local host/port/user + remote host/port/user, requires OpenSSH >= 8.9)
+  # so each concurrent SSH connection gets its own bind path on the server —
+  # this is what the old shared /tmp/ssh-notify.sock path got wrong: only
+  # one concurrent session could ever bind it, and every other session's
+  # `RemoteForward` silently failed ("remote port forwarding failed for
+  # listen path ..."), falling back to a broken direct D-Bus notify-send.
+  remoteSocketPath = "/tmp/ssh-notify-%C.sock";
 
   # Detect if this host is acting as the notification client (the machine you sit in front of)
   isClient =
@@ -12,28 +28,6 @@ let
   isServer =
     cfg.role == "server"
     || (cfg.role == "auto" && !isClient);
-
-  realNotifySend = "${pkgs.libnotify}/bin/notify-send";
-
-  # Thin wrapper installed in PATH. On servers (when SSH'd) it forwards via the socket.
-  notifyWrapper = pkgs.writeShellScriptBin "notify-send" ''
-    #!${pkgs.runtimeShell}
-    set -euo pipefail
-
-    if [ -n "''${SSH_CONNECTION:-}" ] && [ -S "${socketPath}" ]; then
-      host="$(hostname -s 2>/dev/null || hostname)"
-      # Send two lines: prefixed title + body (or remaining args joined)
-      # This keeps the protocol simple; complex notify-send flags are passed through as-is to the real binary on the client.
-      printf '[%s] ' "$host"
-      printf '%s ' "$@"
-      printf '\n'
-      # For body we just send the same line for now; user can refine later if needed.
-      # The listener below will treat the received line as both title and body (notify-send accepts that).
-      printf '%s\n' "$*"
-    else
-      exec ${realNotifySend} "$@"
-    fi
-  '';
 in
 {
   options.skyg.nixos.common.ssh-notify = {
@@ -52,41 +46,29 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # Always provide socat + real libnotify + our wrapper (wrapper shadows notify-send when earlier in PATH)
-    environment.systemPackages = [
-      pkgs.socat
-      pkgs.libnotify
-      notifyWrapper
-    ];
+    environment.systemPackages = [ pkgs.ssh-notify ];
 
-    # Client: ask SSH to forward the notification socket back to us on every connection
+    # Client: ask SSH to forward this connection's notification socket back
+    # to the shared local listener, and tell the server-side wrapper (via
+    # SetEnv, expanded here with the same %C the RemoteForward bind uses)
+    # which socket to connect to.
     programs.ssh.extraConfig = lib.mkIf isClient ''
-      # Forward remote notify-send traffic to the local listener
-      RemoteForward ${socketPath} ${socketPath}
+      RemoteForward ${remoteSocketPath} ${localSocketPath}
+      SetEnv SSH_NOTIFY_SOCK=${remoteSocketPath}
     '';
 
-    # Client listener: receives messages over the forwarded socket and shows them locally
+    # Server: accept the SSH_NOTIFY_SOCK env var forwarded by the client
+    # above (SSH only passes through an allow-listed set by default).
+    services.openssh.settings.AcceptEnv = lib.mkIf isServer [ "SSH_NOTIFY_SOCK" ];
+
+    # Client listener: one persistent socket, forked per connection, that
+    # turns each incoming JSON payload into a real local notification.
     systemd.user.services.ssh-notify-listener = lib.mkIf isClient {
       description = "Receive notify-send from remote hosts over SSH and display locally";
       after = [ "default.target" ];
       wantedBy = [ "default.target" ];
       serviceConfig = {
-        ExecStart =
-          let
-            listenerScript = pkgs.writeShellScript "ssh-notify-listener" ''
-              set -euo pipefail
-              # Remove stale socket if present
-              rm -f ${socketPath}
-              # Listen and for each connection read two lines (title line, body line)
-              # and invoke the real notify-send. We keep it running via systemd Restart.
-              while true; do
-                ${pkgs.socat}/bin/socat \
-                  UNIX-LISTEN:${socketPath},fork,mode=0666 \
-                  SYSTEM:'read title; read body; ${realNotifySend} "$title" "$body" || true'
-              done
-            '';
-          in
-          "${listenerScript}";
+        ExecStart = "${pkgs.ssh-notify}/bin/ssh-notify-listener";
         Restart = "always";
         RestartSec = 2;
       };
