@@ -80,12 +80,16 @@ in
         ctx = 100000;
         kvDiskDir = "/var/lib/ds4/kv";
         kvDiskSpaceMb = 8192;
+        kvCacheRejectDifferentQuant = true;
         cors = true;
         environment = {
           HSA_ENABLE_SDMA = "0";
         };
         openFirewall = true;
         autoStart = false;
+        extraServiceConfig = {
+          TimeoutStopSec = "300";
+        };
       };
       server.services.colibri = {
         enable = false;
@@ -239,10 +243,10 @@ in
     disk.baseDir = "/var/lib/hermes-vm";
     disk.stateSize = "60G";
     network.externalInterface = "enp191s0";
-    vcpu = 8;
-    mem = 16384;
+    vcpu = 3;
+    mem = 5000;
     hermesHome = "/var/lib/hermes/.hermes";
-    hostCache.port = ports.hermesCache; # 5000 collides with libretranslate
+    hostCache.port = ports.hermesCache;
     hostAccess = [
       { port = ports.ollama; }
       { port = ports.ds4; }

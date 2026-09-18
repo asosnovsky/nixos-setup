@@ -233,10 +233,9 @@ in
       onlyoffice-desktopeditors
 
       # Work
+      gh
       gdk
       unstablePkgs.slack
-      unstablePkgs.slacky
-      unstablePkgs.slack-term
 
       # IPhone Tethering
       libimobiledevice
