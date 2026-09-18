@@ -45,7 +45,7 @@ window-rule {
 // @id=dms_rule_4 @name=
 window-rule {
     match is-active=false
-    opacity 0.85
+    opacity 0.97
 }
 
 // @id=dms_rule_5 @name=

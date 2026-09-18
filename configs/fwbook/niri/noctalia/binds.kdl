@@ -5,6 +5,7 @@ binds {
 		Mod+Space { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
 		Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
     Mod+comma { spawn "noctalia" "msg" "settings-toggle"; }
+    Mod+Alt+L hotkey-overlay-title="Notifications: Clear" { spawn "noctalia" "msg" "notification-clear-active"; }
 
     Mod+P { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
 
