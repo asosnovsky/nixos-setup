@@ -57,7 +57,7 @@ hl.bind("F9", CarouselApps.jellyfin) -- PVR
 
 ---- play controls
 hl.bind("XF86AudioRewind", hl.dsp.exec_cmd("playerctl previous"))
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play"))
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioForward", hl.dsp.exec_cmd("playerctl next"))
 hl.bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"))
 

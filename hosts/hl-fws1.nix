@@ -58,9 +58,11 @@
   environment.systemPackages = with pkgs; [
     # my goodies
     skygqts
-    # --- 4. CEC control over the Framework HDMI card ---
+    # hdmi cec
     v4l-utils
     libcec
+    # sound control
+    playerctl
   ];
 
   # Flatpaks

@@ -26,8 +26,6 @@ binds {
     // =========================
     Mod+Shift+Up hotkey-overlay-title="PlayerCtrl: Volume Up" { spawn "dms" "ipc" "audio" "increment" "1"; }
     Mod+Shift+Down hotkey-overlay-title="PlayerCtrl: Volume Down" { spawn "dms" "ipc" "audio" "decrement" "1"; }
-    Mod+Shift+Right hotkey-overlay-title="PlayerCtrl: Next" { spawn "playerctl" "next"; }
-    Mod+Shift+Left hotkey-overlay-title="PlayerCtrl: Previous" { spawn "playerctl" "previous"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "audio" "increment" "1"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "audio" "decrement" "1"; }
     XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
