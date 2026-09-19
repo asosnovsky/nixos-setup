@@ -102,8 +102,7 @@ in
       specialArgs = specialArgs // {
         inherit system skygUtils user;
         unstablePkgs = allUnstablePkgs.${system};
-        # DwarfStar ds4 from asosnovsky/nixpkgs (ds4-init fork branch), see flake.nix.
-        ds4Pkgs = specialArgs.my-nixpkgs.legacyPackages.${system};
+        myPkgs = specialArgs.my-nixpkgs.legacyPackages.${system};
       };
       inherit system;
       modules = osModules ++ [

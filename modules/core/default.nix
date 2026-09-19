@@ -14,10 +14,7 @@
   config = {
     nixpkgs.overlays = [
       (final: _prev: {
-        # xAI Grok CLI — prebuilt binary, see pkgs/grok-cli.
-        grok-cli = final.callPackage ../../pkgs/grok-cli { };
         # colibrì (JustVugg/colibri) — GLM-5.2/OLMoE local inference, see pkgs/colibri.
-        # Backend-parameterized: cpu (default), rocm (Strix Halo).
         colibri = final.callPackage ../../pkgs/colibri { };
         colibri-rocm = final.callPackage ../../pkgs/colibri { backend = "rocm"; };
         # Touchscreen gesture bridge for niri, see pkgs/niri-touchscreen-gestures.

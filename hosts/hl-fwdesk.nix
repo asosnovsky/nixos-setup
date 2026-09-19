@@ -1,7 +1,6 @@
 { pkgs
-, config
 , unstablePkgs
-, ds4Pkgs
+, myPkgs
 , my-nixpkgs
 , ...
 }:
@@ -97,11 +96,8 @@ in
   services.ds4 = {
     enable = true;
     # Strix Halo == gfx1151. Pin explicitly: the fork package's auto-detected
-    # default can pick the wrong arch on non-GPU eval hosts (see fix on
-    # asosnovsky/nixpkgs ds4-init), and this host must always build gfx1151.
-    package = (ds4Pkgs.ds4-rocm.override { rocmArch = "gfx1151"; });
-    # Run as the existing ari account (the old skyg module default), so the
-    # ari-owned /var/lib/ds4 model + kv cache keep their current ownership.
+    package = (myPkgs.ds4-rocm.override { rocmArch = "gfx1151"; });
+
     user = "ari";
     group = "users";
     model = "/var/lib/ds4/ds4flash.gguf";
@@ -192,8 +188,7 @@ in
       blueman
 
     ])
-    # DwarfStar (antirez/ds4) — ROCm build for Strix Halo (gfx1151), from the fork.
-    ++ [ ds4Pkgs.ds4-rocm ];
+    ++ [ myPkgs.ds4-rocm ];
   services.usbmuxd.enable = true;
   # Steam
   programs.steam = {

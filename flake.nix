@@ -17,8 +17,7 @@
     determinate.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
-    # DwarfStar ds4 (package + nixos services.ds4 module) from the asosnovsky/nixpkgs
-    # fork, branch ds4-init (the implementation proposed for upstream).
+    # my fork of nixpkgs
     my-nixpkgs.url = "github:asosnovsky/nixpkgs/ds4-init";
     flox.url = "github:flox/flox/latest";
     # nix-index database (for nix-index and comma)
