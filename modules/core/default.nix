@@ -16,11 +16,6 @@
       (final: _prev: {
         # xAI Grok CLI — prebuilt binary, see pkgs/grok-cli.
         grok-cli = final.callPackage ../../pkgs/grok-cli { };
-        # DwarfStar (antirez/ds4) inference engine, see pkgs/ds4.
-        # Backend-parameterized: cpu (default), rocm (Strix Halo), cuda.
-        ds4 = final.callPackage ../../pkgs/ds4 { };
-        ds4-rocm = final.callPackage ../../pkgs/ds4 { backend = "rocm"; };
-        ds4-cuda = final.callPackage ../../pkgs/ds4 { backend = "cuda"; };
         # colibrì (JustVugg/colibri) — GLM-5.2/OLMoE local inference, see pkgs/colibri.
         # Backend-parameterized: cpu (default), rocm (Strix Halo).
         colibri = final.callPackage ../../pkgs/colibri { };

@@ -17,6 +17,9 @@
     determinate.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    # DwarfStar ds4 (package + nixos services.ds4 module) from the asosnovsky/nixpkgs
+    # fork, branch ds4-init (the implementation proposed for upstream).
+    my-nixpkgs.url = "github:asosnovsky/nixpkgs/ds4-init";
     flox.url = "github:flox/flox/latest";
     # nix-index database (for nix-index and comma)
     nix-index-database = {
@@ -97,6 +100,7 @@
     , stylix
     , hyprlauncher
     , hyprland
+    , my-nixpkgs
     , dms
     , dank-greeter
     , noctalia
@@ -137,6 +141,7 @@
                 hyprlauncher
                 hyprland
                 nixpkgs-unstable
+                my-nixpkgs
                 dms
                 dank-greeter
                 noctalia
@@ -232,7 +237,7 @@
         {
           openwrt-glmain = (openwrt (import ./openwrt-routers/glmain.nix)).deployScript;
           openwrt-glmain-dry-run = (openwrt (import ./openwrt-routers/glmain.nix)).dryRunScript;
-          ds4 = lib.pkgs.${system}.ds4;
+          ds4 = my-nixpkgs.legacyPackages.${system}.ds4;
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
           colibri = lib.pkgs.${system}.colibri;
           herdr = herdr.packages.${system}.default;

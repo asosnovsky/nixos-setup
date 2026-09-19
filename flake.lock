@@ -1695,6 +1695,22 @@
         "type": "github"
       }
     },
+    "my-nixpkgs": {
+      "locked": {
+        "lastModified": 1789765536,
+        "narHash": "sha256-zfNoP/NOzyLGneuOOuEOcEq/WON0L8BrusI10KiUhXU=",
+        "owner": "asosnovsky",
+        "repo": "nixpkgs",
+        "rev": "63c7314dd14de06c74455397a963185c09f52705",
+        "type": "github"
+      },
+      "original": {
+        "owner": "asosnovsky",
+        "ref": "ds4-init",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nix": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -2374,6 +2390,7 @@
         "home-manager": "home-manager_3",
         "hyprland": "hyprland",
         "hyprlauncher": "hyprlauncher",
+        "my-nixpkgs": "my-nixpkgs",
         "nix-darwin": "nix-darwin",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",

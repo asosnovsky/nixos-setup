@@ -46,7 +46,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ pkgs.ssh-notify ];
+    # hiPrio: desktop hosts (e.g. hl-fwdesk) also pull in the real libnotify
+    # via the tiler module's "always-on plumbing" packages, and both provide
+    # bin/notify-send. Force ours to win that collision unconditionally.
+    environment.systemPackages = [ (lib.hiPrio pkgs.ssh-notify) ];
 
     # Client: ask SSH to forward this connection's notification socket back
     # to the shared local listener, and tell the server-side wrapper (via
@@ -60,6 +63,15 @@ in
     # Server: accept the SSH_NOTIFY_SOCK env var forwarded by the client
     # above (SSH only passes through an allow-listed set by default).
     services.openssh.settings.AcceptEnv = lib.mkIf isServer [ "SSH_NOTIFY_SOCK" ];
+
+    # %C is a deterministic hash of (local host, remote user, remote host,
+    # remote port) -- the same value every time you connect to this host
+    # from this client, not a per-connection nonce. Without this, a socket
+    # left behind by an abnormally-ended session (network drop, kill) blocks
+    # every subsequent connection to the same host with "remote port
+    # forwarding failed for listen path ...". Tell sshd to unlink and rebind
+    # instead of refusing.
+    services.openssh.settings.StreamLocalBindUnlink = lib.mkIf isServer true;
 
     # Client listener: one persistent socket, forked per connection, that
     # turns each incoming JSON payload into a real local notification.

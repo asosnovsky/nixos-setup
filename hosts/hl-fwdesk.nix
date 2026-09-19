@@ -1,6 +1,8 @@
 { pkgs
 , config
 , unstablePkgs
+, ds4Pkgs
+, my-nixpkgs
 , ...
 }:
 let
@@ -32,7 +34,11 @@ let
   ];
 in
 {
-  imports = [ ./hl-fwdesk.hardware-configuration.nix ];
+  imports = [
+    ./hl-fwdesk.hardware-configuration.nix
+    # DwarfStar ds4 systemd module (services.ds4) from asosnovsky/nixpkgs fork (branch ds4-init).
+    "${my-nixpkgs}/nixos/modules/services/misc/ds4.nix"
+  ];
   # Skyg
   environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
   environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
@@ -71,26 +77,6 @@ in
           dataDir = "/data/comfyui";
         };
       };
-      server.services.ds4 = {
-        enable = true;
-        package = pkgs.ds4-rocm;
-        model = "/var/lib/ds4/ds4flash.gguf";
-        host = "0.0.0.0";
-        port = ports.ds4;
-        ctx = 100000;
-        kvDiskDir = "/var/lib/ds4/kv";
-        kvDiskSpaceMb = 8192;
-        kvCacheRejectDifferentQuant = true;
-        cors = true;
-        environment = {
-          HSA_ENABLE_SDMA = "0";
-        };
-        openFirewall = true;
-        autoStart = false;
-        extraServiceConfig = {
-          TimeoutStopSec = "300";
-        };
-      };
       server.services.colibri = {
         enable = false;
         package = pkgs.colibri-rocm;
@@ -103,6 +89,37 @@ in
     };
     networkDrives = {
       enable = true;
+    };
+  };
+  # DwarfStar (antirez/ds4) inference server — services.ds4 module from
+  # asosnovsky/nixpkgs (ds4-init fork branch); package is the fork's ROCm
+  # build for Strix Halo (gfx1151), see flake.nix:
+  services.ds4 = {
+    enable = true;
+    # Strix Halo == gfx1151. Pin explicitly: the fork package's auto-detected
+    # default can pick the wrong arch on non-GPU eval hosts (see fix on
+    # asosnovsky/nixpkgs ds4-init), and this host must always build gfx1151.
+    package = (ds4Pkgs.ds4-rocm.override { rocmArch = "gfx1151"; });
+    # Run as the existing ari account (the old skyg module default), so the
+    # ari-owned /var/lib/ds4 model + kv cache keep their current ownership.
+    user = "ari";
+    group = "users";
+    model = "/var/lib/ds4/ds4flash.gguf";
+    host = "0.0.0.0";
+    port = ports.ds4;
+    ctx = 100000;
+    kvDiskDir = "/var/lib/ds4/kv";
+    kvDiskSpaceMb = 8192;
+    cors = true;
+    environment = {
+      HSA_ENABLE_SDMA = "0";
+    };
+    openFirewall = true;
+    autoStart = false;
+    # Not a services.ds4 option in the fork module yet; pass the flag through.
+    extraArgs = [ "--kv-cache-reject-different-quant" ];
+    extraServiceConfig = {
+      TimeoutStopSec = "300";
     };
   };
   users.users.ari.extraGroups = [
@@ -168,16 +185,15 @@ in
       unstablePkgs.grok-build
       # stable-diffusion-cpp-rocm
       lmstudio
-      # DwarfStar (antirez/ds4) — ROCm build for Strix Halo (gfx1151).
-      ds4-rocm
-
       # Hermes gateway - Signal bridge (used to link the device + run the daemon)
       signal-cli
 
       # bluetooth
       blueman
 
-    ]);
+    ])
+    # DwarfStar (antirez/ds4) — ROCm build for Strix Halo (gfx1151), from the fork.
+    ++ [ ds4Pkgs.ds4-rocm ];
   services.usbmuxd.enable = true;
   # Steam
   programs.steam = {
