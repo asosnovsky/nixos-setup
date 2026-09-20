@@ -26,9 +26,7 @@ in
         pipewire.enable = true;
         laptop-power-mgr = {
           enable = true;
-          enableLidMonitorMode = true;
           enableTempMonitor = true;
-          disableLidSwitch = true;
         };
         amdgpu.enable = true;
       };
@@ -259,6 +257,9 @@ in
       hermenix
     ]);
 
+  # General hardware stuff
+  systemd.services.NetworkManager-wait-online.enable = false;
+  systemd.services.systemd-udev-settle.enable = false;
   services.usbmuxd.enable = true;
   # Tether — iPhone ↔ Linux Wayland bridge
   programs.tether = {

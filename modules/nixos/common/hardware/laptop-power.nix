@@ -250,9 +250,12 @@ in
         } // (if cfg.disableLidSwitch then {
           HandleLidSwitch = "ignore";
           HandleLidSwitchExternalPower = "ignore";
+          HandleLidSwitchDocked = "ignore";
         } else {
           HandleLidSwitch = "suspend";
           HandleLidSwitchExternalPower = "suspend";
+          # Don't suspend when docked to an external screen.
+          HandleLidSwitchDocked = "ignore";
         });
       };
     };

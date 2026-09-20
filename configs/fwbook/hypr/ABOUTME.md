@@ -65,7 +65,7 @@ hypr/
     ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture
     ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
     ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp); Mod+Tab toggles the Quickshell overview
-    └── autostart.lua            # noctalia, Quickshell overview, hypridle via setpriv (hl.on hyprland.start; drops compositor caps)
+    └── autostart.lua            # noctalia + Quickshell overview via setpriv (hl.on hyprland.start; drops compositor caps)
 ```
 
 ## Bindings without a clean 1:1 niri mapping

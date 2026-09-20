@@ -28,7 +28,6 @@ in
       enable = true;
     };
     environment.systemPackages = with pkgs; [
-      hypridle
       swayosd
       xwayland-satellite
       adwaita-icon-theme

@@ -24,7 +24,7 @@ in
         configType = "hypr";
       };
       tools = {
-        enable = lib.mkEnableOption "Hyprland shell tools (hypridle, wofi, rofi, grim, slurp, satty)";
+        enable = lib.mkEnableOption "Hyprland shell tools (wofi, rofi, grim, slurp, satty)";
       };
     };
   };
@@ -63,7 +63,6 @@ in
     environment.systemPackages = with pkgs; [
       wl-clipboard
     ] ++ (lib.optionals cfg.tools.enable [
-      hypridle
       wofi
       rofi
       grim

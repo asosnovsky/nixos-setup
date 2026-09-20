@@ -44,7 +44,7 @@ skyg.nixos.desktop.tiler.niri.configLink.mountAsSource # bake config into the bu
 skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable  # 3/4-finger swipes → niri actions
 skyg.nixos.desktop.tiler.hyprland.enable
 skyg.nixos.desktop.tiler.hyprland.configName     # per-host config dir (default: hostName)
-skyg.nixos.desktop.tiler.hyprland.tools.enable   # hypridle, wofi, rofi, grim, slurp, satty
+skyg.nixos.desktop.tiler.hyprland.tools.enable   # wofi, rofi, grim, slurp, satty
 skyg.nixos.desktop.tiler.noctalia.enable         # standalone noctalia + config symlink
 skyg.nixos.desktop.tiler.noctalia.configName     # per-host config dir (default: hostName)
 skyg.nixos.desktop.tiler.quickshell.enable       # qs package + config symlink (e.g. fwbook's overview)
@@ -58,7 +58,7 @@ skyg.nixos.desktop.tiler.background.enable
 `xdg-desktop-portal-hyprland` kept in sync), launched via UWSM. It:
 
 - Installs the noctalia shell and autostart-friendly tools (grim/slurp/satty,
-  wofi/rofi, hypridle, wl-clipboard). There is no waybar/hyprpanel — the shell is noctalia.
+  wofi/rofi, wl-clipboard). There is no waybar/hyprpanel — the shell is noctalia.
 - No Hyprland overview plugin — the scrolling overview is a standalone Quickshell
   config (`quickshell.nix`, see below), not a Hyprland plugin.
 - Symlinks `~/.config/hypr` -> `configs/<configName>/hypr`, where `configName`
@@ -87,7 +87,7 @@ against tagged releases. Quickshell avoids the plugin-ABI churn entirely.
 ### Hyprland shell tools (opt-in)
 
 The shell/utility apps that were previously installed unconditionally with Hyprland
-(hypridle, wofi, rofi, grim, slurp, satty) are now gated behind
+(wofi, rofi, grim, slurp, satty) are now gated behind
 `skyg.nixos.desktop.tiler.hyprland.tools.enable`. `wl-clipboard` stays always-on. Hosts
 whose Hyprland config actually invokes these (e.g. `fwbook`) enable the flag; a pure
 clock box (`hl-pi1`) does not.
@@ -110,18 +110,18 @@ When `skyg.nixos.desktop.tiler.niri.touchscreen-gestures.enable = true`:
 
 ### Options
 
-| Option | Default | Notes |
-|---|---|---|
-| `touchOutput` | `null` | niri output the panel maps to. **Required when more than one output is enabled** — the daemon refuses to start otherwise. Match `touch { map-to-output }` in the niri config. |
-| `device` | `null` | Explicit evdev path; auto-detect fails with multiple touchscreens. |
-| `threshold` | `60` | Pixels of movement before a swipe registers. |
-| `configFile` | `null` | TOML gesture config. Must exist if set — a missing file is fatal, not a fallback to defaults. |
+| Option        | Default | Notes                                                                                                                                                                         |
+| ------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `touchOutput` | `null`  | niri output the panel maps to. **Required when more than one output is enabled** — the daemon refuses to start otherwise. Match `touch { map-to-output }` in the niri config. |
+| `device`      | `null`  | Explicit evdev path; auto-detect fails with multiple touchscreens.                                                                                                            |
+| `threshold`   | `60`    | Pixels of movement before a swipe registers.                                                                                                                                  |
+| `configFile`  | `null`  | TOML gesture config. Must exist if set — a missing file is fatal, not a fallback to defaults.                                                                                 |
 
 ### Why dotool and not ydotool
 
 Forwarding a tap needs the pointer placed at an absolute position. `ydotool`'s
 `mousemove --absolute` does not do that: it emits a warp-to-corner plus a
-*relative* delta, so the compositor's pointer acceleration scales it — measured
+_relative_ delta, so the compositor's pointer acceleration scales it — measured
 at exactly 2x on this host, saturating at the screen edge past ~1440px. niri has
 no per-device input config, so accel cannot be flattened for just the virtual
 device. `dotool` registers a uinput device with a declared absolute axis range
