@@ -1,6 +1,5 @@
 binds {
 
-		Mod+Shift+A { spawn "noctalia"; }
 		ALT+Tab { spawn "noctalia" "msg" "window-switcher" "toggle"; }
 		Mod+Space { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
 		Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center"; }

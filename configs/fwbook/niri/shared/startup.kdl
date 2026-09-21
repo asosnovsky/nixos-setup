@@ -1,0 +1,5 @@
+spawn-at-startup "/home/ari/.config/niri/startup.sh"
+
+binds {
+	Mod+Shift+A { spawn "/home/ari/.config/niri/startup.sh"; }
+}

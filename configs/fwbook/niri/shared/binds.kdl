@@ -15,6 +15,8 @@ binds {
     Mod+E { spawn "wofi-emoji"; }
     Mod+Alt+E { spawn-sh "zeditor ~/.config/niri/shared/binds.kdl"; }
     Mod+Q { close-window; }
+    Mod+Alt+N hotkey-overlay-title="Workspace: Rename" { spawn "skygqts" "workspace-rename" "toggle"; }
+
 
     // =========================
     // Navigation
@@ -68,7 +70,7 @@ binds {
     // Screenshots & Recording
     // =========================
     Mod+R { spawn "/home/ari/.config/niri/screen-record.sh"; }
-    Mod+M { spawn "nu" "~/.config/hypr/speak-selection.nu"; }
+    Mod+M { spawn "nu" "/home/ari/.config/hypr/speak-selection.nu"; }
 
     // =========================
     // Misc
