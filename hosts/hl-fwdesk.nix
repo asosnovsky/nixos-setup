@@ -257,6 +257,15 @@ in
     ];
     lanAccess = [
       { address = "10.0.12.1"; port = 80; } # Home Assistant
+      # *.app.internal apps on the macvlan lab subnet (drawdb, audiobooks, ...)
+      { address = "10.0.101.0/24"; port = 80; }
+      { address = "10.0.101.0/24"; port = 443; }
+      # Buzz relay — its own IP, not the whole subnet
+      { address = "10.0.101.3"; port = 3000; } # relay
+      { address = "10.0.101.3"; port = 8080; } # health
+      { address = "10.0.101.3"; port = 9102; } # metrics
+      # Gitea
+      { address = "10.0.10.6"; port = 3000; }
     ];
     publish = [
       { hostPort = ports.hermes; guestPort = 8642; }
