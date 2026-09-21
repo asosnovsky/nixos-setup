@@ -33,7 +33,7 @@ consistently (compose tooling, user group membership, OCI backend, metrics).
   user to the `docker` group, and installs `docker-compose`.
 - **Podman** enables `dockerCompat` + docker socket so `docker`/`oci-containers` keep working,
   allows plain-HTTP pulls from `localDockerRegistries` via
-  `virtualisation.containers.registries.settings`, and installs `podman-compose` + `podman-tui`.
+  `virtualisation.containers.registries.insecure`, and installs `podman-compose` + `podman-tui`.
 - `openMetricsPort` opens the metrics port in the firewall (Docker only).
 
 ### Option namespace

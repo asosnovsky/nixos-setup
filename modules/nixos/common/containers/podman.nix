@@ -14,9 +14,8 @@ in
         autoPrune.enable = true;
       };
       # Allow pulling from local registries that serve plain HTTP
-      containers.registries.settings = lib.optionalAttrs (cfg.localDockerRegistries != [ ]) {
-        registries.insecure.registries = cfg.localDockerRegistries;
-      };
+      # (e.g. minipc1.lab.internal:5001).
+      containers.registries.insecure = cfg.localDockerRegistries;
     };
     environment.systemPackages = with pkgs; [ podman-compose podman-tui ];
   };
