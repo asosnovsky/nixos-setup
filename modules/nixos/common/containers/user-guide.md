@@ -5,14 +5,14 @@ staged on disk, and managed by a systemd oneshot unit.
 
 ## Where things live
 
-| What | Path |
-| ---- | ---- |
-| Staged compose file | `/var/lib/container-services/<group>/compose.yml` |
+| What                                                                             | Path                                                        |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Staged compose file                                                              | `/var/lib/container-services/<group>/compose.yml`           |
 | Staged overrides file (composeFile groups with networks/volumes/extraConfig set) | `/var/lib/container-services/<group>/compose.overrides.yml` |
-| Nix store source | `/nix/store/…-compose.yml` (copied on each activation) |
-| Systemd unit | `container-services-<group>.service` |
-| Container logs | `docker compose -p <group> logs -f <service>` |
-| Unit journal | `journalctl -u container-services-<group> -f` |
+| Nix store source                                                                 | `/nix/store/…-compose.yml` (copied on each activation)      |
+| Systemd unit                                                                     | `container-services-<group>.service`                        |
+| Container logs                                                                   | `docker compose -p <group> logs -f <service>`               |
+| Unit journal                                                                     | `journalctl -u container-services-<group> -f`               |
 
 ## Quick reference
 
@@ -51,6 +51,7 @@ journalctl -u container-services-<group> -n 50
 ```
 
 Common causes:
+
 - **Docker not running** — `systemctl status docker`
 - **Secret path missing** — agenix may not have decrypted yet; check `systemctl status agenix`
 - **Port already in use** — another service holds the host port; `ss -tlnp | grep <port>`
@@ -123,6 +124,7 @@ services.app = {
 ```
 
 Files are:
+
 - Written to `/var/lib/container-services/<group>/files/` on the host
 - Mounted read-only into the container at the specified paths
 - Updated automatically when you rebuild
@@ -155,21 +157,61 @@ skyg.nixos.common.container-services.my-stack = {
 ```
 
 When `composeFile` is set, the module:
+
 - Copies that file to `/var/lib/container-services/<group>/compose.yml` at
   startup, just like a rendered one. It must define `services` itself —
   ignores this group's `services`/`files` blocks.
 - If this group also sets `networks`/`volumes`/`extraConfig`, those are
   rendered to `/var/lib/container-services/<group>/compose.overrides.yml` and
   passed to compose **before** the composeFile (`-f compose.overrides.yml -f
-  compose.yml`), so compose's native multi-file merge applies —
+compose.yml`), so compose's native multi-file merge applies —
   composeFile's own definitions win on any overlapping keys.
 - Requires exactly one of `composeFile` or `services` to be set (assertion).
 
 Notes:
+
 - `env_file:` entries in the external file resolve **relative to**
   `/var/lib/container-services/<group>/`. Use absolute paths (e.g. another
   agenix secret path) or inline `environment:` instead.
 - Create the secret with `skyg encrypt <secret-name>`.
+
+---
+
+## Shared Networks (created on the host)
+
+Compose networks declared inside a group are scoped to that group's compose project, so two
+groups would each get their own copy. To share **one** network across several stacks (e.g. a
+single macvlan network), declare it once with `skyg.nixos.common.containers.networks` and
+reference it as `external` via its computed `compose` attribute:
+
+```nix
+# once, e.g. in the host file
+skyg.nixos.common.containers.networks.lab = {
+  driver = "macvlan";
+  driverOpts.parent = "eno1";
+  subnet = "10.0.0.0/16";
+  gateway = "10.0.0.1";
+  ipRange = "10.0.101.16/28";
+};
+
+skyg.nixos.common.container-services.my-stack = {
+  enable = true;
+  networks = {
+    internal = { driver = "bridge"; };
+    lan = config.skyg.nixos.common.containers.networks.lab.compose;
+  };
+  services.app = {
+    image = "example/app:latest";
+    networks = {
+      internal = { };
+      lan = { ipv4_address = "10.0.101.3"; };
+    };
+  };
+};
+```
+
+The network is created by a host systemd unit (`container-network-<name>.service`) before any
+group starts; groups only reference it (`external: true`) and never create it.
 
 ---
 

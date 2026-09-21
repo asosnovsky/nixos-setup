@@ -14,22 +14,14 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/142c88f4-b1bc-4ed9-92ee-2c52cdfa4274";
     fsType = "ext4";
   };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/01FE-EDCC";
     fsType = "vfat";
   };
-  # Data
-  # fileSystems."/mnt/Data" = {
-  #   device = "/dev/disk/by-uuid/ee4a60a8-b0d1-4f5c-a554-1d1d84c89e34";
-  #   fsType = "ext4";
-  #   options = [ "defaults" ];
-  # };
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/ee4a60a8-b0d1-4f5c-a554-1d1d84c89e34";
     fsType = "ext4";

@@ -17,7 +17,7 @@ common/
 ├── ssh-notify.nix   # skyg.nixos.common.ssh-notify — forward notify-send from SSH sessions to a desktop client
 ├── qemu.nix         # skyg.core.qemu — QEMU/quickemu + SPICE guest tooling
 ├── binary-cache.nix # skyg.nixos.common.cachePush — push finished builds to the bigbox2 cache
-├── containers/      # Docker vs Podman runtime selection
+├── containers/      # Docker vs Podman runtime selection + host-created container networks
 ├── hardware/        # GPU, fan control, audio, laptop power, Coral TPU udev
 └── pritunl/         # Pritunl VPN client service
 ```
@@ -53,6 +53,6 @@ skyg.nixos.common.pritunl.*      → pritunl/
 
 ## Conventions
 
-- This tree is for behaviour that is reasonable on *any* Linux host. Anything role-specific
+- This tree is for behaviour that is reasonable on _any_ Linux host. Anything role-specific
   belongs in `server/` or `desktop/`.
 - Hostname-independent defaults can be set directly; anything optional gets an `enable` gate.

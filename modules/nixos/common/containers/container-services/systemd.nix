@@ -14,9 +14,10 @@
     {
       description = "Container service group '${groupName}'";
       wantedBy = [ "multi-user.target" ];
-      wants = [ "network-online.target" "remote-fs.target" ];
+      wants = [ "network-online.target" "remote-fs.target" "container-networks.target" ];
       after = [
         runtimeService
+        "container-networks.target"
         "network-online.target"
         "agenix.service"
         "remote-fs.target"

@@ -13,6 +13,10 @@ in
         dockerSocket.enable = true;
         autoPrune.enable = true;
       };
+      # Allow pulling from local registries that serve plain HTTP
+      containers.registries.settings = lib.optionalAttrs (cfg.localDockerRegistries != [ ]) {
+        registries.insecure.registries = cfg.localDockerRegistries;
+      };
     };
     environment.systemPackages = with pkgs; [ podman-compose podman-tui ];
   };

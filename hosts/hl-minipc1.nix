@@ -25,6 +25,21 @@ let
     ports.ssh
     ports.iu
   ];
+  # Buzz stack
+  buzz = {
+    domain = "buzz.lab.internal";
+    port = 3000;
+    ip = "10.0.101.3";
+    bucket = "buzz-media";
+  };
+  # NFS-backed volume on tnas1 (repo pattern: compose volume with nfs driver_opts).
+  nfsVolume = subpath: {
+    driver_opts = {
+      type = "nfs";
+      o = "addr=tnas1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
+      device = ":/mnt/SmallG/buzz/${subpath}";
+    };
+  };
 in
 {
   skyg.user.enable = true;
@@ -34,7 +49,17 @@ in
     openFirewall = true;
     addressesSecretName = "dns-addresses.conf";
   };
+  skyg.nixos.common.containers.runtime = "podman";
   skyg.nixos.common.containers.openMetricsPort = true;
+
+  # One shared macvlan network, created once at boot.
+  skyg.nixos.common.containers.networks.lab = {
+    driver = "macvlan";
+    driverOpts.parent = "eno1";
+    subnet = "10.0.0.0/16";
+    gateway = "10.0.0.1";
+    ipRange = "10.0.101.16/28";
+  };
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;
   skyg.nixos.server.k3s.enable = false;
@@ -194,6 +219,130 @@ in
             rewrite_en = "grok-4.3"
             rewrite_ru = "grok-4.3"
           '';
+        };
+      };
+    };
+  };
+
+  # Buzz — relay + postgres + redis + garage (S3). Reachable at
+  # http://buzz.lab.internal:3000 on its own macvlan IP (10.0.101.3).
+  # Data lives on tnas1 via NFS-backed compose volumes (/mnt/SmallG/buzz).
+  age.secrets.buzz-env.file = ../secrets/buzz-env.age;
+  skyg.nixos.common.container-services.buzz = {
+    enable = true;
+    autoUpdate.enable = true;
+
+    networks = {
+      internal = { driver = "bridge"; };
+      # Shared macvlan network created by skyg.nixos.common.containers.networks.lab.
+      lan = config.skyg.nixos.common.containers.networks.lab.compose;
+    };
+
+    volumes = {
+      buzz-postgres = nfsVolume "postgres";
+      buzz-redis = nfsVolume "redis";
+      buzz-garage = nfsVolume "garage";
+      buzz-git = nfsVolume "git";
+    };
+
+    services = {
+      relay = {
+        image = "ghcr.io/block/buzz:main";
+        dependsOn = [ "postgres" "redis" "garage" ];
+        networks = {
+          internal = { };
+          lan = { ipv4_address = buzz.ip; };
+        };
+        environmentFiles = [ config.age.secrets.buzz-env.path ];
+        environment = {
+          BUZZ_BIND_ADDR = "0.0.0.0:${toString buzz.port}";
+          BUZZ_HEALTH_PORT = "8080";
+          BUZZ_METRICS_PORT = "9102";
+          RELAY_URL = "ws://${buzz.domain}:${toString buzz.port}";
+          BUZZ_MEDIA_BASE_URL = "http://${buzz.domain}:${toString buzz.port}/media";
+          BUZZ_MEDIA_SERVER_DOMAIN = "${buzz.domain}:${toString buzz.port}";
+          BUZZ_CORS_ORIGINS = "http://${buzz.domain}:${toString buzz.port}";
+          BUZZ_S3_ENDPOINT = "http://garage:3900";
+          BUZZ_S3_REGION = "garage";
+          BUZZ_S3_ADDRESSING_STYLE = "path";
+          BUZZ_S3_BUCKET = buzz.bucket;
+          BUZZ_GIT_REPO_PATH = "/data/git";
+          BUZZ_AUTO_MIGRATE = "true";
+          BUZZ_GIT_CONFORMANCE_PROBE = "true";
+          RUST_LOG = "buzz_relay=info,buzz_db=info,buzz_auth=info,buzz_pubsub=info,tower_http=info";
+        };
+        volumes = [ "buzz-git:/data/git" ];
+        healthcheck = {
+          test = [
+            "CMD-SHELL"
+            "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8080; printf \"GET /_readiness HTTP/1.1\\r\\nHost: 127.0.0.1\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"200 OK\" <&3'"
+          ];
+          interval = "10s";
+          timeout = "3s";
+          retries = 12;
+          start_period = "30s";
+        };
+      };
+
+      postgres = {
+        image = "postgres:17-alpine";
+        networks = [ "internal" ];
+        environmentFiles = [ config.age.secrets.buzz-env.path ];
+        environment = {
+          POSTGRES_DB = "buzz";
+          POSTGRES_USER = "buzz";
+        };
+        volumes = [ "buzz-postgres:/var/lib/postgresql/data" ];
+        healthcheck = {
+          test = [ "CMD-SHELL" "pg_isready -U buzz -d buzz" ];
+          interval = "5s";
+          timeout = "5s";
+          retries = 12;
+          start_period = "10s";
+        };
+      };
+
+      redis = {
+        image = "redis:7-alpine";
+        networks = [ "internal" ];
+        environmentFiles = [ config.age.secrets.buzz-env.path ];
+        volumes = [ "buzz-redis:/data" ];
+        files."/usr/local/bin/redis-entrypoint.sh" = ''
+          #!/bin/sh
+          set -eu
+          exec redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"
+        '';
+        command = [ "sh" "/usr/local/bin/redis-entrypoint.sh" ];
+      };
+
+      garage = {
+        image = "dxflrs/garage:v2.4.1";
+        networks = [ "internal" ];
+        environmentFiles = [ config.age.secrets.buzz-env.path ];
+        environment.GARAGE_DEFAULT_BUCKET = buzz.bucket;
+        volumes = [ "buzz-garage:/var/lib/garage" ];
+        command = [ "/garage" "server" "--single-node" "--default-bucket" ];
+        files."/etc/garage.toml" = ''
+          metadata_dir = "/var/lib/garage/meta"
+          data_dir = "/var/lib/garage/data"
+          db_engine = "sqlite"
+
+          replication_factor = 1
+
+          rpc_bind_addr = "[::]:3901"
+          rpc_public_addr = "127.0.0.1:3901"
+
+          [s3_api]
+          s3_region = "garage"
+          api_bind_addr = "[::]:3900"
+          root_domain = ".s3.garage.localhost"
+        '';
+        healthcheck = {
+          test = [ "CMD" "/garage" "status" ];
+          interval = "30s";
+          timeout = "10s";
+          retries = 5;
+          start_period = "20s";
         };
       };
     };

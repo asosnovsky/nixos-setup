@@ -4,6 +4,7 @@
   imports = [
     ./docker.nix
     ./podman.nix
+    ./networks.nix
     ./container-services
   ];
   options = {

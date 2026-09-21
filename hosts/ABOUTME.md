@@ -20,20 +20,20 @@ hosts/
 
 ## Managed Hosts
 
-| File | Host | Role |
-|---|---|---|
-| `fwbook.nix` | fwbook | Framework 13 AMD — personal laptop / daily driver |
-| `hl-fwdesk.nix` | hl-fwdesk | Framework Desktop AI Max 300 — AI workstation |
-| `hl-fws1.nix` | hl-fws1 | Framework 11th Intel — K3s server node |
-| `hl-bigbox1.nix` | hl-bigbox1 | AI/compute server (NVIDIA + AMD) |
-| `hl-bigbox2.nix` | hl-bigbox2 | NFS storage server |
-| `hl-minipc1.nix` | hl-minipc1 | Core infra: Gitea, nix-serve, Docker registry |
-| `hl-minipc2.nix` | hl-minipc2 | Container/media server |
-| `hl-minipc3.nix` | hl-minipc3 | K3s worker node |
-| `hl-pi1.nix` | hl-pi1 | Raspberry Pi CM4 (aarch64) — headless server, SSH only. Also buildable as a bootable SD image via the `hl-pi1-sd-image` nixosConfiguration (`skyg build-pi-sd-image`) |
-| `hl-pi2.nix` | hl-pi2 | Raspberry Pi 4 (aarch64) — headless server, SSH only. Also buildable as a bootable SD image via the `hl-pi2-sd-image` nixosConfiguration |
-| `hl-terra1.nix` | hl-terra1 | NFS storage + Jellyfin backup |
-| `iso.nix` | iso | Bootable NixOS installer image |
+| File             | Host       | Role                                                                                                                                                                  |
+| ---------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fwbook.nix`     | fwbook     | Framework 13 AMD — personal laptop / daily driver                                                                                                                     |
+| `hl-fwdesk.nix`  | hl-fwdesk  | Framework Desktop AI Max 300 — AI workstation                                                                                                                         |
+| `hl-fws1.nix`    | hl-fws1    | Framework 11th Intel — K3s server node                                                                                                                                |
+| `hl-bigbox1.nix` | hl-bigbox1 | AI/compute server (NVIDIA + AMD)                                                                                                                                      |
+| `hl-bigbox2.nix` | hl-bigbox2 | NFS storage server                                                                                                                                                    |
+| `hl-minipc1.nix` | hl-minipc1 | Core infra: Gitea, nix-serve, registry, Buzz (podman)                                                                                                                 |
+| `hl-minipc2.nix` | hl-minipc2 | Container/media server                                                                                                                                                |
+| `hl-minipc3.nix` | hl-minipc3 | K3s worker node                                                                                                                                                       |
+| `hl-pi1.nix`     | hl-pi1     | Raspberry Pi CM4 (aarch64) — headless server, SSH only. Also buildable as a bootable SD image via the `hl-pi1-sd-image` nixosConfiguration (`skyg build-pi-sd-image`) |
+| `hl-pi2.nix`     | hl-pi2     | Raspberry Pi 4 (aarch64) — headless server, SSH only. Also buildable as a bootable SD image via the `hl-pi2-sd-image` nixosConfiguration                              |
+| `hl-terra1.nix`  | hl-terra1  | NFS storage + Jellyfin backup                                                                                                                                         |
+| `iso.nix`        | iso        | Bootable NixOS installer image                                                                                                                                        |
 
 ## Rules
 
