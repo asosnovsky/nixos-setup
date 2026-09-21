@@ -55,9 +55,13 @@ in
     # to the shared local listener, and tell the server-side wrapper (via
     # SetEnv, expanded here with the same %C the RemoteForward bind uses)
     # which socket to connect to.
+    # Scoped to lab hosts: without the Match, every outbound ssh (GitHub,
+    # work bastions, …) tries the forward, logs failures, and may leave a
+    # socket behind on hosts that accept it.
     programs.ssh.extraConfig = lib.mkIf isClient ''
-      RemoteForward ${remoteSocketPath} ${localSocketPath}
-      SetEnv SSH_NOTIFY_SOCK=${remoteSocketPath}
+      Match host *.lab.internal
+        RemoteForward ${remoteSocketPath} ${localSocketPath}
+        SetEnv SSH_NOTIFY_SOCK=${remoteSocketPath}
     '';
 
     # Server: accept the SSH_NOTIFY_SOCK env var forwarded by the client

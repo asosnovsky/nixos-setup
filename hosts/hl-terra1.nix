@@ -38,8 +38,8 @@ in
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
   # NFS
+  skyg.nixos.common.networking.nfsServer.enable = true;
   services.nfs.server = {
-    enable = true;
     lockdPort = 4001;
     mountdPort = 4002;
     statdPort = 4000;

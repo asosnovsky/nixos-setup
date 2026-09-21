@@ -44,6 +44,10 @@ If adding a new per-service option:
 - Each group gets **one** systemd unit (`container-services-<group>.service`) that manages the whole stack
 - Group units are ordered after `container-networks.target`, so any network declared in
   `skyg.nixos.common.containers.networks` exists before a stack starts
+- Each unit puts the runtime CLI (`pkgs.podman`/`pkgs.docker`) and `coreutils` on `PATH`:
+  `podman-compose` shells out to a bare `podman`, and NixOS systemd services do not inherit
+  `/run/current-system/sw/bin` (Docker worked without this only because `docker-compose` v2
+  talks to the socket directly)
 - Custom files are collected and written by a separate unit (`container-services-<group>-files.service`)
 - Env file changes trigger a path unit that restarts the stack (`container-services-<group>-env-reload.*`)
 - Compose files are rendered to the store and staged to `/var/lib/container-services/<group>/compose.yml`

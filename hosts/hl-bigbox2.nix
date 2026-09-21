@@ -36,8 +36,8 @@ in
   skyg.nixos.common.cachePush.enable = false;
   # firmware updater
   services.fwupd.enable = true;
+  skyg.nixos.common.networking.nfsServer.enable = true;
   services.nfs.server = {
-    enable = true;
     lockdPort = ports.lockdPort;
     mountdPort = ports.mountdPort;
     statdPort = ports.statdPort;

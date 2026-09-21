@@ -45,6 +45,7 @@ in
     core.qemu.enable = true;
     nixos = {
       common.ssh-server.enable = true;
+      common.cachePush.enable = true;
       common.hardware = {
         pipewire.enable = true;
         amdgpu.enable = true;
@@ -118,7 +119,6 @@ in
   };
   users.users.ari.extraGroups = [
     "input"
-    "disk"
     "wheel"
     "tty"
     "dialout"

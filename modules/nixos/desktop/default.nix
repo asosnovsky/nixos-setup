@@ -10,7 +10,6 @@ let
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
     users.users.${skygUser.name}.extraGroups = [
       "input"
-      "disk"
       "wheel"
       "tty"
       "dialout"

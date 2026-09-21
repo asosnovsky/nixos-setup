@@ -12,9 +12,9 @@ in
     };
     skyg.nixos.common.networking = {
       nfsServer.enable = lib.mkOption {
-        description = "Enable the NFS server (services.nfs.server).";
+        description = "Enable the NFS server (services.nfs.server). Off by default; opt in on hosts that export shares.";
         type = lib.types.bool;
-        default = true;
+        default = false;
       };
     };
   };

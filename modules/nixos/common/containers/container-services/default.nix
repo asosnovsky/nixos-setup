@@ -13,6 +13,8 @@ let
   composeBin = containerLib.composeBin containersCfg.runtime;
   runtimeService = containerLib.runtimeService isDocker;
   runtimeBin = containerLib.runtimeBin isDocker;
+  # Put the runtime CLI on each unit's PATH (podman-compose shells out to `podman`).
+  runtimePkg = if isDocker then pkgs.docker else pkgs.podman;
 
   enabledGroups = lib.filterAttrs (_: g: g.enable) cfg;
   autoUpdateGroups = lib.filterAttrs (_: g: g.autoUpdate.enable) enabledGroups;
@@ -82,7 +84,7 @@ in
           in
           lib.nameValuePair
             "container-services-${groupName}"
-            (systemdLib.mkSystemdService groupName grpCfg effectiveComposeFile overridesFile composeBin runtimeService hasFiles))
+            (systemdLib.mkSystemdService groupName grpCfg effectiveComposeFile overridesFile composeBin runtimeService runtimePkg hasFiles))
         enabledGroups
       // lib.foldAttrs lib.recursiveUpdate { } (
         lib.mapAttrsToList
@@ -102,7 +104,7 @@ in
       )
       // lib.mapAttrs'
         (groupName: grpCfg:
-          let units = systemdLib.mkUpdateUnits groupName grpCfg (mkOverridesFileFor groupName grpCfg) composeBin runtimeBin;
+          let units = systemdLib.mkUpdateUnits groupName grpCfg (mkOverridesFileFor groupName grpCfg) composeBin runtimeBin runtimePkg;
           in lib.nameValuePair "container-services-${groupName}-update" units.services."container-services-${groupName}-update")
         autoUpdateGroups;
 
@@ -119,7 +121,7 @@ in
     systemd.timers =
       lib.mapAttrs'
         (groupName: grpCfg:
-          let units = systemdLib.mkUpdateUnits groupName grpCfg (mkOverridesFileFor groupName grpCfg) composeBin runtimeBin;
+          let units = systemdLib.mkUpdateUnits groupName grpCfg (mkOverridesFileFor groupName grpCfg) composeBin runtimeBin runtimePkg;
           in lib.nameValuePair "container-services-${groupName}-update" units.timers."container-services-${groupName}-update")
         autoUpdateGroups;
   };

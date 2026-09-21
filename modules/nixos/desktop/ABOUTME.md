@@ -50,6 +50,8 @@ skyg.nixos.desktop.fixes.*         → fixes/
 
 ## Notes
 
+- The desktop user's `extraGroups` deliberately **excludes `disk`**: raw block-device access
+  is equivalent to root and nothing here needs it. Do not re-add it.
 - The old `packages.nix`, `wayland.nix`, and `x11/` modules were folded into `default.nix`:
   the desktop apps and Xorg/XWayland now install only in full (non-slim) mode.
 - Tiler app groups (`control`, `gnome`, `media`) and Hyprland shell `tools` are opt-in — see

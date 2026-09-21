@@ -33,11 +33,13 @@ let
     bucket = "buzz-media";
   };
   # NFS-backed volume on tnas1 (repo pattern: compose volume with nfs driver_opts).
+  # The server must be in `device` (the local driver uses it as the mount source);
+  # `o = addr=...` alone is not honoured here.
   nfsVolume = subpath: {
     driver_opts = {
       type = "nfs";
-      o = "addr=tnas1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
-      device = ":/mnt/SmallG/buzz/${subpath}";
+      o = "rw,nfsvers=4.0,nolock,hard,noatime";
+      device = "tnas1.lab.internal:/mnt/SmallG/buzz/${subpath}";
     };
   };
 in
@@ -231,6 +233,8 @@ in
   skyg.nixos.common.container-services.buzz = {
     enable = true;
     autoUpdate.enable = true;
+    # Image pulls on first start / after a tag moves can exceed the 120s default.
+    timeoutStartSec = 600;
 
     networks = {
       internal = { driver = "bridge"; };

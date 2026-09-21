@@ -74,6 +74,8 @@ rec {
       "container-services-${groupName}-files" = {
         description = "Write custom files for container service group '${groupName}'";
         before = [ "container-services-${groupName}.service" ];
+        # The script uses bare mkdir/cat/chmod/dirname, so coreutils must be on PATH.
+        path = [ pkgs.coreutils ];
         serviceConfig = {
           Type = "oneshot";
           ExecStart = scriptFile;

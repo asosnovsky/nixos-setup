@@ -21,6 +21,7 @@
     nixpkgs.config.allowUnfree = true;
     nix = {
       optimise.automatic = true;
+      optimise.dates = [ "weekly" ];
       settings.experimental-features = [ "nix-command" "flakes" ];
     };
     programs.nh = {

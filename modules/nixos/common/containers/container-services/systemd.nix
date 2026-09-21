@@ -2,7 +2,8 @@
 
 {
   # Create a systemd oneshot service that manages the compose stack.
-  mkSystemdService = groupName: grpCfg: composeFile: overridesFile: composeBin: runtimeService: hasFiles:
+  # `runtimePkg` is put on PATH because podman-compose shells out to `podman`.
+  mkSystemdService = groupName: grpCfg: composeFile: overridesFile: composeBin: runtimeService: runtimePkg: hasFiles:
     let
       stateDir = grpCfg.stateDir;
       fileServiceDep = if hasFiles then "container-services-${groupName}-files.service" else null;
@@ -25,12 +26,13 @@
       ++ lib.optional hasFiles fileServiceDep;
       requires = [ runtimeService ]
         ++ lib.optional hasFiles fileServiceDep;
+      path = [ runtimePkg pkgs.coreutils ];
       startLimitIntervalSec = 300; # 5 minutes window
       startLimitBurst = 6; # allow 6 failures before giving up
       serviceConfig = {
         Restart = "on-failure";
         RestartSec = "15s";
-        TimeoutStartSec = "120s";
+        TimeoutStartSec = grpCfg.timeoutStartSec;
         Type = "oneshot";
         RemainAfterExit = true;
         TimeoutStopSec = grpCfg.timeoutStopSec;
@@ -44,7 +46,7 @@
     };
 
   # Create the update service + timer for a group's autoUpdate config.
-  mkUpdateUnits = groupName: grpCfg: overridesFile: composeBin: runtimeBin:
+  mkUpdateUnits = groupName: grpCfg: overridesFile: composeBin: runtimeBin: runtimePkg:
     let
       auCfg = grpCfg.autoUpdate;
       stateDir = grpCfg.stateDir;
@@ -60,6 +62,7 @@
         description = "Pull latest images and recreate container service group '${groupName}'";
         after = [ "container-services-${groupName}.service" ];
         requires = [ "container-services-${groupName}.service" ];
+        path = [ runtimePkg pkgs.coreutils ];
         serviceConfig = {
           Type = "oneshot";
           ExecStart =

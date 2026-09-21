@@ -30,6 +30,12 @@
           description = "Seconds to wait for 'compose down' before forcibly killing containers.";
         };
 
+        timeoutStartSec = lib.mkOption {
+          type = lib.types.int;
+          default = 120;
+          description = "Seconds to wait for 'compose up -d' (image pulls included) before the unit is considered failed.";
+        };
+
         composeFile = lib.mkOption {
           type = lib.types.nullOr lib.types.str;
           default = null;
