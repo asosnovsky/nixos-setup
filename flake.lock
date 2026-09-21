@@ -2471,11 +2471,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789255361,
-        "narHash": "sha256-u0N1zS2PjsP+Er73et2wWKqKjxbm2lUPA9mRmu8dfTM=",
+        "lastModified": 1790000959,
+        "narHash": "sha256-9fY+e5/Yi5r3yvvQzpmOnuGmeheam5RTLRlUvuAahYQ=",
         "ref": "refs/heads/main",
-        "rev": "ed75fa0db90a6666165f0fb5d0441bdac21a8a1a",
-        "revCount": 12,
+        "rev": "d4684f337f2a7133a66e7ec2f36f4d6238166cd4",
+        "revCount": 15,
         "type": "git",
         "url": "ssh://gitea@minipc1.lab.internal:22/ari/skygqts.git"
       },

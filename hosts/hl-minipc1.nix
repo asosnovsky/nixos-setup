@@ -1,7 +1,6 @@
 { config, ... }:
 let
   ports = {
-    audiobookshelf = 8000;
     nixServe = 5000;
     dockerRegistry = 5001;
     postgresIU = 7491;
@@ -18,16 +17,23 @@ let
   openPorts = [
     ports.nixServe
     ports.dockerRegistry
-    ports.audiobookshelf
     gitea.sshPort
     gitea.httpPort
     ports.postgresIU
     ports.ssh
     ports.iu
   ];
+  # Audiobookshelf stack
+  audiobookshelf = {
+    domain = "audiobooks.app.internal";
+    ip = "10.0.101.4";
+    port = 80;
+    image = "ghcr.io/advplyr/audiobookshelf:latest";
+    dataDir = "/mnt/Data/audiobookshelf";
+  };
   # Buzz stack
   buzz = {
-    domain = "buzz.lab.internal";
+    domain = "buzz.app.internal";
     port = 3000;
     ip = "10.0.101.3";
     bucket = "buzz-media";
@@ -39,14 +45,15 @@ let
       mc = "quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727";
     };
   };
-  # NFS-backed volume on tnas1 (repo pattern: compose volume with nfs driver_opts).
-  # The server must be in `device` (the local driver uses it as the mount source);
-  # `o = addr=...` alone is not honoured here.
+  # NFS-backed volume on tnas1 (compose volume with nfs driver_opts).
+  # Docker's `local` driver calls mount(2) itself, so it cannot resolve a
+  # `host:/path` device: the server belongs in `o = addr=...` (the daemon
+  # resolves that name) and `device` must be the bare `:/export/path`.
   nfsVolume = subpath: {
     driver_opts = {
       type = "nfs";
-      o = "rw,nfsvers=4.0,nolock,hard,noatime";
-      device = "tnas1.lab.internal:/mnt/SmallG/buzz/${subpath}";
+      o = "addr=tnas1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
+      device = ":/mnt/SmallG/buzz/${subpath}";
     };
   };
 in
@@ -58,7 +65,7 @@ in
     openFirewall = true;
     addressesSecretName = "dns-addresses.conf";
   };
-  skyg.nixos.common.containers.runtime = "podman";
+  skyg.nixos.common.containers.runtime = "docker";
   skyg.nixos.common.containers.openMetricsPort = true;
 
   # One shared macvlan network, created once at boot.
@@ -89,14 +96,27 @@ in
   # firmware updater
   services.fwupd.enable = true;
   # # Services
-  skyg.nixos.server.services = {
-    audiobookshelf = {
-      enable = false;
-      host = "0.0.0.0";
-      openFirewall = true;
-      port = ports.audiobookshelf;
-      configDir = "/mnt/Data/audiobookshelf/config";
-      metadataDir = "/mnt/Data/audiobookshelf/metadata";
+  # Audiobookshelf — containerised, own macvlan IP, reachable as
+  # http://audiobooks.app.internal
+  skyg.nixos.common.container-services.audiobookshelf = {
+    enable = false;
+    autoUpdate.enable = true;
+
+    networks.lan = config.skyg.nixos.common.containers.networks.lab.compose;
+
+    services.audiobookshelf = {
+      image = audiobookshelf.image;
+      networks.lan.ipv4_address = audiobookshelf.ip;
+      dns.names = [ audiobookshelf.domain ];
+      environment = {
+        PORT = toString audiobookshelf.port;
+      };
+      volumes = [
+        "${audiobookshelf.dataDir}/config:/config"
+        "${audiobookshelf.dataDir}/metadata:/metadata"
+        "${audiobookshelf.dataDir}/audiobooks:/audiobooks"
+        "${audiobookshelf.dataDir}/podcasts:/podcasts"
+      ];
     };
   };
   services.dockerRegistry = {
@@ -233,9 +253,7 @@ in
     };
   };
 
-  # Buzz — relay + postgres + redis + minio (S3). Reachable at
-  # http://buzz.lab.internal:3000 on its own macvlan IP (10.0.101.3).
-  # Data lives on tnas1 via NFS-backed compose volumes (/mnt/SmallG/buzz).
+  # Buzz — relay + postgres + redis + minio (S3).
   age.secrets.buzz-env.file = ../secrets/buzz-env.age;
   skyg.nixos.common.container-services.buzz = {
     enable = true;
@@ -257,11 +275,17 @@ in
     services = {
       relay = {
         image = buzz.images.relay;
-        dependsOn = [ "postgres" "redis" "minio" ];
+        extraConfig.depends_on = {
+          postgres.condition = "service_healthy";
+          redis.condition = "service_healthy";
+          minio.condition = "service_healthy";
+          minio-init.condition = "service_completed_successfully";
+        };
         networks = {
           internal = { };
           lan = { ipv4_address = buzz.ip; };
         };
+        dns.names = [ buzz.domain ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
         environment = {
           BUZZ_BIND_ADDR = "0.0.0.0:${toString buzz.port}";
@@ -300,6 +324,7 @@ in
         environment = {
           POSTGRES_DB = "buzz";
           POSTGRES_USER = "buzz";
+          PGDATA = "/var/lib/postgresql/data/pgdata";
         };
         volumes = [ "buzz-postgres:/var/lib/postgresql/data" ];
         healthcheck = {
@@ -322,6 +347,14 @@ in
           exec redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"
         '';
         command = [ "sh" "/usr/local/bin/redis-entrypoint.sh" ];
+        healthcheck = {
+          # $$ survives compose interpolation so the container shell expands it.
+          test = [ "CMD-SHELL" ''redis-cli -a "$''${REDIS_PASSWORD}" ping | grep -q PONG'' ];
+          interval = "5s";
+          timeout = "3s";
+          retries = 12;
+          start_period = "5s";
+        };
       };
 
       minio = {
@@ -332,10 +365,10 @@ in
         command = [ "server" "/data" "--console-address" ":9001" ];
         healthcheck = {
           test = [ "CMD" "curl" "-f" "http://127.0.0.1:9000/minio/health/live" ];
-          interval = "30s";
-          timeout = "10s";
-          retries = 5;
-          start_period = "20s";
+          interval = "5s";
+          timeout = "5s";
+          retries = 12;
+          start_period = "10s";
         };
       };
 
@@ -343,9 +376,26 @@ in
         image = buzz.images.mc;
         networks = [ "internal" ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
-        command = [ "mb" "--ignore-existing" "local/${buzz.bucket}" ];
-        dependsOn = [ "minio" ];
-        restart = "on-failure";
+        environment = {
+          BUZZ_S3_BUCKET = buzz.bucket;
+        };
+        # The image ENTRYPOINT is ["mc"], so the upstream bootstrap sequence is
+        # shipped as a script and the entrypoint is overridden to run it.
+        files."/usr/local/bin/minio-init.sh" = ''
+          #!/bin/sh
+          set -eu
+          echo "setting alias"
+          mc alias set local http://minio:9000 "$BUZZ_S3_ACCESS_KEY" "$BUZZ_S3_SECRET_KEY"
+          echo "creating bucket"
+          mc mb -p local/$BUZZ_S3_BUCKET
+          echo "setting bucket permissions"
+          mc anonymous set none local/$BUZZ_S3_BUCKET
+        '';
+        extraConfig = {
+          entrypoint = [ "/bin/sh" "/usr/local/bin/minio-init.sh" ];
+          depends_on.minio.condition = "service_healthy";
+        };
+        restart = "no";
       };
 
     };

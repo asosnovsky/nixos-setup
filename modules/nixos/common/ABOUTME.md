@@ -15,7 +15,7 @@ common/
 ├── user.nix         # skyg.user.createSystemUser — creates the system user/groups + zsh shell
 ├── fonts.nix        # System font packages + fontconfig defaults (Fira Code, Noto, …); skyg.nixos.common.fonts.minimal
 ├── ssh-server.nix   # skyg.nixos.common.ssh-server — hardened sshd + master public keys (list)
-├── ssh-notify.nix   # skyg.nixos.common.ssh-notify — forward notify-send from SSH sessions to a desktop client (RemoteForward scoped to *.lab.internal)
+
 ├── qemu.nix         # skyg.core.qemu — QEMU/quickemu + SPICE guest tooling
 ├── binary-cache.nix # skyg.nixos.common.cachePush — push finished builds to the bigbox2 cache
 ├── containers/      # Docker vs Podman runtime selection + host-created container networks
@@ -46,7 +46,7 @@ skyg.core.hostName               → networking.nix
 skyg.user.createSystemUser       → user.nix
 skyg.core.qemu.*                 → qemu.nix
 skyg.nixos.common.ssh-server.*   → ssh-server.nix
-skyg.nixos.common.ssh-notify.*   → ssh-notify.nix
+
 skyg.nixos.common.cachePush.*    → binary-cache.nix
 skyg.nixos.common.minimal             → core.nix (skip heavy always-on system packages)
 skyg.nixos.common.nh.flake            → core.nix (flake path for 'nh os' commands, set per host)

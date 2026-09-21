@@ -21,8 +21,7 @@
         niri-touchscreen-gestures = final.callPackage ../../pkgs/niri-touchscreen-gestures { };
         # Buzz Desktop AppImage wrapper, see pkgs/buzz-desktop.
         buzz-desktop = final.callPackage ../../pkgs/buzz-desktop { };
-        # Per-connection SSH notification forwarder, see pkgs/ssh-notify.
-        ssh-notify = final.callPackage ../../pkgs/ssh-notify { };
+
         # Claude Desktop (Linux), see pkgs/claude-desktop.
         claude-desktop = claude-desktop.packages.${final.stdenv.hostPlatform.system}.default;
         # herdr (herdrdev/herdr) — see flake.nix input.

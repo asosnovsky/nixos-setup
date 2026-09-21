@@ -62,10 +62,6 @@ in
           };
         };
       };
-      common.ssh-notify = {
-        enable = true;
-        role = "client";
-      };
     };
     networkDrives = {
       enable = false;
