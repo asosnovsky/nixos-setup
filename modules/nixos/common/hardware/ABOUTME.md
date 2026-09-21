@@ -12,8 +12,8 @@ hardware/
 ├── default.nix         # imports + fwupd + enableAllFirmware
 ├── amdgpu.nix          # skyg.nixos.common.hardware.amdgpu — amdgpu driver + ROCm ICD
 ├── nvidia.nix          # skyg.nixos.common.hardware.nvidia — driver + container toolkit
-├── sound.nix           # skyg.nixos.common.hardware.sound — PipeWire ALSA/JACK + rtkit
-├── pipewire.nix        # skyg.nixos.common.hardware.pipewire — full PipeWire stack
+├── pipewire.nix        # skyg.nixos.common.hardware.pipewire — full PipeWire stack (ALSA/JACK/pulse + rtkit)
+├── bluetooth.nix       # skyg.nixos.common.hardware.bluetooth — BR/EDR-only bluetooth
 ├── fan2go.nix          # skyg.nixos.common.hardware.fan2go — fan2go curve-based fan control
 ├── fancontrol.nix      # skyg.nixos.common.hardware.fancontrol — lm_sensors fancontrol
 ├── laptop-power.nix    # skyg.nixos.common.hardware.laptop-power-mgr — lid events + power mgmt
@@ -25,8 +25,8 @@ hardware/
 ```
 skyg.nixos.common.hardware.amdgpu.enable
 skyg.nixos.common.hardware.nvidia.enable
-skyg.nixos.common.hardware.sound.enable
 skyg.nixos.common.hardware.pipewire.enable
+skyg.nixos.common.hardware.bluetooth.enable
 skyg.nixos.common.hardware.fan2go.{enable,dbPath}
 skyg.nixos.common.hardware.fancontrol.{enable,configName}
 skyg.nixos.common.hardware.laptop-power-mgr.enable

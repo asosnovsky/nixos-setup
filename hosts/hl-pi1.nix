@@ -15,7 +15,6 @@
         containers.enable = false;
         networking.nfsServer.enable = false;
         hardware = {
-          sound.enable = true;
           pipewire.enable = true;
         };
       };

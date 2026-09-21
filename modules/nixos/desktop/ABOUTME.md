@@ -8,7 +8,7 @@ have their own sub-options so a host enables only the stack it actually uses.
 
 ```
 desktop/
-├── default.nix    # skyg.nixos.desktop.enable — display manager, dbus, pipewire, xdg portals
+├── default.nix    # skyg.nixos.desktop.enable — display manager, dbus, xdg portals
 │                  #                       slimMode — skip Xorg/browser/heavy desktop apps
 ├── tiler/         # Tiling WMs (niri / hyprland) + DankMaterialShell + swww
 ├── stylix/        # System-wide theming via Stylix (gruvbox-dark-hard)
@@ -23,7 +23,8 @@ desktop/
 ## How it composes
 
 - `default.nix` (`skyg.nixos.desktop.enable`) provides the shared desktop substrate: display
-  manager, dbus, PipeWire (only when enabled), upower, avahi, and the XDG portal set.
+  manager, dbus, upower, avahi, and the XDG portal set. PipeWire is provided separately by
+  `skyg.nixos.common.hardware.pipewire.enable` (see `common/hardware/ABOUTME.md`).
   Everything else is opt-in.
 - `slimMode` keeps the core substrate + tiler but skips the heavy desktop apps and Xorg
   (`packages.nix`/`wayland.nix`/`x11` were folded into `default.nix`; slim hosts use a

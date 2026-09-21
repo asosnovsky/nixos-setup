@@ -39,7 +39,6 @@ in
     "${my-nixpkgs}/nixos/modules/services/misc/ds4.nix"
   ];
   # Skyg
-  environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
   environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   skyg = {
     user.enable = true;
@@ -47,7 +46,6 @@ in
     nixos = {
       common.ssh-server.enable = true;
       common.hardware = {
-        sound.enable = true;
         pipewire.enable = true;
         amdgpu.enable = true;
       };
@@ -130,10 +128,6 @@ in
     "video"
     "docker"
   ];
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-  };
   # Boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -156,8 +150,7 @@ in
   # Firmware updater
   services.fwupd.enable = true;
   # Bluetooth
-  hardware.bluetooth.settings.General = { ControllerMode = "bredr"; };
-  hardware.bluetooth.enable = true;
+  skyg.nixos.common.hardware.bluetooth.enable = true;
   # Bootloader.
   environment.systemPackages =
     (with pkgs; [
@@ -274,12 +267,7 @@ in
   hardware.amdgpu = {
     opencl.enable = true;
   };
-  environment.localBinInPath = true;
-  programs.nh = {
-    enable = true;
-    flake = "/home/ari/nixos-setup";
-    clean.enable = true;
-  };
+  skyg.nixos.common.nh.flake = "/home/ari/nixos-setup";
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
   services.wyoming = {

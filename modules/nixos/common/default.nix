@@ -15,7 +15,6 @@
   ];
   config = {
     environment.sessionVariables.EDITOR = "vi";
-    environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = 1;
     environment.localBinInPath = true;
   };
 }

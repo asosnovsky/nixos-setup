@@ -5,7 +5,6 @@
     nixos = {
       common.ssh-server.enable = true;
       common.hardware = {
-        sound.enable = true;
         pipewire.enable = true;
       };
       desktop = {
@@ -78,9 +77,6 @@
   };
 
   services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-    alsa.enable = true;
     extraConfig.pipewire-pulse."10-raop-discover" = {
       context.modules = [
         { name = "libpipewire-module-raop-discover"; }
@@ -122,9 +118,6 @@
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
-
-  # Send audio to AirPlay speakers
-  services.avahi.enable = true;
 
   # AirPlay receiver
   services.shairport-sync = {

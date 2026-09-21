@@ -1,25 +1,18 @@
 { pkgs, config, lib, ... }:
 {
   options.skyg = {
-    gc = {
-      rootDays = lib.mkOption {
-        type = lib.types.int;
-        description = "How often (in days) we call 'nix-collect-garbage' on root user";
-        default = 7;
-      };
-      userDays = lib.mkOption {
-        type = lib.types.int;
-        description = "How often in (days) we call 'nix-collect-garbage' on skyg.user.name";
-        default = 7;
-      };
-    };
     nixos.common.minimal = lib.mkOption {
       type = lib.types.bool;
       description = "Minimal common system: skip heavy always-on packages for lean hosts.";
       default = false;
     };
+    nixos.common.nh.flake = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      description = "Flake path for 'nh os' commands. Set per host.";
+      default = null;
+    };
   };
-  config = let skyg = config.skyg; in {
+  config = {
 
     # System Packages
     services.hydra.useSubstitutes = true;
@@ -32,7 +25,11 @@
     };
     programs.nh = {
       enable = true;
-      clean.enable = true;
+      flake = config.skyg.nixos.common.nh.flake;
+      clean = {
+        enable = true;
+        extraArgs = lib.mkDefault "--keep-since 7d --keep 5";
+      };
     };
     environment.systemPackages =
       (with pkgs; [
@@ -75,14 +72,5 @@
 
     # Select internationalisation properties.
     i18n.defaultLocale = "en_CA.UTF-8";
-
-    # Storage Clean up
-    services.cron = {
-      enable = true;
-      systemCronJobs = [
-        "0 23 * * *       root    nix-collect-garbage --delete-older-than ${toString skyg.gc.rootDays}d"
-        "0 23 * * *       ${skyg.user.name}   nix-collect-garbage --delete-older-than ${toString skyg.gc.userDays}d"
-      ];
-    };
   };
 }

@@ -1,7 +1,8 @@
 # modules/nixos/common/
 
 Baseline settings every Linux host receives. `default.nix` imports each file/subfolder and
-sets a few always-on defaults (`EDITOR=vi`, `NIXPKGS_ALLOW_UNFREE`, local bin in PATH).
+sets a few always-on defaults (`EDITOR=vi`, local bin in PATH). `nixpkgs.config.allowUnfree`
+is set once in `core.nix`; no host needs to set `NIXPKGS_ALLOW_UNFREE` itself.
 Most leaf modules expose a `skyg.nixos.common.*` enable flag and stay inert until switched on.
 
 ## Files
@@ -9,7 +10,7 @@ Most leaf modules expose a `skyg.nixos.common.*` enable flag and stay inert unti
 ```
 common/
 ├── default.nix      # Imports everything below + always-on env defaults
-├── core.nix         # System packages, nh, nix-ld, timezone (Toronto), locale, GC cron; skyg.nixos.common.minimal
+├── core.nix         # System packages, nh (clean + gc), nix-ld, timezone (Toronto), locale; skyg.nixos.common.minimal
 ├── networking.nix   # skyg.core.hostName, NetworkManager, NFS server (skyg.nixos.common.networking.nfsServer)
 ├── user.nix         # skyg.user.createSystemUser — creates the system user/groups + zsh shell
 ├── fonts.nix        # System font packages + fontconfig defaults (Fira Code, Noto, …); skyg.nixos.common.fonts.minimal
@@ -24,9 +25,10 @@ common/
 
 ## Notable details
 
-- **`core.nix`** sets `time.timeZone = "America/Toronto"`, `i18n` to `en_CA.UTF-8`, enables
-  `programs.nh` with auto-clean, and adds a daily `nix-collect-garbage --delete-older-than 7d`
-  cron job for both root and the user.
+- **`core.nix`** sets `time.timeZone = "America/Toronto"`, `i18n` to `en_CA.UTF-8`, and enables
+  `programs.nh` with auto-clean (`--keep-since 7d --keep 5`, overridable per host via
+  `programs.nh.clean.extraArgs`) as the single GC mechanism — no separate cron jobs or
+  `nix.gc.automatic`. `skyg.nixos.common.nh.flake` sets the flake path per host.
 - **`networking.nix`** defines `skyg.core.hostName`, enables NetworkManager + the NFS server,
   and disables the flaky `NetworkManager-wait-online` unit.
 - **`user.nix`** creates the actual system user (in `wheel` + `networkmanager`) with zsh as
@@ -44,6 +46,7 @@ skyg.nixos.common.ssh-server.*   → ssh-server.nix
 skyg.nixos.common.ssh-notify.*   → ssh-notify.nix
 skyg.nixos.common.cachePush.*    → binary-cache.nix
 skyg.nixos.common.minimal             → core.nix (skip heavy always-on system packages)
+skyg.nixos.common.nh.flake            → core.nix (flake path for 'nh os' commands, set per host)
 skyg.nixos.common.fonts.minimal       → fonts.nix (install only a minimal font set)
 skyg.nixos.common.networking.nfsServer → networking.nix (enable/disable the NFS server)
 skyg.nixos.common.containers.*         → containers/

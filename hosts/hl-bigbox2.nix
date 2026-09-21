@@ -12,9 +12,9 @@ in
   # BIOS GRUB must land on the MBR Kingston disk that holds /boot.
   # hardware-config still says /dev/sda (GPT home disk) which cannot embed GRUB.
   boot.loader.grub.device = lib.mkForce "/dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B7785904215";
+  # Longer retention than the fleet default: bigbox2 is the shared cache store.
+  programs.nh.clean.extraArgs = "--keep-since 30d --keep 5";
   skyg = {
-    gc.rootDays = 30;
-    gc.userDays = 30;
     user.enable = true;
     nixos.common = {
       ssh-server.enable = true;

@@ -62,12 +62,6 @@ let
       nssmdns4 = true;
     };
     services.upower.enable = true;
-    services.pipewire = {
-      enable = true;
-      audio.enable = true;
-      pulse.enable = true;
-      jack.enable = true;
-    };
     xdg = {
       autostart.enable = true;
       mime.enable = true;

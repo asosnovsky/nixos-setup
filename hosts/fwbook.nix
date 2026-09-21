@@ -22,7 +22,6 @@ in
     core.qemu.enable = true;
     nixos = {
       common.hardware = {
-        sound.enable = true;
         pipewire.enable = true;
         laptop-power-mgr = {
           enable = true;
@@ -114,10 +113,7 @@ in
   # Yubikey
   services.yubikey-agent.enable = true;
   # Bluetooth
-  hardware.bluetooth.settings.General = {
-    ControllerMode = "bredr";
-  };
-  hardware.bluetooth.enable = true;
+  skyg.nixos.common.hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   # Packages
   environment.systemPackages =
@@ -258,7 +254,6 @@ in
     ]);
 
   # General hardware stuff
-  systemd.services.NetworkManager-wait-online.enable = false;
   systemd.services.systemd-udev-settle.enable = false;
   services.usbmuxd.enable = true;
   # Tether — iPhone ↔ Linux Wayland bridge
@@ -338,11 +333,7 @@ in
       "noauto"
     ];
   };
-  programs.nh = {
-    enable = true;
-    flake = "/home/ari/nixos-setup";
-    clean.enable = true;
-  };
+  skyg.nixos.common.nh.flake = "/home/ari/nixos-setup";
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
