@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   ports = {
     nixServe = 5000;
@@ -35,9 +35,8 @@ let
   buzz = {
     domain = "buzz.app.internal";
     port = 3000;
+    # Caddy's macvlan IP — buzz.app.internal resolves here; the relay is internal-only.
     ip = "10.0.101.3";
-    # Caddy TLS terminator — buzz.app.internal points here (443/80).
-    caddyIp = "10.0.101.5";
     bucket = "buzz-media";
     images = {
       relay = "ghcr.io/block/buzz:main";
@@ -59,6 +58,13 @@ let
       device = ":/mnt/SmallG/buzz/${subpath}";
     };
   };
+  # Buzz management CLI — upstream deploy/compose/run.sh ported to this
+  # deployment; the logic lives in scripts/hl-minipc1/buzz-manage.sh.
+  buzz-manage = pkgs.writeShellScriptBin "buzz-manage" ''
+    export BUZZ_ENV_FILE="${config.age.secrets.buzz-env.path}"
+    export BUZZ_COMPOSE_BIN="${pkgs.docker-compose}/bin/docker-compose"
+    ${builtins.readFile ./scripts/hl-minipc1/buzz-manage.sh}
+  '';
 in
 {
   skyg.user.enable = true;
@@ -286,10 +292,7 @@ in
           minio.condition = "service_healthy";
           minio-init.condition = "service_completed_successfully";
         };
-        networks = {
-          internal = { };
-          lan = { ipv4_address = buzz.ip; };
-        };
+        networks = [ "internal" ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
         environment = {
           BUZZ_BIND_ADDR = "0.0.0.0:${toString buzz.port}";
@@ -323,12 +326,14 @@ in
 
       # TLS terminator — owns buzz.app.internal (443/80), proxies to the relay
       # over the internal network. Cert minted by `skyg ca issue` (lab CA).
+      # Also proxies plain :3000 (Hermes guest can't trust the CA yet), :8080
+      # health and :9102 metrics so everything stays on 10.0.101.3.
       caddy = {
         image = buzz.images.caddy;
         extraConfig.depends_on.relay.condition = "service_healthy";
         networks = {
           internal = { };
-          lan = { ipv4_address = buzz.caddyIp; };
+          lan = { ipv4_address = buzz.ip; };
         };
         dns.names = [ buzz.domain ];
         files."/etc/caddy/Caddyfile" = ''
@@ -337,9 +342,21 @@ in
             encode zstd gzip
             reverse_proxy relay:${toString buzz.port}
           }
+
+          :${toString buzz.port} {
+            reverse_proxy relay:${toString buzz.port}
+          }
+
+          :8080 {
+            reverse_proxy relay:8080
+          }
+
+          :9102 {
+            reverse_proxy relay:9102
+          }
         '';
         volumes = [
-          "${../../configs/pki/buzz.app.internal.crt}:/etc/caddy/tls/cert.pem:ro"
+          "${../configs/pki/buzz.app.internal.crt}:/etc/caddy/tls/cert.pem:ro"
           "${config.age.secrets.buzz-tls-key.path}:/etc/caddy/tls/key.pem:ro"
         ];
       };
@@ -427,6 +444,9 @@ in
 
     };
   };
+
+  # Buzz management CLI.
+  environment.systemPackages = [ buzz-manage ];
 
   # Certbot TLS service
   skyg.server.dns.certbot = {
