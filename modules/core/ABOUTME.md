@@ -11,6 +11,7 @@ core/
 ├── default.nix          # Entry point: imports the files below + overlays + remote builder
 ├── user.nix             # skyg.user.* — the human user + Home Manager wiring
 ├── nix-substituters.nix # skyg.core.substituters.* — binary caches & trusted keys
+├── lab-ca.nix           # Fleet-wide trust of the lab internal CA (configs/pki/lab-ca.crt)
 └── macos.nix            # skyg.user.macos.enableOverride — macOS-only HM tweaks
 ```
 
@@ -29,6 +30,10 @@ core/
   and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/cosmic/ai/noctalia, flox,
   devenv) and the trusted public keys. Extra entries can be appended per-host via
   `skyg.core.substituters.{urls,keys}`.
+- **Lab CA trust** (`lab-ca.nix`): adds `configs/pki/lab-ca.crt` to
+  `security.pki.certificateFiles` so every machine trusts the lab internal CA
+  (created by `skyg ca init`, see `configs/pki/ABOUTME.md`). Eval fails if the
+  cert file is missing — run `skyg ca init` before the first rebuild.
 
 ## Option Namespace
 

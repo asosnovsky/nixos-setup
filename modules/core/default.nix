@@ -4,6 +4,7 @@
     ./user.nix
     ./macos.nix
     ./nix-substituters.nix
+    ./lab-ca.nix
   ];
   options = {
     skyg.rootDir = lib.mkOption {

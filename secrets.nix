@@ -34,4 +34,6 @@ in
 
   # portainer agent envs
   "secrets/portainer-agent-bigbox1.age".publicKeys = [ ari bigbox1 ];
+  "secrets/lab-ca-key.age".publicKeys = [ ari ];
+  "secrets/buzz-tls-key.age".publicKeys = [ ari minipc1 ];
 }

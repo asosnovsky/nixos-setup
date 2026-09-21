@@ -36,9 +36,12 @@ let
     domain = "buzz.app.internal";
     port = 3000;
     ip = "10.0.101.3";
+    # Caddy TLS terminator — buzz.app.internal points here (443/80).
+    caddyIp = "10.0.101.5";
     bucket = "buzz-media";
     images = {
       relay = "ghcr.io/block/buzz:main";
+      caddy = "caddy:2-alpine";
       posgres = "postgres:17-alpine";
       redis = "redis:7-alpine";
       minio = "quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e";
@@ -255,6 +258,8 @@ in
 
   # Buzz — relay + postgres + redis + minio (S3).
   age.secrets.buzz-env.file = ../secrets/buzz-env.age;
+  # TLS key for buzz.app.internal, minted by `skyg ca issue` (lab CA).
+  age.secrets.buzz-tls-key.file = ../secrets/buzz-tls-key.age;
   skyg.nixos.common.container-services.buzz = {
     enable = true;
     autoUpdate.enable = true;
@@ -285,16 +290,15 @@ in
           internal = { };
           lan = { ipv4_address = buzz.ip; };
         };
-        dns.names = [ buzz.domain ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
         environment = {
           BUZZ_BIND_ADDR = "0.0.0.0:${toString buzz.port}";
           BUZZ_HEALTH_PORT = "8080";
           BUZZ_METRICS_PORT = "9102";
-          RELAY_URL = "ws://${buzz.domain}:${toString buzz.port}";
-          BUZZ_MEDIA_BASE_URL = "http://${buzz.domain}:${toString buzz.port}/media";
-          BUZZ_MEDIA_SERVER_DOMAIN = "${buzz.domain}:${toString buzz.port}";
-          BUZZ_CORS_ORIGINS = "http://${buzz.domain}:${toString buzz.port}";
+          RELAY_URL = "wss://${buzz.domain}";
+          BUZZ_MEDIA_BASE_URL = "https://${buzz.domain}/media";
+          BUZZ_MEDIA_SERVER_DOMAIN = buzz.domain;
+          BUZZ_CORS_ORIGINS = "https://${buzz.domain}";
           BUZZ_S3_ENDPOINT = "http://minio:9000";
           BUZZ_S3_REGION = "us-east-1";
           BUZZ_S3_ADDRESSING_STYLE = "path";
@@ -315,6 +319,29 @@ in
           retries = 12;
           start_period = "30s";
         };
+      };
+
+      # TLS terminator — owns buzz.app.internal (443/80), proxies to the relay
+      # over the internal network. Cert minted by `skyg ca issue` (lab CA).
+      caddy = {
+        image = buzz.images.caddy;
+        extraConfig.depends_on.relay.condition = "service_healthy";
+        networks = {
+          internal = { };
+          lan = { ipv4_address = buzz.caddyIp; };
+        };
+        dns.names = [ buzz.domain ];
+        files."/etc/caddy/Caddyfile" = ''
+          ${buzz.domain} {
+            tls /etc/caddy/tls/cert.pem /etc/caddy/tls/key.pem
+            encode zstd gzip
+            reverse_proxy relay:${toString buzz.port}
+          }
+        '';
+        volumes = [
+          "${../../configs/pki/buzz.app.internal.crt}:/etc/caddy/tls/cert.pem:ro"
+          "${config.age.secrets.buzz-tls-key.path}:/etc/caddy/tls/key.pem:ro"
+        ];
       };
 
       postgres = {
