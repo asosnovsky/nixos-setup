@@ -82,6 +82,8 @@ in
         PORT = "80";
       };
       networks = staticIp "10.0.101.2";
+      # -> drawdb.app.internal (skyg.dns.domain), pushed by `skyg openwrt`
+      dns.names = [ "drawdb" ];
     };
     networks = macvlanNetwork;
   };

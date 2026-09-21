@@ -62,7 +62,6 @@ hl.window_rule({
     match = { float = true },
     name = "float-style",
     no_screen_share = true,
-    xray = true,
 })
 hl.window_rule({
     match = { class = "^chrome-.*" },

@@ -17,6 +17,16 @@ pub struct Config {
 pub struct GeneralMapping {
     pub ip: String,
     pub domains: Vec<String>,
+    /// When true (the default, kept for backwards compatibility with existing
+    /// router secrets), emit a wildcard `address=/domain/ip` that also matches
+    /// every subdomain. When false, emit a plain `host-record=domain,ip`,
+    /// which is a normal A record and also provides reverse PTR lookups.
+    #[serde(default = "default_true")]
+    pub wildcard: bool,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 #[derive(Deserialize)]
@@ -77,6 +87,15 @@ mod tests {
         let config: Config = serde_json::from_str(json).unwrap();
         assert_eq!(config.general_mappings[0].ip, "192.168.1.1");
         assert_eq!(config.general_mappings[0].domains, vec!["test.local"]);
+        // Existing secrets omit the flag; wildcard behaviour must be preserved.
+        assert!(config.general_mappings[0].wildcard);
+    }
+
+    #[test]
+    fn test_general_mapping_wildcard_false() {
+        let json = r#"{"generalMappings": [{"ip": "10.0.101.2", "domains": ["drawdb.app.internal"], "wildcard": false}], "networks": {}}"#;
+        let config: Config = serde_json::from_str(json).unwrap();
+        assert!(!config.general_mappings[0].wildcard);
     }
 
     #[test]

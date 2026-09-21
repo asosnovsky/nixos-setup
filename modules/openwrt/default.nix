@@ -17,6 +17,15 @@ in
 config:
 
 let
+  # Nix-generated DNS records (skyg.dns, aggregated across all hosts). Merged
+  # into the decrypted secret's generalMappings by the scripts below, so
+  # service names stay declarative next to the host config that owns the IP.
+  # Empty fragment when the caller doesn't supply one.
+  dnsRecords =
+    if config ? dnsRecords && config.dnsRecords != null
+    then config.dnsRecords
+    else builtins.toFile "skyg-dns-records-empty.json" (builtins.toJSON { generalMappings = [ ]; });
+
   # Config JSON is read from stdin at deploy time — caller decrypts the age secret.
   # Usage: age -d secrets/glmain.json.age | openwrt-deploy
   #
@@ -24,10 +33,12 @@ let
   # Nix-computed values it needs (router address, generator/apply-script store
   # paths) and inlines the file's content after them.
   deployScript = pkgs.writeShellScriptBin "openwrt-deploy" ''
+    export PATH="${lib.makeBinPath [ pkgs.jq ]}:$PATH"
     export ROUTER="${config.router.ip}"
     export ROUTER_USER="${config.router.user}"
     export GENERATOR="${generator}"
     export APPLY_SCRIPT="${applyScript}"
+    export NIX_DNS_RECORDS="${dnsRecords}"
     ${builtins.readFile ./openwrt-deploy.sh}
   '';
 
@@ -35,7 +46,9 @@ let
   # for review. No SSH, no uci, no router changes. Run from the repo root.
   # The router name is passed as $1 (defaults to glmain) — see ./openwrt-dry-run.sh.
   dryRunScript = pkgs.writeShellScriptBin "openwrt-dry-run" ''
+    export PATH="${lib.makeBinPath [ pkgs.jq ]}:$PATH"
     export GENERATOR="${generator}"
+    export NIX_DNS_RECORDS="${dnsRecords}"
     ${builtins.readFile ./openwrt-dry-run.sh}
   '';
 in

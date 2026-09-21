@@ -37,8 +37,13 @@ pub fn generate(config: &Config) -> String {
 
     for gm in &config.general_mappings {
         for domain in &gm.domains {
-            out.push_str(&format!("address=/{}/{}\n", domain, gm.ip));
-            out.push_str(&format!("address=/.{}/{}\n", domain, gm.ip));
+            if gm.wildcard {
+                out.push_str(&format!("address=/{}/{}\n", domain, gm.ip));
+                out.push_str(&format!("address=/.{}/{}\n", domain, gm.ip));
+            } else {
+                // Plain A record (+ reverse PTR), no subdomain wildcard.
+                out.push_str(&format!("host-record={},{}\n", domain, gm.ip));
+            }
         }
     }
 
@@ -78,6 +83,7 @@ mod tests {
             general_mappings: vec![GeneralMapping {
                 ip: "192.168.1.1".to_string(),
                 domains: vec!["gw.local".to_string()],
+                wildcard: true,
             }],
             networks: BTreeMap::new(),
             dns_resolvers: vec![],
@@ -85,6 +91,24 @@ mod tests {
         };
         let result = generate(&config);
         assert!(result.contains("address=/gw.local/192.168.1.1\n"));
+        assert!(result.contains("address=/.gw.local/192.168.1.1\n"));
+    }
+
+    #[test]
+    fn test_general_mappings_host_record() {
+        let config = Config {
+            general_mappings: vec![GeneralMapping {
+                ip: "10.0.101.2".to_string(),
+                domains: vec!["drawdb.app.internal".to_string()],
+                wildcard: false,
+            }],
+            networks: BTreeMap::new(),
+            dns_resolvers: vec![],
+            internet_only: vec![],
+        };
+        let result = generate(&config);
+        assert!(result.contains("host-record=drawdb.app.internal,10.0.101.2\n"));
+        assert!(!result.contains("address=/"));
     }
 
     #[test]

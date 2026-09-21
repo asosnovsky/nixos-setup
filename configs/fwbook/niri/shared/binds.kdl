@@ -13,6 +13,7 @@ binds {
     Mod+Z { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+B { spawn "chromium"; }
     Mod+E { spawn "wofi-emoji"; }
+    Mod+Alt+E { spawn-sh "zeditor ~/.config/niri/shared/binds.kdl"; }
     Mod+Q { close-window; }
 
     // =========================
@@ -34,7 +35,6 @@ binds {
     Mod+Ctrl+Up { move-window-to-workspace-up; }
     Mod+Ctrl+Down { move-window-to-workspace-down; }
 
-    Mod+W { toggle-column-tabbed-display; }
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
     Mod+Ctrl+F { reset-window-height; }

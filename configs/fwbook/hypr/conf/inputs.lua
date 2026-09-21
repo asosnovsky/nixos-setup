@@ -14,6 +14,41 @@ hl.config({
 
 hl.gesture({ fingers = 3, direction = "horizontal", action = "scroll_move" })
 hl.gesture({ fingers = 3, direction = "vertical", action = "workspace" })
+
+-- Mod + 3-finger swipe: move the whole workspace to the monitor in that
+-- direction (mirrors niri's Mod+TouchpadScroll* binds).
+hl.gesture({
+    fingers = 3,
+    direction = "up",
+    mods = "SUPER",
+    action = function()
+        hl.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor u")
+    end,
+})
+hl.gesture({
+    fingers = 3,
+    direction = "down",
+    mods = "SUPER",
+    action = function()
+        hl.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor d")
+    end,
+})
+hl.gesture({
+    fingers = 3,
+    direction = "left",
+    mods = "SUPER",
+    action = function()
+        hl.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor l")
+    end,
+})
+hl.gesture({
+    fingers = 3,
+    direction = "right",
+    mods = "SUPER",
+    action = function()
+        hl.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor r")
+    end,
+})
 hl.gesture({
     fingers = 4,
     direction = "up",

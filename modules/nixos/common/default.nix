@@ -3,6 +3,7 @@
   imports = [
     ./hardware
     ./containers
+    ./dns-records
     ./core.nix
     ./networking.nix
     ./user.nix

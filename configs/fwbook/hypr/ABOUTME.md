@@ -32,7 +32,12 @@ split under `conf/` and pulled in with `require()`.
   inside quickshell-based apps fail silently (hyprwm/Hyprland#14844). There is
   intentionally no waybar/hyprpanel.
 - **Keybinds:** `conf/keybindings.lua` mirrors `configs/niri/shared/binds.kdl`
-  and `configs/niri/dms/binds.kdl` as closely as Hyprland allows.
+  and `configs/niri/dms/binds.kdl` as closely as Hyprland allows. `Mod+Alt+E`
+  opens this file in Zed (`zeditor`), mirroring niri's `Mod+Alt+E` ->
+  `shared/binds.kdl`. Windows are moved around with `Mod+Ctrl+arrows`
+  (`Mod+Ctrl+Left/Right` move in a direction, `Mod+Ctrl+Up/Down` move to a
+  workspace), and the `Mod+Shift` media/volume binds mirror niri's "Basic Sound
+  Control" block. Hyprland groups/tabs are intentionally unused.
 - **Overview:** A standalone Quickshell config (`configs/fwbook/quickshell/overview/`,
   symlinked to `~/.config/quickshell/overview` by the
   `skyg.nixos.desktop.tiler.quickshell` module) provides a niri-like scrolling
@@ -62,9 +67,9 @@ hypr/
     ├── animations.lua           # workspaces slide = "slidevert" (niri-like); only the `workspaces`
     │                            # leaf overridden — other styles: slide, fade, slidefade, slidefadevert
     ├── monitors.lua             # hl.monitor per display (from configs/niri/.../outputs.kdl)
-    ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture
+    ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture (incl. Mod+swipe workspace-to-monitor)
     ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
-    ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp); Mod+Tab toggles the Quickshell overview
+    ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp); Mod+Tab toggles the Quickshell overview; Mod+Ctrl moves windows, Mod+Shift is media/volume
     └── autostart.lua            # noctalia + Quickshell overview via setpriv (hl.on hyprland.start; drops compositor caps)
 ```
 
@@ -72,11 +77,10 @@ hypr/
 
 - `Mod+Shift+H` (show-hotkey-overlay) — no native Hyprland equivalent; left commented.
 - `Mod+Escape` (toggle-keyboard-shortcuts-inhibit) — no native equivalent; omitted.
-- `Mod+W` (toggle-column-tabbed-display) — mapped to `hl.dsp.group.toggle()` as the nearest
-  analog. Additional group binds were added on top via `hyprctl dispatch` (the extra
-  dispatchers aren't wrapped by `hl.dsp`): `Mod+Shift+W` (merge into an adjacent group),
-  `Mod+Alt+W` (pull out of a group), `Mod+Alt+Left/Right` (cycle through the active
-  group's tabs; no-op outside a group), and `Mod+Shift+G` (lock/unlock the group).
+- `Mod+C` (center-column) — Hyprland runs the `focus current` scrolling dispatch.
+- `Mod+Ctrl+F` (reset-window-height) — the scrolling layout has no per-window
+  height reset, so it maps to `layout "fit active"` (resets the focused column
+  to full width).
 - `Mod+Tab` (toggle-overview) — the Quickshell scrolling overview (see above);
   previously a pure-Lua wofi picker, then the ScrollOverview plugin, and
   `cyclenext` before that.
@@ -88,8 +92,9 @@ niri's 3-finger swipes are mirrored in `conf/inputs.lua`:
 - **Horizontal** → `scroll_move` (scroll through columns along the tape)
 - **Vertical** → `workspace` (switch workspaces up/down)
 - **Mod + swipe (any direction)** → move the whole workspace to the monitor in
-  that direction (`movecurrentworkspacetomonitor`), mirroring niri's
-  `Mod+TouchpadScroll*` binds. This replaced the old `Mod + mouse wheel` approach.
+  that direction (`hyprctl dispatch movecurrentworkspacetomonitor`), mirroring
+  niri's `Mod+TouchpadScroll*` binds. Swipe direction maps to the same monitor
+  direction (up→up, down→down, left→left, right→right).
 - **4-finger up/down** → open/close the Quickshell scrolling overview (see
   Overview above). `hl.gesture` is a discrete trigger, so there's no
   swipe-progress animation.

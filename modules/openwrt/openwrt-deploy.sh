@@ -7,11 +7,19 @@
 #   ROUTER_USER   - SSH user
 #   GENERATOR     - store path of the openwrt-gen package (bin/openwrt-gen inside)
 #   APPLY_SCRIPT  - store path of skyg-apply.sh
+#   NIX_DNS_RECORDS - store path of the Nix-generated generalMappings fragment
 set -euo pipefail
 
 SERVER="$ROUTER_USER@$ROUTER"
 
-CONFIG=$(cat)
+# Merge the Nix-declared DNS records (skyg.dns, aggregated across all hosts)
+# into the secret's generalMappings. The secret stays the source of truth for
+# devices/MACs; Nix owns service names.
+CONFIG=$(cat | jq --slurpfile nix "$NIX_DNS_RECORDS" \
+  '.generalMappings = ((.generalMappings // []) + $nix[0].generalMappings)')
+
+NIX_COUNT=$(jq '.generalMappings | length' "$NIX_DNS_RECORDS")
+echo "Merged $NIX_COUNT Nix-declared DNS mapping(s) from skyg.dns."
 
 DNSMASQ=$(echo "$CONFIG" | "$GENERATOR"/bin/openwrt-gen dnsmasq)
 ETHERS=$(echo "$CONFIG"  | "$GENERATOR"/bin/openwrt-gen ethers)

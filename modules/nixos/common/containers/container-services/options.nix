@@ -166,6 +166,51 @@
                 '';
               };
 
+              dns = lib.mkOption {
+                default = { };
+                description = ''
+                  Internal DNS names for this service. Folded into
+                  skyg.dns.records, aggregated across hosts at the flake level,
+                  and pushed to the router by `skyg openwrt`. Nothing is
+                  configured on the host itself.
+                '';
+                type = lib.types.submodule {
+                  options = {
+                    names = lib.mkOption {
+                      type = lib.types.listOf lib.types.str;
+                      default = [ ];
+                      example = [ "drawdb" ];
+                      description = ''
+                        DNS names for this service. Bare labels (no dot) are
+                        suffixed with skyg.dns.domain, so [ "drawdb" ] becomes
+                        drawdb.app.internal.
+                      '';
+                    };
+
+                    ip = lib.mkOption {
+                      type = lib.types.nullOr lib.types.str;
+                      default = null;
+                      description = ''
+                        Address the names resolve to. When null (the default)
+                        it is derived from this service's `networks` block --
+                        which requires exactly one ipv4_address to be present.
+                        Set explicitly for host-networked services or when the
+                        service is attached to several networks.
+                      '';
+                    };
+
+                    wildcard = lib.mkOption {
+                      type = lib.types.bool;
+                      default = false;
+                      description = ''
+                        Also resolve every subdomain of these names
+                        (dnsmasq `address=/name/ip` instead of `host-record=`).
+                      '';
+                    };
+                  };
+                };
+              };
+
               extra_hosts = lib.mkOption {
                 type = lib.types.listOf lib.types.str;
                 default = [ ];

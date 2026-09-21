@@ -215,6 +215,45 @@ group starts; groups only reference it (`external: true`) and never create it.
 
 ---
 
+## Internal DNS names
+
+A service with a static IP can declare its own internal DNS name. The record is folded into
+`skyg.dns.records`, aggregated across every host at the flake level, and pushed to the
+OpenWrt router's `dnsmasq.conf` by `skyg openwrt`. **Nothing is configured on the host.**
+
+```nix
+skyg.nixos.common.container-services.drawdb.services.drawdb = {
+  image = "ghcr.io/drawdb-io/drawdb:latest";
+  networks = { lan = { ipv4_address = "10.0.101.2"; }; };
+  dns.names = [ "drawdb" ];   # -> drawdb.app.internal
+};
+```
+
+| Option | Default | Notes |
+|---|---|---|
+| `dns.names` | `[ ]` | Bare labels get `skyg.dns.domain` (default `app.internal`) appended; names containing a `.` are used as-is. |
+| `dns.ip` | `null` | Derived from the service's `networks` block when it contains exactly one `ipv4_address`. Required for host-networked or multi-network services. |
+| `dns.wildcard` | `false` | `true` also resolves every subdomain (`address=/name/ip` instead of `host-record=`). |
+
+Setting `dns.names` without a derivable address is an **eval error** that names the offending
+service. Two hosts mapping the same name to different IPs is also an eval error.
+
+For IPs that aren't container services, use the host-level escape hatch instead:
+
+```nix
+skyg.dns.extraRecords.nas = { ip = "10.0.0.50"; names = [ "nas" "files" ]; };
+```
+
+Verify and deploy:
+
+```sh
+nix eval .#dnsRecords --json | jq     # every record, all hosts
+skyg openwrt --dry-run                # render dnsmasq.conf locally
+skyg openwrt                          # diff + confirm + apply
+```
+
+---
+
 ## Limitations
 
 - **One unit per group.** No per-container systemd units. Use `docker compose logs` for

@@ -31,6 +31,13 @@ let
     port = 3000;
     ip = "10.0.101.3";
     bucket = "buzz-media";
+    images = {
+      relay = "ghcr.io/block/buzz:main";
+      posgres = "postgres:17-alpine";
+      redis = "redis:7-alpine";
+      minio = "quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e";
+      mc = "quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727";
+    };
   };
   # NFS-backed volume on tnas1 (repo pattern: compose volume with nfs driver_opts).
   # The server must be in `device` (the local driver uses it as the mount source);
@@ -226,33 +233,31 @@ in
     };
   };
 
-  # Buzz — relay + postgres + redis + garage (S3). Reachable at
+  # Buzz — relay + postgres + redis + minio (S3). Reachable at
   # http://buzz.lab.internal:3000 on its own macvlan IP (10.0.101.3).
   # Data lives on tnas1 via NFS-backed compose volumes (/mnt/SmallG/buzz).
   age.secrets.buzz-env.file = ../secrets/buzz-env.age;
   skyg.nixos.common.container-services.buzz = {
     enable = true;
     autoUpdate.enable = true;
-    # Image pulls on first start / after a tag moves can exceed the 120s default.
     timeoutStartSec = 600;
 
     networks = {
       internal = { driver = "bridge"; };
-      # Shared macvlan network created by skyg.nixos.common.containers.networks.lab.
       lan = config.skyg.nixos.common.containers.networks.lab.compose;
     };
 
     volumes = {
       buzz-postgres = nfsVolume "postgres";
       buzz-redis = nfsVolume "redis";
-      buzz-garage = nfsVolume "garage";
+      s3 = nfsVolume "s3";
       buzz-git = nfsVolume "git";
     };
 
     services = {
       relay = {
-        image = "ghcr.io/block/buzz:main";
-        dependsOn = [ "postgres" "redis" "garage" ];
+        image = buzz.images.relay;
+        dependsOn = [ "postgres" "redis" "minio" ];
         networks = {
           internal = { };
           lan = { ipv4_address = buzz.ip; };
@@ -266,8 +271,8 @@ in
           BUZZ_MEDIA_BASE_URL = "http://${buzz.domain}:${toString buzz.port}/media";
           BUZZ_MEDIA_SERVER_DOMAIN = "${buzz.domain}:${toString buzz.port}";
           BUZZ_CORS_ORIGINS = "http://${buzz.domain}:${toString buzz.port}";
-          BUZZ_S3_ENDPOINT = "http://garage:3900";
-          BUZZ_S3_REGION = "garage";
+          BUZZ_S3_ENDPOINT = "http://minio:9000";
+          BUZZ_S3_REGION = "us-east-1";
           BUZZ_S3_ADDRESSING_STYLE = "path";
           BUZZ_S3_BUCKET = buzz.bucket;
           BUZZ_GIT_REPO_PATH = "/data/git";
@@ -289,7 +294,7 @@ in
       };
 
       postgres = {
-        image = "postgres:17-alpine";
+        image = buzz.images.posgres;
         networks = [ "internal" ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
         environment = {
@@ -307,7 +312,7 @@ in
       };
 
       redis = {
-        image = "redis:7-alpine";
+        image = buzz.images.redis;
         networks = [ "internal" ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
         volumes = [ "buzz-redis:/data" ];
@@ -319,36 +324,30 @@ in
         command = [ "sh" "/usr/local/bin/redis-entrypoint.sh" ];
       };
 
-      garage = {
-        image = "dxflrs/garage:v2.4.1";
+      minio = {
+        image = buzz.images.minio;
         networks = [ "internal" ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
-        environment.GARAGE_DEFAULT_BUCKET = buzz.bucket;
-        volumes = [ "buzz-garage:/var/lib/garage" ];
-        command = [ "/garage" "server" "--single-node" "--default-bucket" ];
-        files."/etc/garage.toml" = ''
-          metadata_dir = "/var/lib/garage/meta"
-          data_dir = "/var/lib/garage/data"
-          db_engine = "sqlite"
-
-          replication_factor = 1
-
-          rpc_bind_addr = "[::]:3901"
-          rpc_public_addr = "127.0.0.1:3901"
-
-          [s3_api]
-          s3_region = "garage"
-          api_bind_addr = "[::]:3900"
-          root_domain = ".s3.garage.localhost"
-        '';
+        volumes = [ "s3:/data" ];
+        command = [ "server" "/data" "--console-address" ":9001" ];
         healthcheck = {
-          test = [ "CMD" "/garage" "status" ];
+          test = [ "CMD" "curl" "-f" "http://127.0.0.1:9000/minio/health/live" ];
           interval = "30s";
           timeout = "10s";
           retries = 5;
           start_period = "20s";
         };
       };
+
+      minio-init = {
+        image = buzz.images.mc;
+        networks = [ "internal" ];
+        environmentFiles = [ config.age.secrets.buzz-env.path ];
+        command = [ "mb" "--ignore-existing" "local/${buzz.bucket}" ];
+        dependsOn = [ "minio" ];
+        restart = "on-failure";
+      };
+
     };
   };
 

@@ -157,6 +157,7 @@
             };
           }
       ;
+      dnsAggregate = import ./modules/dns-aggregate.nix { inherit (nixpkgs) lib; };
     in
     {
       # Dev Setups
@@ -227,15 +228,26 @@
         }
       );
       lib = lib;
+
+      # Flat view of every internal DNS record declared by any host:
+      #   nix eval .#dnsRecords --json | jq
+      dnsRecords = dnsAggregate.records self.nixosConfigurations;
+
       formatter = lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       packages = lib.eachSystem (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           openwrt = import ./modules/openwrt { inherit pkgs; inherit (nixpkgs) lib; };
+          # Internal DNS records declared across all hosts (skyg.dns), rendered
+          # as the generalMappings fragment merged into the router config.
+          dnsRecordsFile = pkgs.writeText "skyg-dns-records.json"
+            (builtins.toJSON (dnsAggregate.json self.nixosConfigurations));
+          glmain = (import ./openwrt-routers/glmain.nix) // { dnsRecords = dnsRecordsFile; };
         in
         {
-          openwrt-glmain = (openwrt (import ./openwrt-routers/glmain.nix)).deployScript;
-          openwrt-glmain-dry-run = (openwrt (import ./openwrt-routers/glmain.nix)).dryRunScript;
+          openwrt-glmain = (openwrt glmain).deployScript;
+          openwrt-glmain-dry-run = (openwrt glmain).dryRunScript;
+          skyg-dns-records = dnsRecordsFile;
           ds4 = my-nixpkgs.legacyPackages.${system}.ds4;
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
           colibri = lib.pkgs.${system}.colibri;

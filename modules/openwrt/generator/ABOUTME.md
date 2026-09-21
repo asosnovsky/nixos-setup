@@ -32,7 +32,14 @@ openwrt-gen firewall < config.json   # prints UCI firewall rules (uci batch form
 
 ## Input shape (`config.rs`)
 
-- `generalMappings`: `[{ ip, domains[] }]` — shared domain→IP records.
+- `generalMappings`: `[{ ip, domains[], wildcard? }]` — shared domain→IP records.
+  `wildcard` defaults to `true` (omitted in existing secrets) and renders
+  `address=/domain/ip` + `address=/.domain/ip`, matching every subdomain too.
+  Set `false` for a plain `host-record=domain,ip` (A record + reverse PTR) —
+  this is what Nix-declared `skyg.dns` records use by default.
+  At deploy time this list is the **union** of the secret's entries and the
+  records aggregated from every host's `skyg.dns` (see
+  `modules/nixos/common/dns-records/`), merged by `jq` in `openwrt-deploy.sh`.
 - `networks`: `{ <network>: [ { mac, name, id?, domains?, justMac?, internetOnly? } ] }` —
   per-network hosts. A device with `internetOnly: true` is restricted to internet-only
   access (matched by MAC), on any network.
