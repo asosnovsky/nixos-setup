@@ -12,7 +12,7 @@ tiler/
 ├── niri.nix                    # skyg.nixos.desktop.tiler.niri — niri compositor (sets tiler.enable)
 ├── niri-touchscreen-gestures.nix # skyg.nixos.desktop.tiler.niri.touchscreen-gestures — touchscreen swipe support
 ├── hyprland.nix                # skyg.nixos.desktop.tiler.hyprland — Hyprland via flake (sets tiler.enable)
-├── noctalia.nix                # skyg.nixos.desktop.tiler.noctalia — noctalia shell + per-host config symlink
+├── noctalia.nix                # skyg.nixos.desktop.tiler.noctalia — noctalia shell + per-host config symlink; libqalculate pinned from nixpkgs-unstable (stable 5.10.0 segfaults on teardown)
 ├── quickshell.nix              # skyg.nixos.desktop.tiler.quickshell — qs package + per-host config symlink
 └── swww.nix                    # skyg.nixos.desktop.tiler.background — swww/waypaper wallpaper tools
 ```
@@ -59,6 +59,11 @@ skyg.nixos.desktop.tiler.background.enable
 
 - Installs the noctalia shell and autostart-friendly tools (grim/slurp/satty,
   wofi/rofi, wl-clipboard). There is no waybar/hyprpanel — the shell is noctalia.
+- `noctalia.nix` overrides Noctalia's `libqalculate` to the `nixpkgs-unstable`
+  build (5.12.0). Stable 26.05 ships 5.10.0, which segfaults in `clear_randstate`
+  on every teardown where the launcher calculator was never used (fixed upstream
+  in 5.11.0). Only that one dep moves to unstable; the rest of Noctalia stays on
+  stable. Drop the override once stable carries >= 5.11.0.
 - No Hyprland overview plugin — the scrolling overview is a standalone Quickshell
   config (`quickshell.nix`, see below), not a Hyprland plugin.
 - Symlinks `~/.config/hypr` -> `configs/<configName>/hypr`, where `configName`

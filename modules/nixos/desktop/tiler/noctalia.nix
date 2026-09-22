@@ -3,12 +3,23 @@
 , pkgs
 , skygUtils
 , noctalia
+, unstablePkgs
 , ...
 }:
 let
   cfg = config.skyg.nixos.desktop.tiler.noctalia;
   system = pkgs.stdenv.hostPlatform.system;
-  noctaliaPkg = noctalia.packages.${system}.default;
+  # Pull libqalculate from nixpkgs-unstable: stable 26.05 ships 5.10.0, which
+  # segfaults in clear_randstate on Noctalia teardown when the launcher
+  # calculator was never used. The null-check landed in 5.11.0 (unstable has it).
+  # callPackage already folded libqalculate into buildInputs, so swap that entry.
+  noctaliaPkg =
+    let base = noctalia.packages.${system}.default; in
+    base.overrideAttrs (old: {
+      buildInputs = lib.map
+        (p: if p.pname == "libqalculate" then unstablePkgs.libqalculate else p)
+        old.buildInputs;
+    });
   bakedConfig = skygUtils.bakeConfig {
     configName = cfg.configLink.name;
     configType = "noctalia";

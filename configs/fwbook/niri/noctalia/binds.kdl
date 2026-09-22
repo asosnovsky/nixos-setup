@@ -7,7 +7,4 @@ binds {
     Mod+Alt+L hotkey-overlay-title="Notifications: Clear" { spawn "noctalia" "msg" "notification-clear-active"; }
 
     Mod+P { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty -f -"; }
-
-    XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia" "msg" "brightness-up"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia" "msg" "brightness-down"; }
 }
