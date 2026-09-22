@@ -188,10 +188,13 @@ in
     # forever and cause constant overheating. Reset to "balanced" at boot
     # and also set a conservative CPU energy policy (balance_power) so the
     # chassis stays cooler when idle.
+    # Wanted by graphical.target, not multi-user.target: the daemon is
+    # After=multi-user.target upstream, so ordering this unit before
+    # multi-user.target forms a cycle and systemd drops the job.
     systemd.services.reset-power-profile = {
       description = "Reset power profile to balanced + conservative EPP at boot";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "power-profiles-daemon.service" ];
+      wantedBy = [ "graphical.target" ];
+      after = [ "power-profiles-daemon.service" "multi-user.target" ];
       wants = [ "power-profiles-daemon.service" ];
       serviceConfig = {
         Type = "oneshot";

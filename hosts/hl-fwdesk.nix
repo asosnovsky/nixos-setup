@@ -122,7 +122,6 @@ in
     "wheel"
     "tty"
     "dialout"
-    "plugdev"
     "uucp"
     "render"
     "video"

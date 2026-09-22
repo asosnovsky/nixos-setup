@@ -13,7 +13,6 @@ let
       "wheel"
       "tty"
       "dialout"
-      "plugdev"
       "uucp"
     ];
     services.dbus.enable = true;

@@ -20,6 +20,8 @@
     "rtc_cmos.use_acpi_alarm=1"
     "acpi.prefer_microsoft_dsm_guid=1"
     "amd_pstate=active"
+    # Disable the old and new display power-saving features (PSR and Panel Replay).
+    "amdgpu.dcdebugmask=0x410"
   ];
   boot.extraModulePackages = [ ];
   boot.plymouth = {
