@@ -45,38 +45,57 @@ skyg.nixos.common.containers.enableOnBoot
 skyg.nixos.common.containers.localDockerRegistries
 skyg.nixos.common.containers.metricsPort
 skyg.nixos.common.containers.openMetricsPort
-skyg.nixos.common.containers.networks.<name>.*     → networks.nix (host-created networks)
+skyg.nixos.common.containers.networks.macvlanLab.* → predefined macvlan lab network
+skyg.nixos.common.containers.networks.ipvlanLab.*  → predefined ipvlan lab network
+skyg.nixos.common.containers.networks.extra.<name>.* → custom networks (networks.nix)
 ```
 
 ## Host-created networks (`skyg.nixos.common.containers.networks`)
 
 Creates container networks once on the host (one systemd oneshot each, ordered before
 `container-networks.target`), independent of any compose project. This is how a _single_
-network — e.g. one macvlan network — is shared by several `container-services` groups
+network — e.g. one ipvlan network — is shared by several `container-services` groups
 instead of being re-declared (and re-created) per stack.
 
+Two predefined lab networks are available:
+
 ```nix
-skyg.nixos.common.containers.networks.lab = {
-  driver = "macvlan";
-  driverOpts.parent = "eno1";
-  subnet = "10.0.0.0/16";
-  gateway = "10.0.0.1";
+# macvlan (host can't reach its own containers)
+skyg.nixos.common.containers.networks.macvlanLab = {
+  enable = true;
+  parent = "eno1";
+  ipRange = "10.0.101.16/28";
+};
+
+# ipvlan L2 mode (host can reach its own containers — preferred)
+skyg.nixos.common.containers.networks.ipvlanLab = {
+  enable = true;
+  parent = "eno1";
   ipRange = "10.0.101.16/28";
 };
 ```
 
-Each network exposes a computed `compose` attribute (an `external: true` entry) for use in a
-group's `networks` option:
+Each exposes a computed `compose` attribute for use in a group's `networks` option:
 
 ```nix
 skyg.nixos.common.container-services.my-stack = {
-  networks.lan = config.skyg.nixos.common.containers.networks.lab.compose;
+  networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
   services.app.networks.lan = { ipv4_address = "10.0.101.3"; };
 };
 ```
 
-Fields: `enable`, `name` (default = attr name), `driver`, `driverOpts`, `subnet`, `gateway`,
-`ipRange`, `internal`. Works with both docker and podman.
+For ad-hoc networks not covered by the predefined ones, use `networks.extra`:
+
+```nix
+skyg.nixos.common.containers.networks.extra.myNet = {
+  driver = "bridge";
+  subnet = "172.20.0.0/16";
+};
+```
+
+Predefined fields: `enable`, `parent`, `subnet` (default `10.0.0.0/16`), `gateway` (default
+`10.0.0.1`), `ipRange`, `internal`. Extra networks also have `name`, `driver`, `driverOpts`.
+Works with both docker and podman.
 
 ## Container service groups (`skyg.nixos.common.container-services`)
 

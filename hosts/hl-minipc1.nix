@@ -79,12 +79,10 @@ in
   skyg.nixos.common.containers.runtime = "docker";
   skyg.nixos.common.containers.openMetricsPort = true;
 
-  # One shared macvlan network, created once at boot.
-  skyg.nixos.common.containers.networks.lab = {
-    driver = "macvlan";
-    driverOpts.parent = "eno1";
-    subnet = "10.0.0.0/16";
-    gateway = "10.0.0.1";
+  # One shared ipvlan network, created once at boot.
+  skyg.nixos.common.containers.networks.ipvlanLab = {
+    enable = true;
+    parent = "eno1";
     ipRange = "10.0.101.16/28";
   };
   skyg.server.admin.enable = true;
@@ -113,7 +111,7 @@ in
     enable = false;
     autoUpdate.enable = true;
 
-    networks.lan = config.skyg.nixos.common.containers.networks.lab.compose;
+    networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
 
     services.audiobookshelf = {
       image = audiobookshelf.image;
@@ -284,7 +282,7 @@ in
 
     networks = {
       internal = { driver = "bridge"; };
-      lan = config.skyg.nixos.common.containers.networks.lab.compose;
+      lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
     };
 
     volumes = {

@@ -1,22 +1,5 @@
 { pkgs, config, ... }:
 let
-  macvlanNetwork = {
-    lan = {
-      driver = "macvlan";
-      driver_opts = {
-        parent = "enp2s0";
-      };
-      ipam = {
-        config = [
-          {
-            subnet = "10.0.0.0/16";
-            gateway = "10.0.0.1";
-            ip_range = "10.0.101.240/28";
-          }
-        ];
-      };
-    };
-  };
   staticIp = ip: {
     lan = {
       ipv4_address = ip;
@@ -30,6 +13,11 @@ in
     enable = false;
     openFirewall = true;
     addressesSecretName = "dns-addresses.conf";
+  };
+  skyg.nixos.common.containers.networks.ipvlanLab = {
+    enable = true;
+    parent = "enp2s0";
+    ipRange = "10.0.101.240/28";
   };
   skyg.nixos.common.containers.openMetricsPort = true;
   skyg.server.exporters.enable = true;
@@ -82,10 +70,9 @@ in
         PORT = "80";
       };
       networks = staticIp "10.0.101.2";
-      # -> drawdb.app.internal (skyg.dns.domain), pushed by `skyg openwrt`
       dns.names = [ "drawdb" ];
     };
-    networks = macvlanNetwork;
+    networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
   };
 
   # Portainer Service
