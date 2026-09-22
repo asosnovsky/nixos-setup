@@ -34,6 +34,8 @@ let
   # Buzz stack
   buzz = {
     domain = "buzz.app.internal";
+    # Public name with a Let's Encrypt cert (skyg.server.acme) — what clients use.
+    publicDomain = "buzz.home.sosnovsky.ca";
     port = 3000;
     # Caddy's macvlan IP — buzz.app.internal resolves here; the relay is internal-only.
     ip = "10.0.101.3";
@@ -264,8 +266,17 @@ in
 
   # Buzz — relay + postgres + redis + minio (S3).
   age.secrets.buzz-env.file = ../secrets/buzz-env.age;
-  # TLS key for buzz.app.internal, minted by `skyg ca issue` (lab CA).
-  age.secrets.buzz-tls-key.file = ../secrets/buzz-tls-key.age;
+
+  age.secrets.cloudflare-dns.file = ../secrets/cloudflare-dns.age;
+  skyg.server.acme = {
+    enable = true;
+    credentialsFile = config.age.secrets.cloudflare-dns.path;
+    certs."${buzz.publicDomain}" = {
+      postRun = "${pkgs.docker}/bin/docker restart buzz-caddy-1";
+      orderBefore = [ "container-services-buzz" ];
+    };
+  };
+
   skyg.nixos.common.container-services.buzz = {
     enable = true;
     autoUpdate.enable = true;
@@ -298,10 +309,10 @@ in
           BUZZ_BIND_ADDR = "0.0.0.0:${toString buzz.port}";
           BUZZ_HEALTH_PORT = "8080";
           BUZZ_METRICS_PORT = "9102";
-          RELAY_URL = "wss://${buzz.domain}";
-          BUZZ_MEDIA_BASE_URL = "https://${buzz.domain}/media";
-          BUZZ_MEDIA_SERVER_DOMAIN = buzz.domain;
-          BUZZ_CORS_ORIGINS = "https://${buzz.domain}";
+          RELAY_URL = "wss://${buzz.publicDomain}";
+          BUZZ_MEDIA_BASE_URL = "https://${buzz.publicDomain}/media";
+          BUZZ_MEDIA_SERVER_DOMAIN = buzz.publicDomain;
+          BUZZ_CORS_ORIGINS = "https://${buzz.publicDomain}";
           BUZZ_S3_ENDPOINT = "http://minio:9000";
           BUZZ_S3_REGION = "us-east-1";
           BUZZ_S3_ADDRESSING_STYLE = "path";
@@ -324,10 +335,6 @@ in
         };
       };
 
-      # TLS terminator — owns buzz.app.internal (443/80), proxies to the relay
-      # over the internal network. Cert minted by `skyg ca issue` (lab CA).
-      # Also proxies plain :3000 (Hermes guest can't trust the CA yet), :8080
-      # health and :9102 metrics so everything stays on 10.0.101.3.
       caddy = {
         image = buzz.images.caddy;
         extraConfig.depends_on.relay.condition = "service_healthy";
@@ -335,12 +342,17 @@ in
           internal = { };
           lan = { ipv4_address = buzz.ip; };
         };
-        dns.names = [ buzz.domain ];
+        dns.names = [ buzz.domain buzz.publicDomain ];
         files."/etc/caddy/Caddyfile" = ''
-          ${buzz.domain} {
-            tls /etc/caddy/tls/cert.pem /etc/caddy/tls/key.pem
+          ${buzz.publicDomain} {
+            tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
             encode zstd gzip
             reverse_proxy relay:${toString buzz.port}
+          }
+
+          # Old internal name -> public one (plain :3000 below still serves it).
+          http://${buzz.domain} {
+            redir https://${buzz.publicDomain}{uri} permanent
           }
 
           :${toString buzz.port} {
@@ -356,8 +368,8 @@ in
           }
         '';
         volumes = [
-          "${../configs/pki/buzz.app.internal.crt}:/etc/caddy/tls/cert.pem:ro"
-          "${config.age.secrets.buzz-tls-key.path}:/etc/caddy/tls/key.pem:ro"
+          "/var/lib/acme/${buzz.publicDomain}/fullchain.pem:/etc/caddy/tls/fullchain.pem:ro"
+          "/var/lib/acme/${buzz.publicDomain}/key.pem:/etc/caddy/tls/key.pem:ro"
         ];
       };
 

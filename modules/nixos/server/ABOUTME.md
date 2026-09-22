@@ -12,6 +12,7 @@ server/
 ├── admin.nix      # skyg.server.admin — www-data group/user for shared web data
 ├── exporters.nix  # skyg.server.exporters — Prometheus node exporter (:9100)
 ├── timers.nix     # skyg.server.timers — generic attrset → systemd timer+oneshot service
+├── acme/          # skyg.server.acme — Let's Encrypt certs via DNS-01 (lego), no internet exposure
 ├── arrs/          # *arr media-automation stack (prowlarr/sonarr/radarr) + postgres
 ├── dns/           # Local DNS resolver, certbot, local CA
 ├── k3s/           # Single-binary K3s cluster role
@@ -36,6 +37,7 @@ server/
 skyg.server.admin.enable          → admin.nix
 skyg.server.exporters.enable      → exporters.nix
 skyg.server.timers.<name>         → timers.nix
+skyg.server.acme.*                → acme/
 skyg.server.arrs.*                → arrs/
 skyg.server.dns.*                 → dns/
 skyg.nixos.server.k3s.*           → k3s/

@@ -28,6 +28,9 @@ in
   # Buzz stack env (minipc1)
   "secrets/buzz-env.age".publicKeys = [ ari minipc1 ];
 
+  # Cloudflare DNS API token for ACME DNS-01 (skyg.server.acme)
+  "secrets/cloudflare-dns.age".publicKeys = [ ari minipc1 ];
+
   # stack compose definition — minipc2
   "secrets/stack1.age".publicKeys = [ ari minipc2 ];
   "secrets/stack2.age".publicKeys = [ ari minipc2 ];
