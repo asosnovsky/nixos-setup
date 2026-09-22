@@ -455,6 +455,14 @@ in
     };
   };
 
+  # Portainer Edge Agent
+  age.secrets.portainer-agent-minipc1.file = ../secrets/portainer-agent-minipc1.age;
+  skyg.nixos.server.portainer = {
+    enable = true;
+    mode = "agent";
+    agent.edgeKeySecretName = "portainer-agent-minipc1";
+  };
+
   # Buzz management CLI.
   environment.systemPackages = [ buzz-manage ];
 

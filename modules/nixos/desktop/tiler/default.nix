@@ -48,12 +48,6 @@ in
       enableGnomeKeyring = true;
       fprintAuth = true;
       u2fAuth = true;
-      text = lib.mkDefault ''
-        auth      include  login
-        account   include  login
-        password  include  login
-        session   include  login
-      '';
     };
     security.pam.services.login.enableGnomeKeyring = true;
     security.polkit.enable = true;

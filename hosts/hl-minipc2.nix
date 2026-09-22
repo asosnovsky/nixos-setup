@@ -75,28 +75,16 @@ in
     networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
   };
 
-  # Portainer Service
-  skyg.nixos.common.container-services.portainer = {
+  # Portainer Server
+  age.secrets.portainer-tls-key.file = ../secrets/portainer-tls-key.age;
+  skyg.nixos.server.portainer = {
     enable = true;
-    autoUpdate.enable = true;
-    services.portainer = {
-      image = "portainer/portainer-ce:lts";
-      volumes = [
-        "/var/run/docker.sock:/var/run/docker.sock"
-        "portainer_data:/data"
-      ];
-      ports = [
-        "9443:9443"
-        "8000:8000"
-      ];
-      # networks = staticIp "10.0.101.5";
+    mode = "server";
+    server.tls = {
+      enable = true;
+      cert = builtins.readFile ../configs/pki/portainer.app.internal.crt;
+      keySecretName = "portainer-tls-key";
     };
-    volumes = {
-      portainer_data = {
-        name = "portainer_data";
-      };
-    };
-    # networks = macvlanNetwork;
   };
 
   age.secrets.stack1.file = ../secrets/stack1.age;

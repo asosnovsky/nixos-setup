@@ -10,5 +10,6 @@
     ./services
     ./timers.nix
     ./dns
+    ./portainer.nix
   ];
 }

@@ -17,6 +17,7 @@ server/
 ├── dns/           # Local DNS resolver, certbot, local CA
 ├── k3s/           # Single-binary K3s cluster role
 ├── k8s/           # Full upstream Kubernetes (master/node)
+├── portainer.nix  # skyg.nixos.server.portainer — Portainer server or Edge agent
 └── services/      # Self-hosted apps (jellyfin, audiobookshelf, comfyui, ds4, colibri, ai…)
 ```
 
@@ -43,6 +44,7 @@ skyg.server.dns.*                 → dns/
 skyg.nixos.server.k3s.*           → k3s/
 skyg.nixos.server.k8s.*           → k8s/
 skyg.nixos.server.services.*      → services/
+skyg.nixos.server.portainer.*     → portainer.nix
 ```
 
 ## Conventions
