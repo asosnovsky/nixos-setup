@@ -240,7 +240,7 @@ in
     };
 
     systemd.services = lib.mkIf (cfg.enable && allNetworks != [ ]) {
-      container-networks = {
+      container-networks-setup = {
         description = "Create configured container networks";
         after = [ runtimeService "network-online.target" ];
         requires = [ runtimeService ];
@@ -251,9 +251,6 @@ in
           RemainAfterExit = true;
         };
         script = ''
-          # Prune unused networks so stale ones don't linger.
-          ${runtimeBin} network prune -f 2>/dev/null || true
-
           ${lib.concatStringsSep "\n" (map (net: ''
             ${runtimeBin} network inspect ${net.name} >/dev/null 2>&1 \
               || ${runtimeBin} ${createArgs net}

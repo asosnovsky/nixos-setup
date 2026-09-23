@@ -14,6 +14,16 @@
     enable = true;
     envPath = "/opt/k3s/k3s.env";
   };
+  # Portainer Edge Agent (k3s deployment)
+  age.secrets.portainer-agent-minipc3.file = ../secrets/portainer-agent-minipc3.age;
+  skyg.nixos.server.portainer = {
+    enable = true;
+    mode = "agent";
+    agent.k3s = {
+      enable = true;
+      edgeKeySecretName = "portainer-agent-minipc3";
+    };
+  };
   # firmware updater
   services.fwupd.enable = true;
   # Bootloader.

@@ -53,11 +53,11 @@ let
   # Docker's `local` driver calls mount(2) itself, so it cannot resolve a
   # `host:/path` device: the server belongs in `o = addr=...` (the daemon
   # resolves that name) and `device` must be the bare `:/export/path`.
-  nfsVolume = subpath: {
+  nfsVolume = exportPath: {
     driver_opts = {
       type = "nfs";
       o = "addr=tnas1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
-      device = ":/mnt/SmallG/buzz/${subpath}";
+      device = ":${exportPath}";
     };
   };
   # Buzz management CLI — upstream deploy/compose/run.sh ported to this
@@ -91,7 +91,7 @@ in
   skyg.networkDrives = {
     enable = true;
   };
-  services.tailscale.enable = true;
+  services.tailscale.enable = false;
   services.tailscale.disableTaildrop = true;
   services.tailscale.useRoutingFeatures = "both";
   services.tailscale.openFirewall = true;
@@ -108,10 +108,14 @@ in
   # Audiobookshelf — containerised, own macvlan IP, reachable as
   # http://audiobooks.app.internal
   skyg.nixos.common.container-services.audiobookshelf = {
-    enable = false;
+    enable = true;
     autoUpdate.enable = true;
 
     networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
+
+    volumes = {
+      books = nfsVolume "/mnt/EightTerra/DownloadedTorrents/books";
+    };
 
     services.audiobookshelf = {
       image = audiobookshelf.image;
@@ -123,7 +127,7 @@ in
       volumes = [
         "${audiobookshelf.dataDir}/config:/config"
         "${audiobookshelf.dataDir}/metadata:/metadata"
-        "${audiobookshelf.dataDir}/audiobooks:/audiobooks"
+        "books:/audiobooks"
         "${audiobookshelf.dataDir}/podcasts:/podcasts"
       ];
     };
@@ -286,10 +290,10 @@ in
     };
 
     volumes = {
-      buzz-postgres = nfsVolume "postgres";
-      buzz-redis = nfsVolume "redis";
-      s3 = nfsVolume "s3";
-      buzz-git = nfsVolume "git";
+      buzz-postgres = nfsVolume "/mnt/SmallG/buzz/postgres";
+      buzz-redis = nfsVolume "/mnt/SmallG/buzz/redis";
+      s3 = nfsVolume "/mnt/SmallG/buzz/s3";
+      buzz-git = nfsVolume "/mnt/SmallG/buzz/git";
     };
 
     services = {
@@ -465,16 +469,6 @@ in
 
   # Buzz management CLI.
   environment.systemPackages = [ buzz-manage ];
-
-  # Certbot TLS service
-  skyg.server.dns.certbot = {
-    enable = false;
-    email = "admin@skyg.ca";
-    publicDomains = [
-      ".*skyg.ca"
-      ".*home.sosnovsky.ca"
-    ];
-  };
 
   # Firewall
   networking.firewall.allowedUDPPorts = openPorts;
