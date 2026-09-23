@@ -1,39 +1,40 @@
-// ! Auto-generated file. Do not edit directly.
-// Remove `include "dms/colors.kdl"` from your config to override.
+// Liquid Glass color scheme — vibrant cyan/teal, purple, and pink accents
+// with a frosted-glass feel. The transparent background lets the wallpaper
+// show through for the full glass effect.
 
 layout {
     background-color "transparent"
 
     focus-ring {
-        active-color   "#ff6d00"
-        inactive-color "#a08d85"
-        urgent-color   "#f2b8b5"
+        active-color   "#00e5ff"   // glowing cyan
+        inactive-color "#6a5acd"   // muted slate purple
+        urgent-color   "#ff69b4"   // hot pink
     }
 
     border {
-        active-color   "#ff6d00"
-        inactive-color "#a08d85"
-        urgent-color   "#f2b8b5"
+        active-color   "#00e5ffcc" // cyan with ~80% opacity for glassy glow
+        inactive-color "#6a5acd88" // slate purple, more transparent
+        urgent-color   "#ff69b4cc" // hot pink with glow
     }
 
     shadow {
-        color "#00000070"
+        color "#000000b0"          // deeper shadow for depth
     }
 
     tab-indicator {
-        active-color   "#ff6d00"
-        inactive-color "#a08d85"
-        urgent-color   "#f2b8b5"
+        active-color   "#00e5ff"
+        inactive-color "#6a5acd"
+        urgent-color   "#ff69b4"
     }
 
     insert-hint {
-        color "#ff6d0080"
+        color "#00e5ff80"          // cyan insert hint
     }
 }
 
 recent-windows {
     highlight {
-        active-color   "#3e2723"
-        urgent-color   "#f2b8b5"
+        active-color   "#1a1a2e"   // deep navy
+        urgent-color   "#ff69b4"
     }
 }

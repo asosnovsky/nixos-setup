@@ -45,7 +45,7 @@ window-rule {
 // @id=dms_rule_4 @name=
 window-rule {
     match is-active=false
-    opacity 0.97
+    opacity 0.92           // more translucent for the glass depth effect
 }
 
 // @id=dms_rule_5 @name=

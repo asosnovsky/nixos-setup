@@ -1,17 +1,22 @@
 -- =========================
--- General / Layout
+-- General / Layout — Liquid Glass
 -- =========================
 hl.config({
     general = {
         gaps_in = 0,
-        gaps_out = 1,
-        border_size = 1,
+        gaps_out = 0,
+        border_size = 2,
         layout = "scrolling",
         resize_on_border = true,
+
+        col = {
+            active_border = "rgb(00e5ff)",
+            inactive_border = "rgb(6a5acd)",
+        },
     },
 
     decoration = {
-        rounding = 12,
+        rounding = 8,
         active_opacity = 1.0,
         inactive_opacity = 0.9,
     },

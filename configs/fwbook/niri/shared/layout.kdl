@@ -1,16 +1,16 @@
-        layout {
-        gaps 5
+        	layout {
+        gaps 1
 
         border {
         width 2
         }
 
         focus-ring {
-        width 2
+        width 4
         }
         }
         window-rule {
-        geometry-corner-radius 12
+        geometry-corner-radius 4
         clip-to-geometry true
         tiled-state true
         draw-border-with-background false
