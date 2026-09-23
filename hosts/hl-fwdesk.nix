@@ -35,7 +35,6 @@ in
 {
   imports = [
     ./hl-fwdesk.hardware-configuration.nix
-    # DwarfStar ds4 systemd module (services.ds4) from asosnovsky/nixpkgs fork (branch ds4-init).
     "${my-nixpkgs}/nixos/modules/services/misc/ds4.nix"
   ];
   # Skyg

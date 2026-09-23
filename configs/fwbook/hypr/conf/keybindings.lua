@@ -12,7 +12,7 @@ hl.bind(mod .. " + B", hl.dsp.exec_cmd("chromium"))
 hl.bind(mod .. " + E", hl.dsp.exec_cmd("wofi-emoji"))
 hl.bind(mod .. " + ALT + E", hl.dsp.exec_cmd("zeditor ~/.config/hypr/conf/keybindings.lua"))
 hl.bind(mod .. " + Q", hl.dsp.window.close())
-
+hl.bind(mod .. " + ALT + N", hl.dsp.exec_cmd("skygqts workspace-manager toggle"))
 -- =========================
 -- Navigation
 -- =========================

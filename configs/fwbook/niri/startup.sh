@@ -1,6 +1,6 @@
 #!/bin/sh
 
 
-skygqts workspace-rename &
+skygqts workspace-manager &
 
 notify-send "Autostarted ran!"
