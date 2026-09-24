@@ -170,6 +170,7 @@ in
       # LLM Stuff
       unstablePkgs.ollama-rocm
       unstablePkgs.grok-build
+      unstablePkgs.goose-cli
       # stable-diffusion-cpp-rocm
       lmstudio
       # Hermes gateway - Signal bridge (used to link the device + run the daemon)
@@ -220,7 +221,7 @@ in
     enable = true;
     host = "0.0.0.0";
     port = ports.ollama;
-    package = pkgs.ollama-rocm;
+    package = unstablePkgs.ollama-rocm;
     user = "ollama";
     home = "/var/lib/ollama";
     environmentVariables = {
@@ -244,7 +245,13 @@ in
     enable = true;
     disk.baseDir = "/var/lib/hermes-vm";
     disk.stateSize = "60G";
-    network.externalInterface = "enp191s0";
+    network = {
+      bridged = false;
+      externalInterface = "enp191s0";
+      lanAddress = "10.0.101.101"; # the guest's fixed LAN IP
+      hostLanAddress = "10.0.10.11"; # this host's current LAN IP (pick up the router reservation)
+      lanGateway = "10.0.0.1";
+    };
     vcpu = 3;
     mem = 5000;
     hermesHome = "/var/lib/hermes/.hermes";

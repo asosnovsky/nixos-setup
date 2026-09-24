@@ -210,6 +210,7 @@
             shellHook = ''
                             export PATH=$PATH:$(pwd)/bin
                             export SKYG_LIB="$(pwd)/bin/lib/cmds.nu"
+                            export CLAUDE_CONFIG_DIR="$(pwd)/.claude-nixos-setup"
                             ${pre-commit-check.shellHook}
 
                             if [ -z "$NU_VERSION" ] && [ -t 0 ] && command -v nu >/dev/null; then
@@ -250,6 +251,7 @@
           skyg-dns-records = dnsRecordsFile;
           ds4 = my-nixpkgs.legacyPackages.${system}.ds4;
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
+          superset-desktop = lib.pkgs.${system}.superset-desktop;
           colibri = lib.pkgs.${system}.colibri;
           herdr = herdr.packages.${system}.default;
         }

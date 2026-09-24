@@ -8,6 +8,7 @@ devenv.local.nix
 # tmp
 tmp
 result.diff
+.claude-nixos-setup
 
 # direnv
 .direnv

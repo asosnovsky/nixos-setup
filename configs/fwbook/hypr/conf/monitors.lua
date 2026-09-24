@@ -6,7 +6,7 @@ hl.monitor({
     output = "eDP-1",
     mode = "2256x1504@60",
     position = "0x0",
-    scale = 1.57,
+    scale = 1.07,
 })
 
 -- Home Office

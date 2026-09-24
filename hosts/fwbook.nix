@@ -238,11 +238,13 @@ in
       claude-desktop
       unstablePkgs.grok-build
       unstablePkgs.pi-coding-agent
-      claude-code
+      unstablePkgs.goose-cli
+      unstablePkgs.claude-agent-acp
+      unstablePkgs.claude-code
       buzz-desktop
       bubblewrap
       herdr
-
+      superset-desktop
 
       # My apps
       skygqts
@@ -294,7 +296,7 @@ in
     enable = true;
     host = "0.0.0.0";
     port = 11434;
-    package = pkgs.ollama-rocm;
+    package = unstablePkgs.ollama-rocm;
     environmentVariables = {
       HSA_OVERRIDE_GFX_VERSION = "11.0.2";
     };

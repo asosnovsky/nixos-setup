@@ -26,7 +26,6 @@ hl.config({
         fullscreen_on_one_column = true,
         focus_fit_method = 0,
         follow_focus = true,
-        explicit_column_widths = "0.5, 1.0",
     },
 
     cursor = {

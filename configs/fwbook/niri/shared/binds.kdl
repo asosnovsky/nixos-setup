@@ -15,7 +15,7 @@ binds {
     Mod+E { spawn "wofi-emoji"; }
     Mod+Alt+E { spawn-sh "zeditor ~/.config/niri/shared/binds.kdl"; }
     Mod+Q { close-window; }
-    Mod+Alt+N hotkey-overlay-title="Workspace: Rename" { spawn "skygqts" "workspace-manager" "toggle"; }
+    Mod+Alt+N hotkey-overlay-title="Workspace: Rename" { spawn "skygqts" "workspace-manager" "rename"; }
 
 
     // =========================
@@ -26,7 +26,7 @@ binds {
     Mod+Up    { focus-workspace-up; }
     Mod+Right { focus-column-right; }
 
-    Mod+Tab { toggle-overview; }
+    Mod+Tab hotkey-overlay-title="Workspace: Rename" { spawn "skygqts" "workspace-manager" "windows"; }
     Mod+Shift+Tab { focus-monitor-next; }
 
     // =========================

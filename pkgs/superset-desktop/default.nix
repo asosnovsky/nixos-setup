@@ -4,11 +4,11 @@
 , runCommand
 }:
 
-# Buzz Desktop — self-hostable workspace for humans + AI agents (block/buzz).
+# Superset Desktop — AI-enabled workspace and IDE (superset-sh/superset).
 #
 # Upstream ships a Type-2 AppImage. On NixOS we need:
 #   1. FHS libs missing from appimageTools.defaultFhsEnvArgs (elfutils, zstd, …)
-#   2. WebKit DMA-BUF disabled — Buzz only auto-enables this when it detects a
+#   2. WebKit DMA-BUF disabled — Superset only auto-enables this when it detects a
 #      real AppImage (`APPIMAGE` env). wrapAppImage runs the extracted AppDir.
 #   3. Explicit GST_PLUGIN_SYSTEM_PATH_1_0 for WebKit media elements.
 #   4. Drop the upstream AppRun hook that hardcodes `GDK_BACKEND=x11` (breaks
@@ -19,15 +19,15 @@
 #
 # To bump: set `version`, then:
 #   nix hash file --type sha256 --sri <(curl -fsSL \
-#     https://github.com/block/buzz/releases/download/desktop-v${version}/Buzz_${version}_amd64.AppImage)
+#     https://github.com/superset-sh/superset/releases/download/desktop-v${version}/superset-${version}-x86_64.AppImage)
 
 let
-  pname = "buzz-desktop";
-  version = "0.5.24";
+  pname = "superset-desktop";
+  version = "1.30.2";
 
   src = fetchurl {
-    url = "https://github.com/block/buzz/releases/download/desktop-v${version}/Buzz_${version}_amd64.AppImage";
-    hash = "sha256-cD5s/yEvfqu8ZbPLgWxW1lqoWMQ1o94xVP+7MjrJNws=";
+    url = "https://github.com/superset-sh/superset/releases/download/desktop-v${version}/superset-${version}-x86_64.AppImage";
+    hash = "sha256-OWlTGKNOS4WiTrRow0tFju2Ut8wLK20iQt5fhoh/9gw=";
   };
 
   extracted = appimageTools.extractType2 {
@@ -82,7 +82,7 @@ appimageTools.wrapAppImage {
   ];
 
   profile = ''
-    # WebKit blank-window workaround (Buzz sets this itself only for real AppImages).
+    # WebKit blank-window workaround (Superset sets this itself only for real AppImages).
     export WEBKIT_DISABLE_DMABUF_RENDERER=1
     export WEBKIT_DISABLE_COMPOSITING_MODE=1
 
@@ -97,32 +97,36 @@ appimageTools.wrapAppImage {
   '';
 
   extraInstallCommands = ''
-    install -Dm444 ${appdir}/usr/share/applications/Buzz.desktop \
-      $out/share/applications/buzz-desktop.desktop
-    substituteInPlace $out/share/applications/buzz-desktop.desktop \
-      --replace-fail 'Exec=buzz-desktop' 'Exec=${pname}' \
-      --replace-fail 'Icon=buzz-desktop' 'Icon=${pname}'
+    # Desktop entry is at AppDir root (not in usr/share/applications/).
+    install -Dm444 ${appdir}/superset.desktop \
+      $out/share/applications/superset-desktop.desktop
+    substituteInPlace $out/share/applications/superset-desktop.desktop \
+      --replace-fail 'Exec=superset' 'Exec=${pname}' \
+      --replace-fail 'Icon=superset' 'Icon=${pname}'
 
-    for size in 32x32 128x128 '256x256@2'; do
-      if [ -f ${appdir}/usr/share/icons/hicolor/$size/apps/buzz-desktop.png ]; then
-        install -Dm644 ${appdir}/usr/share/icons/hicolor/$size/apps/buzz-desktop.png \
+    # Icons in usr/share/icons/hicolor/*/apps/
+    for size in 16x16 32x32 48x48 64x64 128x128 256x256 512x512 1024x1024; do
+      icon=${appdir}/usr/share/icons/hicolor/$size/apps/superset.png
+      if [ -f "$icon" ]; then
+        install -Dm644 "$icon" \
           $out/share/icons/hicolor/$size/apps/${pname}.png
       fi
     done
+    # Also handle the root-level symlink as fallback
     if [ ! -e $out/share/icons/hicolor/128x128/apps/${pname}.png ] \
-       && [ -f ${appdir}/buzz-desktop.png ]; then
-      install -Dm644 ${appdir}/buzz-desktop.png \
+       && [ -f ${appdir}/superset.png ]; then
+      install -Dm644 ${appdir}/superset.png \
         $out/share/icons/hicolor/128x128/apps/${pname}.png
     fi
   '';
 
   meta = {
-    description = "Buzz desktop — self-hostable workspace for humans and AI agents";
-    homepage = "https://github.com/block/buzz";
-    changelog = "https://github.com/block/buzz/releases/tag/desktop-v${version}";
+    description = "Superset Desktop — AI-enabled workspace and IDE";
+    homepage = "https://github.com/superset-sh/superset";
+    changelog = "https://github.com/superset-sh/superset/releases/tag/desktop-v${version}";
     license = lib.licenses.asl20;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
     platforms = [ "x86_64-linux" ];
-    mainProgram = "buzz-desktop";
+    mainProgram = "superset-desktop";
   };
 }
