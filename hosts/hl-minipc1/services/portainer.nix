@@ -1,6 +1,6 @@
-{ ... }:
+{ config, ... }:
 {
-  age.secrets.portainer-agent-minipc1.file = ../secrets/portainer-agent-minipc1.age;
+  age.secrets.portainer-agent-minipc1.file = "${config.skyg.rootDir}/secrets/portainer-agent-minipc1.age";
 
   skyg.nixos.server.portainer = {
     enable = true;

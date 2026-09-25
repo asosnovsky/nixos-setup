@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  age.secrets.cloudflare-dns.file = ../secrets/cloudflare-dns.age;
+  age.secrets.cloudflare-dns.file = "${config.skyg.rootDir}/secrets/cloudflare-dns.age";
 
   skyg.server.acme = {
     enable = true;

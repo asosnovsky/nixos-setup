@@ -56,7 +56,7 @@ in
   skyg.nixos.server.k3s.enable = false;
   skyg.networkDrives.enable = true;
 
-  age.secrets.buzz-env.file = ../secrets/buzz-env.age;
+  age.secrets.buzz-env.file = "${config.skyg.rootDir}/secrets/buzz-env.age";
 
   environment.systemPackages = [ buzz-manage ];
 
