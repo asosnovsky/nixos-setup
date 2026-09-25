@@ -55,8 +55,10 @@ stdenvNoCC.mkDerivation {
 
   nativeBuildInputs = [ patchelf makeWrapper ];
 
-  # Keep the RPATH we set below (don't let fixup shrink it).
-  dontShrinkRPath = true;
+  # patchelf ships a setup hook that runs `patchelf --shrink-rpath` on every
+  # ELF during fixup, which rewrites DT_RPATH as DT_RUNPATH. Disable it so the
+  # RPATH we set below survives (RUNPATH is not inherited by the bundled libs).
+  dontPatchELF = true;
 
   unpackPhase = ''
     runHook preUnpack
@@ -76,6 +78,7 @@ stdenvNoCC.mkDerivation {
     # bundled libs) instead of DT_RUNPATH (not inherited).
     patchelf \
       --force-rpath \
+      --set-interpreter ${glibc}/lib/ld-linux-x86-64.so.2 \
       --set-rpath '$ORIGIN/../lib:${glibc}/lib' \
       $out/lib/delta/bin/delta
 
