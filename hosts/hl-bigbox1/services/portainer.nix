@@ -1,6 +1,6 @@
-{ config, ... }:
+{ config, skyg-secrets, ... }:
 {
-  age.secrets.portainer-agent-bigbox1.file = "${config.skyg.rootDir}/secrets/portainer-agent-bigbox1.age";
+  age.secrets.portainer-agent-bigbox1.file = skyg-secrets.portainer-agent-bigbox1;
 
   skyg.nixos.server.portainer = {
     enable = true;

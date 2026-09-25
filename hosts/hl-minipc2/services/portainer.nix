@@ -1,13 +1,13 @@
-{ ... }:
+{ config, skyg-secrets, ... }:
 {
-  age.secrets.portainer-tls-key.file = "${config.skyg.rootDir}/secrets/portainer-tls-key.age";
+  age.secrets.portainer-tls-key.file = skyg-secrets.portainer-tls-key;
 
   skyg.nixos.server.portainer = {
     enable = true;
     mode = "server";
     server.tls = {
       enable = true;
-      cert = builtins.readFile "${config.skyg.rootDir}/configs/pki/portainer.app.internal.crt";
+      cert = builtins.readFile skyg-secrets.portainer-cert;
       keySecretName = "portainer-tls-key";
     };
   };

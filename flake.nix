@@ -118,6 +118,7 @@
               email = "ariel@sosnovsky.ca";
             };
             rootDir = ./.;
+            configsDir = ./configs;
             inherit
               nixpkgs
               nixpkgs-unstable
@@ -131,6 +132,17 @@
               ;
 
             specialArgs = {
+              skyg-secrets = {
+                buzz-env = ./secrets/buzz-env.age;
+                cloudflare-dns = ./secrets/cloudflare-dns.age;
+                portainer-agent-minipc1 = ./secrets/portainer-agent-minipc1.age;
+                portainer-agent-bigbox1 = ./secrets/portainer-agent-bigbox1.age;
+                portainer-tls-key = ./secrets/portainer-tls-key.age;
+                stack1 = ./secrets/stack1.age;
+                stack2 = ./secrets/stack2.age;
+                portainer-agent-minipc3 = ./secrets/portainer-agent-minipc3.age;
+                portainer-cert = ./configs/pki/portainer.app.internal.crt;
+              };
               inherit
                 hyprlauncher
                 hyprland
@@ -246,7 +258,7 @@
           ds4 = my-nixpkgs.legacyPackages.${system}.ds4;
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
           superset-desktop = lib.pkgs.${system}.superset-desktop;
-          delta = lib.pkgs.${system}.delta;
+          delta-editor = lib.pkgs.${system}.delta-editor;
           colibri = lib.pkgs.${system}.colibri;
           herdr = herdr.packages.${system}.default;
         }

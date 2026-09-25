@@ -28,7 +28,7 @@
 # To bump: set `version`, then run ./update.sh <version>.
 
 let
-  pname = "delta";
+  pname = "delta-editor";
   version = "0.17.0";
 
   apiUrl = "https://delta.dev/api/releases/nightly/${version}/asset?asset=delta&os=linux&arch=x86_64";
@@ -83,12 +83,16 @@ stdenvNoCC.mkDerivation {
       $out/lib/delta/bin/delta
 
     mkdir -p $out/bin
-    makeWrapper $out/lib/delta/bin/delta $out/bin/delta \
+    makeWrapper $out/lib/delta/bin/delta $out/bin/delta-editor \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ libglvnd vulkan-loader wayland ]}" \
       --set XKB_CONFIG_ROOT ${xkeyboard_config}/share/X11/xkb
 
     install -Dm444 $out/lib/delta/share/applications/dev.zed.Delta.desktop \
       $out/share/applications/dev.zed.Delta.desktop
+    # Point the launcher at the renamed binary (avoids clashing with the
+    # `delta` git diff pager).
+    substituteInPlace $out/share/applications/dev.zed.Delta.desktop \
+      --replace-fail 'Exec=delta ' 'Exec=delta-editor '
     cp -a $out/lib/delta/share/icons/. $out/share/icons/
 
     runHook postInstall
@@ -100,6 +104,6 @@ stdenvNoCC.mkDerivation {
     license = lib.licenses.unfree;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
     platforms = [ "x86_64-linux" ];
-    mainProgram = "delta";
+    mainProgram = "delta-editor";
   };
 }

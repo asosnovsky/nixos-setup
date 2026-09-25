@@ -11,6 +11,10 @@
       type = lib.types.path;
       description = "Top-level path of the nixos-setup repo (set by the flake).";
     };
+    skyg.configsDir = lib.mkOption {
+      type = lib.types.path;
+      description = "Path to the configs directory (set by the flake).";
+    };
   };
   config = {
     nixpkgs.overlays = [
@@ -24,8 +28,8 @@
         buzz-desktop = final.callPackage ../../pkgs/buzz-desktop { };
         # Superset Desktop AppImage wrapper, see pkgs/superset-desktop.
         superset-desktop = final.callPackage ../../pkgs/superset-desktop { };
-        # Delta (Zed Industries) prebuilt tarball, see pkgs/delta.
-        delta = final.callPackage ../../pkgs/delta { };
+        # Delta Editor (Zed Industries) prebuilt tarball, see pkgs/delta-editor.
+        delta-editor = final.callPackage ../../pkgs/delta-editor { };
 
         # herdr (herdrdev/herdr) — see flake.nix input.
         herdr = herdr.packages.${final.stdenv.hostPlatform.system}.default;

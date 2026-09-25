@@ -2,6 +2,7 @@
 , nixpkgs-unstable
 , user
 , rootDir
+, configsDir
 , determinate
 , home-manager
 , nix-darwin
@@ -32,7 +33,7 @@ let
           niri-touchscreen-gestures = final.callPackage ../pkgs/niri-touchscreen-gestures { };
           buzz-desktop = final.callPackage ../pkgs/buzz-desktop { };
           superset-desktop = final.callPackage ../pkgs/superset-desktop { };
-          delta = final.callPackage ../pkgs/delta { };
+          delta-editor = final.callPackage ../pkgs/delta-editor { };
         })
       ];
     }
@@ -112,6 +113,7 @@ in
           inherit
             user
             rootDir
+            configsDir
             hostName
             systemStateVersion;
         })

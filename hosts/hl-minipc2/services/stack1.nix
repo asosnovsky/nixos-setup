@@ -1,6 +1,6 @@
-{ config, ... }:
+{ config, skyg-secrets, ... }:
 {
-  age.secrets.stack1.file = "${config.skyg.rootDir}/secrets/stack1.age";
+  age.secrets.stack1.file = skyg-secrets.stack1;
   skyg.nixos.common.container-services.stack1 = {
     enable = true;
     autoUpdate.enable = true;

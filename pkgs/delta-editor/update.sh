@@ -5,7 +5,7 @@
 #   Without args: auto-detect latest nightly from the delta.dev release API.
 set -euo pipefail
 
-PKG="delta"
+PKG="delta-editor"
 API="https://delta.dev/api/releases/nightly"
 ASSET="asset=delta&os=linux&arch=x86_64"
 

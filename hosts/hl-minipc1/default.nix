@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, skyg-secrets, ... }:
 let
   ports = {
     nixServe = 5000;
@@ -56,7 +56,7 @@ in
   skyg.nixos.server.k3s.enable = false;
   skyg.networkDrives.enable = true;
 
-  age.secrets.buzz-env.file = "${config.skyg.rootDir}/secrets/buzz-env.age";
+  age.secrets.buzz-env.file = skyg-secrets.buzz-env;
 
   environment.systemPackages = [ buzz-manage ];
 

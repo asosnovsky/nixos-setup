@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, skyg-secrets, ... }:
 {
   imports = [
     ./hardware-configuration
@@ -20,7 +20,7 @@
     envPath = "/opt/k3s/k3s.env";
   };
 
-  age.secrets.portainer-agent-minipc3.file = "${config.skyg.rootDir}/secrets/portainer-agent-minipc3.age";
+  age.secrets.portainer-agent-minipc3.file = skyg-secrets.portainer-agent-minipc3;
   skyg.nixos.server.portainer = {
     enable = true;
     mode = "agent";
