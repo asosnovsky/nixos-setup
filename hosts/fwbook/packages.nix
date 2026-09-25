@@ -115,6 +115,7 @@
       unstablePkgs.claude-code
       buzz-desktop
       bubblewrap
+      delta
       herdr
       superset-desktop
 

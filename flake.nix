@@ -246,6 +246,7 @@
           ds4 = my-nixpkgs.legacyPackages.${system}.ds4;
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
           superset-desktop = lib.pkgs.${system}.superset-desktop;
+          delta = lib.pkgs.${system}.delta;
           colibri = lib.pkgs.${system}.colibri;
           herdr = herdr.packages.${system}.default;
         }

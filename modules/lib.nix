@@ -32,6 +32,7 @@ let
           niri-touchscreen-gestures = final.callPackage ../pkgs/niri-touchscreen-gestures { };
           buzz-desktop = final.callPackage ../pkgs/buzz-desktop { };
           superset-desktop = final.callPackage ../pkgs/superset-desktop { };
+          delta = final.callPackage ../pkgs/delta { };
         })
       ];
     }

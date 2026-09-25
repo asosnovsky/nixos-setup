@@ -24,6 +24,8 @@
         buzz-desktop = final.callPackage ../../pkgs/buzz-desktop { };
         # Superset Desktop AppImage wrapper, see pkgs/superset-desktop.
         superset-desktop = final.callPackage ../../pkgs/superset-desktop { };
+        # Delta (Zed Industries) prebuilt tarball, see pkgs/delta.
+        delta = final.callPackage ../../pkgs/delta { };
 
         # herdr (herdrdev/herdr) — see flake.nix input.
         herdr = herdr.packages.${final.stdenv.hostPlatform.system}.default;
