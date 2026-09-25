@@ -67,6 +67,11 @@ let
       icons.enable = true;
       sounds.enable = true;
       terminal-exec.enable = true;
+      mime.defaultApplications = {
+        # www links open in Chromium (installed above); user config wins.
+        "x-scheme-handler/http" = "chromium-browser.desktop";
+        "x-scheme-handler/https" = "chromium-browser.desktop";
+      };
       portal = {
         enable = true;
         extraPortals = [

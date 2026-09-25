@@ -56,6 +56,10 @@ skyg.nixos.desktop.fixes.*         → fixes/
   the desktop apps and Xorg/XWayland now install only in full (non-slim) mode.
 - Tiler app groups (`control`, `gnome`, `media`) and Hyprland shell `tools` are opt-in — see
   `tiler/ABOUTME.md`.
+- Non-slim desktop sets `xdg.mime.defaultApplications` url-scheme entries to Chromium as a
+  system-level fallback (a user-level `~/.config/mimeapps.list` still wins). Hosts like `fwbook`
+  additionally pin every handler declaratively via home-manager `xdg.mimeApps`, which also
+  stops apps (e.g. Slack) from re-registering themselves as the default browser.
 
 ## Conventions
 

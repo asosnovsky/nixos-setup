@@ -265,16 +265,14 @@
             hostName = "fwbook";
             systemStateVersion = "23.11";
             configuration = [
-              ./hosts/fwbook.nix
-              ./hosts/fwbook.hardware-configuration.nix
+              ./hosts/fwbook
               nixos-hardware.nixosModules.framework-13-7040-amd
             ];
           };
           hl-fws1 = lib.makeNixOs {
             hostName = "hl-fws1";
             configuration = [
-              ./hosts/hl-fws1.nix
-              ./hosts/hl-fws1.hardware-configuration.nix
+              ./hosts/hl-fws1
               ./hosts/hl-fws1.disko.nix
               nixos-hardware.nixosModules.framework-11th-gen-intel
               disko.nixosModules.disko
@@ -284,8 +282,7 @@
             hostName = "hl-fwdesk";
             systemStateVersion = "25.05";
             configuration = [
-              ./hosts/hl-fwdesk.nix
-              ./hosts/hl-fwdesk.hardware-configuration.nix
+              ./hosts/hl-fwdesk
               nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
               hermenix.nixosModules.default
             ];
@@ -293,66 +290,58 @@
           hl-bigbox1 = lib.makeNixOs {
             hostName = "hl-bigbox1";
             configuration = [
-              ./hosts/hl-bigbox1.nix
-              ./hosts/hl-bigbox1.hardware-configuration.nix
+              ./hosts/hl-bigbox1
             ];
           };
           hl-bigbox2 = lib.makeNixOs {
             hostName = "hl-bigbox2";
             systemStateVersion = "25.05";
             configuration = [
-              ./hosts/hl-bigbox2.nix
-              ./hosts/hl-bigbox2.hardware-configuration.nix
+              ./hosts/hl-bigbox2
             ];
           };
           hl-minipc1 = lib.makeNixOs {
             hostName = "hl-minipc1";
             configuration = [
-              ./hosts/hl-minipc1.nix
-              ./hosts/hl-minipc1.hardware-configuration.nix
+              ./hosts/hl-minipc1
             ];
           };
           hl-minipc2 = lib.makeNixOs {
             hostName = "hl-minipc2";
             configuration = [
-              ./hosts/hl-minipc2.nix
-              ./hosts/hl-minipc2.hardware-configuration.nix
+              ./hosts/hl-minipc2
             ];
           };
           hl-minipc3 = lib.makeNixOs {
             hostName = "hl-minipc3";
             configuration = [
-              ./hosts/hl-minipc3.nix
-              ./hosts/hl-minipc3.hardware-configuration.nix
+              ./hosts/hl-minipc3
             ];
           };
           hl-pi1 = lib.makeSdImage {
             system = "aarch64-linux";
             hostName = "hl-pi1";
             configuration = [
-              ./hosts/hl-pi1.nix
-              ./hosts/hl-pi1.hardware-configuration.nix
+              ./hosts/hl-pi1
             ];
           };
           hl-pi2 = lib.makeSdImage {
             system = "aarch64-linux";
             hostName = "hl-pi2";
             configuration = [
-              ./hosts/hl-pi2.nix
-              ./hosts/hl-pi2.hardware-configuration.nix
+              ./hosts/hl-pi2
             ];
           };
           hl-terra1 = lib.makeNixOs {
             hostName = "hl-terra1";
             configuration = [
-              ./hosts/hl-terra1.nix
-              ./hosts/hl-terra1.hardware-configuration.nix
+              ./hosts/hl-terra1
             ];
           };
           iso = lib.makeIso {
             hostName = "skygnix";
             configuration = [
-              ./hosts/iso.nix
+              ./hosts/iso
             ];
           };
         };
