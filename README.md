@@ -9,7 +9,7 @@ nixos-setup/
 ├── bin/
 │   └── skyg              # Main CLI tool for managing NixOS configurations
 ├── configs/              # Application-specific configurations
-├── pkgs/                 # Custom packages (niri-touchscreen-gestures, grok-cli, ds4)
+├── pkgs/                 # Custom packages (niri-touchscreen-gestures, grok-cli)
 ├── hosts/                # Host-specific NixOS configurations
 │   ├── *.nix             # Host configuration files (fwbook, hl-bigbox1, hl-minipc*, etc.)
 │   ├── *.hardware-configuration.nix  # Hardware-specific configurations
@@ -40,7 +40,6 @@ To use the custom packages in your own NixOS/Home Manager configuration:
     in {
       environment.systemPackages = with pkgs; [
         niri-touchscreen-gestures
-        ds4
       ];
     };
 }
@@ -49,8 +48,6 @@ To use the custom packages in your own NixOS/Home Manager configuration:
 You can also import `nixos-setup.lib` to reuse `makeNixOs`, `makeHomeManagerUsers`, and other utilities.
 
 See [`pkgs/ABOUTME.md`](pkgs/ABOUTME.md) for details on each package.
-
-**Key packages:** `niri-touchscreen-gestures` (run `niri-touchscreen-gestures` — uses built-in defaults), and `ds4` (local LLM inference with CPU/ROCm/CUDA support).
 
 ## Quick Start
 
@@ -129,7 +126,7 @@ All packages from `pkgs/` are available in your configuration as `pkgs.<name>` t
 Example:
 
 ```nix
-environment.systemPackages = with pkgs; [ niri-touchscreen-gestures ds4 ];
+environment.systemPackages = with pkgs; [ niri-touchscreen-gestures ];
 ```
 
 See [`pkgs/ABOUTME.md`](pkgs/ABOUTME.md) for details on each package.

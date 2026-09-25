@@ -66,11 +66,7 @@
 
     # Secrets management
     agenix.url = "github:ryantm/agenix";
-    # Claude Desktop
-    claude-desktop = {
-      url = "github:patrickjaja/claude-desktop-extra";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
     # Tether — iPhone ↔ Linux Wayland bridge
     tether = {
       url = "github:zackb/tether";
@@ -109,7 +105,6 @@
     , hermes-agent
     , tether
     , herdr
-    , claude-desktop
     , disko
     }:
     let
@@ -146,7 +141,6 @@
                 noctalia
                 nix-index-database
                 hermes-agent
-                claude-desktop
                 skygqts
                 hermenix
                 flox

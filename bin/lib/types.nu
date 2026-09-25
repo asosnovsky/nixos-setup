@@ -23,3 +23,9 @@ export def secret-names [] {
     cd $REPO_ROOT
     glob secrets/*.age | each {|f| $f | path basename | str replace ".age" "" }
 }
+
+export def updatable-pkgs [] {
+    cd $REPO_ROOT
+    glob "pkgs/*/update.sh"
+    | each {|f| $f | path dirname | path basename }
+}

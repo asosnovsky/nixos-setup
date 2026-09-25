@@ -1,4 +1,4 @@
-{ lib, herdr, flox, claude-desktop, skygqts, hermenix, ... }:
+{ lib, herdr, flox, skygqts, hermenix, ... }:
 {
   imports = [
     ./user.nix
@@ -25,8 +25,6 @@
         # Superset Desktop AppImage wrapper, see pkgs/superset-desktop.
         superset-desktop = final.callPackage ../../pkgs/superset-desktop { };
 
-        # Claude Desktop (Linux), see pkgs/claude-desktop.
-        claude-desktop = claude-desktop.packages.${final.stdenv.hostPlatform.system}.default;
         # herdr (herdrdev/herdr) — see flake.nix input.
         herdr = herdr.packages.${final.stdenv.hostPlatform.system}.default;
         # flox (flox/flox) — see flake.nix input.

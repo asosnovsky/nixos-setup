@@ -42,7 +42,7 @@ let
   # nix cc-wrapper, so it needs explicit -I include paths to find the HIP
   # runtime + rocWMMA headers. rocWMMA defines COLI_GPU_HAS_WMMA in
   # backend_gpu_compat.h; without its include dir that macro is undeclared and
-  # backend_cuda.cu fails to compile (mirrors the ds4 rocm build inputs).
+  # backend_cuda.cu fails to compile.
   rocmInputs = lib.optionals (backend == "rocm") [
     rocmPackages.clr # provides hipcc + HIP runtime
     rocmPackages.rocm-runtime
@@ -77,13 +77,13 @@ let
 in
 stdenv.mkDerivation {
   pname = "colibri" + lib.optionalString (backend == "rocm") "-rocm";
-  version = "1.5.0";
+  version = "1.12.1";
 
   src = fetchFromGitHub {
     owner = "JustVugg";
     repo = "colibri";
-    rev = "8f512fc8c2f48ffa18cd624cd4a5bcaae4a4abfc"; # tag v1.5.0
-    hash = "sha256-SW5RDghfITxblAI+nZGVCHULrTQxskzdNHguJkSMfN4=";
+    rev = "1c59bff28738f808b130d14758d5a76fc7047e0d"; # tag v1.5.0
+    hash = "sha256-A2+k57KNvTBKWe8Ts1XrQaJn5X7C5G5TLFo+5Uu5Mkk=";
   };
 
   nativeBuildInputs = [ makeWrapper ];

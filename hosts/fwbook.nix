@@ -235,7 +235,6 @@ in
       idevicerestore # optional, to mount using 'ifuse'
 
       # coding agents
-      claude-desktop
       unstablePkgs.grok-build
       unstablePkgs.pi-coding-agent
       unstablePkgs.goose-cli

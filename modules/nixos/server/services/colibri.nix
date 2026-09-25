@@ -304,7 +304,7 @@ in
 
         # No custom ExecStop: `coli serve` runs in the foreground and systemd's
         # default cgroup-wide kill on stop takes down its spawned engine
-        # subprocess with it (same reasoning as ds4-server).
+        # subprocess with it
         Restart = "on-failure";
         RestartSec = 10;
         StartLimitBurst = 3;
