@@ -1,9 +1,13 @@
 -- =========================
 -- Window Rules
 -- =========================
--- Rounding/clip is handled globally in general.lua (decoration.rounding = 12),
--- mirroring the niri window-rule. Below: float the small control/dialog
--- utilities so they don't tile.
+
+hl.window_rule({
+    match = { class = "com.mitchellh.ghostty" },
+    fullscreen = false,
+    size = { "(monitor_w*0.5)", "(monitor_h)" },
+    name = "ghostty-init",
+})
 
 hl.window_rule({
     name = "float-pavucontrol",

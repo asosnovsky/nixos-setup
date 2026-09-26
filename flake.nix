@@ -73,6 +73,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     herdr.url = "github:herdrdev/herdr";
+    ai-usagebar.url = "github:akitaonrails/ai-usagebar";
     # Declarative disk partitioning (for nixos-anywhere installs)
     disko = {
       url = "github:nix-community/disko";
@@ -106,6 +107,7 @@
     , tether
     , herdr
     , disko
+    , ai-usagebar
     }:
     let
       # Libs
@@ -159,6 +161,7 @@
                 determinate
                 tether
                 herdr
+                ai-usagebar
                 ;
             };
           }

@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, ... }:
+{ pkgs, unstablePkgs, ai-usagebar, ... }:
 {
   environment.systemPackages =
     let
@@ -118,6 +118,7 @@
       delta-editor
       herdr
       superset-desktop
+      ai-usagebar.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       skygqts
       hermenix
