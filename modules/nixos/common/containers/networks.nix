@@ -70,19 +70,19 @@ in
 
           subnet = lib.mkOption {
             type = lib.types.str;
-            default = "10.0.0.0/16";
+            default = config.skyg.internalNetworkingMap.appNetwork.subnet;
             description = "IPv4 subnet.";
           };
 
           gateway = lib.mkOption {
             type = lib.types.str;
-            default = "10.0.0.1";
+            default = config.skyg.internalNetworkingMap.appNetwork.gateway;
             description = "IPv4 gateway.";
           };
 
           ipRange = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            default = null;
+            default = config.skyg.internalNetworkingMap.appNetwork.ipRange;
             description = "IPv4 range for dynamic address allocation (--ip-range).";
           };
 
@@ -124,19 +124,19 @@ in
 
           subnet = lib.mkOption {
             type = lib.types.str;
-            default = "10.0.0.0/16";
+            default = config.skyg.internalNetworkingMap.appNetwork.subnet;
             description = "IPv4 subnet.";
           };
 
           gateway = lib.mkOption {
             type = lib.types.str;
-            default = "10.0.0.1";
+            default = config.skyg.internalNetworkingMap.appNetwork.gateway;
             description = "IPv4 gateway.";
           };
 
           ipRange = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            default = null;
+            default = config.skyg.internalNetworkingMap.appNetwork.ipRange;
             description = "IPv4 range for dynamic address allocation (--ip-range).";
           };
 

@@ -54,11 +54,33 @@ in
       description = "Suffix appended to each app name to form its internal DNS name.";
     };
 
-    subnet = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      example = "10.0.101.0/24";
-      description = "LAN subnet the apps live on (informational).";
+    appNetwork = lib.mkOption {
+      default = { };
+      description = ''
+        The lab network the apps live on. Consumed as the defaults for the
+        ipvlan/macvlan container networks (skyg.nixos.common.containers.networks).
+      '';
+      type = lib.types.submodule {
+        options = {
+          subnet = lib.mkOption {
+            type = lib.types.str;
+            default = "10.0.0.0/16";
+            description = "IPv4 subnet (--subnet).";
+          };
+
+          gateway = lib.mkOption {
+            type = lib.types.str;
+            default = "10.0.0.1";
+            description = "IPv4 gateway (--gateway).";
+          };
+
+          ipRange = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "IPv4 range for dynamic address allocation (--ip-range).";
+          };
+        };
+      };
     };
 
     apps = lib.mkOption {
@@ -76,11 +98,17 @@ in
     # Global internal app registry.
     skyg.internalNetworkingMap = {
       rootDns = ".app.internal";
-      subnet = "10.0.101.0/24";
+      appNetwork = {
+        subnet = "10.0.0.0/16";
+        gateway = "10.0.0.1";
+        ipRange = "10.0.101.16/28";
+      };
       apps = {
-        audiobooks = { ip = "10.0.101.4"; };
-        buzz = { ip = "10.0.101.3"; aliasDns = "buzz.home.sosnovsky.ca"; };
         drawdb = { ip = "10.0.101.2"; };
+        buzz = { ip = "10.0.101.3"; aliasDns = "buzz.home.sosnovsky.ca"; };
+        audiobooks = { ip = "10.0.101.4"; };
+        # jellyfin = { ip = "10.0.101.5"; aliasDns = "jellyfin.home.sosnovsky.ca"; };
+        nvr = { ip = "10.0.101.6"; aliasDns = "nvr.home.sosnovsky.ca"; };
         portainer = { ip = "10.0.101.241"; };
       };
     };

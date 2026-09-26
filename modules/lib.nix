@@ -138,8 +138,8 @@ in
           inherit
             user
             rootDir
-            hostName
             configsDir
+            hostName
             systemStateVersion
             homeManagerVersion
             ;
@@ -165,8 +165,8 @@ in
           inherit
             user
             rootDir
-            hostName
             configsDir
+            hostName
             systemStateVersion
             homeManagerVersion
             ;
@@ -202,6 +202,7 @@ in
           inherit
             user
             rootDir
+            configsDir
             homeManagerVersion
             hostName
             systemStateVersion;

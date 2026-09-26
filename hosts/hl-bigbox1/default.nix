@@ -27,7 +27,10 @@
     };
     networkDrives.enable = true;
   };
-
+  skyg.nixos.common.containers.networks.ipvlanLab = {
+    enable = true;
+    parent = "enp6s0";
+  };
   services.displayManager.defaultSession = "gnome";
   services.displayManager.autoLogin = {
     enable = true;

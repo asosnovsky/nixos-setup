@@ -1,10 +1,15 @@
 { config, ... }:
+let
+  app = config.skyg.internalNetworkingMap.apps.nvr;
+in
 {
   skyg.nixos.common.container-services.scrypted = {
     enable = true;
     autoUpdate.enable = true;
+    networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
     services.scrypted = {
       image = "ghcr.io/koush/scrypted";
+      networks.lan.ipv4_address = app.ip;
       volumes = [
         "/var/run/dbus:/var/run/dbus"
         "/var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket"
@@ -12,7 +17,6 @@
         "scrypted-nvr:/nvr"
       ];
       environment.SCRYPTED_NVR_VOLUME = "/nvr";
-      network_mode = "host";
     };
     volumes.scrypted-nvr = {
       driver = "local";

@@ -48,7 +48,6 @@ in
   skyg.nixos.common.containers.networks.ipvlanLab = {
     enable = true;
     parent = "eno1";
-    ipRange = "10.0.101.16/28";
   };
   skyg.server.admin.enable = true;
   skyg.server.exporters.enable = true;

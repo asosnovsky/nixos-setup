@@ -64,14 +64,12 @@ Two predefined lab networks are available:
 skyg.nixos.common.containers.networks.macvlanLab = {
   enable = true;
   parent = "eno1";
-  ipRange = "10.0.101.16/28";
 };
 
 # ipvlan L2 mode (host can reach its own containers — preferred)
 skyg.nixos.common.containers.networks.ipvlanLab = {
   enable = true;
   parent = "eno1";
-  ipRange = "10.0.101.16/28";
 };
 ```
 
@@ -93,8 +91,10 @@ skyg.nixos.common.containers.networks.extra.myNet = {
 };
 ```
 
-Predefined fields: `enable`, `parent`, `subnet` (default `10.0.0.0/16`), `gateway` (default
-`10.0.0.1`), `ipRange`, `internal`. Extra networks also have `name`, `driver`, `driverOpts`.
+Predefined fields: `enable`, `parent`, `subnet`, `gateway`, `ipRange`, `internal`. `subnet`,
+`gateway`, and `ipRange` default to `skyg.internalNetworkingMap.appNetwork` (see
+`modules/main.nix`), so the lab network is declared once. Extra networks also have `name`,
+`driver`, `driverOpts`.
 Works with both docker and podman.
 
 ## Container service groups (`skyg.nixos.common.container-services`)

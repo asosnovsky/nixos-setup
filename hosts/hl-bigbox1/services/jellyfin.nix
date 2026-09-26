@@ -1,8 +1,14 @@
-{ ... }:
+{ config, ... }:
+let
+  app = config.skyg.internalNetworkingMap.apps.jellyfin;
+in
 {
   skyg.nixos.common.container-services.jellyfin = {
     enable = true;
     autoUpdate.enable = true;
+    # networks = {
+    #   lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
+    # };
     services.jellyfin = {
       image = "jellyfin/jellyfin";
       deploy.resources.reservations.devices = [
@@ -17,6 +23,11 @@
         "torrents:/torrents"
         "family-videos:/family-videos"
       ];
+      # networks = {
+      #   lan = {
+      #     ipv4_address = app.ip;
+      #   };
+      # };
       devices = [ "/dev/dri:/dev/dri" ];
       restart = "always";
       healthcheck = {
