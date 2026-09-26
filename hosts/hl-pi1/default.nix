@@ -6,8 +6,7 @@
     ./systemd.nix
   ];
 
-  skyg.user.enable
-    skyg = {
+  skyg = {
     user.enable = false;
     nixos = {
       common = {

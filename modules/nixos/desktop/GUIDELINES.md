@@ -32,7 +32,7 @@ Desktop/tiler hosts use **DankMaterialShell (DMS)** for the greeter, configured 
 - Enable a compositor (`skyg.nixos.desktop.tiler.niri` or `…tiler.hyprland`), which flips the
   shared `tiler.enable` for you. Don't set `tiler.enable` directly.
 - Shared Wayland tooling, keyring, and polkit live in `tiler/default.nix` — add anything
-  common to *all* tilers there, not in the individual compositor files.
+  common to _all_ tilers there, not in the individual compositor files.
 
 ## Theming
 
@@ -50,7 +50,7 @@ everything.
 ## Config symlinks
 
 Some modules symlink files from the repo's `configs/` directory into `~/.config` via
-activation scripts (e.g. `x11/lib-gesture.nix` → `libinput-gestures.conf`). Edit the file in
+activation scripts. Edit the file in
 `configs/`, not the module, when changing that behaviour.
 
 ## Validation

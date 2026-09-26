@@ -6,5 +6,8 @@
     ./gitea.nix
     ./acme.nix
     ./portainer.nix
+    ./iu.nix
+    ./audiobookshelf.nix
+    ./buzz.nix
   ];
 }

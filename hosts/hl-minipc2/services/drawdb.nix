@@ -6,8 +6,7 @@
     services.drawdb = {
       image = "ghcr.io/drawdb-io/drawdb:latest";
       environment.PORT = "80";
-      networks.lan.ipv4_address = "10.0.101.2";
-      dns.names = [ "drawdb" ];
+      networks.lan.ipv4_address = config.skyg.internalNetworkingMap.apps.drawdb.ip;
     };
     networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
   };

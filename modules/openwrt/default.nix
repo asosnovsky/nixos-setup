@@ -17,9 +17,8 @@ in
 config:
 
 let
-  # Nix-generated DNS records (skyg.dns, aggregated across all hosts). Merged
-  # into the decrypted secret's generalMappings by the scripts below, so
-  # service names stay declarative next to the host config that owns the IP.
+  # Nix-rendered DNS records from the global skyg.internalNetworkingMap. Merged
+  # into the decrypted secret's generalMappings by the scripts below.
   # Empty fragment when the caller doesn't supply one.
   dnsRecords =
     if config ? dnsRecords && config.dnsRecords != null

@@ -186,9 +186,7 @@ export def "skyg remote install" [
 # Checks online status first, runs `skyg remote boot --build-host fwdesk <host>` for each online host,
 # and writes a summary report to .tmp/boot-report.txt
 
-export def "skyg remote boot-all" [
-    --build-host: string@remote_targets = "fwdesk"  # Builder host to use for all boots
-] {
+export def "skyg remote boot-all" [] {
     cd $REPO_ROOT
     mkdir .tmp
     let current_host = "fwbook"
@@ -217,7 +215,7 @@ export def "skyg remote boot-all" [
             print $"(ansi yellow)OFFLINE(ansi reset): ($host)"
             $skipped = ($skipped | append $host)
         } else {
-            print $"(ansi green)ONLINE(ansi reset): ($host) - will boot via ($build_host)"
+            print $"(ansi green)ONLINE(ansi reset): ($host)"
             $online_hosts = ($online_hosts | append $host)
         }
     }
@@ -229,7 +227,7 @@ Starting parallel boots (concurrency: 2)..."
         let boot_results = ($online_hosts | par-each --threads 1 { |host|
             let target_host = $"root@($host).lab.internal"
             let profile = $"hl-($host)"
-            let runcmd = $"nh os boot --target-host ($target_host) --build-host ($build_host).lab.internal .#($profile)"
+            let runcmd = $"nh os boot --target-host ($target_host) .#($profile)"
             print $runcmd
             let ok = (try {
                 bash -c $runcmd

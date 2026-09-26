@@ -11,7 +11,7 @@ if [ $# -ge 1 ]; then ROUTER="$1"; else ROUTER=glmain; fi
 OUTDIR=".tmp/openwrt-$ROUTER"
 mkdir -p "$OUTDIR"
 
-# Same merge as the real deploy: secret config + Nix-declared skyg.dns records.
+# Same merge as the real deploy: secret config + Nix-rendered skyg.internalNetworkingMap records.
 CONFIG=$(cat | jq --slurpfile nix "$NIX_DNS_RECORDS" \
   '.generalMappings = ((.generalMappings // []) + $nix[0].generalMappings)')
 
@@ -25,4 +25,4 @@ echo "Dry-run configs written to $OUTDIR (no router changes made):"
 echo "  $OUTDIR/dnsmasq.conf"
 echo "  $OUTDIR/ethers"
 echo "  $OUTDIR/firewall.batch"
-echo "  $OUTDIR/dns-records.json   # Nix-declared skyg.dns records merged in"
+echo "  $OUTDIR/dns-records.json   # Nix-rendered skyg.internalNetworkingMap records merged in"

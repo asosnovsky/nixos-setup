@@ -1,6 +1,6 @@
 # modules/openwrt/
 
-Config generator + deploy tooling for the homelab's **OpenWrt** router. This is *not* a NixOS
+Config generator + deploy tooling for the homelab's **OpenWrt** router. This is _not_ a NixOS
 module — it's a Nix function that builds a Rust generator and wraps it in an
 `openwrt-deploy` shell script. OpenWrt is managed out-of-band (the router isn't a NixOS host),
 so this provides a declarative, reviewable way to push `dnsmasq.conf` and `/etc/ethers`.
@@ -24,12 +24,12 @@ exported env vars before inlining each file's content via `builtins.readFile`.
 ## How it works
 
 1. The router config lives as an **agenix secret** (e.g. `secrets/glmain.json.age`).
-1b. Before generating, the decrypted JSON's `generalMappings` are **merged** (via `jq`) with
-   `$NIX_DNS_RECORDS` — the DNS records declared across all hosts through `skyg.dns`
-   (see `modules/nixos/common/dns-records/`) and aggregated by `modules/dns-aggregate.nix`
+   1b. Before generating, the decrypted JSON's `generalMappings` are **merged** (via `jq`) with
+   `$NIX_DNS_RECORDS` — the router DNS records rendered from the global
+   `skyg.internalNetworkingMap` (see `modules/main.nix`) by `modules/internal-networking.nix`
    into `packages.<sys>.skyg-dns-records`. The secret stays the source of truth for
-   devices/MACs; **Nix owns service names**, so a container's DNS name lives next to the
-   host config that owns its IP. Inspect the aggregate with `nix eval .#dnsRecords --json`.
+   devices/MACs; **Nix owns service names**. Inspect the records with
+   `nix eval .#dnsRecords --json`.
 2. `openwrt-deploy` reads the decrypted JSON from stdin, runs `openwrt-gen dnsmasq`,
    `openwrt-gen ethers`, and `openwrt-gen firewall` to render the three target files.
 3. It SSHes to the router, shows a **colorized unified diff** against the current files
@@ -61,12 +61,12 @@ is passed as a command-line argument (default `glmain`).
 ```bash
 skyg openwrt --dry-run
 # → .tmp/openwrt-glmain/dnsmasq.conf
-# → .tmp/openwrt-glmain/dns-records.json  # the Nix-declared skyg.dns fragment merged in
+# → .tmp/openwrt-glmain/dns-records.json  # the Nix-rendered internalNetworkingMap fragment merged in
 # → .tmp/openwrt-glmain/ethers
 # → .tmp/openwrt-glmain/firewall.batch   # the exact `uci -m import firewall` input
 ```
 
-Use this to inspect what a deploy *would* do (especially the firewall rules) before running
+Use this to inspect what a deploy _would_ do (especially the firewall rules) before running
 the real `skyg openwrt`.
 
 `router.ip` / `router.user` are taken from the `config` passed into `default.nix`.

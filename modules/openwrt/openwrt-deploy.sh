@@ -12,14 +12,14 @@ set -euo pipefail
 
 SERVER="$ROUTER_USER@$ROUTER"
 
-# Merge the Nix-declared DNS records (skyg.dns, aggregated across all hosts)
-# into the secret's generalMappings. The secret stays the source of truth for
+# Merge the Nix-rendered DNS records (skyg.internalNetworkingMap) into the
+# secret's generalMappings. The secret stays the source of truth for
 # devices/MACs; Nix owns service names.
 CONFIG=$(cat | jq --slurpfile nix "$NIX_DNS_RECORDS" \
   '.generalMappings = ((.generalMappings // []) + $nix[0].generalMappings)')
 
 NIX_COUNT=$(jq '.generalMappings | length' "$NIX_DNS_RECORDS")
-echo "Merged $NIX_COUNT Nix-declared DNS mapping(s) from skyg.dns."
+echo "Merged $NIX_COUNT Nix-declared DNS mapping(s) from skyg.internalNetworkingMap."
 
 DNSMASQ=$(echo "$CONFIG" | "$GENERATOR"/bin/openwrt-gen dnsmasq)
 ETHERS=$(echo "$CONFIG"  | "$GENERATOR"/bin/openwrt-gen ethers)

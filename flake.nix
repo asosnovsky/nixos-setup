@@ -166,7 +166,11 @@
             };
           }
       ;
-      dnsAggregate = import ./modules/dns-aggregate.nix { inherit (nixpkgs) lib; };
+      internalNetworking = import ./modules/internal-networking.nix { inherit (nixpkgs) lib; };
+      # The internal app map is global (identical on every host), so read it
+      # from any one config.
+      internalNetworkingMap =
+        (nixpkgs.lib.head (nixpkgs.lib.attrValues self.nixosConfigurations)).config.skyg.internalNetworkingMap;
     in
     {
       # Dev Setups
@@ -241,17 +245,15 @@
 
       # Flat view of every internal DNS record declared by any host:
       #   nix eval .#dnsRecords --json | jq
-      dnsRecords = dnsAggregate.records self.nixosConfigurations;
+      dnsRecords = internalNetworking.records internalNetworkingMap.apps;
 
       formatter = lib.eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       packages = lib.eachSystem (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           openwrt = import ./modules/openwrt { inherit pkgs; inherit (nixpkgs) lib; };
-          # Internal DNS records declared across all hosts (skyg.dns), rendered
-          # as the generalMappings fragment merged into the router config.
           dnsRecordsFile = pkgs.writeText "skyg-dns-records.json"
-            (builtins.toJSON (dnsAggregate.json self.nixosConfigurations));
+            (builtins.toJSON (internalNetworking.json internalNetworkingMap.apps));
           glmain = (import ./openwrt-routers/glmain.nix) // { dnsRecords = dnsRecordsFile; };
         in
         {

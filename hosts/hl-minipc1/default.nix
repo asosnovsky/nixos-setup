@@ -31,7 +31,6 @@ let
 in
 {
   imports = [
-    ./containers.nix
     ./services
     ./hardware-configuration
     ./hardware.nix

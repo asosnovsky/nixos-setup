@@ -1,4 +1,4 @@
-{ config, skyg-secrets, ... }:
+{ skyg-secrets, ... }:
 {
   age.secrets.portainer-agent-bigbox1.file = skyg-secrets.portainer-agent-bigbox1;
 

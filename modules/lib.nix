@@ -139,6 +139,7 @@ in
             user
             rootDir
             hostName
+            configsDir
             systemStateVersion
             homeManagerVersion
             ;
@@ -165,6 +166,7 @@ in
             user
             rootDir
             hostName
+            configsDir
             systemStateVersion
             homeManagerVersion
             ;

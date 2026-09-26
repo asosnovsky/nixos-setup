@@ -36,10 +36,10 @@ openwrt-gen firewall < config.json   # prints UCI firewall rules (uci batch form
   `wildcard` defaults to `true` (omitted in existing secrets) and renders
   `address=/domain/ip` + `address=/.domain/ip`, matching every subdomain too.
   Set `false` for a plain `host-record=domain,ip` (A record + reverse PTR) —
-  this is what Nix-declared `skyg.dns` records use by default.
+  this is what the Nix-rendered `skyg.internalNetworkingMap` records use.
   At deploy time this list is the **union** of the secret's entries and the
-  records aggregated from every host's `skyg.dns` (see
-  `modules/nixos/common/dns-records/`), merged by `jq` in `openwrt-deploy.sh`.
+  records rendered from `skyg.internalNetworkingMap` (see
+  `modules/internal-networking.nix`), merged by `jq` in `openwrt-deploy.sh`.
 - `networks`: `{ <network>: [ { mac, name, id?, domains?, justMac?, internetOnly? } ] }` —
   per-network hosts. A device with `internetOnly: true` is restricted to internet-only
   access (matched by MAC), on any network.
@@ -56,7 +56,7 @@ LAN (`10.0.0.0/16` IPv4, `fd59:de0a:bff5::/48` IPv6). Two sources of restriction
 - **IPv4** — one rule per network matching the whole subnet (catches every device on it).
 - **IPv6** — one rule per known device MAC. All subnets share a single ULA /64
   (`fd59:de0a:bff5::/48`, see `network::ULA_PREFIX`), so subnets are not distinguishable
-  in IPv6 and blocking is done per known device. An *unknown* IPv6-only device on those
+  in IPv6 and blocking is done per known device. An _unknown_ IPv6-only device on those
   subnets is **not** blocked (inherent to the flat-L2 topology).
 
 **Device-level** — for any device with `internetOnly: true` (on any network):

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ ... }:
 {
   skyg.nixos.common.container-services.jellyfin = {
     enable = true;

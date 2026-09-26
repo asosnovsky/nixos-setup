@@ -217,37 +217,35 @@ group starts; groups only reference it (`external: true`) and never create it.
 
 ## Internal DNS names
 
-A service with a static IP can declare its own internal DNS name. The record is folded into
-`skyg.dns.records`, aggregated across every host at the flake level, and pushed to the
-OpenWrt router's `dnsmasq.conf` by `skyg openwrt`. **Nothing is configured on the host.**
+Internal DNS names are declared centrally in `skyg.internalNetworkingMap` (see
+`modules/main.nix`), not per service. Each app gets an internal name (`<name>` + `rootDns`,
+e.g. `drawdb.app.internal`) and an optional public alias, and the flake renders them into
+the OpenWrt router's `dnsmasq.conf` via `skyg openwrt`. **Nothing is configured on the host.**
+
+```nix
+# modules/main.nix
+skyg.internalNetworkingMap.apps.drawdb = { ip = "10.0.101.2"; };
+```
+
+Service files read the IP/names from the map instead of hardcoding them:
 
 ```nix
 skyg.nixos.common.container-services.drawdb.services.drawdb = {
   image = "ghcr.io/drawdb-io/drawdb:latest";
-  networks = { lan = { ipv4_address = "10.0.101.2"; }; };
-  dns.names = [ "drawdb" ];   # -> drawdb.app.internal
+  networks.lan.ipv4_address = config.skyg.internalNetworkingMap.apps.drawdb.ip;
 };
 ```
 
-| Option | Default | Notes |
-|---|---|---|
-| `dns.names` | `[ ]` | Bare labels get `skyg.dns.domain` (default `app.internal`) appended; names containing a `.` are used as-is. |
-| `dns.ip` | `null` | Derived from the service's `networks` block when it contains exactly one `ipv4_address`. Required for host-networked or multi-network services. |
-| `dns.wildcard` | `false` | `true` also resolves every subdomain (`address=/name/ip` instead of `host-record=`). |
-
-Setting `dns.names` without a derivable address is an **eval error** that names the offending
-service. Two hosts mapping the same name to different IPs is also an eval error.
-
-For IPs that aren't container services, use the host-level escape hatch instead:
-
-```nix
-skyg.dns.extraRecords.nas = { ip = "10.0.0.50"; names = [ "nas" "files" ]; };
-```
+| Field          | Notes                                                                  |
+| -------------- | ---------------------------------------------------------------------- |
+| `ip`           | LAN IPv4 address the app's names resolve to.                           |
+| `aliasDns`     | Optional extra name (e.g. a public domain) that also resolves to `ip`. |
+| `effectiveDns` | Read-only; computed as `<app-name>` + `rootDns`.                       |
 
 Verify and deploy:
 
 ```sh
-nix eval .#dnsRecords --json | jq     # every record, all hosts
+nix eval .#dnsRecords --json | jq     # every record
 skyg openwrt --dry-run                # render dnsmasq.conf locally
 skyg openwrt                          # diff + confirm + apply
 ```

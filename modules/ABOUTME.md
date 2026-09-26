@@ -10,6 +10,8 @@ modules/
 ├── lib.nix            # makeNixOs / makeIso / makeHomeManagerUsers / makeDarwinModule / eachSystem
 │                      #   (registers the `tether` flake input's NixOS module → programs.tether.*)
 ├── main.nix           # Base module imported by every host: core/ + nixos/ + network-drives.nix
+│                      #   + skyg.internalNetworkingMap (global app registry)
+├── internal-networking.nix # Renders skyg.internalNetworkingMap → router generalMappings
 ├── skyg-utils.nix     # makeHyperlinkScriptToConfigs (symlinks configs/ → ~/.config/;
 │                      #   backs up an existing real dir to <path>.backup.<timestamp>)
 ├── macos.nix          # macOS / nix-darwin module
@@ -30,6 +32,7 @@ All custom options live under `skyg.*`. Never introduce options outside this nam
 ```
 skyg.user.*               → core/user.nix
 skyg.networkDrives.*      → network-drives.nix
+skyg.internalNetworkingMap.* → main.nix (global app registry; rendered into router DNS by internal-networking.nix)
 skyg.rootDir              → core/default.nix (set by the flake; repo root store path)
 skyg.nixos.common.*       → nixos/common/
 skyg.nixos.desktop.*      → nixos/desktop/

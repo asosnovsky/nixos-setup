@@ -99,21 +99,6 @@ in
     };
 
     server = {
-      ip = mkOption {
-        type = types.str;
-        default = "10.0.101.241";
-        description = "Static IP on the ipvlan lab network for the server container.";
-      };
-
-      dnsName = mkOption {
-        type = types.str;
-        default = "portainer";
-        description = ''
-          Internal DNS name for the server. The app.internal suffix is added
-          automatically by the DNS module.
-        '';
-      };
-
       tls = {
         enable = mkEnableOption "TLS with a lab CA certificate for the Portainer server";
 
@@ -183,8 +168,7 @@ in
             [ "/var/run/docker.sock:/var/run/docker.sock" "portainer_data:/data" ]
               ++ lib.optional (cfg.server.tls.enable && cfg.server.tls.keySecretName != null)
               "${config.age.secrets.${cfg.server.tls.keySecretName}.path}:/certs/key.pem:ro";
-          networks.lan.ipv4_address = cfg.server.ip;
-          dns.names = [ cfg.server.dnsName ];
+          networks.lan.ipv4_address = config.skyg.internalNetworkingMap.apps.portainer.ip;
         }
         // lib.optionalAttrs cfg.server.tls.enable {
           files."/certs/cert.pem" = cfg.server.tls.cert;

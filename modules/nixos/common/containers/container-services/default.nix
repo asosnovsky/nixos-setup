@@ -23,28 +23,6 @@ let
   # When composeFile is set, networks/volumes/extraConfig declared alongside it
   # are rendered as a base overrides file merged in via an earlier -f flag, so
   # the composeFile's own definitions win on any overlapping keys.
-  # ---- internal DNS (skyg.dns) ----------------------------------------------
-  # Every service with dns.names set contributes a record. The address is taken
-  # from dns.ip when given, otherwise derived from the service's `networks`
-  # mapping (the compose form `{ lan.ipv4_address = "10.0.101.2"; }`).
-  serviceStaticIps = svcCfg:
-    if builtins.isAttrs svcCfg.networks
-    then lib.filter (v: v != null) (lib.mapAttrsToList (_: n: n.ipv4_address or null) svcCfg.networks)
-    else [ ];
-
-  dnsServices = lib.flatten (lib.mapAttrsToList
-    (groupName: grpCfg: lib.mapAttrsToList
-      (svcName: svcCfg: { inherit groupName svcName svcCfg; })
-      (lib.filterAttrs (_: svcCfg: svcCfg.dns.names != [ ]) grpCfg.services))
-    enabledGroups);
-
-  dnsServiceIp = s:
-    if s.svcCfg.dns.ip != null
-    then s.svcCfg.dns.ip
-    else
-      let ips = serviceStaticIps s.svcCfg;
-      in if lib.length ips == 1 then lib.head ips else null;
-
   mkOverridesFileFor = groupName: grpCfg:
     if grpCfg.composeFile != null
       && (grpCfg.networks != { } || grpCfg.volumes != { } || grpCfg.extraConfig != { })
@@ -75,28 +53,7 @@ in
             message =
               "skyg.nixos.common.container-services.${name}: set either composeFile OR services, not both.";
           })
-        enabledGroups
-      ++ map
-        (s: {
-          assertion = dnsServiceIp s != null;
-          message = ''
-            skyg.nixos.common.container-services.${s.groupName}.services.${s.svcName}:
-            dns.names is set but no address could be determined. Found
-            ${toString (lib.length (serviceStaticIps s.svcCfg))} ipv4_address
-            entries in `networks` (exactly one is required). Set dns.ip
-            explicitly.
-          '';
-        })
-        dnsServices;
-
-    # Internal DNS records for services that asked for a name.
-    skyg.dns.records = map
-      (s: {
-        ip = dnsServiceIp s;
-        inherit (s.svcCfg.dns) names wildcard;
-        source = "container-services/${s.groupName}/${s.svcName}";
-      })
-      (lib.filter (s: dnsServiceIp s != null) dnsServices);
+        enabledGroups;
 
     # Create tmpfiles rules for state dirs and file dirs
     systemd.tmpfiles.rules =
