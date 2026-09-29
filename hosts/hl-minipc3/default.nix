@@ -4,6 +4,7 @@
     ./hardware-configuration
     ./hardware.nix
     ./systemd.nix
+    ./services
   ];
 
   skyg.user.enable = true;

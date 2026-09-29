@@ -11,6 +11,7 @@ in
 {
   services.hermenix = {
     enable = true;
+    devices.video.enable = true;
     disk.baseDir = "/var/lib/hermes-vm";
     disk.stateSize = "60G";
     network = {
@@ -20,8 +21,8 @@ in
       hostLanAddress = "10.0.10.11";
       lanGateway = "10.0.0.1";
     };
-    vcpu = 3;
-    mem = 5000;
+    vcpu = 2;
+    mem = 8000;
     hermesHome = "/var/lib/hermes/.hermes";
     hostCache.port = ports.hermesCache;
     hostAccess = [

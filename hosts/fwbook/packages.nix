@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, ai-usagebar, ... }:
+{ pkgs, unstablePkgs, ai-usagebar, hermes-agent, ... }:
 {
   environment.systemPackages =
     let
@@ -70,6 +70,7 @@
       betterdiscordctl
       discord
       signal-desktop
+      telegram-desktop
 
       python313
       python314
@@ -119,6 +120,7 @@
       herdr
       superset-desktop
       ai-usagebar.packages.${pkgs.stdenv.hostPlatform.system}.default
+      hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       skygqts
       hermenix

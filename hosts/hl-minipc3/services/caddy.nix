@@ -17,11 +17,11 @@ in
       files."/etc/caddy/Caddyfile" = ''
         nvr.home.sosnovsky.ca {
           tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          reverse_proxy ${nvr.ip}:80
+          reverse_proxy ${nvr.ip}:11080
         }
         jellyfin.home.sosnovsky.ca {
           tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          reverse_proxy http://bigbox1.lab.internal:8096
+          reverse_proxy bigbox1.lab.internal:8096
         }
         portainer.home.sosnovsky.ca {
           tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem

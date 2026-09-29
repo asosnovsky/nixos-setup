@@ -53,9 +53,4 @@
     "modesetting"
     "fbdev"
   ];
-
-  services.hermes-agent = {
-    enable = true;
-    addToSystemPackages = true;
-  };
 }
