@@ -20,9 +20,16 @@
     "rtc_cmos.use_acpi_alarm=1"
     "acpi.prefer_microsoft_dsm_guid=1"
     "amd_pstate=active"
-    # Disable the old and new display power-saving features (PSR and Panel Replay).
-    "amdgpu.dcdebugmask=0x410"
+    # arms the hard-lockup detector
+    "nmi_watchdog=1"
   ];
+  boot.kernel.sysctl = {
+    "kernel.panic_on_oops" = 1;
+    "kernel.panic" = 60; # currently 0 = hang forever after panic
+    "kernel.softlockup_panic" = 1; # CPU stuck >20s in kernel -> panic
+    "kernel.hardlockup_panic" = 1; # CPU wedged with IRQs off -> panic
+    "kernel.sysrq" = 1; # currently 16 (sync only)
+  };
   boot.extraModulePackages = [ ];
   boot.plymouth = {
     enable = true;

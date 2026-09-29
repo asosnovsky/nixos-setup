@@ -49,7 +49,7 @@
             enable = true;
             configLink.enable = false;
             touchscreen-gestures = {
-              enable = true;
+              enable = false;
               touchOutput = "eDP-1";
             };
           };

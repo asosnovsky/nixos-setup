@@ -1,5 +1,5 @@
 -- =========================
--- General / Layout — Liquid Glass
+-- General / Layout
 -- =========================
 hl.config({
     general = {
@@ -22,10 +22,9 @@ hl.config({
     },
 
     scrolling = {
-        column_width = 0.5,
         fullscreen_on_one_column = true,
-        focus_fit_method = 0,
         follow_focus = true,
+        focus_fit_method = 1,
     },
 
     cursor = {
