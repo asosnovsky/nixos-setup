@@ -37,7 +37,7 @@ hosts/
 | `hl-bigbox2/` | hl-bigbox2 | NFS storage server                                                       |
 | `hl-minipc1/` | hl-minipc1 | Core infra: Gitea, nix-serve, registry, Buzz (docker, `buzz-manage` CLI) |
 | `hl-minipc2/` | hl-minipc2 | Container/media server                                                   |
-| `hl-minipc3/` | hl-minipc3 | K3s worker node                                                          |
+| `hl-minipc3/` | hl-minipc3 | K3s worker node; central Caddy reverse-proxy (`*.home.sosnovsky.ca`)     |
 | `hl-pi1/`     | hl-pi1     | Raspberry Pi CM4 (aarch64) — headless server, SSH only                   |
 | `hl-pi2/`     | hl-pi2     | Raspberry Pi 4 (aarch64) — headless server, SSH only                     |
 | `hl-terra1/`  | hl-terra1  | NFS storage + Jellyfin backup                                            |

@@ -15,7 +15,7 @@ let
   # behaviour the generator expects for Nix-declared names.
   toRecord = name: app: {
     ip = app.ip;
-    domains = [ app.effectiveDns ] ++ lib.optional (app.aliasDns != null) app.aliasDns;
+    domains = [ app.effectiveDns ] ++ app.aliases;
     wildcard = false;
     source = "internalNetworkingMap/${name}";
   };

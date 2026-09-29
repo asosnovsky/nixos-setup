@@ -20,11 +20,11 @@ let
         description = "LAN IPv4 address of the app.";
       };
 
-      aliasDns = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        example = "buzz.home.sosnovsky.ca";
-        description = "Optional public/alternate DNS name for the app.";
+      aliases = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        example = [ "buzz.home.sosnovsky.ca" ];
+        description = "Optional public/alternate DNS names for the app.";
       };
 
       effectiveDns = lib.mkOption {
@@ -105,11 +105,19 @@ in
       };
       apps = {
         drawdb = { ip = "10.0.101.2"; };
-        buzz = { ip = "10.0.101.3"; aliasDns = "buzz.home.sosnovsky.ca"; };
+        buzz = { ip = "10.0.101.3"; aliases = [ "buzz.home.sosnovsky.ca" ]; };
         audiobooks = { ip = "10.0.101.4"; };
-        # jellyfin = { ip = "10.0.101.5"; aliasDns = "jellyfin.home.sosnovsky.ca"; };
-        nvr = { ip = "10.0.101.6"; aliasDns = "nvr.home.sosnovsky.ca"; };
+        jellyfin = { ip = "10.0.101.5"; };
+        nvr = { ip = "10.0.101.6"; };
         portainer = { ip = "10.0.101.241"; };
+        caddy = {
+          ip = "10.0.101.7";
+          aliases = [
+            "nvr.home.sosnovsky.ca"
+            "jellyfin.home.sosnovsky.ca"
+            "portainer.home.sosnovsky.ca"
+          ];
+        };
       };
     };
 

@@ -236,11 +236,11 @@ skyg.nixos.common.container-services.drawdb.services.drawdb = {
 };
 ```
 
-| Field          | Notes                                                                  |
-| -------------- | ---------------------------------------------------------------------- |
-| `ip`           | LAN IPv4 address the app's names resolve to.                           |
-| `aliasDns`     | Optional extra name (e.g. a public domain) that also resolves to `ip`. |
-| `effectiveDns` | Read-only; computed as `<app-name>` + `rootDns`.                       |
+| Field          | Notes                                                                 |
+| -------------- | --------------------------------------------------------------------- |
+| `ip`           | LAN IPv4 address the app's names resolve to.                          |
+| `aliases`      | Optional extra names (e.g. public domains) that also resolve to `ip`. |
+| `effectiveDns` | Read-only; computed as `<app-name>` + `rootDns`.                      |
 
 Verify and deploy:
 

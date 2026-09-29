@@ -10,7 +10,7 @@ let
   app = config.skyg.internalNetworkingMap.apps.buzz;
   buzz = {
     domain = app.effectiveDns;
-    publicDomain = app.aliasDns;
+    publicDomain = builtins.elemAt app.aliases 0;
     port = 3000;
     ip = app.ip;
     bucket = "buzz-media";

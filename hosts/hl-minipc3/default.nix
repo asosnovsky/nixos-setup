@@ -1,4 +1,4 @@
-{ config, skyg-secrets, ... }:
+{ skyg-secrets, ... }:
 {
   imports = [
     ./hardware-configuration
@@ -19,7 +19,10 @@
     enable = true;
     envPath = "/opt/k3s/k3s.env";
   };
-
+  skyg.nixos.common.containers.networks.ipvlanLab = {
+    enable = true;
+    parent = "eno1";
+  };
   age.secrets.portainer-agent-minipc3.file = skyg-secrets.portainer-agent-minipc3;
   skyg.nixos.server.portainer = {
     enable = true;
