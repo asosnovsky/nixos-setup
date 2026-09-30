@@ -4,6 +4,7 @@
     ./nix-serve.nix
     ./docker-registry.nix
     ./gitea.nix
+    ./gitea-container.nix
     ./acme.nix
     ./portainer.nix
     ./iu.nix

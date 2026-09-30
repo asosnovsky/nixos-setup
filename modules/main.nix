@@ -107,6 +107,7 @@ in
         drawdb = { ip = "10.0.101.2"; };
         buzz = { ip = "10.0.101.3"; aliases = [ "buzz.home.sosnovsky.ca" ]; };
         audiobooks = { ip = "10.0.101.4"; };
+        gitea = { ip = "10.0.101.8"; };
         jellyfin = { ip = "10.0.101.5"; };
         nvr = { ip = "10.0.101.6"; };
         portainer = { ip = "10.0.101.241"; };

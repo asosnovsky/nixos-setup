@@ -28,20 +28,20 @@ hosts/
 
 ## Managed Hosts
 
-| Folder        | Host       | Role                                                                     |
-| ------------- | ---------- | ------------------------------------------------------------------------ |
-| `fwbook/`     | fwbook     | Framework 13 AMD — personal laptop / daily driver                        |
-| `hl-fwdesk/`  | hl-fwdesk  | Framework Desktop AI Max 300 — AI workstation                            |
-| `hl-fws1/`    | hl-fws1    | Framework 11th Intel — K3s server node                                   |
-| `hl-bigbox1/` | hl-bigbox1 | AI/compute server (NVIDIA + AMD)                                         |
-| `hl-bigbox2/` | hl-bigbox2 | NFS storage server                                                       |
-| `hl-minipc1/` | hl-minipc1 | Core infra: Gitea, nix-serve, registry, Buzz (docker, `buzz-manage` CLI) |
-| `hl-minipc2/` | hl-minipc2 | Container/media server                                                   |
-| `hl-minipc3/` | hl-minipc3 | K3s worker node; central Caddy reverse-proxy (`*.home.sosnovsky.ca`)     |
-| `hl-pi1/`     | hl-pi1     | Raspberry Pi CM4 (aarch64) — headless server, SSH only                   |
-| `hl-pi2/`     | hl-pi2     | Raspberry Pi 4 (aarch64) — headless server, SSH only                     |
-| `hl-terra1/`  | hl-terra1  | NFS storage + Jellyfin backup                                            |
-| `iso/`        | iso        | Bootable NixOS installer image                                           |
+| Folder        | Host       | Role                                                                                               |
+| ------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| `fwbook/`     | fwbook     | Framework 13 AMD — personal laptop / daily driver                                                  |
+| `hl-fwdesk/`  | hl-fwdesk  | Framework Desktop AI Max 300 — AI workstation                                                      |
+| `hl-fws1/`    | hl-fws1    | Framework 11th Intel — K3s server node                                                             |
+| `hl-bigbox1/` | hl-bigbox1 | AI/compute server (NVIDIA + AMD)                                                                   |
+| `hl-bigbox2/` | hl-bigbox2 | NFS storage server                                                                                 |
+| `hl-minipc1/` | hl-minipc1 | Core infra: Gitea (native or containerized), nix-serve, registry, Buzz (docker, `buzz-manage` CLI) |
+| `hl-minipc2/` | hl-minipc2 | Container/media server                                                                             |
+| `hl-minipc3/` | hl-minipc3 | K3s worker node; central Caddy reverse-proxy (`*.home.sosnovsky.ca`)                               |
+| `hl-pi1/`     | hl-pi1     | Raspberry Pi CM4 (aarch64) — headless server, SSH only                                             |
+| `hl-pi2/`     | hl-pi2     | Raspberry Pi 4 (aarch64) — headless server, SSH only                                               |
+| `hl-terra1/`  | hl-terra1  | NFS storage + Jellyfin backup                                                                      |
+| `iso/`        | iso        | Bootable NixOS installer image                                                                     |
 
 ## Rules
 
