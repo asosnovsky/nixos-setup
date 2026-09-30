@@ -1,9 +1,9 @@
 {
   inputs = {
     # my apps
-    skygqts.url = "git+ssh://gitea@minipc1.lab.internal:22/ari/skygqts.git";
+    skygqts.url = "git+gitea@gitea.app.internal/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
-    hermenix.url = "git+ssh://gitea@minipc1.lab.internal:22/ari/hermenix.git";
+    hermenix.url = "git+gitea@gitea.app.internal/ari/hermenix.git";
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
