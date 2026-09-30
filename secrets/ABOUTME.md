@@ -4,16 +4,18 @@ Age-encrypted secret files managed with [agenix](https://github.com/ryantm/ageni
 
 ## Contents
 
-| File | Description |
-|---|---|
-| `dns-addresses.conf.age` | DNS address overrides for the dnsmasq module |
-| `glmain.json.age` | OpenWrt router credentials/config for `glmain` |
-| `hermes-env.age` | Hermes agent env vars (fwbook + fwdesk) |
-| `hermes-env` | Unencrypted working copy of `hermes-env.age` |
-| `iu-project.age` | iu-project credentials (minipc1) |
-| `portainer-agent-bigbox1.age` | Portainer agent env vars (bigbox1) |
-| `stack1.age` | Compose definition for stack1 (minipc2) |
-| `stack2.age` | Compose definition for stack2 (minipc2) |
+| File                          | Description                                        |
+| ----------------------------- | -------------------------------------------------- |
+| `dns-addresses.conf.age`      | DNS address overrides for the dnsmasq module       |
+| `glmain.json.age`             | OpenWrt router credentials/config for `glmain`     |
+| `hermes-env.age`              | Hermes agent env vars (fwbook + fwdesk)            |
+| `hermes-env`                  | Unencrypted working copy of `hermes-env.age`       |
+| `iu-project.age`              | iu-project credentials (minipc1)                   |
+| `nitw-gc.age`                 | Compose definition for the secret app (minipc1)    |
+| `nitw-gc-home.age`            | Landing-page template for the secret app (minipc1) |
+| `portainer-agent-bigbox1.age` | Portainer agent env vars (bigbox1)                 |
+| `stack1.age`                  | Compose definition for stack1 (minipc2)            |
+| `stack2.age`                  | Compose definition for stack2 (minipc2)            |
 
 The authoritative list of names + authorized keys is `secrets.nix` in the repo root.
 

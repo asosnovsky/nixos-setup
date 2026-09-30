@@ -1,9 +1,9 @@
 {
   inputs = {
     # my apps
-    skygqts.url = "git+gitea@gitea.app.internal/ari/skygqts.git";
+    skygqts.url = "git+ssh://gitea@gitea.app.internal:22/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
-    hermenix.url = "git+gitea@gitea.app.internal/ari/hermenix.git";
+    hermenix.url = "git+ssh://gitea@gitea.app.internal:22/ari/hermenix.git";
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
@@ -142,6 +142,8 @@
                 portainer-tls-key = ./secrets/portainer-tls-key.age;
                 stack1 = ./secrets/stack1.age;
                 stack2 = ./secrets/stack2.age;
+                nitw-gc = ./secrets/nitw-gc.age;
+                nitw-gc-home = ./secrets/nitw-gc-home.age;
                 portainer-agent-minipc3 = ./secrets/portainer-agent-minipc3.age;
                 portainer-cert = ./configs/pki/portainer.app.internal.crt;
               };
