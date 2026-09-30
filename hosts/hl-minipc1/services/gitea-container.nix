@@ -4,6 +4,7 @@ let
     user = "gitea";
     group = "gitea";
     stateDir = "/var/lib/sosnovsky/gitea";
+    sshDir = "/var/lib/sosnovsky/gitea-ssh";
     httpPort = 3000;
     sshPort = 22;
   };
@@ -37,6 +38,11 @@ in
 
   systemd.tmpfiles.rules = lib.mkIf containerMode [
     "d ${gitea.stateDir} 0750 ${gitea.user} ${gitea.group} -"
+    "d ${gitea.sshDir} 0750 ${gitea.user} ${gitea.group} -"
+    # Pre-created so the read-only template mount lands in gitea-owned dirs
+    # instead of root-owned ones docker would create on demand.
+    "d ${gitea.stateDir}/custom 0755 ${gitea.user} ${gitea.group} -"
+    "d ${gitea.stateDir}/custom/templates 0755 ${gitea.user} ${gitea.group} -"
   ];
 
   skyg.nixos.common.container-services.gitea = {
@@ -54,8 +60,9 @@ in
         # The image renames its `git` user to $USER, so this makes RUN_USER,
         # sshd AllowUsers and the container's runtime user all `gitea`.
         USER = gitea.user;
+        HOME = "/data/git";
         GITEA__server__APP_DATA_PATH = "${gitea.stateDir}/data";
-        GITEA__server__SSH_ROOT_PATH = "${gitea.stateDir}/.ssh";
+        GITEA__server__SSH_ROOT_PATH = "/data/git/.ssh";
         GITEA__repository__ROOT = "${gitea.stateDir}/repositories";
         GITEA__database__PATH = "${gitea.stateDir}/data/gitea.db";
         GITEA__log__ROOT_PATH = "${gitea.stateDir}/log";
@@ -69,8 +76,11 @@ in
       };
       volumes = [
         "${gitea.stateDir}:${gitea.stateDir}"
-        "${gitea.stateDir}/.ssh:/data/git/.ssh"
+        "${gitea.sshDir}:/data"
       ];
+      # Custom landing page, mounted read-only over GITEA_CUSTOM/templates.
+      files."${gitea.stateDir}/custom/templates/home.tmpl" =
+        builtins.readFile ./gitea-home.tmpl;
     };
   };
 }

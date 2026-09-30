@@ -29,3 +29,11 @@ export def updatable-pkgs [] {
     glob "pkgs/*/update.sh"
     | each {|f| $f | path dirname | path basename }
 }
+
+# Gitea HTML templates, for `skyg render html-tpl` tab-completion.
+export def html-tpl-files [] {
+    cd $REPO_ROOT
+    glob "**/*.tmpl"
+    | each {|f| $f | path relative-to $REPO_ROOT }
+    | sort
+}

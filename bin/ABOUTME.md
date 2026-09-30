@@ -14,7 +14,7 @@ bin/
     ├── cmds.nu    # All subcommand implementations (NuShell — source of truth); commands only
     ├── helpers.nu # Shared helpers: REPO_ROOT const + internal functions used by commands
     ├── profile.nu # Profile helpers and tab-completion data
-    └── types.nu   # Type definitions
+    └── types.nu   # Type definitions + tab-completion data
 ```
 
 ## Key Commands
@@ -40,6 +40,7 @@ bin/
 | `skyg compare-secret <secret>`        | Diff the working copy against the stored secret                                                                                                                                                                                                                     |
 | `skyg ca init`                        | Generate the lab root CA: key → `secrets/lab-ca-key.age`, cert → `configs/pki/lab-ca.crt` (see `configs/pki/ABOUTME.md`)                                                                                                                                            |
 | `skyg ca issue <domain> --for <host>` | Mint a TLS leaf cert signed by the lab CA: cert → `configs/pki/<domain>.crt`, key → `secrets/<name>-tls-key.age`. Auto-registers missing `secrets.nix` entries.                                                                                                     |
+| `skyg render html-tpl <file>`         | Render a Gitea `.tmpl` (swaps `base/head`/`base/footer` for a minimal shell, strips `{{ … }}`) and serve it on `127.0.0.1` for preview. Foreground — Ctrl+C to stop. `<file>` tab-completes from `**/*.tmpl`.                                                       |
 
 ## Agent Note
 

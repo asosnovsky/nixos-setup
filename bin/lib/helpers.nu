@@ -19,3 +19,18 @@ export def ensure-secret-entry [secret_path: string, recipients: list<string>] {
     ($new_lines | str join "\n") + "\n" | save -f $file
     print $"📝 Registered ($secret_path) in secrets.nix — review with git diff"
 }
+
+# Render a Gitea-style Go template to a standalone HTML file for local preview.
+# Swaps the base/head + base/footer includes for a minimal shell and drops any
+# remaining {{ ... }} directives so the page opens in a plain browser.
+export def render-html-tpl [src: string, out: string] {
+    let head = '<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Template preview</title><style>html,body{margin:0;background:#f6f8fa;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1f2328;}</style></head><body>'
+    let foot = '</body></html>'
+    # Read via external cat — `open` is aliased to xdg-open in some Nu configs.
+    ^cat $src
+    | str replace -a '{{template "base/head" .}}' $head
+    | str replace -a '{{template "base/footer" .}}' $foot
+    | str replace -a -r '\{\{[^}]*\}\}' ''
+    | save -f $out
+}
