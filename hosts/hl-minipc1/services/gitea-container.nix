@@ -49,18 +49,17 @@ in
       networks.lan.ipv4_address = app.ip;
       environmentFiles = [ uidEnvFile ];
       environment = {
-        # Same data, same paths as the native service.
         GITEA_WORK_DIR = gitea.stateDir;
         GITEA_CUSTOM = "${gitea.stateDir}/custom";
-        GITEA_APP_INI = "${gitea.stateDir}/conf/app.ini";
+        # The image renames its `git` user to $USER, so this makes RUN_USER,
+        # sshd AllowUsers and the container's runtime user all `gitea`.
+        USER = gitea.user;
         GITEA__server__APP_DATA_PATH = "${gitea.stateDir}/data";
         GITEA__server__SSH_ROOT_PATH = "${gitea.stateDir}/.ssh";
         GITEA__repository__ROOT = "${gitea.stateDir}/repositories";
         GITEA__database__PATH = "${gitea.stateDir}/data/gitea.db";
         GITEA__log__ROOT_PATH = "${gitea.stateDir}/log";
-        # The container has its own IP, so it serves SSH itself (same keys).
-        GITEA__server__START_SSH_SERVER = "true";
-        GITEA__server__SSH_LISTEN_PORT = toString gitea.sshPort;
+        GITEA__server__START_SSH_SERVER = "false";
         GITEA__server__SSH_PORT = toString gitea.sshPort;
         GITEA__server__SSH_USER = gitea.user;
         GITEA__server__DOMAIN = app.effectiveDns;
@@ -68,7 +67,10 @@ in
         GITEA__server__ROOT_URL = "http://${app.effectiveDns}:${toString gitea.httpPort}/";
         GITEA__service__DISABLE_REGISTRATION = "true";
       };
-      volumes = [ "${gitea.stateDir}:${gitea.stateDir}" ];
+      volumes = [
+        "${gitea.stateDir}:${gitea.stateDir}"
+        "${gitea.stateDir}/.ssh:/data/git/.ssh"
+      ];
     };
   };
 }

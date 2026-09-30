@@ -10,7 +10,7 @@ let
 in
 {
   services.gitea = {
-    enable = true;
+    enable = false;
     appName = "Sosnovsky gitea";
     stateDir = gitea.stateDir;
     user = gitea.user;

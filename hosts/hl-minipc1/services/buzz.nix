@@ -19,8 +19,8 @@ let
       caddy = "caddy:2-alpine";
       posgres = "postgres:17-alpine";
       redis = "redis:7-alpine";
-      minio = "quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e";
-      mc = "quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727";
+      minio = "chainguard/minio:latest-dev@sha256:8d5a0265f0e18fb3b29f95598147f1cc2a86b782181668bad176b0e90cce9569";
+      mc = "chainguard/minio-client:latest-dev@sha256:a552f9a01603b3db647712ae056e8bb4c04800365707f5bd4abffa05c9e4198e";
     };
   };
 in
@@ -151,7 +151,7 @@ in
         volumes = [ "s3:/data" ];
         command = [ "server" "/data" "--console-address" ":9001" ];
         healthcheck = {
-          test = [ "CMD" "curl" "-f" "http://127.0.0.1:9000/minio/health/live" ];
+          test = [ "CMD-SHELL" "wget -q -O /dev/null http://127.0.0.1:9000/minio/health/live" ];
           interval = "5s";
           timeout = "5s";
           retries = 12;
