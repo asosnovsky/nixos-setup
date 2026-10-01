@@ -59,6 +59,13 @@
 			<p class="skyg-tagline">Ariel Sosnovsky's Personal Projects and stuff</p>
 		</div>
 
+		<section class="skyg-projects">
+			<h2 class="skyg-projects-title">Projects</h2>
+			<div id="skyg-projects-list" class="skyg-projects-list">
+				<p class="skyg-projects-status">Loading projects…</p>
+			</div>
+		</section>
+
 		<style>
 			.skyg-hero {
 				text-align: center;
@@ -93,7 +100,101 @@
 				.skyg-logo,
 				.skyg-tagline { animation: none !important; }
 			}
+
+			.skyg-projects {
+				max-width: 760px;
+				margin: 8px auto 64px;
+				padding: 0 12px;
+			}
+			.skyg-projects-title {
+				margin: 0 0 20px;
+				font-size: 1.6rem;
+				font-weight: 600;
+				text-align: center;
+				letter-spacing: .01em;
+			}
+			.skyg-projects-list {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+				gap: 14px;
+			}
+			.skyg-repo {
+				display: block;
+				padding: 16px 18px;
+				border-radius: 14px;
+				border: 1px solid rgba(82, 119, 195, .28);
+				background: rgba(126, 186, 228, .08);
+				text-decoration: none;
+				color: inherit;
+				transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+			}
+			.skyg-repo:hover {
+				transform: translateY(-3px);
+				border-color: #5277C3;
+				box-shadow: 0 14px 30px -18px rgba(82, 119, 195, .8);
+			}
+			.skyg-repo-name {
+				display: block;
+				font-size: 1.05rem;
+				font-weight: 600;
+				color: #5277C3;
+				word-break: break-word;
+			}
+			.skyg-repo-meta {
+				display: block;
+				margin-top: 4px;
+				font-size: .82rem;
+				opacity: .65;
+			}
+			.skyg-repo-desc {
+				margin: 8px 0 0;
+				font-size: .9rem;
+				line-height: 1.4;
+				opacity: .8;
+			}
+			.skyg-projects-status {
+				grid-column: 1 / -1;
+				text-align: center;
+				opacity: .6;
+			}
 		</style>
+
+		<script>
+			(function () {
+				var list = document.getElementById('skyg-projects-list');
+				if (!list) return;
+				var esc = function (value) {
+					return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
+						return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+					});
+				};
+				fetch('/api/v1/users/ari/repos?limit=50', { headers: { Accept: 'application/json' } })
+					.then(function (res) {
+						if (!res.ok) throw new Error('HTTP ' + res.status);
+						return res.json();
+					})
+					.then(function (repos) {
+						if (!Array.isArray(repos) || repos.length === 0) {
+							list.innerHTML = '<p class="skyg-projects-status">No public projects yet.</p>';
+							return;
+						}
+						list.innerHTML = repos.map(function (repo) {
+							var meta = [];
+							if (repo.language) meta.push(esc(repo.language));
+							if (repo.stars_count) meta.push('★ ' + esc(repo.stars_count));
+							var metaHtml = meta.length ? '<span class="skyg-repo-meta">' + meta.join(' · ') + '</span>' : '';
+							var descHtml = repo.description ? '<p class="skyg-repo-desc">' + esc(repo.description) + '</p>' : '';
+							return '<a class="skyg-repo" href="' + esc(repo.html_url) + '">' +
+								'<span class="skyg-repo-name">' + esc(repo.name) + '</span>' +
+								metaHtml + descHtml +
+								'</a>';
+						}).join('');
+					})
+					.catch(function () {
+						list.innerHTML = '<p class="skyg-projects-status">Could not load projects.</p>';
+					});
+			})();
+		</script>
 
 	</div>
 </div>
