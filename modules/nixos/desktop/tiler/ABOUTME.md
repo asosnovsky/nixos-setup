@@ -12,7 +12,7 @@ tiler/
 ├── niri.nix                    # skyg.nixos.desktop.tiler.niri — niri compositor (sets tiler.enable)
 ├── niri-touchscreen-gestures.nix # skyg.nixos.desktop.tiler.niri.touchscreen-gestures — touchscreen swipe support
 ├── hyprland.nix                # skyg.nixos.desktop.tiler.hyprland — Hyprland via flake (sets tiler.enable)
-├── noctalia.nix                # skyg.nixos.desktop.tiler.noctalia — noctalia shell + per-host config symlink; libqalculate pinned from nixpkgs-unstable (stable 5.10.0 segfaults on teardown)
+├── noctalia.nix                # skyg.nixos.desktop.tiler.noctalia — noctalia shell + per-host config symlink; libqalculate pinned from nixpkgs-unstable (stable 5.10.0 segfaults on teardown). Still installed for niri; fwbook's Hyprland runs the Omarchy (nixarchy) shell instead
 ├── quickshell.nix              # skyg.nixos.desktop.tiler.quickshell — qs package + per-host config symlink
 └── swww.nix                    # skyg.nixos.desktop.tiler.background — swww/waypaper wallpaper tools
 ```
@@ -57,8 +57,9 @@ skyg.nixos.desktop.tiler.background.enable
 `hyprland.nix` runs the latest Hyprland from the `hyprland` flake input (package +
 `xdg-desktop-portal-hyprland` kept in sync), launched via UWSM. It:
 
-- Installs the noctalia shell and autostart-friendly tools (grim/slurp/satty,
-  wofi/rofi, wl-clipboard). There is no waybar/hyprpanel — the shell is noctalia.
+- Installs autostart-friendly tools (grim/slurp/satty, wofi/rofi, wl-clipboard).
+  There is no waybar/hyprpanel — the shell is noctalia, except on hosts that run
+  the Omarchy (nixarchy) shell from their own autostart (`fwbook`; see below).
 - `noctalia.nix` overrides Noctalia's `libqalculate` to the `nixpkgs-unstable`
   build (5.12.0). Stable 26.05 ships 5.10.0, which segfaults in `clear_randstate`
   on every teardown where the launcher calculator was never used (fixed upstream
@@ -96,6 +97,16 @@ The shell/utility apps that were previously installed unconditionally with Hyprl
 `skyg.nixos.desktop.tiler.hyprland.tools.enable`. `wl-clipboard` stays always-on. Hosts
 whose Hyprland config actually invokes these (e.g. `fwbook`) enable the flag; a pure
 clock box (`hl-pi1`) does not.
+
+### Omarchy (nixarchy) shell — fwbook
+
+`fwbook` installs the Omarchy (nixarchy) shell package directly — no nixarchy
+NixOS/HM modules — in `hosts/fwbook/packages.nix` (the `omarchy` package + its
+runtime deps + `OMARCHY_PATH` + `userActivationScripts.omarchyConfig` linking
+`~/.config/omarchy` -> `configs/fwbook/omarchy`), and launches it via
+`omarchy-launch-shell` from `configs/fwbook/hypr/conf/autostart.lua` instead of
+noctalia. Noctalia stays installed (niri is untouched) but its binds and float
+window rule are parked, un-required, under `configs/fwbook/hypr/conf/noctalia/`.
 
 ## Conventions
 

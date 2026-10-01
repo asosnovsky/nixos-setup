@@ -26,11 +26,15 @@ split under `conf/` and pulled in with `require()`.
 
 - **Layout:** Hyprland's native `scrolling` layout (0.54+), no plugins required.
   This mirrors niri's scrollable-tiling model. See `conf/general.lua`.
-- **Shell:** noctalia (`noctalia-shell`), autostarted in `conf/autostart.lua`
-  via `hl.on("hyprland.start", ...)`. Launched with `setpriv --ambient-caps -all`
-  to drop capabilities inherited from the compositor; without it, D-Bus calls
-  inside quickshell-based apps fail silently (hyprwm/Hyprland#14844). There is
-  intentionally no waybar/hyprpanel.
+- **Shell:** the Omarchy (nixarchy) shell, launched as `omarchy-launch-shell` in
+  `conf/autostart.lua` via `hl.on("hyprland.start", ...)`. Launched with
+  `setpriv --ambient-caps -all` to drop capabilities inherited from the
+  compositor; without it, D-Bus calls inside quickshell-based apps fail silently
+  (hyprwm/Hyprland#14844). There is intentionally no waybar/hyprpanel. Noctalia's
+  binds and window rule are parked in `conf/noctalia/` (not required by
+  `hyprland.lua`); see `hosts/fwbook/packages.nix` for the shell package wiring.
+  `conf/omarchy/` maps the same keys to the Omarchy shell's commands
+  (`omarchy-menu` / `omarchy-shell`).
 - **Keybinds:** `conf/keybindings.lua` mirrors `configs/niri/shared/binds.kdl`
   and `configs/niri/dms/binds.kdl` as closely as Hyprland allows. `Mod+Alt+E`
   opens this file in Zed (`zeditor`), mirroring niri's `Mod+Alt+E` ->
@@ -69,8 +73,12 @@ hypr/
     ├── monitors.lua             # hl.monitor per display (from configs/niri/.../outputs.kdl)
     ├── inputs.lua               # touchpad tap + natural scroll, kb us, hl.gesture (incl. Mod+swipe workspace-to-monitor)
     ├── window-rules.lua         # hl.window_rule floats for small dialogs/utilities
-    ├── keybindings.lua          # niri + noctalia binds, scrolling dispatchers (hl.bind/hl.dsp); Mod+Tab toggles the Quickshell overview; Mod+Ctrl moves windows, Mod+Shift is media/volume
-    └── autostart.lua            # noctalia + Quickshell overview via setpriv (hl.on hyprland.start; drops compositor caps)
+    ├── keybindings.lua          # niri binds, scrolling dispatchers (hl.bind/hl.dsp); Mod+Tab toggles the Quickshell overview; Mod+Ctrl moves windows, Mod+Shift is media/volume
+    ├── autostart.lua            # Omarchy (nixarchy) shell + Quickshell overview via setpriv (hl.on hyprland.start; drops compositor caps)
+    ├── omarchy/                 # Omarchy shell binds (index/binds.lua) — same keys as
+    │                            # noctalia, mapped to omarchy-menu / omarchy-shell
+    └── noctalia/                # parked noctalia binds + window rule (index/binds/window.lua);
+                                 # not required by hyprland.lua while the Omarchy shell runs
 ```
 
 ## Bindings without a clean 1:1 niri mapping

@@ -37,7 +37,6 @@ hl.bind(mod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "
 hl.bind(mod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 hl.bind(mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mod .. " + C", hl.dsp.layout("focus current"))
-hl.bind("ALT + TAB", hl.dsp.exec_cmd("noctalia msg window-switcher toggle"))
 
 -- =========================
 -- Resizing
@@ -75,20 +74,11 @@ hl.bind(mod .. " + ALT + up", hl.dsp.window.move({ monitor = "u" }))
 hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
--- =========================
--- Noctalia shell (mirrors configs/niri/noctalia/binds.kdl)
--- =========================
-hl.bind(mod .. " + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
-hl.bind(mod .. " + S", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center"))
-hl.bind(mod .. " + comma", hl.dsp.exec_cmd("noctalia msg settings-toggle"))
-
 -- Clipboard history
 hl.bind(
     mod .. " + ALT + P",
     hl.dsp.exec_cmd('rofi -modi "clipboard:greenclip print" -show clipboard')
 )
--- Dismiss all notifications
-hl.bind(mod .. " + ALT + L", hl.dsp.exec_cmd("noctalia msg notification-clear-active"))
 
 -- Media & volume (mirrors niri's Mod+Shift block)
 hl.bind(mod .. " + SHIFT + right", hl.dsp.exec_cmd("playerctl next"))

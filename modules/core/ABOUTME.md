@@ -26,8 +26,8 @@ core/
   `skyg.home-manager.{version,extraImports}`. When `skyg.user.enable` is set it wires up
   Home Manager for both `root` and the named user using the functions in `modules/home`.
 - **Substituters** (`nix-substituters.nix`): the standing list of caches (local `minipc1`
-  and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/cosmic/ai/noctalia, flox,
-  devenv) and the trusted public keys. Extra entries can be appended per-host via
+  and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/cosmic/ai/noctalia/nixarchy,
+  flox, devenv) and the trusted public keys. Extra entries can be appended per-host via
   `skyg.core.substituters.{urls,keys}`.
 - **Lab CA trust** (`lab-ca.nix`): adds `configs/pki/lab-ca.crt` to
   `security.pki.certificateFiles` so every machine trusts the lab internal CA

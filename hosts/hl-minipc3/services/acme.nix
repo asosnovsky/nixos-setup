@@ -10,5 +10,9 @@
       postRun = "${pkgs.docker}/bin/docker restart caddy-caddy-1";
       orderBefore = [ "container-services-caddy" ];
     };
+    certs."gitea.skyg.ca" = {
+      postRun = "${pkgs.docker}/bin/docker restart caddy-caddy-1";
+      orderBefore = [ "container-services-caddy" ];
+    };
   };
 }

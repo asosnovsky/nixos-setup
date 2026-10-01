@@ -5,7 +5,7 @@
     ./docker-registry.nix
     ./gitea.nix
     ./gitea-container.nix
-    ./nitw-gc.nix
+    ./public-gitea.nix
     ./acme.nix
     ./portainer.nix
     ./iu.nix

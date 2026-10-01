@@ -1,16 +1,58 @@
-{ pkgs, unstablePkgs, ai-usagebar, hermes-agent, ... }:
+{ pkgs, unstablePkgs, ai-usagebar, hermes-agent, nixarchy, skygUtils, config, ... }:
+let
+  # Omarchy (nixarchy) shell, hand-wired — no nixarchy modules. The shell is
+  # launched from configs/fwbook/hypr/conf/autostart.lua (omarchy-launch-shell).
+  #
+  # Workaround for an upstream bug in nixarchy v4.0.4-1: the omarchy package's
+  # installPhase is one '' string whose least-indented lines are the shell-quoted
+  # omarchy-theme-set patterns (indent 4), so Nix dedents the whole string by 4
+  # and the inline `python3 -c '...'` menu check stays indented -> IndentationError.
+  # Wrap that one invocation so its code is dedented before Python sees it.
+  dedent = "${pkgs.gawk}/bin/awk 'BEGIN{m=9999} {l[NR]=$0; match($0,/^ */); if ($0 ~ /[^ ]/ && RLENGTH<m) m=RLENGTH} END{for(i=1;i<=NR;i++) print substr(l[i],m+1)}'";
+  omarchy = ((pkgs.extend nixarchy.overlays.default).omarchy).overrideAttrs (old: {
+    installPhase = builtins.replaceStrings
+      [ "python3 -c '" "' $menu\n" ]
+      [ "python3 -c \"$(printf '%s' '" "' | ${dedent})\" $menu\n" ]
+      old.installPhase;
+  });
+  # The shell's runtime deps, minus hyprland (we keep the flake's Hyprland).
+  omarchyRuntime = builtins.filter
+    (d: !(pkgs.lib.hasPrefix "hyprland-" (d.name or "")))
+    omarchy.passthru.runtimeDeps;
+  gdk = pkgs.google-cloud-sdk.withExtraComponents (
+    with pkgs.google-cloud-sdk.components;
+    [
+      gke-gcloud-auth-plugin
+      kubectl
+    ]
+  );
+in
 {
+  # The shell resolves everything through OMARCHY_PATH.
+  environment.sessionVariables.OMARCHY_PATH = "${omarchy}/share/omarchy";
+  environment.sessionVariables.OMARCHY_SCREENSHOT_EDITOR = "satty-edit";
+
+  # ~/.config/omarchy -> configs/fwbook/omarchy (same pattern as hypr/noctalia).
+  system.userActivationScripts.omarchyConfig.text =
+    skygUtils.makeHyperlinkScriptToConfigs {
+      filePath = "fwbook/omarchy";
+      targetPath = "omarchy";
+      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
+    };
+
   environment.systemPackages =
-    let
-      gdk = pkgs.google-cloud-sdk.withExtraComponents (
-        with pkgs.google-cloud-sdk.components;
-        [
-          gke-gcloud-auth-plugin
-          kubectl
-        ]
-      );
-    in
-    (with pkgs; [
+    [ omarchy ]
+    ++ omarchyRuntime
+    # Theme application: omarchy-theme-set-gnome writes gsettings, and every
+    # theme names a Yaru icon variant.
+    ++ (with pkgs; [
+      glib
+      gsettings-desktop-schemas
+      gnome-themes-extra
+      yaru-theme
+      adwaita-icon-theme
+    ])
+    ++ (with pkgs; [
       grim
       slurp
       wl-clipboard

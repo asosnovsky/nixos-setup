@@ -40,6 +40,16 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Nixarchy — Omarchy vendored for NixOS. Used only on fwbook, for the
+    # Omarchy shell package (no nixarchy modules; see hosts/fwbook/packages.nix).
+    nixarchy = {
+      url = "github:olafkfreund/nixarchy/v4.0.4-1";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # nixarchy's own home-manager checkouts are unused here; follow ours so
+      # they don't sit in the lock.
+      inputs.home-manager.follows = "home-manager";
+      inputs.home-manager-stable.follows = "home-manager";
+    };
     # Hermes
     hermes-agent.url = "github:NousResearch/hermes-agent";
     # Flatpak
@@ -100,6 +110,7 @@
     , dms
     , dank-greeter
     , noctalia
+    , nixarchy
     , git-hooks
     , nix-index-database
     , agenix
@@ -142,8 +153,6 @@
                 portainer-tls-key = ./secrets/portainer-tls-key.age;
                 stack1 = ./secrets/stack1.age;
                 stack2 = ./secrets/stack2.age;
-                nitw-gc = ./secrets/nitw-gc.age;
-                nitw-gc-home = ./secrets/nitw-gc-home.age;
                 portainer-agent-minipc3 = ./secrets/portainer-agent-minipc3.age;
                 portainer-cert = ./configs/pki/portainer.app.internal.crt;
               };
@@ -155,6 +164,7 @@
                 dms
                 dank-greeter
                 noctalia
+                nixarchy
                 nix-index-database
                 hermes-agent
                 skygqts

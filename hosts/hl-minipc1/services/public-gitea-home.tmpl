@@ -1,0 +1,100 @@
+{{template "base/head" .}}
+<div class="page-content home">
+	<div class="ui container">
+
+		<div class="skyg-hero">
+			<div class="skyg-logo">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 300" role="img" aria-label="SkyG logo">
+					<defs>
+						<linearGradient id="sky" x1="140" y1="24" x2="140" y2="250" gradientUnits="userSpaceOnUse">
+							<stop offset="0" stop-color="#7EBAE4"/>
+							<stop offset="0.42" stop-color="#B7DCF6"/>
+							<stop offset="1" stop-color="#F4FBFF"/>
+						</linearGradient>
+						<linearGradient id="shardA" x1="0" y1="0" x2="1" y2="1">
+							<stop offset="0" stop-color="#7EBAE4"/>
+							<stop offset="1" stop-color="#5277C3"/>
+						</linearGradient>
+						<linearGradient id="shardB" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0" stop-color="#649AFA"/>
+							<stop offset="1" stop-color="#415E9A"/>
+						</linearGradient>
+						<clipPath id="hexClip">
+							<polygon points="146,36 236,86 236,186 146,236 56,186 56,86"/>
+						</clipPath>
+					</defs>
+					<g id="mark">
+						<polygon points="146,28 244,82 244,190 146,244 48,190 48,82" fill="url(#sky)"/>
+						<g clip-path="url(#hexClip)">
+							<path d="M48 168 L86 136 L112 154 L146 118 L176 146 L206 128 L244 162 L244 244 L48 244 Z" fill="#D5EEFB"/>
+							<path d="M92.0 168.0 L120.8 244.0 L100.1 242.3 L92.6 221.5 L77.4 239.1 L66.0 237.5 L61.7 226.5 L85.2 199.6 L76.4 179.7 Z" fill="#7EB1DD"/>
+							<path d="M150.0 108.0 L202.7 204.1 L174.8 205.7 L160.8 179.3 L143.8 205.7 L128.3 205.7 L120.5 191.7 L146.9 151.4 L131.4 126.6 Z" fill="url(#shardA)"/>
+							<path d="M198.0 150.0 L248.4 222.6 L226.1 226.2 L212.7 206.3 L201.3 228.8 L188.8 230.1 L181.4 219.6 L199.2 185.1 L184.7 166.5 Z" fill="url(#shardB)"/>
+							<path d="M56 214 L108 168 L128 190 L146 156 L170 196 L196 166 L230 198 L244 214 L244 244 L56 244 Z" fill="#415E9A" opacity="0.92"/>
+							<path d="M108 168 L128 190 L112 206 Z" fill="#7EBAE4"/>
+							<path d="M170 196 L196 166 L214 188 Z" fill="#649AFA"/>
+							<path d="M132 176 L150 148 L164 170" fill="none" stroke="#F4FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+						</g>
+						<polygon points="146,28 244,82 244,190 146,244 48,190 48,82" fill="none" stroke="#5277C3" stroke-width="3.25" stroke-linejoin="round"/>
+						<g fill="none" stroke="#4A6BAF" stroke-width="1.35" stroke-linecap="round">
+							<path d="M146 62 V78"/>
+							<path d="M146 62 H172 L184 74"/>
+							<path d="M172 62 V50"/>
+						</g>
+						<g fill="#649AFA">
+							<circle cx="146" cy="56" r="3"/>
+							<circle cx="172" cy="62" r="2.1"/>
+							<circle cx="184" cy="74" r="2.1"/>
+							<circle cx="150" cy="108" r="2.4"/>
+						</g>
+					</g>
+					<g id="wordmark">
+						<text x="286" y="176" font-family="Montserrat, Segoe UI, Century Gothic, Futura, sans-serif" font-size="92" font-weight="600" letter-spacing="-1.2" fill="#1E3A66">Sky<tspan fill="#5277C3">G</tspan></text>
+						<path d="M290 196 H408" fill="none" stroke="#7EBAE4" stroke-width="1.7" stroke-linecap="round"/>
+						<circle cx="418" cy="196" r="2.2" fill="#649AFA"/>
+						<path d="M428 196 H452" fill="none" stroke="#7EBAE4" stroke-width="1.7" stroke-linecap="round"/>
+					</g>
+				</svg>
+			</div>
+			<p class="skyg-tagline">Ariel Sosnovsky's Personal Projects and stuff</p>
+		</div>
+
+		<style>
+			.skyg-hero {
+				text-align: center;
+				padding: 56px 12px 24px;
+			}
+			.skyg-logo {
+				max-width: 520px;
+				margin: 0 auto;
+				animation: skyg-rise .7s ease both;
+			}
+			.skyg-logo svg {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+			.skyg-tagline {
+				margin: 24px 0 0;
+				font-size: 1.35rem;
+				font-weight: 500;
+				opacity: .75;
+				animation: skyg-rise .7s .12s ease both;
+			}
+			@keyframes skyg-rise {
+				from { opacity: 0; transform: translateY(14px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+			@media (max-width: 480px) {
+				.skyg-hero { padding-top: 32px; }
+				.skyg-tagline { font-size: 1.1rem; }
+			}
+			@media (prefers-reduced-motion: reduce) {
+				.skyg-logo,
+				.skyg-tagline { animation: none !important; }
+			}
+		</style>
+
+	</div>
+</div>
+{{template "base/footer" .}}

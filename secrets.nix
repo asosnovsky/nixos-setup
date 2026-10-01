@@ -35,10 +35,6 @@ in
   "secrets/stack1.age".publicKeys = [ ari minipc2 ];
   "secrets/stack2.age".publicKeys = [ ari minipc2 ];
 
-  # nitw-gc container definition + landing page — minipc1
-  "secrets/nitw-gc.age".publicKeys = [ ari minipc1 ];
-  "secrets/nitw-gc-home.age".publicKeys = [ ari minipc1 ];
-
   # portainer agent envs
   "secrets/portainer-agent-bigbox1.age".publicKeys = [ ari bigbox1 ];
   "secrets/portainer-agent-minipc1.age".publicKeys = [ ari minipc1 ];

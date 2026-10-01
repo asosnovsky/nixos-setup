@@ -36,7 +36,7 @@ in
       { address = "10.0.101.3"; port = 3000; }
       { address = "10.0.101.3"; port = 8080; }
       { address = "10.0.101.3"; port = 9102; }
-      { address = "10.0.10.6"; port = 3000; }
+      { address = "10.0.101.8"; port = 3000; }
     ];
     publish = [
       { hostPort = ports.hermes; guestPort = 8642; }
