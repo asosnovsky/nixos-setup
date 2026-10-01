@@ -1,0 +1,3 @@
+# Third-party plugin checkouts stay local (own .git, omarchy-plugin-update).
+# shell.json still lists enabled plugin ids; install/clone into plugins/ yourself.
+plugins/

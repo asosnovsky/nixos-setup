@@ -73,6 +73,8 @@ in
         GITEA__server__HTTP_PORT = toString gitea.httpPort;
         GITEA__server__ROOT_URL = "http://${app.effectiveDns}:${toString gitea.httpPort}/";
         GITEA__service__DISABLE_REGISTRATION = "true";
+        GITEA__migrations__ALLOW_LOCALNETWORKS = "true";
+        GITEA__migrations__ALLOWED_DOMAINS = "gitea.skyg.ca,github.com";
       };
       volumes = [
         "${gitea.stateDir}:${gitea.stateDir}"
