@@ -210,6 +210,27 @@
         "type": "github"
       }
     },
+    "buildbot-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "treefmt-nix": "treefmt-nix"
+      },
+      "locked": {
+        "lastModified": 1790494266,
+        "narHash": "sha256-CfIzoqCxhHE6mnV/t0zfFi59kMEh0r3VadbQ8vhF9/0=",
+        "owner": "nix-community",
+        "repo": "buildbot-nix",
+        "rev": "76ac471f531a3d2faa5c47b32a0eea271724ee18",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "buildbot-nix",
+        "type": "github"
+      }
+    },
     "cachix": {
       "inputs": {
         "devenv": [
@@ -1090,7 +1111,7 @@
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_8",
         "nutest": "nutest",
-        "treefmt-nix": "treefmt-nix_2"
+        "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
         "lastModified": 1790696013,
@@ -2440,7 +2461,7 @@
           "devenv",
           "nixpkgs"
         ],
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
         "lastModified": 1788165251,
@@ -3082,6 +3103,7 @@
       "inputs": {
         "agenix": "agenix",
         "ai-usagebar": "ai-usagebar",
+        "buildbot-nix": "buildbot-nix",
         "dank-greeter": "dank-greeter",
         "determinate": "determinate",
         "disko": "disko",
@@ -3453,6 +3475,27 @@
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
+          "buildbot-nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786901030,
+        "narHash": "sha256-WSFCsDSE5ffgD2MqzkM2CYjeFiKhRF/dJUN8uedb6YE=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "27b3b12a8e6375f28ebe122f07d230ca5459bbfa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "treefmt-nix_2": {
+      "inputs": {
+        "nixpkgs": [
           "hermenix",
           "devenv",
           "nixd",
@@ -3473,7 +3516,7 @@
         "type": "github"
       }
     },
-    "treefmt-nix_2": {
+    "treefmt-nix_3": {
       "inputs": {
         "nixpkgs": [
           "hermenix",

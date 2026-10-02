@@ -6,5 +6,6 @@
     ./hermenix.nix
     ./wyoming.nix
     ./steam.nix
+    ./buildbot.nix
   ];
 }

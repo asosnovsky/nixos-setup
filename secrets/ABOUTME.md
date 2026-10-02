@@ -4,16 +4,21 @@ Age-encrypted secret files managed with [agenix](https://github.com/ryantm/ageni
 
 ## Contents
 
-| File                          | Description                                    |
-| ----------------------------- | ---------------------------------------------- |
-| `dns-addresses.conf.age`      | DNS address overrides for the dnsmasq module   |
-| `glmain.json.age`             | OpenWrt router credentials/config for `glmain` |
-| `hermes-env.age`              | Hermes agent env vars (fwbook + fwdesk)        |
-| `hermes-env`                  | Unencrypted working copy of `hermes-env.age`   |
-| `iu-project.age`              | iu-project credentials (minipc1)               |
-| `portainer-agent-bigbox1.age` | Portainer agent env vars (bigbox1)             |
-| `stack1.age`                  | Compose definition for stack1 (minipc2)        |
-| `stack2.age`                  | Compose definition for stack2 (minipc2)        |
+| File                                   | Description                                       |
+| -------------------------------------- | ------------------------------------------------- |
+| `dns-addresses.conf.age`               | DNS address overrides for the dnsmasq module      |
+| `glmain.json.age`                      | OpenWrt router credentials/config for `glmain`    |
+| `hermes-env.age`                       | Hermes agent env vars (fwbook + fwdesk)           |
+| `hermes-env`                           | Unencrypted working copy of `hermes-env.age`      |
+| `iu-project.age`                       | iu-project credentials (minipc1)                  |
+| `portainer-agent-bigbox1.age`          | Portainer agent env vars (bigbox1)                |
+| `stack1.age`                           | Compose definition for stack1 (minipc2)           |
+| `stack2.age`                           | Compose definition for stack2 (minipc2)           |
+| `buildbot-worker-password-minipc3.age` | buildbot-nix worker password (minipc3)            |
+| `buildbot-worker-password-fwdesk.age`  | buildbot-nix worker password (fwdesk)             |
+| `buildbot-gitea-token.age`             | Gitea access token for buildbot (minipc3)         |
+| `buildbot-gitea-webhook-secret.age`    | Gitea webhook secret for buildbot (minipc3)       |
+| `buildbot-gitea-oauth-secret.age`      | Gitea OAuth2 client secret for buildbot (minipc3) |
 
 The authoritative list of names + authorized keys is `secrets.nix` in the repo root.
 

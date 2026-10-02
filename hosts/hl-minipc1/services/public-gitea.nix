@@ -24,6 +24,8 @@ in
         GITEA__server__DOMAIN = domain;
         GITEA__server__ROOT_URL = "https://${domain}/";
         GITEA__server__HTTP_PORT = "80";
+        GITEA__server__SSH_DOMAIN = domain;
+        GITEA__server__SSH_PORT = "22";
         GITEA__service__DISABLE_REGISTRATION = "true";
       };
       volumes = [ "public-gitea-data:/data" ];

@@ -89,6 +89,11 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # CI (buildbot-nix)
+    buildbot-nix = {
+      url = "github:nix-community/buildbot-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
   outputs =
     { self
@@ -119,6 +124,7 @@
     , herdr
     , disko
     , ai-usagebar
+    , buildbot-nix
     }:
     let
       # Libs
@@ -155,6 +161,11 @@
                 stack2 = ./secrets/stack2.age;
                 portainer-agent-minipc3 = ./secrets/portainer-agent-minipc3.age;
                 portainer-cert = ./configs/pki/portainer.app.internal.crt;
+                buildbot-worker-password-minipc3 = ./secrets/buildbot-worker-password-minipc3.age;
+                buildbot-worker-password-fwdesk = ./secrets/buildbot-worker-password-fwdesk.age;
+                buildbot-gitea-token = ./secrets/buildbot-gitea-token.age;
+                buildbot-gitea-webhook-secret = ./secrets/buildbot-gitea-webhook-secret.age;
+                buildbot-gitea-oauth-secret = ./secrets/buildbot-gitea-oauth-secret.age;
               };
               inherit
                 hyprlauncher
@@ -315,6 +326,7 @@
               ./hosts/hl-fwdesk
               nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
               hermenix.nixosModules.default
+              buildbot-nix.nixosModules.buildbot-worker
             ];
           };
           hl-bigbox1 = lib.makeNixOs {
@@ -346,6 +358,8 @@
             hostName = "hl-minipc3";
             configuration = [
               ./hosts/hl-minipc3
+              buildbot-nix.nixosModules.buildbot-master
+              buildbot-nix.nixosModules.buildbot-worker
             ];
           };
           hl-pi1 = lib.makeSdImage {

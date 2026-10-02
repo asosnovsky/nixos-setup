@@ -14,9 +14,20 @@ in
     autoUpdate.enable = true;
     networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
     services.caddy = {
-      image = "caddy:2-alpine";
+      image = "livekit/caddyl4:v2.11.3";
+      extraConfig.entrypoint = [ "caddy" ];
+      command = [ "run" "--config" "/etc/caddy/Caddyfile" "--adapter" "caddyfile" ];
       networks.lan.ipv4_address = app.ip;
       files."/etc/caddy/Caddyfile" = ''
+        {
+          layer4 {
+            :22 {
+              route {
+                proxy ${publicGitea.ip}:22
+              }
+            }
+          }
+        }
         nvr.home.sosnovsky.ca {
           tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
           reverse_proxy ${nvr.ip}:11080

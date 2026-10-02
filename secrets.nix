@@ -42,4 +42,11 @@ in
   "secrets/lab-ca-key.age".publicKeys = [ ari ];
   "secrets/buzz-tls-key.age".publicKeys = [ ari minipc1 ];
   "secrets/portainer-tls-key.age".publicKeys = [ ari minipc2 ];
+
+  # buildbot-nix CI (master on minipc3, workers on minipc3 + fwdesk)
+  "secrets/buildbot-worker-password-minipc3.age".publicKeys = [ ari minipc3 ];
+  "secrets/buildbot-worker-password-fwdesk.age".publicKeys = [ ari minipc3 fwdesk ];
+  "secrets/buildbot-gitea-token.age".publicKeys = [ ari minipc3 ];
+  "secrets/buildbot-gitea-webhook-secret.age".publicKeys = [ ari minipc3 ];
+  "secrets/buildbot-gitea-oauth-secret.age".publicKeys = [ ari minipc3 ];
 }
