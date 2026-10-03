@@ -4,14 +4,14 @@ Custom compose-style container service groups for systemd.
 
 ## Files
 
-| File          | Purpose                                                                             |
-| ------------- | ----------------------------------------------------------------------------------- |
-| `default.nix` | Main module entry point; imports options and wires everything                       |
-| `options.nix` | All `skyg.nixos.common.container-services.*` option declarations                    |
-| `lib.nix`     | Shared helpers (runtime dispatch, path sanitization, env file collection)           |
-| `compose.nix` | YAML composition (mkComposeService, mkComposeAttrs, mkComposeFile, mkOverridesFile) |
-| `files.nix`   | File mounting logic (getAllFiles, mkFileVolumesForService, mkFilesService)          |
-| `systemd.nix` | Systemd unit builders (mkSystemdService, mkPathUnit, mkEnvReloadService)            |
+| File          | Purpose                                                                                       |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| `default.nix` | Main module entry point; imports options and wires everything                                 |
+| `options.nix` | All `skyg.nixos.common.container-services.*` option declarations                              |
+| `lib.nix`     | Shared helpers (runtime dispatch, path sanitization, env file collection)                     |
+| `compose.nix` | YAML composition (mkComposeService, mkComposeAttrs, mkComposeFile, mkOverridesFile)           |
+| `files.nix`   | File mounting logic (getAllFiles, mkFileVolumesForService, mkFilesScriptFile, mkFilesService) |
+| `systemd.nix` | Systemd unit builders (mkSystemdService, mkPathUnit, mkEnvReloadService)                      |
 
 ## How it works
 
@@ -49,5 +49,8 @@ If adding a new per-service option:
   `/run/current-system/sw/bin` (Docker worked without this only because `docker-compose` v2
   talks to the socket directly)
 - Custom files are collected and written by a separate unit (`container-services-<group>-files.service`)
+- The group's unit sets `restartTriggers` to the files-write script, so editing any
+  `files` entry restarts the stack on the next switch (services that read files at
+  startup, like Gitea templates, otherwise keep serving the old content)
 - Env file changes trigger a path unit that restarts the stack (`container-services-<group>-env-reload.*`)
 - Compose files are rendered to the store and staged to `/var/lib/container-services/<group>/compose.yml`

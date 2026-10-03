@@ -81,10 +81,14 @@ in
               else composeLib.mkComposeFile pkgs groupName grpCfg fileVolumes;
             overridesFile = mkOverridesFileFor groupName grpCfg;
             hasFiles = grpCfg.composeFile == null && filesLib.getAllFiles grpCfg != { };
+            # Restart the stack when its files change, so services that read
+            # them at startup (e.g. Gitea templates) pick up the new content.
+            restartTriggers =
+              lib.optional hasFiles (filesLib.mkFilesScriptFile groupName grpCfg pkgs);
           in
           lib.nameValuePair
             "container-services-${groupName}"
-            (systemdLib.mkSystemdService groupName grpCfg effectiveComposeFile overridesFile composeBin runtimeService runtimePkg hasFiles))
+            (systemdLib.mkSystemdService groupName grpCfg effectiveComposeFile overridesFile composeBin runtimeService runtimePkg hasFiles restartTriggers))
         enabledGroups
       // lib.foldAttrs lib.recursiveUpdate { } (
         lib.mapAttrsToList

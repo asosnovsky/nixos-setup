@@ -63,12 +63,18 @@ rec {
     in
     lib.concatStringsSep "\n" writeCommands;
 
+  # The script derivation that writes a group's files. Its store path changes
+  # whenever any file content changes, so it doubles as a systemd restart
+  # trigger for the group's unit.
+  mkFilesScriptFile = groupName: grpCfg: pkgs:
+    pkgs.writeShellScript "write-files-${groupName}" (mkFilesScript groupName grpCfg);
+
   # Create a systemd service that writes files for a group.
   # Only created if the group has files.
   mkFilesService = groupName: grpCfg: pkgs:
     let
       filesMap = getAllFiles grpCfg;
-      scriptFile = pkgs.writeShellScript "write-files-${groupName}" (mkFilesScript groupName grpCfg);
+      scriptFile = mkFilesScriptFile groupName grpCfg pkgs;
     in
     lib.optionalAttrs (filesMap != { }) {
       "container-services-${groupName}-files" = {

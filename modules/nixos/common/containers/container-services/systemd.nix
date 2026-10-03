@@ -3,7 +3,7 @@
 {
   # Create a systemd oneshot service that manages the compose stack.
   # `runtimePkg` is put on PATH because podman-compose shells out to `podman`.
-  mkSystemdService = groupName: grpCfg: composeFile: overridesFile: composeBin: runtimeService: runtimePkg: hasFiles:
+  mkSystemdService = groupName: grpCfg: composeFile: overridesFile: composeBin: runtimeService: runtimePkg: hasFiles: restartTriggers:
     let
       stateDir = grpCfg.stateDir;
       fileServiceDep = if hasFiles then "container-services-${groupName}-files.service" else null;
@@ -26,6 +26,9 @@
       ++ lib.optional hasFiles fileServiceDep;
       requires = [ runtimeService ]
         ++ lib.optional hasFiles fileServiceDep;
+      # Restart the stack when its mounted files change (their content is baked
+      # into the files-write script, so its store path changes on any edit).
+      restartTriggers = restartTriggers;
       path = [ runtimePkg pkgs.coreutils ];
       startLimitIntervalSec = 300; # 5 minutes window
       startLimitBurst = 6; # allow 6 failures before giving up

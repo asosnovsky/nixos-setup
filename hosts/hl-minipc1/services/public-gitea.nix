@@ -30,7 +30,6 @@ in
       };
       volumes = [
         "public-gitea-data:/data"
-        # Local project logos, served by Gitea at /assets/skyg/.
         "${./public-gitea-assets}:/data/custom/public/assets/skyg:ro"
       ];
       files."/data/custom/templates/home.tmpl" =

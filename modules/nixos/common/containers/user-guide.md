@@ -128,7 +128,8 @@ Files are:
 - Written to `/var/lib/container-services/<group>/files/` on the host
 - Mounted read-only into the container at the specified paths
 - Updated automatically when you rebuild
-- Changes trigger an automatic restart (via the `container-services-<group>-files` unit)
+- Changes trigger an automatic restart of the stack on the next `nixos-rebuild switch`
+  (the group's unit uses the files-write script as a `restartTriggers` entry)
 
 ---
 
