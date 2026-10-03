@@ -61,8 +61,43 @@
 
 		<section class="skyg-projects">
 			<h2 class="skyg-projects-title">Projects</h2>
-			<div id="skyg-projects-list" class="skyg-projects-list">
-				<p class="skyg-projects-status">Loading projects…</p>
+			<div class="skyg-projects-list">
+				<a class="skyg-repo" href="https://gitea.skyg.ca/ari/nixos-setup">
+					<span class="skyg-repo-logo">
+						<img src="https://discourse.nixos.org/uploads/default/optimized/3X/d/b/dbc323aade42f2b3a6efb5b3d72ea0a496f9e1aa_2_570x500.png" alt="nixos-setup logo" loading="lazy">
+					</span>
+					<span class="skyg-repo-name">nixos-setup</span>
+				</a>
+				<a class="skyg-repo" href="https://gitea.skyg.ca/ari/homelab">
+					<span class="skyg-repo-logo">
+						<img src="/assets/skyg/homelab.jpg" alt="homelab logo" loading="lazy">
+					</span>
+					<span class="skyg-repo-name">homelab</span>
+				</a>
+				<a class="skyg-repo" href="https://gitea.skyg.ca/ari/Shortumation">
+					<span class="skyg-repo-logo">
+						<img src="https://gitea.skyg.ca/ari/Shortumation/raw/branch/main/logo.png" alt="Shortumation logo" loading="lazy">
+					</span>
+					<span class="skyg-repo-name">Shortumation</span>
+				</a>
+				<a class="skyg-repo" href="https://gitea.skyg.ca/ari/hermenix">
+					<span class="skyg-repo-logo">
+						<img src="/assets/skyg/hermenix.jpg" alt="hermenix logo" loading="lazy">
+					</span>
+					<span class="skyg-repo-name">hermenix</span>
+				</a>
+				<a class="skyg-repo" href="https://gitea.skyg.ca/ari/flic2hass">
+					<span class="skyg-repo-logo">
+						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDAvBCgiUJM60gxt0UazzlhFNNeTHm4RddEaJ_gF4AeWlJTRdDShqenlA&amp;s=10" alt="flic2hass logo" loading="lazy">
+					</span>
+					<span class="skyg-repo-name">flic2hass</span>
+				</a>
+				<a class="skyg-repo" href="https://gitea.skyg.ca/ari/skygqts">
+					<span class="skyg-repo-logo">
+						<img src="https://gitea.skyg.ca/ari/skygqts/raw/branch/main/logo.jpg" alt="skygqts logo" loading="lazy">
+					</span>
+					<span class="skyg-repo-name">skygqts</span>
+				</a>
 			</div>
 		</section>
 
@@ -115,12 +150,15 @@
 			}
 			.skyg-projects-list {
 				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+				grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 				gap: 14px;
 			}
 			.skyg-repo {
-				display: block;
-				padding: 16px 18px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 12px;
+				padding: 18px;
 				border-radius: 14px;
 				border: 1px solid rgba(82, 119, 195, .28);
 				background: rgba(126, 186, 228, .08);
@@ -133,68 +171,29 @@
 				border-color: #5277C3;
 				box-shadow: 0 14px 30px -18px rgba(82, 119, 195, .8);
 			}
+			.skyg-repo-logo {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				height: 120px;
+				border-radius: 10px;
+				overflow: hidden;
+				background: rgba(255, 255, 255, .55);
+			}
+			.skyg-repo-logo img {
+				max-width: 100%;
+				max-height: 100%;
+				object-fit: contain;
+			}
 			.skyg-repo-name {
-				display: block;
 				font-size: 1.05rem;
 				font-weight: 600;
 				color: #5277C3;
+				text-align: center;
 				word-break: break-word;
 			}
-			.skyg-repo-meta {
-				display: block;
-				margin-top: 4px;
-				font-size: .82rem;
-				opacity: .65;
-			}
-			.skyg-repo-desc {
-				margin: 8px 0 0;
-				font-size: .9rem;
-				line-height: 1.4;
-				opacity: .8;
-			}
-			.skyg-projects-status {
-				grid-column: 1 / -1;
-				text-align: center;
-				opacity: .6;
-			}
 		</style>
-
-		<script>
-			(function () {
-				var list = document.getElementById('skyg-projects-list');
-				if (!list) return;
-				var esc = function (value) {
-					return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
-						return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
-					});
-				};
-				fetch('/api/v1/users/ari/repos?limit=50', { headers: { Accept: 'application/json' } })
-					.then(function (res) {
-						if (!res.ok) throw new Error('HTTP ' + res.status);
-						return res.json();
-					})
-					.then(function (repos) {
-						if (!Array.isArray(repos) || repos.length === 0) {
-							list.innerHTML = '<p class="skyg-projects-status">No public projects yet.</p>';
-							return;
-						}
-						list.innerHTML = repos.map(function (repo) {
-							var meta = [];
-							if (repo.language) meta.push(esc(repo.language));
-							if (repo.stars_count) meta.push('★ ' + esc(repo.stars_count));
-							var metaHtml = meta.length ? '<span class="skyg-repo-meta">' + meta.join(' · ') + '</span>' : '';
-							var descHtml = repo.description ? '<p class="skyg-repo-desc">' + esc(repo.description) + '</p>' : '';
-							return '<a class="skyg-repo" href="' + esc(repo.html_url) + '">' +
-								'<span class="skyg-repo-name">' + esc(repo.name) + '</span>' +
-								metaHtml + descHtml +
-								'</a>';
-						}).join('');
-					})
-					.catch(function () {
-						list.innerHTML = '<p class="skyg-projects-status">Could not load projects.</p>';
-					});
-			})();
-		</script>
 
 	</div>
 </div>

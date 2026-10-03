@@ -28,7 +28,11 @@ in
         GITEA__server__SSH_PORT = "22";
         GITEA__service__DISABLE_REGISTRATION = "true";
       };
-      volumes = [ "public-gitea-data:/data" ];
+      volumes = [
+        "public-gitea-data:/data"
+        # Local project logos, served by Gitea at /assets/skyg/.
+        "${./public-gitea-assets}:/data/custom/public/assets/skyg:ro"
+      ];
       files."/data/custom/templates/home.tmpl" =
         builtins.readFile ./public-gitea-home.tmpl;
     };
