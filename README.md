@@ -82,6 +82,8 @@ Supported remote commands: `test`, `dry-activate`, `run`, `switch`, `build`
 
 Example: `skyg remote switch bigbox1` deploys using the `hl-bigbox1` profile to `root@bigbox1.lab.internal`
 
+- **`skyg remote reboot-pending`** - Find every remote with a pending reboot (its booted system differs from its current system) and reboot them. Lists the affected hosts and asks for confirmation, then reboots them one at a time, waiting for each to come back online and sending a desktop notification when it does.
+
 #### Home Manager
 
 - **`skyg hm switch [profile]`** - Apply home-manager configuration (default: `ari`)

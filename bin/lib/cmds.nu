@@ -348,6 +348,160 @@ Report written to ($report_file)"
     print $report
 }
 
+# Poll SSH until the host reaches the desired reachability, or the timeout elapses.
+def wait-for-host [target: string, want_online: bool, timeout: int] {
+    let deadline = (date now) + ($timeout * 1sec)
+    while (date now) < $deadline {
+        let online = (try {
+            bash -c $"ssh -o BatchMode=yes -o ConnectTimeout=3 ($target) 'true' >/dev/null 2>&1"
+            true
+        } catch { false })
+        if $online == $want_online {
+            return true
+        }
+        sleep 3sec
+    }
+    false
+}
+
+# Send a desktop notification if notify-send is available; never fail the caller.
+def notify [title: string, body: string] {
+    try {
+        ^notify-send $title $body
+    } catch { }
+}
+
+# Reboot every remote host that is pending a reboot (booted-system != current-system).
+# Detects pending hosts, lists them, asks for confirmation, then reboots each one at a
+# time, waiting for it to come back online and sending a desktop notification when it does.
+export def "skyg remote reboot-pending" [] {
+    cd $REPO_ROOT
+    mkdir .tmp
+    let current_host = "fwbook"
+    let report_file = ".tmp/reboot-pending-report.txt"
+
+    let all_hosts = remote_targets | where {|h| $h != $current_host }
+    print $"Checking ($all_hosts | length) remotes for pending reboots..."
+
+    # Phase 1: find hosts that are online and pending a reboot
+    mut pending = []
+    mut offline = []
+    mut up_to_date = []
+
+    for host in $all_hosts {
+        let target = $"root@($host).lab.internal"
+        let online = (try {
+            bash -c $"ssh -o BatchMode=yes -o ConnectTimeout=3 -o StrictHostKeyChecking=accept-new ($target) 'true' >/dev/null 2>&1"
+            true
+        } catch { false })
+
+        if not $online {
+            print $"(ansi yellow)OFFLINE(ansi reset): ($host)"
+            $offline = ($offline | append $host)
+            continue
+        }
+
+        let info = (try {
+            let booted = bash -c $"ssh -o BatchMode=yes ($target) 'readlink /run/booted-system' 2>/dev/null" | str trim
+            let current = bash -c $"ssh -o BatchMode=yes ($target) 'readlink /run/current-system' 2>/dev/null" | str trim
+            {booted: $booted, current: $current, pending: ($booted != $current)}
+        } catch {
+            {booted: "", current: "", pending: false}
+        })
+
+        if $info.pending {
+            print $"(ansi blue)REBOOT PENDING(ansi reset): ($host) booted=($info.booted | path basename) current=($info.current | path basename)"
+            $pending = ($pending | append $host)
+        } else {
+            print $"(ansi green)UP TO DATE(ansi reset): ($host)"
+            $up_to_date = ($up_to_date | append $host)
+        }
+    }
+
+    if ($pending | length) == 0 {
+        print ""
+        print "No remotes are pending a reboot."
+        return
+    }
+
+    # Phase 2: confirm before rebooting anything
+    print ""
+    print $"(ansi yellow_bold)($pending | length) remote\(s\) pending a reboot:(ansi reset)"
+    for host in $pending {
+        print $"  - ($host)"
+    }
+    print ""
+    let confirm = (input $"Reboot these ($pending | length) host\(s\)? [y/N]: " | str trim | str downcase)
+    if not ($confirm in ["y" "yes"]) {
+        print "Aborted — no hosts were rebooted."
+        return
+    }
+
+    # Phase 3: reboot each pending host one at a time, waiting for it to come back
+    mut rebooted = []
+    mut failed = []
+    for host in $pending {
+        let target = $"root@($host).lab.internal"
+        print $"\n=== Rebooting ($host) ==="
+
+        # Capture the boot id so we can confirm the host actually rebooted.
+        let boot_id_before = (try {
+            bash -c $"ssh -o BatchMode=yes ($target) 'cat /proc/sys/kernel/random/boot_id' 2>/dev/null" | str trim
+        } catch { "" })
+
+        let runcmd = $"ssh -o BatchMode=yes -o ConnectTimeout=5 ($target) 'systemctl reboot'"
+        print $runcmd
+        # The SSH connection drops as the host shuts down, so a non-zero exit is
+        # expected here and does not mean the reboot failed.
+        try {
+            bash -c $"($runcmd) 2>/dev/null"
+        } catch { }
+
+        print $"Waiting for ($host) to shut down..."
+        let went_down = (wait-for-host $target false 90)
+        if not $went_down {
+            print $"(ansi yellow)($host) did not go offline within 90s — continuing to wait for it to come back.(ansi reset)"
+        }
+
+        print $"Waiting for ($host) to come back online..."
+        let came_up = (wait-for-host $target true 300)
+        if $came_up {
+            let boot_id_after = (try {
+                bash -c $"ssh -o BatchMode=yes ($target) 'cat /proc/sys/kernel/random/boot_id' 2>/dev/null" | str trim
+            } catch { "" })
+            let confirmed = ($boot_id_before != "" and $boot_id_after != "" and $boot_id_before != $boot_id_after)
+            if $confirmed {
+                print $"(ansi green)($host) is back online (reboot confirmed)(ansi reset)"
+            } else {
+                print $"(ansi green)($host) is back online(ansi reset)"
+            }
+            notify $"✅ ($host) rebooted" "Back online and reachable"
+            $rebooted = ($rebooted | append $host)
+        } else {
+            print $"(ansi red)($host) did not come back online within 300s(ansi reset)"
+            notify $"❌ ($host) did not come back" "Still unreachable after 300s"
+            $failed = ($failed | append $host)
+        }
+    }
+
+    # Write report
+    let timestamp = date now | format date "%Y-%m-%d %H:%M:%S"
+    let report = $"Reboot-Pending Report - ($timestamp)
+
+Total hosts considered: ($all_hosts | length)
+Pending reboot: ($pending | length) - ($pending | str join ', ')
+Rebooted: ($rebooted | length) - ($rebooted | str join ', ')
+Failed to return: ($failed | length) - ($failed | str join ', ')
+Offline: ($offline | length) - ($offline | str join ', ')
+Up to date: ($up_to_date | length) - ($up_to_date | str join ', ')
+"
+
+    $report | save -f $report_file
+    print $"
+Report written to ($report_file)"
+    print $report
+}
+
 # Deploy OpenWrt router configuration
 export def "skyg openwrt" [
     router: string = "glmain",
