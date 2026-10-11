@@ -26,6 +26,18 @@ let
       kubectl
     ]
   );
+  # Resolve bundles its own Qt5, which has no wayland platform plugin. The
+  # Hyprland session exports QT_QPA_PLATFORM=wayland globally
+  # (configs/fwbook/hypr/conf/env.lua), so Resolve aborts at startup. Force
+  # xcb — Resolve is X11-only and runs under XWayland anyway.
+  davinci-resolve-wrapped = pkgs.symlinkJoin {
+    name = "davinci-resolve";
+    paths = [ pkgs.davinci-resolve ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/davinci-resolve --set QT_QPA_PLATFORM xcb
+    '';
+  };
 in
 {
   # The shell resolves everything through OMARCHY_PATH.
@@ -89,7 +101,7 @@ in
       wineWow64Packages.waylandFull
 
       obs-studio
-      davinci-resolve
+      davinci-resolve-wrapped
       grim
       slurp
       wl-clipboard
@@ -166,5 +178,6 @@ in
 
       skygqts
       hermenix
+      config.services.hyprland-headless-stream.package
     ]);
 }
