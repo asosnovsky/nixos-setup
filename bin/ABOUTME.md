@@ -11,7 +11,8 @@ bin/
 ├── temp-monitor            # NuShell script: collect CPU/GPU temps to CSV + optional graph
 ├── TEMP_MONITOR_README.md  # Usage docs for temp-monitor
 └── lib/
-    ├── cmds.nu    # All subcommand implementations (NuShell — source of truth); commands only
+    ├── cmds.nu    # Core subcommand implementations (NuShell — source of truth); commands only
+    ├── remote.nu  # `skyg remote*` commands (deploy, install, boot-all, status, reboot-pending)
     ├── helpers.nu # Shared helpers: REPO_ROOT const + internal functions used by commands
     ├── profile.nu # Profile helpers and tab-completion data
     └── types.nu   # Type definitions + tab-completion data
@@ -46,4 +47,4 @@ bin/
 ## Agent Note
 
 > **Never invoke `skyg` commands that trigger builds or switches.**
-> Only the user runs these. Edits to `cmds.nu` are safe if the user asks for CLI changes.
+> Only the user runs these. Edits to `cmds.nu` / `remote.nu` are safe if the user asks for CLI changes.
