@@ -105,7 +105,7 @@ export def "skyg remote" [
     }
     $"Using [(ansi green_bold)($profile)(ansi reset)]" | print
     $"($cmd) on ($target_host) with ($profile)" | print
-    mut runcmd = $"nh os ($cmd) --target-host ($target_host) --ask .#($profile)"
+    mut runcmd = $"nh os ($cmd) --no-nom --target-host ($target_host) --ask .#($profile)"
     if $build_host != "" {
         $runcmd = $"($runcmd) --build-host ($build_host).lab.internal"
     }

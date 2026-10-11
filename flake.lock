@@ -1144,6 +1144,26 @@
         "type": "github"
       }
     },
+    "hhstream": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791559962,
+        "narHash": "sha256-LKr7B5TBfusmRxgJlWwhZTS4d69wFLRwFZ/y59wciOk=",
+        "ref": "refs/heads/main",
+        "rev": "934774f15ea36ec6f9e4005d6669729520265032",
+        "revCount": 53,
+        "type": "git",
+        "url": "ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -3115,6 +3135,7 @@
         "herdr": "herdr",
         "hermenix": "hermenix",
         "hermes-agent": "hermes-agent",
+        "hhstream": "hhstream",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",
         "hyprlauncher": "hyprlauncher",

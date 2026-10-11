@@ -77,13 +77,13 @@ let
 in
 stdenv.mkDerivation {
   pname = "colibri" + lib.optionalString (backend == "rocm") "-rocm";
-  version = "1.12.1";
+  version = "2.0.0";
 
   src = fetchFromGitHub {
     owner = "JustVugg";
     repo = "colibri";
-    rev = "1c59bff28738f808b130d14758d5a76fc7047e0d"; # tag v1.5.0
-    hash = "sha256-A2+k57KNvTBKWe8Ts1XrQaJn5X7C5G5TLFo+5Uu5Mkk=";
+    rev = "a7f535a9b34ffa31a4eef18c8a0bb6775c973a6e"; # tag v1.5.0
+    hash = "sha256-4gxlmTiB3RfWdeqQfkr6nstBrQktRA0jUP7TY29KpM0=";
   };
 
   nativeBuildInputs = [ makeWrapper ];

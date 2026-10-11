@@ -3,6 +3,7 @@ let
   ports = {
     hermes = 8642;
     hermesDashboard = 9119;
+    hhstreamView = 9988;
     hermesCache = 5001;
     ollama = 11434;
     ds4 = 8000;
@@ -41,6 +42,7 @@ in
     publish = [
       { hostPort = ports.hermes; guestPort = 8642; }
       { hostPort = ports.hermesDashboard; guestPort = 9119; }
+      { hostPort = ports.hhstreamView; guestPort = ports.hhstreamView; }
     ];
   };
 }

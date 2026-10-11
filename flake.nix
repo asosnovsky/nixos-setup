@@ -4,6 +4,11 @@
     skygqts.url = "git+ssh://gitea@gitea.app.internal:22/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
     hermenix.url = "git+ssh://gitea@gitea.app.internal:22/ari/hermenix.git";
+    # Headless Hyprland session streamed over a Unix socket.
+    hhstream = {
+      url = "git+ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     systems.url = "github:nix-systems/default";
@@ -99,6 +104,7 @@
     { self
     , skygqts
     , hermenix
+    , hhstream
     , nixpkgs-unstable
     , flox
     , determinate
@@ -180,6 +186,7 @@
                 hermes-agent
                 skygqts
                 hermenix
+                hhstream
                 flox
                 determinate
                 tether

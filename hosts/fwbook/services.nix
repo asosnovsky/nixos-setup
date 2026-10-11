@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, config, ... }:
+{ pkgs, unstablePkgs, config, hyprland, ... }:
 {
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
@@ -53,4 +53,9 @@
     "modesetting"
     "fbdev"
   ];
+  services.hyprland-headless-stream = {
+    enable = true;
+    hyprlandPackage = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    sessions.enable = true;
+  };
 }
