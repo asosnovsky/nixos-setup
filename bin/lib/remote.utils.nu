@@ -34,3 +34,27 @@ export def get-remote-boot-info [ host: string@remote_targets ] {
       {host: $host, status: "error", booted: "", current: "", reboot_pending: false, needs_build: false, local_toplevel: ""}
   })
 }
+
+
+# Poll SSH until the host reaches the desired reachability, or the timeout elapses.
+def wait-for-host [target: string, want_online: bool, timeout: int] {
+    let deadline = (date now) + ($timeout * 1sec)
+    while (date now) < $deadline {
+        let online = (try {
+            bash -c $"ssh -o BatchMode=yes -o ConnectTimeout=3 ($target) 'true' >/dev/null 2>&1"
+            true
+        } catch { false })
+        if $online == $want_online {
+            return true
+        }
+        sleep 3sec
+    }
+    false
+}
+
+# Send a desktop notification if notify-send is available; never fail the caller.
+def notify [title: string, body: string] {
+    try {
+        ^notify-send $title $body
+    } catch { }
+}
