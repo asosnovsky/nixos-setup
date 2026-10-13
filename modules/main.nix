@@ -109,6 +109,7 @@ in
         audiobooks = { ip = "10.0.101.4"; };
         gitea = { ip = "10.0.101.8"; };
         public-gitea = { ip = "10.0.101.9"; };
+        immich = { ip = "10.0.101.10"; };
         jellyfin = { ip = "10.0.101.5"; };
         nvr = { ip = "10.0.101.6"; };
         portainer = { ip = "10.0.101.241"; };
@@ -118,6 +119,7 @@ in
             "nvr.home.sosnovsky.ca"
             "jellyfin.home.sosnovsky.ca"
             "portainer.home.sosnovsky.ca"
+            "immich.home.sosnovsky.ca"
             "gitea.skyg.ca"
           ];
         };

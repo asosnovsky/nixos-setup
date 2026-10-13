@@ -1,12 +1,6 @@
-{ config, ... }:
+{ config, skygUtils, ... }:
 let
-  nfsVolume = exportPath: {
-    driver_opts = {
-      type = "nfs";
-      o = "addr=tnas1.lab.internal,rw,nfsvers=4.0,nolock,hard,noatime";
-      device = ":${exportPath}";
-    };
-  };
+  nfsVolume = skygUtils.container-services.nfs.tnas1;
   app = config.skyg.internalNetworkingMap.apps.buzz;
   buzz = {
     domain = app.effectiveDns;

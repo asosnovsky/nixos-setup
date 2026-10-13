@@ -6,6 +6,7 @@ let
   terra1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHBKI8gqd7DDubShle4D3JGq61BP1NBKCZ81V3C9uyym root@nixos";
   fwdesk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHbBcdMpNPaELUzHRIoRkTUQde+mBQ87Ra2R+974FuUy root@hl-fwdesk";
   bigbox1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl5xiH4aFlmDWdoU+KmERLYOeOQK2aKP7jenY2G3rFb root@nixos";
+  bigbox2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6l6VqQ23PkGkWVABBoLp1KA6PzkX5oKTy5RBHbQXet root@hl-bigbox2";
 in
 {
   "secrets/dns-addresses.conf.age".publicKeys = [
@@ -49,4 +50,7 @@ in
   "secrets/buildbot-gitea-token.age".publicKeys = [ ari minipc3 ];
   "secrets/buildbot-gitea-webhook-secret.age".publicKeys = [ ari minipc3 ];
   "secrets/buildbot-gitea-oauth-secret.age".publicKeys = [ ari minipc3 ];
+
+  # immich
+  "secrets/immich-shared.age".publicKeys = [ ari bigbox2 ];
 }

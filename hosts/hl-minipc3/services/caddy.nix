@@ -3,6 +3,7 @@ let
   app = config.skyg.internalNetworkingMap.apps.caddy;
   nvr = config.skyg.internalNetworkingMap.apps.nvr;
   jellyfin = config.skyg.internalNetworkingMap.apps.jellyfin;
+  immich = config.skyg.internalNetworkingMap.apps.immich;
   portainer = config.skyg.internalNetworkingMap.apps.portainer;
   publicGitea = config.skyg.internalNetworkingMap.apps.public-gitea;
   certDomain = "home.sosnovsky.ca";
@@ -35,6 +36,10 @@ in
         jellyfin.home.sosnovsky.ca {
           tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
           reverse_proxy bigbox1.lab.internal:8096
+        }
+        immich.home.sosnovsky.ca {
+          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
+          reverse_proxy ${immich.ip}:2283
         }
         portainer.home.sosnovsky.ca {
           tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem

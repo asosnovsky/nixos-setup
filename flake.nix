@@ -172,6 +172,7 @@
                 buildbot-gitea-token = ./secrets/buildbot-gitea-token.age;
                 buildbot-gitea-webhook-secret = ./secrets/buildbot-gitea-webhook-secret.age;
                 buildbot-gitea-oauth-secret = ./secrets/buildbot-gitea-oauth-secret.age;
+                immich-shared = ./secrets/immich-shared.age;
               };
               inherit
                 hyprlauncher

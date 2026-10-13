@@ -1,16 +1,7 @@
-{ config, lib, pkgs, ... }:
-let
-  ports = {
-    nixServe = 5000;
-    lockdPort = 4001;
-    mountdPort = 4002;
-    statdPort = 4000;
-  };
-  openPorts = builtins.attrValues ports;
-in
+{ lib, ... }:
 {
   imports = [
-    ./services.nix
+    ./services
     ./hardware-configuration
     ./hardware.nix
   ];
@@ -23,6 +14,11 @@ in
     nixos.common = {
       ssh-server.enable = true;
       containers.openMetricsPort = true;
+      containers.networks.ipvlanLab = {
+        enable = true;
+        parent = "enp3s0";
+      };
+      cachePush.enable = false;
     };
     server.exporters.enable = true;
     networkDrives = {
@@ -30,6 +26,4 @@ in
       bigBox2.enable = false;
     };
   };
-
-  skyg.nixos.common.cachePush.enable = false;
 }

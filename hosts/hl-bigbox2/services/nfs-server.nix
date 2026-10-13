@@ -1,7 +1,6 @@
 { ... }:
 let
   ports = {
-    nixServe = 5000;
     lockdPort = 4001;
     mountdPort = 4002;
     statdPort = 4000;
@@ -9,12 +8,6 @@ let
   openPorts = builtins.attrValues ports;
 in
 {
-  services.nix-serve = {
-    enable = true;
-    secretKeyFile = "/home/ari/cache-keys/cache-priv-key.pem";
-    port = ports.nixServe;
-  };
-
   skyg.nixos.common.networking.nfsServer.enable = true;
   services.nfs.server = {
     lockdPort = ports.lockdPort;

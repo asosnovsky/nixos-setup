@@ -2,7 +2,6 @@
 , lib
 , pkgs
 , skygUtils
-, unstablePkgs
 , ...
 }:
 let

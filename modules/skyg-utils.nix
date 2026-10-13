@@ -67,4 +67,18 @@
         '';
       };
     };
+  container-services = rec {
+	 	makeNfsVolumeFactory = host: exportPath: {
+	    driver_opts = {
+	      type = "nfs";
+	      o = "addr=${host},rw,nfsvers=4.0,nolock,hard,noatime";
+	      device = ":${exportPath}";
+	    };
+	  };
+		nfsVols = {
+			terra1 = makeNfsVolumeFactory "terra1.lab.internal";
+			tnas1 = makeNfsVolumeFactory "tnas1.lab.internal";
+			bigbox2 = makeNfsVolumeFactory "bigbox2.lab.internal";
+		};
+  };
 }
