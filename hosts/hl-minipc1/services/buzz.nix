@@ -1,6 +1,6 @@
 { config, skygUtils, ... }:
 let
-  nfsVolume = skygUtils.container-services.nfs.tnas1;
+  nfsVolume = skygUtils.container-services.nfsVols.tnas1;
   app = config.skyg.internalNetworkingMap.apps.buzz;
   buzz = {
     domain = app.effectiveDns;

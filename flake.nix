@@ -160,6 +160,7 @@
               skyg-secrets = {
                 buzz-env = ./secrets/buzz-env.age;
                 cloudflare-dns = ./secrets/cloudflare-dns.age;
+                cloudflare-ddclient = ./secrets/cloudflare-ddclient.age;
                 portainer-agent-minipc1 = ./secrets/portainer-agent-minipc1.age;
                 portainer-agent-bigbox1 = ./secrets/portainer-agent-bigbox1.age;
                 portainer-tls-key = ./secrets/portainer-tls-key.age;

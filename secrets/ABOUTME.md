@@ -19,6 +19,7 @@ Age-encrypted secret files managed with [agenix](https://github.com/ryantm/ageni
 | `buildbot-gitea-token.age`             | Gitea access token for buildbot (minipc3)         |
 | `buildbot-gitea-webhook-secret.age`    | Gitea webhook secret for buildbot (minipc3)       |
 | `buildbot-gitea-oauth-secret.age`      | Gitea OAuth2 client secret for buildbot (minipc3) |
+| `cloudflare-ddclient.age`              | Cloudflare DNS API token for ddclient (minipc1)   |
 
 The authoritative list of names + authorized keys is `secrets.nix` in the repo root.
 

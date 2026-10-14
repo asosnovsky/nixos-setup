@@ -7,6 +7,7 @@
     ./gitea-container.nix
     ./public-gitea.nix
     ./acme.nix
+    ./ddclient.nix
     ./portainer.nix
     ./iu.nix
     ./audiobookshelf.nix
