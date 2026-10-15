@@ -8,6 +8,8 @@ let
   publicGitea = config.skyg.internalNetworkingMap.apps.public-gitea;
   certDomain = "home.sosnovsky.ca";
   giteaCertDomain = "gitea.skyg.ca";
+  # k8s Traefik ingress — fallback for hosts caddy doesn't handle itself.
+  k8sIngress = "10.0.100.1";
 in
 {
   skyg.nixos.common.container-services.caddy = {
@@ -48,6 +50,18 @@ in
         gitea.skyg.ca {
           tls /etc/caddy/tls/gitea/fullchain.pem /etc/caddy/tls/gitea/key.pem
           reverse_proxy ${publicGitea.ip}:80
+        }
+        # Fallback: any other *.home.sosnovsky.ca host goes to the k8s Traefik.
+        # Host + SNI are preserved so Traefik routes on the original hostname.
+        *.home.sosnovsky.ca {
+          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
+          reverse_proxy https://${k8sIngress}:443 {
+            header_up Host {http.request.host}
+            transport http {
+              tls
+              tls_server_name {http.request.host}
+            }
+          }
         }
       '';
       volumes = [

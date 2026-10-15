@@ -12,7 +12,7 @@ let
     POSTGRES_DB = "immich";
     DB_DATABASE_NAME = "immich";
   };
-  nfsVolume = skygUtils.container-services.nfs.tnas1;
+  nfsVolume = skygUtils.container-services.nfsVols.tnas1;
 in
 {
   age.secrets.immich-shared.file = skyg-secrets.immich-shared;
