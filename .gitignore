@@ -1,5 +1,7 @@
 *.AppImage
 
+.pytest_cache
+
 # Devenv
 .devenv*
 devenv.local.nix
@@ -33,3 +35,10 @@ docs
 
 # worktrees
 .branches
+
+# agents
+.commandcode
+.delta
+.claude
+.mnt
+.pi

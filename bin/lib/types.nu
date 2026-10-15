@@ -4,7 +4,7 @@ export def hm-actions [] {
     ["switch", "build"]
 }
 
-export def remote-cmds [] {
+export def os-actions [] {
     [
         "test"
         "dry-activate"
@@ -36,4 +36,26 @@ export def html-tpl-files [] {
     glob "**/*.tmpl"
     | each {|f| $f | path relative-to $REPO_ROOT }
     | sort
+}
+
+# Flake input names from flake.nix
+export def flake-inputs [] {
+    cd $REPO_ROOT
+    open flake.nix
+    | lines
+    | where {|l| $l =~ '^\s+\w+\.url\s*=' }
+    | each {|l| $l | str trim | split row "." | first }
+    | uniq
+}
+
+# OpenWrt router names from openwrt-routers/*.nix
+export def router-names [] {
+    cd $REPO_ROOT
+    glob openwrt-routers/*.nix | each {|f| $f | path basename | str replace ".nix" "" }
+}
+
+# CA recipient names from secrets.nix
+export def ca-recipients [] {
+    cd $REPO_ROOT
+    ^cat secrets.nix | parse --regex '(\w+) = "ssh-' | get capture0
 }

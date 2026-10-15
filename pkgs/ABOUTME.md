@@ -29,9 +29,9 @@ Packages here are exposed via an overlay defined in `modules/core/default.nix`.
 
 Each package can have an `update.sh` script that automates version bumps.
 
-- **`skyg pkgs bump <pkg-name> <version>`** — bump a specific package to a specific version.
 - **`skyg pkgs update --all`** — auto-detect the latest version for all packages that have `update.sh`.
 - **`skyg pkgs update <pkg-name>`** — auto-detect the latest version for a single package.
+- **`skyg pkgs update <pkg-name> <version>`** — bump a specific package to a specific version.
 
 Each `update.sh` supports two modes:
 

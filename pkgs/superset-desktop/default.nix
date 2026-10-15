@@ -23,11 +23,11 @@
 
 let
   pname = "superset-desktop";
-  version = "1.37.0";
+  version = "1.38.0";
 
   src = fetchurl {
     url = "https://github.com/superset-sh/superset/releases/download/desktop-v${version}/superset-${version}-x86_64.AppImage";
-    hash = "sha256-kWVH+BsZxUGgHwWL6RjjhRjHQ7+vH4LEIM1FAdsGyKo=";
+    hash = "sha256-F0Dka9zVsbtsPlmSgaQo/hh2z4qc9Sf/cOIV5HubrSw=";
   };
 
   extracted = appimageTools.extractType2 {

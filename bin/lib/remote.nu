@@ -5,7 +5,7 @@ use remote.utils.nu *
 
 # Deploy to remote machine
 export def "skyg remote" [
-    cmd: string@remote-cmds,
+    cmd: string@os-actions,
     target: string@remote_targets = "",
     --build-host: string@remote_targets = "", # Optional remote builder host (e.g. builder.lab.internal)
 ] {
@@ -183,12 +183,21 @@ Report written to ($report_file)"
     print $report
 }
 
-export def "skyg remote status" [ target: string@remote_targets ] {
-	get-remote-boot-info $target
+export def "skyg remote status" [
+    target?: string@remote_targets,
+    --all  # Check status of all remote hosts
+] {
+    if $all {
+        skyg remote status-all
+    } else if $target != null {
+        get-remote-boot-info $target
+    } else {
+        error make {msg: "Specify a target host or use --all"}
+    }
 }
 
 # Check status of all remotes: generation, pending reboot, needs rebuild
-export def "skyg remote status all" [] {
+export def "skyg remote status-all" [] {
     cd $REPO_ROOT
     mkdir .tmp
     let current_host = "fwbook"

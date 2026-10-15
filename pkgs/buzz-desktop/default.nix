@@ -23,11 +23,11 @@
 
 let
   pname = "buzz-desktop";
-  version = "0.5.27";
+  version = "0.5.28";
 
   src = fetchurl {
     url = "https://github.com/block/buzz/releases/download/desktop-v${version}/Buzz_${version}_amd64.AppImage";
-    hash = "sha256-GVlFK6n3yCuMZH0fySHrZSqQ4AdypGq9q9yr1o2tmyg=";
+    hash = "sha256-YCI6wn2HQiJqC149teH5dEGyZ/9jq7kFeTsz/mVoh0w=";
   };
 
   extracted = appimageTools.extractType2 {
