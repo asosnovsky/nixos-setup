@@ -10,6 +10,7 @@ export use flake.nu *
 export use build.nu *
 export use render.nu *
 export use hm.nu *
+export use net.nu *
 
 export def skyg [] {
     print $REPO_ROOT

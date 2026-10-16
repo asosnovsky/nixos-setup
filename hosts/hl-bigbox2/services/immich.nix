@@ -34,7 +34,7 @@ in
       environmentFiles = [ config.age.secrets.immich-shared.path ];
       environment = envVars;
       deploy.resources.limits = {
-        cpus = "2";
+        cpus = "4";
         memory = "8G";
       };
       networks = {
