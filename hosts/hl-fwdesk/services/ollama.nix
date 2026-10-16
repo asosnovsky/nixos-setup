@@ -3,8 +3,6 @@ let
   ports = { ollama = 11434; };
 in
 {
-  services.open-webui.enable = true;
-
   users.users.ollama = {
     enable = true;
     home = "/var/lib/ollama";

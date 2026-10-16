@@ -4,6 +4,7 @@ let
     hermes = 8642;
     hermesDashboard = 9119;
     hhstreamView = 9988;
+    hermenixDocs = 9989;
     hermesCache = 5001;
     ollama = 11434;
     ds4 = 8000;
@@ -43,6 +44,7 @@ in
       { hostPort = ports.hermes; guestPort = 8642; }
       { hostPort = ports.hermesDashboard; guestPort = 9119; }
       { hostPort = ports.hhstreamView; guestPort = ports.hhstreamView; }
+      { hostPort = ports.hermenixDocs; guestPort = 80; }
     ];
   };
 }
