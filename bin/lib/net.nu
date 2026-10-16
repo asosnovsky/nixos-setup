@@ -1,7 +1,10 @@
 use profile.nu *
+use helpers.nu [REPO_ROOT]
 
 const NIC_SCRIPT = path self | path dirname | path join "net-nic.sh"
 const SSH_OPTS = ["-o" "BatchMode=yes" "-o" "ConnectTimeout=5" "-o" "StrictHostKeyChecking=accept-new"]
+const CHECKS_DIR = $REPO_ROOT | path join ".tmp" "net-checks"
+const SERVER_CACHE = $CHECKS_DIR | path join "server.nuon"
 
 def local-hostname [] {
     ^cat /proc/sys/kernel/hostname | str trim
@@ -63,13 +66,55 @@ def probe-nic [device: string] {
     | reduce --fold {} {|it, acc| $acc | upsert $it.key ($it.value | str trim) }
 }
 
-# Closest speedtest.net server to this machine, as {id, rest}, or null.
-def closest-server [] {
+# Nearby speedtest.net servers as [{id, rest}], closest first.
+def list-servers [] {
     let r = (^bash -c "nix-shell -p speedtest-go --run 'speedtest-go --list'" | complete)
     $r.stdout
     | lines
     | parse --regex '^\[(?P<id>\d+)\]\s+(?P<rest>.*)$'
-    | get 0?
+}
+
+def save-server [s: record] {
+    mkdir $CHECKS_DIR
+    $s | save --force $SERVER_CACHE
+}
+
+# Server id to use for all devices: the saved one (asks if you want to change it),
+# or the closest one on first run. Returns "" if none could be found.
+def pick-server [] {
+    # ^cat, not open: open may be aliased (e.g. to xdg-open) in the user's config.
+    let saved = if ($SERVER_CACHE | path exists) { try { ^cat $SERVER_CACHE | from nuon } catch { null } } else { null }
+
+    if $saved == null {
+        print "Finding the closest speedtest server (shared by all devices)..."
+        let s = (list-servers | get 0?)
+        if $s == null {
+            print $"(ansi yellow)Could not list servers; each device will pick its own.(ansi reset)"
+            return ""
+        }
+        save-server $s
+        print $"Using server ($s.id): ($s.rest) \(saved to ($SERVER_CACHE)\)"
+        return $s.id
+    }
+
+    print $"Saved server ($saved.id): ($saved.rest)"
+    let ans = (input "Change server? [y/N] " | str trim | str downcase)
+    if $ans not-in ["y" "yes"] { return $saved.id }
+
+    print "Listing speedtest servers..."
+    let servers = (list-servers)
+    if ($servers | is-empty) {
+        print $"(ansi yellow)Could not list servers; keeping saved server.(ansi reset)"
+        return $saved.id
+    }
+    let s = ($servers | input list --fuzzy --display {|x| $"[($x.id)] ($x.rest)" } "Pick a server (closest first)")
+    if $s == null {
+        print "No server picked; keeping saved server."
+        return $saved.id
+    }
+    save-server $s
+    print $"Using server ($s.id): ($s.rest)"
+    $s.id
 }
 
 # Run speedtest-go on a device. Assumes dl_speed/ul_speed are bytes/s and latency is ns.
@@ -106,6 +151,7 @@ export def "skyg net check" [
     device?: string@net-targets, # Only check this device (default: all devices)
     --server: string = "",       # speedtest.net server id (default: closest to this machine)
     --no-speedtest,              # Only report network card details
+    --save: path,                # Also save the table here (format from extension: .csv, .json, .nuon, .md, ...)
 ] {
     let all = (net-targets)
     let devices = if $device == null { $all } else {
@@ -115,17 +161,7 @@ export def "skyg net check" [
         [$device]
     }
 
-    mut server_id = $server
-    if (not $no_speedtest) and $server_id == "" {
-        print "Finding the closest speedtest server (shared by all devices)..."
-        let s = (closest-server)
-        if $s == null {
-            print $"(ansi yellow)Could not list servers; each device will pick its own.(ansi reset)"
-        } else {
-            $server_id = $s.id
-            print $"Using server ($s.id): ($s.rest)"
-        }
-    }
+    let server_id = if (not $no_speedtest) and $server == "" { pick-server } else { $server }
 
     let total = ($devices | length)
     mut rows = []
@@ -173,5 +209,28 @@ export def "skyg net check" [
     }
 
     print $"Done: checked ($total) device\(s\)."
+
+    mkdir $CHECKS_DIR
+    let auto_file = ($CHECKS_DIR | path join $"(date now | format date '%Y.%m.%d_%H_%M_%S').nuon")
+    $rows | save --force $auto_file
+    print $"Saved to ($auto_file)"
+    if $save != null {
+        $rows | save --force $save
+        print $"Saved to ($save | path expand)"
+    }
+    print $"Show the last table again with: (ansi green_bold)skyg net last(ansi reset)"
+
     $rows
+}
+
+# Show the table from the most recent `skyg net check` run.
+export def "skyg net last" [] {
+    # glob and ^cat, not ls/open: they may be aliased (e.g. to eza/xdg-open) in the user's config.
+    let files = (glob ($CHECKS_DIR | path join "*.nuon") | where {|f| $f != $SERVER_CACHE })
+    if ($files | is-empty) {
+        error make {msg: $"No saved net checks in ($CHECKS_DIR). Run `skyg net check` first."}
+    }
+    let latest = ($files | sort | last)
+    print $"From ($latest)"
+    ^cat $latest | from nuon
 }
