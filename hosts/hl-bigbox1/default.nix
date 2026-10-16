@@ -10,14 +10,14 @@
   skyg = {
     user.enable = true;
     server.admin.enable = true;
-    server.exporters.enable = true;
+
     nixos = {
       desktop = {
         enable = false;
         gnome.enable = false;
       };
       common.ssh-server.enable = true;
-      common.containers.openMetricsPort = true;
+
       common.hardware = {
         nvidia.enable = true;
         amdgpu.enable = true;

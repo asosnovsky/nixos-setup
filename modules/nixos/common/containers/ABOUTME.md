@@ -24,17 +24,16 @@ containers/
 ## Runtime selection (`skyg.nixos.common.containers`)
 
 Picks **one** of Docker or Podman based on `runtime` and configures it
-consistently (compose tooling, user group membership, OCI backend, metrics).
+consistently (compose tooling, user group membership, OCI backend).
 
 - `runtime` defaults to `"docker"`. Each backend file gates on `cfg.runtime == "<name>"`,
   so exactly one applies.
 - **Docker** enables autoprune, sets `insecure-registries` from `localDockerRegistries`
-  (default `minipc1.lab.internal:5001`), exposes metrics on `metricsPort` (9323), adds the
-  user to the `docker` group, and installs `docker-compose`.
+  (default `minipc1.lab.internal:5001`), adds the user to the `docker` group, and installs
+  `docker-compose`. Engine metrics are deliberately off (removed; no scraper, unauthenticated).
 - **Podman** enables `dockerCompat` + docker socket so `docker`/`oci-containers` keep working,
   allows plain-HTTP pulls from `localDockerRegistries` via
   `virtualisation.containers.registries.insecure`, and installs `podman-compose` + `podman-tui`.
-- `openMetricsPort` opens the metrics port in the firewall (Docker only).
 
 ### Option namespace
 
@@ -43,8 +42,7 @@ skyg.nixos.common.containers.enable                 → false to disable the con
 skyg.nixos.common.containers.runtime               → "docker" | "podman"
 skyg.nixos.common.containers.enableOnBoot
 skyg.nixos.common.containers.localDockerRegistries
-skyg.nixos.common.containers.metricsPort
-skyg.nixos.common.containers.openMetricsPort
+
 skyg.nixos.common.containers.networks.macvlanLab.* → predefined macvlan lab network
 skyg.nixos.common.containers.networks.ipvlanLab.*  → predefined ipvlan lab network
 skyg.nixos.common.containers.networks.extra.<name>.* → custom networks (networks.nix)

@@ -28,7 +28,7 @@ nixos/
 skyg.nixos.common.*    → common/
 skyg.nixos.desktop.*   → desktop/
 skyg.nixos.server.*    → server/   (most services)
-skyg.server.*          → server/   (arrs, admin, exporters, timers, dns — legacy prefix)
+skyg.server.*          → server/   (arrs, admin, timers, dns — legacy prefix)
 skyg.core.qemu.*       → common/qemu.nix
 ```
 

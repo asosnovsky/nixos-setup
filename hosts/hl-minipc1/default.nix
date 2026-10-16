@@ -44,13 +44,13 @@ in
     addressesSecretName = "dns-addresses.conf";
   };
   skyg.nixos.common.containers.runtime = "docker";
-  skyg.nixos.common.containers.openMetricsPort = true;
+
   skyg.nixos.common.containers.networks.ipvlanLab = {
     enable = true;
     parent = "eno1";
   };
   skyg.server.admin.enable = true;
-  skyg.server.exporters.enable = true;
+
   skyg.nixos.server.k3s.enable = false;
   skyg.networkDrives.enable = true;
 

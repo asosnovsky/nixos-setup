@@ -10,7 +10,7 @@ switch, so a host only runs what it explicitly turns on.
 server/
 ├── default.nix    # imports everything below
 ├── admin.nix      # skyg.server.admin — www-data group/user for shared web data
-├── exporters.nix  # skyg.server.exporters — Prometheus node exporter (:9100)
+
 ├── timers.nix     # skyg.server.timers — generic attrset → systemd timer+oneshot service
 ├── acme/          # skyg.server.acme — Let's Encrypt certs via DNS-01 (lego), no internet exposure
 ├── arrs/          # *arr media-automation stack (prowlarr/sonarr/radarr) + postgres
@@ -26,17 +26,16 @@ server/
 - **`timers.nix`** is a reusable helper: anything added to `skyg.server.timers.<name>`
   (with `script`, `OnCalendar`, `wantedBy`) becomes a systemd timer + oneshot service. Host
   files (e.g. `hosts/hl-minipc2.nix`'s scrypted-backups) use it for backups/auto-updates.
-- **`exporters.nix`** enables the Prometheus node exporter with the systemd collector and
-  opens port 9100.
+- No Prometheus exporters: the node exporter module was removed (unauthenticated, no scraper).
 - Naming: this tree mostly uses the legacy `skyg.server.*` prefix for cross-cutting modules
-  (admin/exporters/timers/arrs/dns) and `skyg.nixos.server.*` for the K3s/K8s roles and the
+  (admin/timers/arrs/dns) and `skyg.nixos.server.*` for the K3s/K8s roles and the
   service modules under `services/`.
 
 ## Option Namespace
 
 ```
 skyg.server.admin.enable          → admin.nix
-skyg.server.exporters.enable      → exporters.nix
+
 skyg.server.timers.<name>         → timers.nix
 skyg.server.acme.*                → acme/
 skyg.server.arrs.*                → arrs/

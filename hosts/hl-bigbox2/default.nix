@@ -13,14 +13,14 @@
     user.enable = true;
     nixos.common = {
       ssh-server.enable = true;
-      containers.openMetricsPort = true;
+
       containers.networks.ipvlanLab = {
         enable = true;
         parent = "enp3s0";
       };
       cachePush.enable = false;
     };
-    server.exporters.enable = true;
+
     networkDrives = {
       enable = true;
       bigBox2.enable = false;

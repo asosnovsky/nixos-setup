@@ -28,7 +28,7 @@ in
   };
   skyg.nixos.desktop.enable = false;
   skyg.server.admin.enable = true;
-  skyg.server.exporters.enable = true;
+
 
   environment.systemPackages = with pkgs; [ btrfs-progs ];
 

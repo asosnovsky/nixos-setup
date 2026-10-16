@@ -35,12 +35,12 @@ Then add it to `services/default.nix`'s `imports` list (and to the `services/ABO
    the `allowedTCPPorts`/`allowedUDPPorts` in `lib.mkIf cfg.openFirewall`.
 3. **Pick the namespace that matches the neighbours.** Service modules under `services/` and
    the K3s/K8s roles use `skyg.nixos.server.*`; the older cross-cutting modules
-   (`admin`, `exporters`, `timers`, `arrs`, `dns`) use `skyg.server.*`. Don't invent a third.
+   (`admin`, `timers`, `arrs`, `dns`) use `skyg.server.*`. Don't invent a third.
 4. **Containers go through `virtualisation.oci-containers`.** This honours the Docker/Podman
    choice from `modules/nixos/common/containers/`. Don't hardcode `docker run` in a service
    (the `openwrt` deploy script is the only sanctioned shell-out, and it lives elsewhere).
 5. **NFS-backed volumes**: create them with `system.activationScripts` + `docker volume
-   create --driver local --opt type=nfs`, and reference homelab hosts by
+create --driver local --opt type=nfs`, and reference homelab hosts by
    their `*.lab.internal` names.
 6. **Scheduled jobs** (backups, auto-updates) should use the `skyg.server.timers.<name>`
    helper in `timers.nix` rather than hand-writing `systemd.timers`/`systemd.services`.

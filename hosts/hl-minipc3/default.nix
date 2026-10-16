@@ -14,8 +14,8 @@
     openFirewall = true;
     addressesSecretName = "dns-addresses.conf";
   };
-  skyg.nixos.common.containers.openMetricsPort = true;
-  skyg.server.exporters.enable = true;
+
+
   skyg.nixos.server.k3s = {
     enable = true;
     envPath = "/opt/k3s/k3s.env";

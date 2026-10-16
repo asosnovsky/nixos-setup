@@ -23,8 +23,8 @@ in
     openFirewall = true;
     addressesSecretName = "dns-addresses.conf";
   };
-  skyg.nixos.common.containers.openMetricsPort = true;
-  skyg.server.exporters.enable = true;
+
+
   skyg.networkDrives.enable = true;
 
   networking.firewall.enable = false;

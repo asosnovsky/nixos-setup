@@ -12,20 +12,11 @@ in
       liveRestore = false;
       daemon.settings = {
         insecure-registries = cfg.localDockerRegistries;
-        metrics-addr = "0.0.0.0:${toString cfg.metricsPort}";
+
       };
     };
     environment.systemPackages = with pkgs; [ docker-compose ];
     users.users.${config.skyg.user.name}.extraGroups = [ "docker" ];
     virtualisation.oci-containers.backend = "docker";
-    networking.firewall.allowedUDPPorts =
-      (if cfg.openMetricsPort then [
-        cfg.metricsPort
-      ] else [ ]);
-    networking.firewall.allowedTCPPorts =
-      (if cfg.openMetricsPort then [
-        cfg.metricsPort
-      ] else [ ]);
-
   };
 }
