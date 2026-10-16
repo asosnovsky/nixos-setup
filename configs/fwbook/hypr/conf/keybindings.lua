@@ -12,7 +12,7 @@ hl.bind(mod .. " + B", hl.dsp.exec_cmd("chromium"))
 hl.bind(mod .. " + E", hl.dsp.exec_cmd("wofi-emoji"))
 hl.bind(mod .. " + ALT + E", hl.dsp.exec_cmd("zeditor ~/.config/hypr/conf/keybindings.lua"))
 hl.bind(mod .. " + Q", hl.dsp.window.close())
-hl.bind(mod .. " + ALT + N", hl.dsp.exec_cmd("skygqts workspace-manager toggle"))
+hl.bind(mod .. " + ALT + N", hl.dsp.exec_cmd("skygqts workspace-badge edit"))
 -- =========================
 -- Navigation
 -- =========================
@@ -22,7 +22,9 @@ hl.bind(mod .. " + up", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mod .. " + down", hl.dsp.focus({ workspace = "e+1" }))
 
 -- for the 4-finger swipe equivalent)
-hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs -c overview ipc call overview toggle"))
+-- hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs -c overview ipc call overview toggle"))
+hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("skygqts workspace-manager toggle"))
+--
 hl.bind(mod .. " + SHIFT + Tab", hl.dsp.focus({ monitor = "+1" }))
 
 -- =========================
