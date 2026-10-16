@@ -32,6 +32,10 @@ in
       image = "ghcr.io/immich-app/immich-server:${version}";
       environmentFiles = [ config.age.secrets.immich-shared.path ];
       environment = envVars;
+      deploy.resources.limits = {
+        cpus = "1";
+        memory = "8G";
+      };
       networks = {
         lan.ipv4_address = app.ip;
         main = { };
@@ -52,6 +56,10 @@ in
       environment = envVars;
       networks.main = { };
       volumes = [ "model-cache:/cache" ];
+      deploy.resources.limits = {
+        cpus = "1";
+        memory = "8G";
+      };
       restart = "always";
     };
     services.redis = {
