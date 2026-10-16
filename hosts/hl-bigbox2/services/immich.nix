@@ -11,6 +11,8 @@ let
     POSTGRES_USER = "immich";
     POSTGRES_DB = "immich";
     DB_DATABASE_NAME = "immich";
+
+    IMMICH_MACHINE_LEARNING_URL = "http://${config.skyg.internalNetworkingMap.apps.immich-ml.ip}:3003";
   };
   nfsVolume = skygUtils.container-services.nfsVols.tnas1;
 in
@@ -26,14 +28,13 @@ in
     };
     volumes = {
       family-storage = nfsVolume "/mnt/EightTerra/FamilyStorage";
-      model-cache = { };
     };
     services.immich-server = {
       image = "ghcr.io/immich-app/immich-server:${version}";
       environmentFiles = [ config.age.secrets.immich-shared.path ];
       environment = envVars;
       deploy.resources.limits = {
-        cpus = "1";
+        cpus = "2";
         memory = "8G";
       };
       networks = {
@@ -47,18 +48,6 @@ in
       extraConfig.depends_on = {
         database.condition = "service_healthy";
         redis.condition = "service_healthy";
-      };
-      restart = "always";
-    };
-    services.immich-machine-learning = {
-      image = "ghcr.io/immich-app/immich-machine-learning:${version}";
-      environmentFiles = [ config.age.secrets.immich-shared.path ];
-      environment = envVars;
-      networks.main = { };
-      volumes = [ "model-cache:/cache" ];
-      deploy.resources.limits = {
-        cpus = "1";
-        memory = "8G";
       };
       restart = "always";
     };
