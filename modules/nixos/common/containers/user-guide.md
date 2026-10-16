@@ -174,7 +174,7 @@ Notes:
 - `env_file:` entries in the external file resolve **relative to**
   `/var/lib/container-services/<group>/`. Use absolute paths (e.g. another
   agenix secret path) or inline `environment:` instead.
-- Create the secret with `skyg encrypt <secret-name>`.
+- Create the secret with `skyg secrets edit <secret-name>`.
 
 ---
 
@@ -221,7 +221,7 @@ group starts; groups only reference it (`external: true`) and never create it.
 Internal DNS names are declared centrally in `skyg.internalNetworkingMap` (see
 `modules/main.nix`), not per service. Each app gets an internal name (`<name>` + `rootDns`,
 e.g. `drawdb.app.internal`) and an optional public alias, and the flake renders them into
-the OpenWrt router's `dnsmasq.conf` via `skyg openwrt`. **Nothing is configured on the host.**
+the OpenWrt router's `dnsmasq.conf` via `skyg build openwrt`. **Nothing is configured on the host.**
 
 ```nix
 # modules/main.nix
@@ -247,8 +247,8 @@ Verify and deploy:
 
 ```sh
 nix eval .#dnsRecords --json | jq     # every record
-skyg openwrt --dry-run                # render dnsmasq.conf locally
-skyg openwrt                          # diff + confirm + apply
+skyg build openwrt --dry-run          # render dnsmasq.conf locally
+skyg build openwrt                    # diff + confirm + apply
 ```
 
 ---

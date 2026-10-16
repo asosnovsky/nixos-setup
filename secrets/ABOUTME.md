@@ -33,27 +33,27 @@ Editing them outside of `agenix` will corrupt the secret.
 
 ```bash
 # List known secret names
-skyg secrets
+skyg secrets list
 
 # Decrypt a secret for editing (writes .tmp/unencrypted-<name>)
-skyg decrypt dns-addresses.conf
+skyg secrets show dns-addresses.conf
 
-# Re-encrypt after editing (reads .tmp/unencrypted-<name> by default)
-skyg encrypt dns-addresses.conf
+# Edit and re-encrypt (reads .tmp/unencrypted-<name> by default)
+skyg secrets edit dns-addresses.conf
 
 # Verify your working copy matches the stored secret
-skyg compare-secret dns-addresses.conf
+skyg secrets compare dns-addresses.conf
 ```
 
 **Re-keying** (e.g. after adding a host key to `secrets.nix`): there is no bulk
-re-key command — for each affected secret run `skyg decrypt <name>` followed by
-`skyg encrypt <name>` to re-encrypt it against the updated key set.
+re-key command — for each affected secret run `skyg secrets show <name>` followed by
+`skyg secrets edit <name>` to re-encrypt it against the updated key set.
 
 ## Adding a New Secret
 
 1. Add the `.age` filename and authorized public keys to `secrets.nix`
-2. Create the plaintext in `.tmp/unencrypted-<name>` (or pass `--source <file>`) and run
-   `skyg encrypt <name>` (add `--yaml` to validate YAML before encrypting)
+2. Create the plaintext in `.tmp/unencrypted-<name>` (or pass a file: `skyg secrets edit <name> <file>`) and run
+   `skyg secrets edit <name>` (add `--yaml` to validate YAML before encrypting)
 3. Reference it in a module via `config.age.secrets.<name>.path`
 
 See `docs/agenix.md` for the full workflow reference.

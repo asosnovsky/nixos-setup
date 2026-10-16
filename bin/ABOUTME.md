@@ -7,14 +7,14 @@ The `skyg` CLI — the single entry point for all system management tasks in thi
 ```
 bin/
 ├── skyg                    # Bash shim: exec nu --commands "use lib/cmds.nu *; skyg $*"
-├── check-flake-versions    # Bash shim for `skyg flake check-versions`
+
 ├── temp-monitor            # NuShell script: collect CPU/GPU temps to CSV + optional graph
 ├── TEMP_MONITOR_README.md  # Usage docs for temp-monitor
 └── lib/
-    ├── cmds.nu        # Dispatcher + bare `skyg` + `skyg profiles` + deprecated aliases
+    ├── cmds.nu        # Dispatcher + bare `skyg` + `skyg profiles`
     ├── os.nu          # `skyg os` (local NixOS rebuild/switch/rollback)
     ├── remote.nu      # `skyg remote *` (deploy, install, boot-all, status, reboot-pending)
-    ├── secrets.nu     # `skyg secrets list/show/edit/compare`
+    ├── secrets.nu     # `skyg secrets [list]/show/edit/compare`
     ├── ca.nu          # `skyg ca init/issue`
     ├── pkgs.nu        # `skyg pkgs update`
     ├── flake.nu       # `skyg flake update/check/check-versions`

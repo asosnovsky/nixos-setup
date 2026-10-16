@@ -5,27 +5,28 @@ by the Rust-based generator in `modules/openwrt/generator/`.
 
 ## Contents
 
-| File | Description |
-|---|---|
+| File         | Description                                                           |
+| ------------ | --------------------------------------------------------------------- |
 | `glmain.nix` | Configuration for the `glmain` GL.iNet router (gateway at `10.0.0.1`) |
 
 ## How It Works
 
 1. `glmain.nix` declares the router's network topology, firewall zones, DHCP, and DNS in Nix
 2. `modules/openwrt/default.nix` passes it through the generator binary
-3. `skyg openwrt` SSHes to the router and applies the generated UCI config
+3. `skyg build openwrt` SSHes to the router and applies the generated UCI config
 
 ## Deploying
 
 ```bash
-skyg openwrt
+skyg build openwrt            # diff + confirm + apply
+skyg build openwrt --dry-run  # render to .tmp/openwrt-<router>/ only
 ```
 
 ## Adding a New Router
 
 1. Create `openwrt-routers/<name>.nix` modelled on `glmain.nix`
 2. Add a `openwrt-<name>` package output in `flake.nix` using the `openwrt` helper
-3. Add a deploy target in `bin/lib/cmds.nu`
+3. Deploy with `skyg build openwrt <name>` (router names tab-complete from `openwrt-routers/*.nix`)
 
 ## Notes
 

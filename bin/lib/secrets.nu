@@ -1,6 +1,11 @@
 use types.nu *
 use helpers.nu *
 
+# List all secret names (same as `skyg secrets list`)
+export def "skyg secrets" [] {
+    skyg secrets list
+}
+
 # List all secret names
 export def "skyg secrets list" [] {
     secret-names

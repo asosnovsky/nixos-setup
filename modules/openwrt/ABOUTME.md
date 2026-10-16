@@ -59,7 +59,7 @@ age -d secrets/glmain.json.age | openwrt-deploy
 is passed as a command-line argument (default `glmain`).
 
 ```bash
-skyg openwrt --dry-run
+skyg build openwrt --dry-run
 # → .tmp/openwrt-glmain/dnsmasq.conf
 # → .tmp/openwrt-glmain/dns-records.json  # the Nix-rendered internalNetworkingMap fragment merged in
 # → .tmp/openwrt-glmain/ethers
@@ -67,7 +67,7 @@ skyg openwrt --dry-run
 ```
 
 Use this to inspect what a deploy _would_ do (especially the firewall rules) before running
-the real `skyg openwrt`.
+the real `skyg build openwrt`.
 
 `router.ip` / `router.user` are taken from the `config` passed into `default.nix`.
 
