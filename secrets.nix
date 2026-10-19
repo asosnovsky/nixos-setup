@@ -56,4 +56,7 @@ in
 
   # immich
   "secrets/immich-shared.age".publicKeys = [ ari bigbox2 ];
+
+  # Grafana signing key (settings.security.secret_key) on hl-minipc1
+  "secrets/grafana-secret-key.age".publicKeys = [ ari minipc1 ];
 }

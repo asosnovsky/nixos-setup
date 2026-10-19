@@ -31,4 +31,18 @@
     enable = true;
     arguments = "-o pipewire";
   };
+
+  services.skyg-linux-tracker = {
+    enable = true;
+    bind = "0.0.0.0";
+    openFirewall = true;
+    allowedHosts = [ "fws1.lab.internal" ];
+    # OTLP out to the collector on minipc1.
+    settings.otel = {
+      enabled = true;
+      endpoint = "http://minipc1.lab.internal:4317";
+      protocol = "grpc";
+      export_logs = true;
+    };
+  };
 }

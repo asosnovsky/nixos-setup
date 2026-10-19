@@ -51,6 +51,7 @@ let
     specialArgs.hermes-agent.nixosModules.default
     specialArgs.tether.nixosModules.default
     specialArgs.hhstream.nixosModules.default
+    specialArgs.skyg-linux-tracker.nixosModules.default
     { programs.nix-index-database.comma.enable = true; }
   ];
   makeHomeConfig = {}: import ./home { };

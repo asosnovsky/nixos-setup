@@ -3116,6 +3116,7 @@
         "nixpkgs": "nixpkgs_14",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
+        "skyg-linux-tracker": "skyg-linux-tracker",
         "skygqts": "skygqts",
         "stylix": "stylix",
         "systems": "systems_6",
@@ -3180,6 +3181,26 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "skyg-linux-tracker": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792243194,
+        "narHash": "sha256-GYgEoGZOoqJjebzMZ+SFr/i47QmQdp5/uUbDPjzzakU=",
+        "ref": "refs/heads/main",
+        "rev": "81e99f86673a478be4b57c47f75db77a743ee7a1",
+        "revCount": 66,
+        "type": "git",
+        "url": "https://gitea.skyg.ca/ari/skyg-linux-tracker.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://gitea.skyg.ca/ari/skyg-linux-tracker.git"
       }
     },
     "skygqts": {

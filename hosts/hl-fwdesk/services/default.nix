@@ -7,5 +7,6 @@
     ./wyoming.nix
     ./steam.nix
     ./buildbot.nix
+    ./linux-tracker.nix
   ];
 }

@@ -4,6 +4,11 @@
     skygqts.url = "git+ssh://gitea@gitea.app.internal:22/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
     hermenix.url = "git+ssh://gitea@gitea.app.internal:22/ari/hermenix.git";
+    # Read-only host monitor (systemd, journal, Docker) over REST + MCP.
+    skyg-linux-tracker = {
+      url = "git+https://gitea.skyg.ca/ari/skyg-linux-tracker.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Headless Hyprland session streamed over a Unix socket.
     hhstream = {
       url = "git+ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git";
@@ -104,6 +109,7 @@
     { self
     , skygqts
     , hermenix
+    , skyg-linux-tracker
     , hhstream
     , nixpkgs-unstable
     , flox
@@ -174,6 +180,7 @@
                 buildbot-gitea-webhook-secret = ./secrets/buildbot-gitea-webhook-secret.age;
                 buildbot-gitea-oauth-secret = ./secrets/buildbot-gitea-oauth-secret.age;
                 immich-shared = ./secrets/immich-shared.age;
+                grafana-secret-key = ./secrets/grafana-secret-key.age;
               };
               inherit
                 hyprlauncher
@@ -188,6 +195,7 @@
                 hermes-agent
                 skygqts
                 hermenix
+                skyg-linux-tracker
                 hhstream
                 flox
                 determinate

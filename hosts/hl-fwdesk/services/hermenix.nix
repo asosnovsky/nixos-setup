@@ -39,6 +39,8 @@ in
       { address = "10.0.101.3"; port = 8080; }
       { address = "10.0.101.3"; port = 9102; }
       { address = "10.0.101.8"; port = 3000; }
+      # skyg-linux-tracker (REST + MCP) on every lab host.
+      { address = "10.0.0.0/16"; port = 1984; }
     ];
     publish = [
       { hostPort = ports.hermes; guestPort = 8642; }

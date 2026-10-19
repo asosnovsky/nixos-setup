@@ -26,7 +26,9 @@ server/
 - **`timers.nix`** is a reusable helper: anything added to `skyg.server.timers.<name>`
   (with `script`, `OnCalendar`, `wantedBy`) becomes a systemd timer + oneshot service. Host
   files (e.g. `hosts/hl-minipc2.nix`'s scrypted-backups) use it for backups/auto-updates.
-- No Prometheus exporters: the node exporter module was removed (unauthenticated, no scraper).
+- No per-host Prometheus exporters: metrics are **pushed**. Every lab host runs
+  `skyg-linux-tracker` and ships OTLP to the collector on bigbox2
+  (`hosts/hl-bigbox2/services/otel-collector.nix`), which feeds Prometheus and Loki.
 - Naming: this tree mostly uses the legacy `skyg.server.*` prefix for cross-cutting modules
   (admin/timers/arrs/dns) and `skyg.nixos.server.*` for the K3s/K8s roles and the
   service modules under `services/`.

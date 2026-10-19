@@ -37,7 +37,7 @@ export def get-remote-boot-info [ host: string@remote_targets ] {
 
 
 # Poll SSH until the host reaches the desired reachability, or the timeout elapses.
-def wait-for-host [target: string, want_online: bool, timeout: int] {
+export def wait-for-host [target: string, want_online: bool, timeout: int] {
     let deadline = (date now) + ($timeout * 1sec)
     while (date now) < $deadline {
         let online = (try {
@@ -53,7 +53,7 @@ def wait-for-host [target: string, want_online: bool, timeout: int] {
 }
 
 # Send a desktop notification if notify-send is available; never fail the caller.
-def notify [title: string, body: string] {
+export def notify [title: string, body: string] {
     try {
         ^notify-send $title $body
     } catch { }

@@ -12,5 +12,10 @@
     ./iu.nix
     ./audiobookshelf.nix
     ./buzz.nix
+    ./linux-tracker.nix
+    ./otel-collector.nix
+    ./prometheus.nix
+    ./loki.nix
+    ./grafana.nix
   ];
 }
