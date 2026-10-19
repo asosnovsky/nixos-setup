@@ -212,9 +212,10 @@ export def "skyg remote status-all" [] {
         # Print each host's status as one block, as soon as it finishes.
         let booted = (if ($info.booted | is-empty) { "-" } else { $info.booted | path basename })
         let current = (if ($info.current | is-empty) { "-" } else { $info.current | path basename })
+        let next_boot = (if ($info.next_boot | is-empty) { "-" } else { $info.next_boot | path basename })
         let reboot_line = if $info.reboot_pending { $"(ansi yellow)REBOOT PENDING(ansi reset)\n" } else { "" }
         let build_line = if $info.needs_build { $"(ansi red)NEEDS NEW BUILD(ansi reset)" } else { $"(ansi green)UP TO DATE(ansi reset)" }
-        print $"($host) | Booted:  ($booted) | Current: ($current)"
+        print $"($host) | Booted:  ($booted) | Current: ($current) | Next boot: ($next_boot)"
 
         $info
     })
@@ -222,7 +223,7 @@ export def "skyg remote status-all" [] {
     return ($results | select host status reboot_pending needs_build)
 }
 
-# Reboot every remote host that is pending a reboot (booted-system != current-system).
+# Reboot every remote host that is pending a reboot (booted-system != next-boot generation).
 # Detects pending hosts, lists them, asks for confirmation, then reboots each one at a
 # time, waiting for it to come back online and sending a desktop notification when it does.
 export def "skyg remote reboot-pending" [] {
@@ -253,15 +254,14 @@ export def "skyg remote reboot-pending" [] {
         }
 
         let info = (try {
-            let booted = bash -c $"ssh -o BatchMode=yes ($target) 'readlink /run/booted-system' 2>/dev/null" | str trim
-            let current = bash -c $"ssh -o BatchMode=yes ($target) 'readlink /run/current-system' 2>/dev/null" | str trim
-            {booted: $booted, current: $current, pending: ($booted != $current)}
+            let s = (get-boot-state $target)
+            {booted: $s.booted, next_boot: $s.next_boot, pending: ($s.booted != "" and $s.booted != $s.next_boot)}
         } catch {
-            {booted: "", current: "", pending: false}
+            {booted: "", next_boot: "", pending: false}
         })
 
         if $info.pending {
-            print $"(ansi blue)REBOOT PENDING(ansi reset): ($host) booted=($info.booted | path basename) current=($info.current | path basename)"
+            print $"(ansi blue)REBOOT PENDING(ansi reset): ($host) booted=($info.booted | path basename) next=($info.next_boot | path basename)"
             $pending = ($pending | append $host)
         } else {
             print $"(ansi green)UP TO DATE(ansi reset): ($host)"
@@ -320,12 +320,31 @@ export def "skyg remote reboot-pending" [] {
             let boot_id_after = (try {
                 bash -c $"ssh -o BatchMode=yes ($target) 'cat /proc/sys/kernel/random/boot_id' 2>/dev/null" | str trim
             } catch { "" })
-            let confirmed = ($boot_id_before != "" and $boot_id_after != "" and $boot_id_before != $boot_id_after)
-            if $confirmed {
-                print $"(ansi green)($host) is back online (reboot confirmed)(ansi reset)"
+            # Proof of reboot: boot id changed. If we can't read it, fall back to "it went offline".
+            let did_reboot = if $boot_id_before != "" and $boot_id_after != "" {
+                $boot_id_before != $boot_id_after
             } else {
-                print $"(ansi green)($host) is back online(ansi reset)"
+                $went_down
             }
+            if not $did_reboot {
+                print $"(ansi red)($host) answered but did NOT reboot (same boot id, never went offline)(ansi reset)"
+                notify $"❌ ($host) did not reboot" "Reboot command had no effect"
+                $failed = ($failed | append $host)
+                continue
+            }
+
+            # Check the host really came up on the generation we wanted.
+            let after = (try { get-boot-state $target } catch { null })
+            if $after != null and $after.booted != $after.next_boot {
+                print $"(ansi red)($host) rebooted but is NOT on its latest generation(ansi reset)"
+                print $"  booted=($after.booted | path basename)"
+                print $"  wanted=($after.next_boot | path basename)"
+                notify $"⚠️ ($host) wrong generation" "Rebooted but not on the latest generation"
+                $failed = ($failed | append $host)
+                continue
+            }
+
+            print $"(ansi green)($host) rebooted and is back online(ansi reset)"
             notify $"✅ ($host) rebooted" "Back online and reachable"
             $rebooted = ($rebooted | append $host)
         } else {
@@ -342,7 +361,7 @@ export def "skyg remote reboot-pending" [] {
 Total hosts considered: ($all_hosts | length)
 Pending reboot: ($pending | length) - ($pending | str join ', ')
 Rebooted: ($rebooted | length) - ($rebooted | str join ', ')
-Failed to return: ($failed | length) - ($failed | str join ', ')
+Failed: ($failed | length) - ($failed | str join ', ')
 Offline: ($offline | length) - ($offline | str join ', ')
 Up to date: ($up_to_date | length) - ($up_to_date | str join ', ')
 "
