@@ -18,7 +18,10 @@ in
     networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
     services.caddy = {
       image = "livekit/caddyl4:v2.11.3";
-      extraConfig.entrypoint = [ "caddy" ];
+      extraConfig = {
+        entrypoint = [ "caddy" ];
+        dns = [ config.skyg.internalNetworkingMap.appNetwork.gateway ];
+      };
       command = [ "run" "--config" "/etc/caddy/Caddyfile" "--adapter" "caddyfile" ];
       networks.lan.ipv4_address = app.ip;
       files."/etc/caddy/Caddyfile" = ''
