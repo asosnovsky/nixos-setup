@@ -6,6 +6,7 @@ let
     domain = app.effectiveDns;
     publicDomain = builtins.elemAt app.aliases 0;
     port = 3000;
+    pairPort = 5000;
     ip = app.ip;
     bucket = "buzz-media";
     images = {
@@ -52,6 +53,7 @@ in
           BUZZ_MEDIA_BASE_URL = "https://${buzz.publicDomain}/media";
           BUZZ_MEDIA_SERVER_DOMAIN = buzz.publicDomain;
           BUZZ_CORS_ORIGINS = "https://${buzz.publicDomain}";
+          BUZZ_PAIRING_RELAY_URL = "wss://${buzz.publicDomain}/pair";
           BUZZ_S3_ENDPOINT = "http://minio:9000";
           BUZZ_S3_REGION = "us-east-1";
           BUZZ_S3_ADDRESSING_STYLE = "path";
@@ -70,9 +72,18 @@ in
           start_period = "30s";
         };
       };
+      pair = {
+        image = buzz.images.relay;
+        networks = [ "internal" ];
+        environment.BUZZ_PAIR_RELAY_BIND_ADDR = "0.0.0.0:${toString buzz.pairPort}";
+        extraConfig.entrypoint = [ "/usr/local/bin/buzz-pair-relay" ];
+      };
       caddy = {
         image = buzz.images.caddy;
-        extraConfig.depends_on.relay.condition = "service_healthy";
+        extraConfig.depends_on = {
+          relay.condition = "service_healthy";
+          pair.condition = "service_started";
+        };
         networks = {
           internal = { };
           lan = { ipv4_address = buzz.ip; };
@@ -81,7 +92,13 @@ in
           ${buzz.publicDomain} {
             tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
             encode zstd gzip
-            reverse_proxy relay:${toString buzz.port}
+            # Only /pair goes to the pairing service
+            handle /pair {
+              reverse_proxy pair:${toString buzz.pairPort}
+            }
+            handle {
+              reverse_proxy relay:${toString buzz.port}
+            }
           }
           http://${buzz.domain} {
             redir https://${buzz.publicDomain}{uri} permanent
