@@ -32,6 +32,7 @@ in
         NVR_IP = nvr.ip;
         IMMICH_IP = immich.ip;
         PORTAINER_IP = portainer.ip;
+        JELLYFIN_IP = jellyfin.ip;
         BUZZ_IP = buzz.ip;
         K8S_INGRESS = k8sIngress;
       };

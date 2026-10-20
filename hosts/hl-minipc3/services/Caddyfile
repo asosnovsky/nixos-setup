@@ -32,7 +32,7 @@ nvr.home.sosnovsky.ca {
 
 jellyfin.home.sosnovsky.ca {
   import public_access
-  reverse_proxy bigbox1.lab.internal:8096
+  reverse_proxy {$JELLYFIN_IP}:8096
 }
 
 castle.home.sosnovsky.ca {

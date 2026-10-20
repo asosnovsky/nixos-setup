@@ -6,6 +6,7 @@ in
   skyg.nixos.common.container-services.jellyfin = {
     enable = true;
     autoUpdate.enable = true;
+    networks.lan = config.skyg.nixos.common.containers.networks.ipvlanLab.compose;
     services.jellyfin = {
       image = "jellyfin/jellyfin";
       deploy.resources.reservations.devices = [
@@ -34,7 +35,7 @@ in
         JELLYFIN_CONFIG_DIR = "/mnt/apps/jellyfin/config";
         NVIDIA_VISIBLE_DEVICES = "all";
       };
-      ports = [ "8096:8096" ];
+      networks.lan.ipv4_address = app.ip;
     };
     volumes = {
       torrents = {
