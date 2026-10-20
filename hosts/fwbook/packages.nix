@@ -173,7 +173,6 @@ in
       bubblewrap
       delta-editor
       herdr
-      superset-desktop
       ai-usagebar.packages.${pkgs.stdenv.hostPlatform.system}.default
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
 

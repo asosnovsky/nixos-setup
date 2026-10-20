@@ -32,7 +32,6 @@ let
           colibri = final.callPackage ../pkgs/colibri { };
           niri-touchscreen-gestures = final.callPackage ../pkgs/niri-touchscreen-gestures { };
           buzz-desktop = final.callPackage ../pkgs/buzz-desktop { };
-          superset-desktop = final.callPackage ../pkgs/superset-desktop { };
           delta-editor = final.callPackage ../pkgs/delta-editor { };
         })
       ];

@@ -302,7 +302,6 @@
           skyg-dns-records = dnsRecordsFile;
           ds4 = my-nixpkgs.legacyPackages.${system}.ds4;
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
-          superset-desktop = lib.pkgs.${system}.superset-desktop;
           delta-editor = lib.pkgs.${system}.delta-editor;
           colibri = lib.pkgs.${system}.colibri;
           herdr = herdr.packages.${system}.default;
