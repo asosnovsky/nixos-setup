@@ -3210,11 +3210,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792178298,
-        "narHash": "sha256-oMfBnDNFkGeX7hPKnj4brXh6uf2bDJGU2S2WLpRLx/0=",
+        "lastModified": 1792467407,
+        "narHash": "sha256-hMm4hFiwpqELJTvhms0gdL56icKgh2C7GgM0RhY4/qQ=",
         "ref": "refs/heads/main",
-        "rev": "d42e24be81536210599729c2888bfdd8559fd84e",
-        "revCount": 35,
+        "rev": "b127fc22565770ccb605a41dc66b462aafb00093",
+        "revCount": 36,
         "type": "git",
         "url": "ssh://gitea@gitea.app.internal:22/ari/skygqts.git"
       },
