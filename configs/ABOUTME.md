@@ -23,10 +23,11 @@ these cases where the source subdir and `~/.config` target differ.
 | `hl-fws1/hypr/`      | Hyprland config for `hl-fws1` (remote slim desktop); **baked into the build** via `mountAsSource`, linked to `~/.config/hypr`                         |
 | `hl-pi1/quickshell/` | Quickshell configs for `hl-pi1` (full-screen clock + calendar); linked to `~/.config/quickshell`                                                      |
 | `fwbook/quickshell/` | Quickshell configs for `fwbook` (scrolling overview); linked to `~/.config/quickshell`                                                                |
-| `extra.nu`           | Extra NuShell config sourced at shell startup                                                                                                         |
-| `fwbook.knsv`        | fwbook-specific Kanshi display profile                                                                                                                |
-| `hypr-types/hl.lua`  | Shared EmmyLua type stubs for the `hl` global; each host's Hyprland `.luarc.json` points here via `workspace.library`                                 |
-| `pki/`               | Public certs of the lab internal CA (`lab-ca.crt` + issued leaves), managed by `skyg ca`; **not** symlinked to `~/.config` — see `pki/ABOUTME.md`     |
+
+| `extra.nu` | Extra NuShell config sourced at shell startup |
+| `fwbook.knsv` | fwbook-specific Kanshi display profile |
+| `hypr-types/hl.lua` | Shared EmmyLua type stubs for the `hl` global; each host's Hyprland `.luarc.json` points here via `workspace.library` |
+| `pki/` | Public certs of the lab internal CA (`lab-ca.crt` + issued leaves), managed by `skyg ca`; **not** symlinked to `~/.config` — see `pki/ABOUTME.md` |
 
 ## Notes
 

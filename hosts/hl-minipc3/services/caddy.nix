@@ -25,69 +25,16 @@ in
       };
       command = [ "run" "--config" "/etc/caddy/Caddyfile" "--adapter" "caddyfile" ];
       networks.lan.ipv4_address = app.ip;
-      files."/etc/caddy/Caddyfile" = ''
-        {
-          layer4 {
-            :22 {
-              route {
-                proxy ${publicGitea.ip}:22
-              }
-            }
-          }
-        }
-        # Reusable: only LAN (10/8) + Tailscale clients. Others get dropped.
-        (lan_only) {
-          @notlan not remote_ip 10.0.0.0/8 100.64.0.0/10
-          abort @notlan
-        }
-        nvr.home.sosnovsky.ca {
-          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          import lan_only
-          reverse_proxy ${nvr.ip}:11080
-        }
-        jellyfin.home.sosnovsky.ca {
-          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          reverse_proxy bigbox1.lab.internal:8096
-        }
-        immich.home.sosnovsky.ca {
-          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          import lan_only
-          reverse_proxy ${immich.ip}:2283
-        }
-        portainer.home.sosnovsky.ca {
-          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          import lan_only
-          reverse_proxy ${portainer.ip}:9000
-        }
-        gitea.skyg.ca {
-          tls /etc/caddy/tls/gitea/fullchain.pem /etc/caddy/tls/gitea/key.pem
-          reverse_proxy ${publicGitea.ip}:80
-        }
-        # Buzz: straight to its own caddy, LAN only.
-        buzz.home.sosnovsky.ca {
-          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          import lan_only
-          reverse_proxy https://${buzz.ip}:443 {
-            header_up Host {http.request.host}
-            transport http {
-              tls
-              tls_server_name {http.request.host}
-            }
-          }
-        }
-        # Fallback: any other *.home.sosnovsky.ca host goes to the k8s Traefik.
-        # Host + SNI are preserved so Traefik routes on the original hostname.
-        *.home.sosnovsky.ca {
-          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
-          reverse_proxy https://${k8sIngress}:443 {
-            header_up Host {http.request.host}
-            transport http {
-              tls
-              tls_server_name {http.request.host}
-            }
-          }
-        }
-      '';
+      # Routes live in ./Caddyfile; IPs come in as env vars.
+      files."/etc/caddy/Caddyfile" = builtins.readFile ./Caddyfile;
+      environment = {
+        GITEA_IP = publicGitea.ip;
+        NVR_IP = nvr.ip;
+        IMMICH_IP = immich.ip;
+        PORTAINER_IP = portainer.ip;
+        BUZZ_IP = buzz.ip;
+        K8S_INGRESS = k8sIngress;
+      };
       volumes = [
         "/var/lib/acme/${certDomain}/fullchain.pem:/etc/caddy/tls/fullchain.pem:ro"
         "/var/lib/acme/${certDomain}/key.pem:/etc/caddy/tls/key.pem:ro"

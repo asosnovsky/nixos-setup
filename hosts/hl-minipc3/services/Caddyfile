@@ -1,0 +1,81 @@
+{
+  layer4 {
+    :22 {
+      route {
+        proxy {$GITEA_IP}:22
+      }
+    }
+  }
+}
+
+# Common: the wildcard cert.
+(shared) {
+  tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
+}
+
+# Only LAN (10/8) + Tailscale clients. Others get dropped.
+(lan_only) {
+  import shared
+  @notlan not remote_ip 10.0.0.0/8 100.64.0.0/10
+  abort @notlan
+}
+
+# Open to anyone who can reach caddy.
+(public_access) {
+  import shared
+}
+
+nvr.home.sosnovsky.ca {
+  import lan_only
+  reverse_proxy {$NVR_IP}:11080
+}
+
+jellyfin.home.sosnovsky.ca {
+  import public_access
+  reverse_proxy bigbox1.lab.internal:8096
+}
+
+castle.home.sosnovsky.ca {
+	import public_access
+	reverse_proxy castle.hub.internal
+}
+
+immich.home.sosnovsky.ca {
+  import lan_only
+  reverse_proxy {$IMMICH_IP}:2283
+}
+
+portainer.home.sosnovsky.ca {
+  import lan_only
+  reverse_proxy {$PORTAINER_IP}:9000
+}
+
+gitea.skyg.ca {
+  tls /etc/caddy/tls/gitea/fullchain.pem /etc/caddy/tls/gitea/key.pem
+  reverse_proxy {$GITEA_IP}:80
+}
+
+# Buzz: straight to its own caddy, LAN only.
+buzz.home.sosnovsky.ca {
+  import lan_only
+  reverse_proxy https://{$BUZZ_IP}:443 {
+    header_up Host {http.request.host}
+    transport http {
+      tls
+      tls_server_name {http.request.host}
+    }
+  }
+}
+
+# Fallback: any other *.home.sosnovsky.ca host goes to the k8s Traefik.
+# Host + SNI are preserved so Traefik routes on the original hostname.
+*.home.sosnovsky.ca {
+  import lan_only
+  reverse_proxy https://{$K8S_INGRESS}:443 {
+    header_up Host {http.request.host}
+    transport http {
+      tls
+      tls_server_name {http.request.host}
+    }
+  }
+}
