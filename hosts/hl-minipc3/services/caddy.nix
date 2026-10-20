@@ -5,6 +5,7 @@ let
   jellyfin = config.skyg.internalNetworkingMap.apps.jellyfin;
   immich = config.skyg.internalNetworkingMap.apps.immich;
   portainer = config.skyg.internalNetworkingMap.apps.portainer;
+  buzz = config.skyg.internalNetworkingMap.apps.buzz;
   publicGitea = config.skyg.internalNetworkingMap.apps.public-gitea;
   certDomain = "home.sosnovsky.ca";
   giteaCertDomain = "gitea.skyg.ca";
@@ -53,6 +54,19 @@ in
         gitea.skyg.ca {
           tls /etc/caddy/tls/gitea/fullchain.pem /etc/caddy/tls/gitea/key.pem
           reverse_proxy ${publicGitea.ip}:80
+        }
+        # Buzz: straight to its own caddy. LAN (10/8) + Tailscale only.
+        buzz.home.sosnovsky.ca {
+          tls /etc/caddy/tls/fullchain.pem /etc/caddy/tls/key.pem
+          @notlan not remote_ip 10.0.0.0/8 100.64.0.0/10
+          abort @notlan
+          reverse_proxy https://${buzz.ip}:443 {
+            header_up Host {http.request.host}
+            transport http {
+              tls
+              tls_server_name {http.request.host}
+            }
+          }
         }
         # Fallback: any other *.home.sosnovsky.ca host goes to the k8s Traefik.
         # Host + SNI are preserved so Traefik routes on the original hostname.
