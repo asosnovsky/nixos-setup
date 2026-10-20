@@ -137,7 +137,8 @@ in
 
       vscode
       unstablePkgs.zed-editor-fhs
-      unstablePkgs.devenv
+      unstablePkgs.et
+      devenv
       just
       rpi-imager
       rpiboot
@@ -178,6 +179,5 @@ in
 
       skygqts
       hermenix
-      config.services.hyprland-headless-stream.package
     ]);
 }

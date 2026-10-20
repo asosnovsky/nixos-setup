@@ -53,9 +53,4 @@
     "modesetting"
     "fbdev"
   ];
-  services.hyprland-headless-stream = {
-    enable = true;
-    hyprlandPackage = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    sessions.enable = true;
-  };
 }
