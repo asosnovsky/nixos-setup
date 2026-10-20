@@ -137,7 +137,7 @@ in
 
       vscode
       unstablePkgs.zed-editor-fhs
-      devenv
+      unstablePkgs.devenv
       just
       rpi-imager
       rpiboot

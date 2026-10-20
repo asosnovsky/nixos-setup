@@ -16,6 +16,13 @@
       lmstudio
       signal-cli
       blueman
+      unstablePkgs.devenv
+
+      unstablePkgs.grok-build
+      unstablePkgs.pi-coding-agent
+      unstablePkgs.goose-cli
+      unstablePkgs.claude-agent-acp
+      unstablePkgs.claude-code
     ])
     ++ [ myPkgs.ds4-rocm ];
 }
