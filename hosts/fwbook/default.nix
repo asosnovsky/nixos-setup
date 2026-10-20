@@ -28,6 +28,7 @@
         printers.enable = true;
         fixes = {
           airpod-bluetooth.enabled = true;
+          fingerprint-autosuspend.enabled = true;
         };
         tiler = {
           enable = true;
