@@ -179,6 +179,12 @@
                 buildbot-gitea-oauth-secret = ./secrets/buildbot-gitea-oauth-secret.age;
                 immich-shared = ./secrets/immich-shared.age;
                 grafana-secret-key = ./secrets/grafana-secret-key.age;
+                linux-tracker-peer-minipc1 = ./secrets/linux-tracker-peer-minipc1.age;
+                linux-tracker-peer-minipc2 = ./secrets/linux-tracker-peer-minipc2.age;
+                linux-tracker-peer-minipc3 = ./secrets/linux-tracker-peer-minipc3.age;
+                linux-tracker-peer-bigbox1 = ./secrets/linux-tracker-peer-bigbox1.age;
+                linux-tracker-peer-bigbox2 = ./secrets/linux-tracker-peer-bigbox2.age;
+                linux-tracker-peer-terra1 = ./secrets/linux-tracker-peer-terra1.age;
               };
               inherit
                 hyprlauncher

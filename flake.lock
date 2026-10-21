@@ -3155,11 +3155,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792553170,
-        "narHash": "sha256-wajyEzplVR8XWkjAZFPiGp+1aVcZjC14pspWy+pl5qw=",
+        "lastModified": 1792555264,
+        "narHash": "sha256-Mo6kcBIKiZ618SqwPjxlDU1PgNDfqF5Ai0YKLadXIsg=",
         "ref": "refs/heads/main",
-        "rev": "020fa4871fac5517490fd51e914d539cffbf8afd",
-        "revCount": 213,
+        "rev": "d8ad1c44c57a2abe5261656817ca25f72c062140",
+        "revCount": 216,
         "type": "git",
         "url": "https://gitea.skyg.ca/ari/skyg-linux-tracker.git"
       },

@@ -140,7 +140,7 @@ Starting parallel boots (concurrency: 2)..."
         let boot_results = ($online_hosts | par-each --threads 1 { |host|
             let target_host = $"root@($host).lab.internal"
             let profile = $"hl-($host)"
-            let runcmd = $"nh os boot --target-host ($target_host) .#($profile)"
+            let runcmd = $"nh os boot --no-nom --target-host ($target_host) .#($profile)"
             print $runcmd
             let ok = (try {
                 bash -c $runcmd
@@ -214,8 +214,13 @@ export def "skyg remote status-all" [] {
         let current = (if ($info.current | is-empty) { "-" } else { $info.current | path basename })
         let next_boot = (if ($info.next_boot | is-empty) { "-" } else { $info.next_boot | path basename })
         let reboot_line = if $info.reboot_pending { $"(ansi yellow)REBOOT PENDING(ansi reset)\n" } else { "" }
-        let build_line = if $info.needs_build { $"(ansi red)NEEDS NEW BUILD(ansi reset)" } else { $"(ansi green)UP TO DATE(ansi reset)" }
-        print $"($host) | Booted:  ($booted) | Current: ($current) | Next boot: ($next_boot)"
+        # needs_build is true, false, or "unknown" (local eval failed)
+        let build_line = match $info.needs_build {
+            true => $"(ansi red)NEEDS NEW BUILD(ansi reset)",
+            false => $"(ansi green)UP TO DATE(ansi reset)",
+            _ => $"(ansi yellow)BUILD UNKNOWN (eval failed)(ansi reset)",
+        }
+        print $"($host) | Booted:  ($booted) | Current: ($current) | Next boot: ($next_boot)\n  ($reboot_line)($build_line)"
 
         $info
     })

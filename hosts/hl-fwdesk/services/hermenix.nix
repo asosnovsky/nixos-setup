@@ -8,6 +8,7 @@ let
     hermesCache = 5001;
     ollama = 11434;
     ds4 = 8000;
+    tracker = 1984;
   };
 in
 {
@@ -30,6 +31,8 @@ in
     hostAccess = [
       { port = ports.ollama; }
       { port = ports.ds4; }
+      # Primary skyg-linux-tracker on this host (it consolidates the lab).
+      { port = ports.tracker; }
     ];
     lanAccess = [
       { address = "10.0.12.1"; port = 80; }
@@ -39,8 +42,7 @@ in
       { address = "10.0.101.3"; port = 8080; }
       { address = "10.0.101.3"; port = 9102; }
       { address = "10.0.101.8"; port = 3000; }
-      # skyg-linux-tracker (REST + MCP) on every lab host.
-      { address = "10.0.0.0/16"; port = 1984; }
+
     ];
     publish = [
       { hostPort = ports.hermes; guestPort = 8642; }

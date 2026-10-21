@@ -59,4 +59,13 @@ in
 
   # Grafana signing key (settings.security.secret_key) on hl-minipc1
   "secrets/grafana-secret-key.age".publicKeys = [ ari minipc1 ];
+
+  # skyg-linux-tracker peer tokens. fwdesk is the primary and replays them;
+  # each one is a `consolidator-fwdesk` token minted on that peer.
+  "secrets/linux-tracker-peer-minipc1.age".publicKeys = [ ari fwdesk ];
+  "secrets/linux-tracker-peer-minipc2.age".publicKeys = [ ari fwdesk ];
+  "secrets/linux-tracker-peer-minipc3.age".publicKeys = [ ari fwdesk ];
+  "secrets/linux-tracker-peer-bigbox1.age".publicKeys = [ ari fwdesk ];
+  "secrets/linux-tracker-peer-bigbox2.age".publicKeys = [ ari fwdesk ];
+  "secrets/linux-tracker-peer-terra1.age".publicKeys = [ ari fwdesk ];
 }
