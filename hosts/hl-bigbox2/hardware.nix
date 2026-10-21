@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 {
-  services.fwupd.enable = true;
 
   # Interim: the box loses power under load. Use less power and heat, log more.
   # Remove this block once the new board is in and stable.
