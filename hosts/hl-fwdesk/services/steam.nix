@@ -1,8 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.steam = {
     enable = true;
     extest.enable = true;
+    extraPackages = [ pkgs.pulseaudio ];
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;

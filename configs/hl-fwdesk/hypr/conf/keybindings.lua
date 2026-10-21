@@ -8,6 +8,7 @@ local mod = "SUPER"
 -- =========================
 hl.bind(mod .. " + T", hl.dsp.exec_cmd("ghostty"))
 hl.bind(mod .. " + Q", hl.dsp.window.close())
+hl.bind(mod .. " + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 
 -- =========================
 -- Navigation
