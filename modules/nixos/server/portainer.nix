@@ -216,6 +216,8 @@ in
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
+        Restart = "on-failure";
+        RestartSec = "15s";
         RemainAfterExit = true;
         Environment = "KUBECONFIG=/etc/rancher/k3s/k3s.yaml";
         ExecStart = "${pkgs.kubectl}/bin/kubectl apply -f ${agentManifest}";
@@ -230,6 +232,8 @@ in
       wantedBy = [ "portainer-agent-k3s.service" ];
       serviceConfig = {
         Type = "oneshot";
+        Restart = "on-failure";
+        RestartSec = "15s";
         RemainAfterExit = true;
         Environment = "KUBECONFIG=/etc/rancher/k3s/k3s.yaml";
       };

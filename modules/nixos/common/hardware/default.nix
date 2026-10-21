@@ -10,8 +10,6 @@
     ./amdgpu.nix
     ./coral-tpu-udev.nix
   ];
-  # Firmware Updater
-  services.fwupd.enable = true;
   # Enable all license firmware
   hardware.enableAllFirmware = true;
 }

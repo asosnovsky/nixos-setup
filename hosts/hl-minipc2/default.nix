@@ -1,14 +1,8 @@
-{ pkgs, config, ... }:
-let
-  staticIp = ip: {
-    lan = { ipv4_address = ip; };
-  };
-in
+{ ... }:
 {
   imports = [
     ./services
     ./hardware-configuration
-    ./hardware.nix
     ./systemd.nix
   ];
 

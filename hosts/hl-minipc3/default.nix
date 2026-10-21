@@ -2,7 +2,6 @@
 {
   imports = [
     ./hardware-configuration
-    ./hardware.nix
     ./systemd.nix
     ./services
   ];

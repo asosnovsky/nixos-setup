@@ -33,7 +33,6 @@ in
   imports = [
     ./services
     ./hardware-configuration
-    ./hardware.nix
   ];
 
   skyg.user.enable = true;

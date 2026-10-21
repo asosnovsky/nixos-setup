@@ -15,7 +15,6 @@ in
   imports = [
     ./services.nix
     ./hardware-configuration
-    ./hardware.nix
     ./systemd.nix
   ];
 
@@ -28,8 +27,6 @@ in
   };
   skyg.nixos.desktop.enable = false;
   skyg.server.admin.enable = true;
-
-
   environment.systemPackages = with pkgs; [ btrfs-progs ];
 
   networking.firewall.allowedUDPPorts = openPorts;
