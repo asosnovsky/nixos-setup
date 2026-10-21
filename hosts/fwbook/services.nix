@@ -1,19 +1,7 @@
-{ pkgs, unstablePkgs, config, hyprland, ... }:
+{ unstablePkgs, ... }:
 {
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
-
-  programs.tether = {
-    enable = true;
-    wifi = {
-      enable = true;
-      openFirewall = true;
-    };
-    bluetooth = {
-      enable = true;
-      adapters = [ "hci0" ];
-    };
-  };
 
   services.flatpak.enable = true;
   services.flatpak.packages = [

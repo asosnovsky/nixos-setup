@@ -8,7 +8,7 @@ All reusable NixOS and Home Manager modules. Every host gets the full module tre
 ```
 modules/
 ├── lib.nix            # makeNixOs / makeIso / makeHomeManagerUsers / makeDarwinModule / eachSystem
-│                      #   (registers flake-input NixOS modules: tether → programs.tether.*,
+│                      #   (registers flake-input NixOS modules:
 │                      #    hhstream → services.hyprland-headless-stream)
 ├── main.nix           # Base module imported by every host: core/ + nixos/ + network-drives.nix
 │                      #   + skyg.internalNetworkingMap (global app registry + appNetwork)

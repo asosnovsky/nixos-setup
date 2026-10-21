@@ -87,11 +87,7 @@
     # Secrets management
     agenix.url = "github:ryantm/agenix";
 
-    # Tether — iPhone ↔ Linux Wayland bridge
-    tether = {
-      url = "github:zackb/tether";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
     herdr.url = "github:herdrdev/herdr";
     # Declarative disk partitioning (for nixos-anywhere installs)
     disko = {
@@ -131,7 +127,6 @@
     , nix-index-database
     , agenix
     , hermes-agent
-    , tether
     , herdr
     , disko
     , buildbot-nix
@@ -203,7 +198,6 @@
                 hhstream
                 flox
                 determinate
-                tether
                 herdr
                 ;
             };
