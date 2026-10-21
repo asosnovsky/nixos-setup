@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, ai-usagebar, hermes-agent, nixarchy, skygUtils, config, ... }:
+{ pkgs, unstablePkgs, hermes-agent, nixarchy, skygUtils, config, ... }:
 let
   # Omarchy (nixarchy) shell, hand-wired — no nixarchy modules. The shell is
   # launched from configs/fwbook/hypr/conf/autostart.lua (omarchy-launch-shell).
@@ -173,7 +173,6 @@ in
       bubblewrap
       delta-editor
       herdr
-      ai-usagebar.packages.${pkgs.stdenv.hostPlatform.system}.default
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       skygqts
