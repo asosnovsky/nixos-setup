@@ -53,6 +53,8 @@ in
       "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
     ] ++ cfg.keys;
     nix.settings.trusted-users = [ "root" skygUser.name ];
+    nix.settings.http-connections = 8;
+    nix.settings.download-attempts = 10;
     nix.extraOptions = ''
       # Ensure we can still build when missing-server is not accessible
       fallback = true

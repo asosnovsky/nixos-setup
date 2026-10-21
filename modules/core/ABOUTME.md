@@ -28,7 +28,8 @@ core/
 - **Substituters** (`nix-substituters.nix`): the standing list of caches (local `minipc1`
   and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/cosmic/ai/noctalia/nixarchy,
   flox, devenv) and the trusted public keys. Extra entries can be appended per-host via
-  `skyg.core.substituters.{urls,keys}`.
+  `skyg.core.substituters.{urls,keys}`. Also sets `http-connections = 8` and
+  `download-attempts = 10` so flaky links (Wi-Fi) don't disable cache.nixos.org mid-build.
 - **Lab CA trust** (`lab-ca.nix`): adds `configs/pki/lab-ca.crt` to
   `security.pki.certificateFiles` so every machine trusts the lab internal CA
   (created by `skyg ca init`, see `configs/pki/ABOUTME.md`). Eval fails if the
