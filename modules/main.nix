@@ -111,6 +111,7 @@ in
         public-gitea = { ip = "10.0.101.9"; };
         immich = { ip = "10.0.101.10"; };
         immich-ml = { ip = "10.0.101.11"; };
+        genix = { ip = "10.0.101.12"; };
         jellyfin = { ip = "10.0.101.5"; };
         nvr = { ip = "10.0.101.6"; };
         portainer = { ip = "10.0.101.241"; };

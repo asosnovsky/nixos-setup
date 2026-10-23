@@ -11,5 +11,6 @@
     ./timers.nix
     ./dns
     ./portainer.nix
+    ./robotnix
   ];
 }

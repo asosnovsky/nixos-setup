@@ -23,7 +23,7 @@ modules/
 │   ├── common/        # Core system settings, networking, SSH, QEMU, fonts, hardware
 │   ├── server/        # Server services: K3s/K8s, DNS, AI stack, ARRs, media…
 │   └── desktop/       # Desktop: tiler (niri/hyprland), packages, theming, crypto
-└── openwrt/           # OpenWrt router config generator
+├── openwrt/           # OpenWrt router config generator
 ```
 
 ## Option Namespace
@@ -38,6 +38,7 @@ skyg.rootDir              → core/default.nix (set by the flake; repo root stor
 skyg.nixos.common.*       → nixos/common/
 skyg.nixos.desktop.*      → nixos/desktop/
 skyg.nixos.server.*       → nixos/server/
+skyg.nixos.server.robotnix.* → nixos/server/robotnix/ (self-managed nspawn robots)
 skyg.core.*               → core/
 ```
 
