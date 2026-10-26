@@ -53,6 +53,12 @@ def stop-robot [r: record] {
   ^systemctl stop $u.robot $u.seed $u.storage
 }
 
+# What a snapshot covers. Ephemeral robots reset root on every start, so
+# only home is worth keeping.
+def parts [r: record] {
+  if $r.ephemeral { [home] } else { [root home] }
+}
+
 # Snapshot ids are "<stamp>-<kind>", e.g. 2026-10-23T14-00-00-auto.
 def snapshot-list [r: record] {
   let dir = $"($r.base)/snapshots"
@@ -71,15 +77,15 @@ def snapshot-list [r: record] {
     }
 }
 
-# Freeze both filesystems (if mounted), snapshot both subvolumes, thaw.
+# Freeze the filesystems (if mounted), snapshot the subvolumes, thaw.
 def take-snapshot [r: record, kind: string] {
   let id = $"(stamp)-($kind)"
   let dest = $"($r.base)/snapshots/($id)"
   mkdir $dest
-  let mounts = ([$"($r.run)/root" $"($r.run)/home"] | where {|m| is-mounted $m })
+  let mounts = (parts $r | each {|p| $"($r.run)/($p)" } | where {|m| is-mounted $m })
   let err = (try {
     for m in $mounts { ^fsfreeze -f $m }
-    for sub in [root home] {
+    for sub in (parts $r) {
       ^btrfs subvolume snapshot -r $"($r.base)/($sub)" $"($dest)/($sub)"
     }
     null
@@ -135,6 +141,7 @@ def "main list" [] {
       root: (disk-usage $"($r.run)/root")
       home: (disk-usage $"($r.run)/home")
       snapshots: (snapshot-list $r | length)
+      ephemeral: $r.ephemeral
     }
   }
 }
@@ -204,11 +211,11 @@ def "main restore" [
   need-root
   let r = (robot $name)
   let subs = if $only == null {
-    [root home]
-  } else if $only in [root home] {
+    parts $r
+  } else if $only in (parts $r) {
     [$only]
   } else {
-    error make { msg: "--only must be root or home" }
+    error make { msg: $"--only must be one of: (parts $r | str join ', ')" }
   }
   let src = $"($r.base)/snapshots/($id)"
   for sub in $subs {
@@ -242,6 +249,11 @@ def "main reseed" [
   stop-robot $r
   let saved = (take-snapshot $r "pre-reseed")
   rm -f $"($r.base)/root/root.img"
+  # Ephemeral: drop the clean root too, so the next start reinstalls.
+  if $r.ephemeral {
+    rm -f $"($r.base)/pristine.id"
+    if ($"($r.base)/pristine" | path exists) { ^btrfs subvolume delete $"($r.base)/pristine" }
+  }
   if $wipe_home { rm -f $"($r.base)/home/home.img" }
   ^systemctl start (units $r).robot
   print $"($name) reseeded. Undo with: robotnix restore ($name) ($saved)"

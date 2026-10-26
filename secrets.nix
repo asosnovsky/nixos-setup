@@ -25,8 +25,12 @@ in
 
   # Hermes envs
   "secrets/hermes-env.age".publicKeys = [ ari fwdesk ];
-
   "secrets/iu-project.age".publicKeys = [ ari minipc1 ];
+
+  # Robots
+  "secrets/robots-shared.age".publicKeys = [ ari fwdesk ];
+  "secrets/robots-genix.age".publicKeys = [ ari fwdesk ];
+  "secrets/robots-sibli.age".publicKeys = [ ari fwdesk ];
 
   # Buzz stack env (minipc1)
   "secrets/buzz-env.age".publicKeys = [ ari minipc1 ];

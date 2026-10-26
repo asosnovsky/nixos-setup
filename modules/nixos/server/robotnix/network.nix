@@ -103,6 +103,9 @@ let
 
   vmap = prefix: set (map (r: "${r.address} : jump ${prefix}_${r.nft}") rs);
 
+  # Every robot's own address.
+  robotIps = set (map (r: r.address) rs);
+
   # Host-side dnsmasq per robot. It is the robot's only resolver.
   dnsConf =
     r:
@@ -226,9 +229,14 @@ lib.mkIf cfg.enable {
 
       chain forward {
         type filter hook forward priority filter - 10; policy accept;
+        # Traffic meant for a robot goes to that robot, nowhere else (e.g.
+        # another module's DNAT). Replies are not touched.
+        ct direction original ct original ip daddr ${robotIps} oifname != "${br}" drop
         iifname "${br}" ct state established,related accept
         iifname "${br}" meta nfproto ipv6 drop
         oifname "${br}" meta nfproto ipv6 drop
+        # A robot's own connection that someone redirected elsewhere.
+        iifname "${br}" ct status dnat drop
         iifname "${br}" ip saddr vmap ${vmap "out"}
         iifname "${br}" drop
         # Inbound from the LAN to robots: open.
@@ -236,6 +244,8 @@ lib.mkIf cfg.enable {
 
       chain input {
         type filter hook input priority filter - 10; policy accept;
+        # Traffic meant for a robot, redirected to the host itself.
+        ct direction original ct original ip daddr ${robotIps} drop
         iifname != "${br}" accept
         ct state established,related accept
         meta nfproto ipv6 drop

@@ -181,6 +181,8 @@
                 linux-tracker-peer-bigbox2 = ./secrets/linux-tracker-peer-bigbox2.age;
                 linux-tracker-peer-terra1 = ./secrets/linux-tracker-peer-terra1.age;
                 scrypted-envs = ./secrets/scrypted-envs.age;
+                robots-shared = ./secrets/robots-shared.age;
+                robots-sibli = ./secrets/robots-sibli.age;
               };
               inherit
                 hyprlauncher

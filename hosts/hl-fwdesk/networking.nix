@@ -2,8 +2,5 @@
 {
   services.tailscale.enable = true;
 
-  systemd.network.wait-online.ignoredInterfaces = [
-    "hermes-br"
-    "vm-hermes"
-  ];
+  systemd.network.wait-online.enable = false;
 }

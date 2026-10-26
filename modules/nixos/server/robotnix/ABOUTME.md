@@ -56,6 +56,14 @@ One routed virtual switch:
   does the per-robot filtering before `nixos-fw` (priority filter - 10). IPv6
   from robots is dropped (`host0` is IPv4-only). Inbound from the LAN to a
   robot is open on every port — make your own decisions inside the robot.
+- Guards in the same table, so other modules' NAT can't reroute robot
+  traffic (hermenix once DNAT'd any-destination traffic on some ports into
+  its VM):
+  - a connection meant for a robot IP that leaves anywhere but the switch,
+    or lands on the host itself, is dropped (`ct original ip daddr`; replies
+    are untouched via `ct direction original`);
+  - a robot's own new connection that was DNAT'd is dropped. The robot DNS
+    redirect still works: it goes to the host (input), not forward.
 - Per-robot dnsmasq on the host (port 5300+id) is the robot's only resolver:
   all port 53 is DNAT'd to it, DoT is dropped. The robot cannot change its
   resolv.conf meaningfully; it cannot touch the host's nftables/networkd.
@@ -87,6 +95,86 @@ timer inside the robot (`robotnix-flake-gitsync` = `git add -A`, commit, push
 if origin exists) runs on `git.interval` (`daily` default). The robot needs the
 remote reachable (e.g. through `lanAccess`) and its own credentials if the
 remote is private.
+
+## Ephemeral robots (opt-in)
+
+`ephemeral = true` resets root to a clean copy of the seed on every start
+(host boot, `robotnix restart`, or a reboot inside). Only `/home` survives.
+
+- The seed step saves the fresh root as a read-only subvolume
+  `<base>/pristine` before the robot first boots, plus `pristine.id` (hash of
+  the seed system and the files it installs).
+- Before each start, `robotnix-<r>-reset.service` unmounts root, swaps
+  `<base>/root` for a snapshot of `pristine`, and remounts (about a second).
+  It is its own oneshot (no `RemainAfterExit`, so every robot start re-runs
+  it) because the robot unit's `DevicePolicy=closed` blocks the loop devices
+  the mount needs.
+- When the seed changes, the storage step sees a different id on the next
+  host switch, wipes root, and the seed step reinstalls (a few minutes).
+- `persist = [ "/var/lib/..." ]` keeps folders: stored in `/home/.persist`
+  inside the home image and bind-mounted at their usual path. SSH host keys
+  always go to `/home/.persist/ssh`, so they don't change each boot.
+- The robot still has its own writable store, so `nix`/`devenv` work until
+  the next restart. Changes go through `seed.configuration` on the host.
+- Snapshots and `restore` cover home only; `reseed` drops `pristine` too.
+- git-sync can't work (fresh repo each start): eval asserts it is off.
+
+## Hermes in every robot (opt-in)
+
+`hermes.enable` (shared) runs one Hermes agent per robot with the upstream
+`services.hermes-agent` module; `robots.<r>.hermes.enable` can opt out.
+
+- The robot's flake gets a `hermes-agent` input pinned to the host's locked
+  rev, and the host's seed build includes the same module.
+- Host-managed: `hermes.settings` (shared + robot, deep-merged) goes to
+  config.yaml; `hermes.name` writes SOUL.md ("You are <name>, a Hermes-based
+  agent ...") on every boot; null keeps the stock identity.
+- Secrets: `hermes.environmentFiles` (shared + robot, KEY=value, e.g. agenix)
+  are passed with `--load-credential` and loaded by the `hermes-agent` unit
+  from `/run/credentials/@system/robotnix-hermes-<n>` (later files win). No
+  file ownership games with the user namespace. Restart the robot after a
+  secret changes.
+- The `hermes` user/group have a fixed id (870) so kept files stay owned
+  right across reinstalls; the login user is in the `hermes` group and has
+  the `hermes` CLI.
+- Ephemeral robots keep only `cron/`, `memories/` and `skills/` of
+  `/var/lib/hermes/.hermes` (added to `persist` automatically). Sessions,
+  logs, OAuth logins and pairings reset each start: use API keys and
+  `*_ALLOWED_USERS` env vars instead.
+- Gateway API (`hermes.gateway`, on by default, port 8642): the host sets
+  `services.hermes-agent.environment` (`API_SERVER_ENABLED`, `_HOST=0.0.0.0`,
+  `_PORT`, `_MODEL_NAME` = `hermes.name` or the robot name). These go to
+  `$HERMES_HOME/.env`, which beats the same names in the secrets. Each
+  robot's secrets need `API_SERVER_KEY`, or the API server won't start.
+- Dashboard (`hermes.dashboard`, on by default, port 80):
+  `backend.mode = "dashboard"` on 0.0.0.0, run as `hermes-backend.service`
+  with the same secret files, plus `CAP_NET_BIND_SERVICE` when the port is
+  below 1024. A non-loopback dashboard needs a login in the secrets:
+  `HERMES_DASHBOARD_BASIC_AUTH_USERNAME`, `..._PASSWORD_HASH` (or
+  `..._PASSWORD`) and `..._SECRET` (keeps sessions across restarts). Without
+  one it exits and systemd keeps restarting it; the gateway keeps working.
+  Port 80 may clash with the robot's own compose stacks: change the port.
+- Both: top-level `enable/port/openFirewall`, robots override any of them
+  (null = follow). `openFirewall` opens the TCP port in the robot's own
+  firewall. Eval asserts the two don't share a port.
+- Existing robots only get Hermes (and gateway/dashboard changes) after
+  `robotnix reseed` (flake.nix and robotnix.nix are written at install).
+  Ephemeral robots pick changes up on the next host switch.
+
+## Docker and Tailscale (opt-in, host side only)
+
+These options only change what the host allows. Turn the service on in the
+robot's own config (e.g. its `seed.configuration`).
+
+- `allowDocker`: nspawn gets `--system-call-filter=add_key keyctl bpf`
+  (blocked by default, Docker needs them). Docker runs inside the robot's user
+  namespace, so images using UIDs above 65535 won't run.
+- `allowTun`: `/dev/net/tun` is bound in and allowed on the unit
+  (`DevicePolicy=closed` blocks it otherwise). Used for tailscale: the robot
+  is its own tailnet machine, log in once inside with `sudo tailscale up`.
+  Direct LAN paths to other tailnet peers hit the private-range drop, so it
+  uses public endpoints or DERP.
+- Both apply on the next robot restart; no reseed needed.
 
 ## The `robotnix` CLI
 

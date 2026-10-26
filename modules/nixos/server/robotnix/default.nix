@@ -95,6 +95,74 @@ let
     };
   };
 
+  # Hermes options used by both the shared and the per-robot block.
+  hermesSettings = mkOption {
+    type = types.attrsOf types.anything;
+    default = { };
+    example = {
+      model.provider = "openrouter";
+    };
+    description = "Hermes config.yaml settings. Shared and robot settings are deep-merged (robot wins).";
+  };
+  hermesEnvFiles = mkOption {
+    type = types.listOf types.str;
+    default = [ ];
+    example = [ "/run/agenix/robots-shared" ];
+    description = ''
+      Host paths of KEY=value secret files (e.g. agenix). Passed to the robot
+      as container credentials and loaded into Hermes's environment. Read at
+      robot start: restart the robot after changing one.
+    '';
+  };
+
+  # Gateway API / dashboard options. The top level sets the values; each
+  # robot can override one (null = follow the top level).
+  hermesService =
+    { what
+    , port
+    , robot
+    , enableText
+    ,
+    }:
+    let
+      opt =
+        type: default: description:
+        mkOption {
+          type = if robot then types.nullOr type else type;
+          default = if robot then null else default;
+          description = if robot then "${description} null: follow hermes.${what}." else description;
+        };
+    in
+    {
+      enable = opt types.bool true enableText;
+      port = opt types.port port "Port on the robot's address.";
+      openFirewall = opt types.bool true "Open the port in the robot's firewall.";
+    };
+  hermesGateway =
+    robot:
+    hermesService {
+      inherit robot;
+      what = "gateway";
+      port = 8642;
+      enableText = ''
+        Turn on the gateway's OpenAI-compatible API on all of the robot's
+        addresses. The robot's secrets need API_SERVER_KEY, or it won't start.
+      '';
+    };
+  hermesDashboard =
+    robot:
+    hermesService {
+      inherit robot;
+      what = "dashboard";
+      port = 80;
+      enableText = ''
+        Run the Hermes dashboard on all of the robot's addresses. The robot's
+        secrets need a login (HERMES_DASHBOARD_BASIC_AUTH_USERNAME,
+        HERMES_DASHBOARD_BASIC_AUTH_PASSWORD_HASH and
+        HERMES_DASHBOARD_BASIC_AUTH_SECRET), or the dashboard exits.
+      '';
+    };
+
   robot = types.submodule (
     { name, ... }:
     {
@@ -165,6 +233,61 @@ let
             description = "/home image. Grows on restart if raised.";
           };
         };
+        ephemeral = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            Reset root to a clean copy of the seed on every start. Only /home
+            (and `persist`) survives. Changes go through seed.configuration on
+            the host. Snapshots then cover /home only.
+          '';
+        };
+        persist = mkOption {
+          type = types.listOf (types.strMatching "/[^:[:space:]]+");
+          default = [ ];
+          example = [ "/var/lib/tailscale" ];
+          description = ''
+            Folders kept across resets. Stored in /home/.persist inside the
+            home image and mounted at their usual path.
+          '';
+        };
+        hermes = {
+          enable = mkOption {
+            type = types.nullOr types.bool;
+            default = null;
+            description = "Run Hermes in this robot. null: follow hermes.enable.";
+          };
+          name = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            example = "Siblibot";
+            description = ''
+              Name the agent gives itself ("I am Siblibot, a Hermes-based
+              agent"). Written to SOUL.md by the host on every boot. null keeps
+              the stock Hermes identity.
+            '';
+          };
+          settings = hermesSettings;
+          environmentFiles = hermesEnvFiles;
+          gateway = hermesGateway true;
+          dashboard = hermesDashboard true;
+        };
+        allowDocker = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            Allow the syscalls Docker needs (add_key, keyctl, bpf). Host side
+            only: enable Docker in the robot's own config.
+          '';
+        };
+        allowTun = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            Pass /dev/net/tun into the robot (e.g. for tailscale). Host side
+            only: enable tailscale in the robot's own config.
+          '';
+        };
         access = mkOption {
           type = tier;
           default = { };
@@ -195,7 +318,7 @@ let
           remoteUrl = mkOption {
             type = types.nullOr types.str;
             default = null;
-            example = "git@github.com:ari/genix.git";
+            example = "git@github.com:ari/myrobot.git";
             description = ''
               Origin for the flake repo, set on first install. null = no remote:
               the timer commits locally but never pushes.
@@ -292,6 +415,14 @@ in
       description = "Tier applied to every robot.";
     };
 
+    hermes = {
+      enable = mkEnableOption "a Hermes agent in every robot (robots can opt out)";
+      settings = hermesSettings;
+      environmentFiles = hermesEnvFiles;
+      gateway = hermesGateway false;
+      dashboard = hermesDashboard false;
+    };
+
     robots = mkOption {
       type = types.attrsOf robot;
       default = { };
@@ -342,6 +473,23 @@ in
             {
               assertion = both "allowedCidrs" "blockedCidrs" == [ ];
               message = "robotnix: ${r.name} both allows and blocks: ${toString (both "allowedCidrs" "blockedCidrs")}.";
+            }
+            {
+              assertion = !(r.ephemeral && r.git.enable);
+              message = "robotnix: ${r.name} is ephemeral, so git-sync can't work (fresh repo every start). Set git.enable = false.";
+            }
+            {
+              assertion = lib.all (p: !(lib.hasPrefix "/home" p || lib.hasPrefix "/nix" p || p == "/")) r.persist;
+              message = "robotnix: ${r.name}'s persist folders can't be /, or under /home or /nix.";
+            }
+            {
+              assertion =
+                let
+                  g = r.hermes.gateway;
+                  d = r.hermes.dashboard;
+                in
+                  !(r.hermes.enable && g.enable && d.enable && g.port == d.port);
+              message = "robotnix: ${r.name}'s Hermes gateway and dashboard can't share port ${toString r.hermes.gateway.port}.";
             }
             {
               assertion = r.cpus.min <= r.cpus.max;

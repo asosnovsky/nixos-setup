@@ -48,30 +48,68 @@ let
       hostAccess = both (t: t.hostAccess);
     };
 
-  mkRobot = name: r: {
-    inherit name;
-    inherit (r)
-      id
-      address
-      autoStart
-      privateUsers
-      cpus
-      memory
-      disk
-      snapshots
-      seed
-      user
-      authorizedKeys
-      git
-      ;
-    nft = nftName name;
-    port = "vb-${name}";
-    dnsPort = 5300 + r.id;
-    base = "${cfg.baseDir}/${name}";
-    run = "/run/robotnix/${name}";
-    unit = "robotnix-${name}";
-    access = mergeAccess r.access;
-  };
+  # Hermes's home inside a robot (the upstream module's default).
+  hermesHome = "/var/lib/hermes/.hermes";
+
+  # Shared Hermes block + the robot's own. Robot settings win.
+  mergeHermes =
+    r:
+    let
+      s = cfg.hermes;
+      pick = a: b: if a != null then a else b;
+      # Robot values that are null follow the shared ones.
+      follow = what: lib.mapAttrs (k: v: pick r.${what}.${k} v) s.${what};
+    in
+    {
+      enable = pick r.enable s.enable;
+      inherit (r) name;
+      settings = lib.recursiveUpdate s.settings r.settings;
+      environmentFiles = lib.unique (s.environmentFiles ++ r.environmentFiles);
+      gateway = follow "gateway";
+      dashboard = follow "dashboard";
+    };
+
+  mkRobot = name: r:
+    let
+      hermes = mergeHermes r.hermes;
+    in
+    {
+      inherit name hermes;
+      inherit (r)
+        id
+        address
+        autoStart
+        privateUsers
+        cpus
+        memory
+        disk
+        snapshots
+        seed
+        user
+        authorizedKeys
+        git
+        allowDocker
+        allowTun
+        ephemeral
+        ;
+      # Ephemeral + Hermes: keep only its cron jobs, memories and skills.
+      persist =
+        r.persist
+        ++ lib.optionals (r.ephemeral && hermes.enable) (
+          map (d: "${hermesHome}/${d}") [
+            "cron"
+            "memories"
+            "skills"
+          ]
+        );
+      nft = nftName name;
+      port = "vb-${name}";
+      dnsPort = 5300 + r.id;
+      base = "${cfg.baseDir}/${name}";
+      run = "/run/robotnix/${name}";
+      unit = "robotnix-${name}";
+      access = mergeAccess r.access;
+    };
 
   robots = lib.mapAttrs mkRobot cfg.robots;
 in
@@ -81,6 +119,7 @@ in
     nftName
     nixStr
     robots
+    hermesHome
     ;
   robotList = lib.attrValues robots;
 }
