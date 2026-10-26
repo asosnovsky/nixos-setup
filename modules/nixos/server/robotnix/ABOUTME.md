@@ -104,6 +104,10 @@ Runtime state comes from `/etc/robotnix.json`, written by the module.
   the `containers.*` module: that module shares the host store, which would
   break the robot's self-rebuilds. The unit mirrors `nixos-containers.nix`
   (`Type=notify`, SIGRTMIN+3, exit status 133, `machine.slice`).
+- The robot's root gets `/usr/bin` before its first start: `systemd-nspawn`
+  refuses a tree without `/usr` ("doesn't look like it has an OS tree"), the
+  same reason `nixos-containers.nix` creates it. The seed's tail block runs on
+  every start, so no reseed is needed after this landed.
 - `systemd-nspawn` runs in `machine.slice` (systemd's nspawn home), not
   `system.slice`.
 - Timers use `skyg.server.timers`; eval asserts unique robot ids/IPs, name
