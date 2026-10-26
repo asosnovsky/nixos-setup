@@ -17,10 +17,11 @@ in
     minipc3
     terra1
     fwdesk
+    hermenix
   ];
 
   # Decrypted at deploy time by the user running `skyg openwrt`
-  "secrets/glmain.json.age".publicKeys = [ ari ];
+  "secrets/glmain.json.age".publicKeys = [ ari hermenix ];
 
   # Hermes envs
   "secrets/hermes-env.age".publicKeys = [ ari fwdesk ];
@@ -37,8 +38,8 @@ in
   "secrets/cloudflare-ddclient.age".publicKeys = [ ari minipc1 ];
 
   # stack compose definition — minipc2
-  "secrets/stack1.age".publicKeys = [ ari minipc2 ];
-  "secrets/stack2.age".publicKeys = [ ari minipc2 ];
+  "secrets/stack1.age".publicKeys = [ ari minipc2 hermenix ];
+  "secrets/stack2.age".publicKeys = [ ari minipc2 hermenix ];
 
   # portainer agent envs
   "secrets/portainer-agent-bigbox1.age".publicKeys = [ ari bigbox1 ];
