@@ -220,11 +220,33 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           qtDocs = pkgs.qt6.qtdoc;
+          # Hook: run skyg pkgs update --all before every commit; fail if it bumped
+          # anything under pkgs/ so bumps get reviewed and staged, never auto-committed.
+          pkgs-update-script = pkgs.writeShellScriptBin "skyg-pkgs-update" ''
+            set -euo pipefail
+            export PATH=${pkgs.bash}/bin:${pkgs.coreutils}/bin:${pkgs.curl}/bin:${pkgs.jq}/bin:${pkgs.git}/bin:${pkgs.gnused}/bin:${pkgs.gawk}/bin:$PATH
+            root=$(${pkgs.git}/bin/git rev-parse --show-toplevel)
+            cd "$root"
+            ${pkgs.nushell}/bin/nu --commands 'use ./bin/lib/cmds.nu *; skyg pkgs update --all'
+            if ! ${pkgs.git}/bin/git diff --quiet -- pkgs/; then
+              echo ""
+              echo "pkgs-update: version bumps applied under pkgs/ — review 'git diff pkgs/',"
+              echo "stage them ('git add pkgs/') and commit again."
+              exit 1
+            fi
+          '';
           pre-commit-check = git-hooks.lib.${system}.run {
             src = ./.;
             hooks = {
               nixpkgs-fmt.enable = true;
               stylua.enable = true;
+              pkgs-update = {
+                enable = true;
+                entry = "${pkgs-update-script}/bin/skyg-pkgs-update";
+                language = "system";
+                pass_filenames = false;
+                always_run = true;
+              };
             };
           };
         in
