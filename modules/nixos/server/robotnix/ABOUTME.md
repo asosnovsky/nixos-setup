@@ -161,6 +161,26 @@ remote is private.
   `robotnix reseed` (flake.nix and robotnix.nix are written at install).
   Ephemeral robots pick changes up on the next host switch.
 
+### Buzz identity for a robot's Hermes
+
+Each robot gets its own Buzz (Nostr) identity in its own `robots-<name>` secret:
+
+1. `skyg buzz identity <robot>` makes a key and
+   merges `BUZZ_RELAY_URL` / `BUZZ_PRIVATE_KEY` (and the optional `BUZZ_*`
+   vars) into `secrets/robots-<robot>.age`. Other lines are kept. It needs the
+   secret to exist and refuses to replace a key without `--rotate`.
+   The bot answers anyone on the relay by default; `--allowed-users <npubs>`
+   limits it, `--restricted` allows no one.
+2. Add the printed npub to the relay: `sudo buzz-manage add-member <npub>` on
+   hl-minipc1.
+3. The robot needs `lanAccess` to the relay and the `buzz` CLI. The robot's
+   nixpkgs has no host overlay, so its config builds it with
+   `pkgs.callPackage <repo>/pkgs/buzz-cli { }` and points `BUZZ_CLI_PATH` at it
+   (`services.hermes-agent.environment`), because the service PATH has no
+   system packages. That relative path only resolves for the host's seed
+   build, not for a rebuild inside the robot. Restart the robot after the
+   secret changes.
+
 ## Docker and Tailscale (opt-in, host side only)
 
 These options only change what the host allows. Turn the service on in the

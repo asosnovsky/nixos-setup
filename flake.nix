@@ -244,6 +244,7 @@
               agenix.packages.${system}.default
               age
               yq
+              nak
               home-manager.packages.${system}.home-manager
               rustc
               cargo

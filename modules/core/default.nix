@@ -26,6 +26,8 @@
         niri-touchscreen-gestures = final.callPackage ../../pkgs/niri-touchscreen-gestures { };
         # Buzz Desktop AppImage wrapper, see pkgs/buzz-desktop.
         buzz-desktop = final.callPackage ../../pkgs/buzz-desktop { };
+        # Buzz CLI (`buzz`), built from source, see pkgs/buzz-cli.
+        buzz-cli = final.callPackage ../../pkgs/buzz-cli { };
         # Delta Editor (Zed Industries) prebuilt tarball, see pkgs/delta-editor.
         delta-editor = final.callPackage ../../pkgs/delta-editor { };
 

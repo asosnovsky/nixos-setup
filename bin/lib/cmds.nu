@@ -5,6 +5,7 @@ export use remote.nu *
 export use os.nu *
 export use secrets.nu *
 export use ca.nu *
+export use buzz.nu *
 export use pkgs.nu *
 export use flake.nu *
 export use build.nu *
