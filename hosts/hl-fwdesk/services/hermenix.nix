@@ -24,7 +24,7 @@ in
       hostLanAddress = "10.0.10.11";
       lanGateway = "10.0.0.1";
     };
-    vcpu = 2;
+    vcpu = 3;
     mem = 8000;
     hermesHome = "/var/lib/hermes/.hermes";
     hostCache.port = ports.hermesCache;

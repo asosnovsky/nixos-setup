@@ -14,8 +14,12 @@
     vim
     curl
     htop
+    claude-code
+    goose-cli
+    pi-coding-agent
+    devenv
   ];
-
+  nixpkgs.config.allowUnfree = true;
   nix.gc = {
     automatic = true;
     dates = "weekly";
