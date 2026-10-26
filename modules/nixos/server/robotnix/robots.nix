@@ -224,6 +224,7 @@ let
       fi
       # What nspawn and NixOS's init expect (same as nixos-containers).
       mkdir -p "$root/etc" "$root/var/lib" "$root/root" "$root/home"
+      mkdir -p -m 0755 "$root/usr/bin"
       chmod 0700 "$root/root"
       [ -e "$root/etc/os-release" ] || [ -L "$root/etc/os-release" ] || touch "$root/etc/os-release"
       [ -e "$root/etc/machine-id" ] || touch "$root/etc/machine-id"

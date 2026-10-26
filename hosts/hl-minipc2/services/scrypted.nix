@@ -16,6 +16,7 @@ in
         "/opt/homelab/scrypted/db:/server/volume"
         "scrypted-nvr:/nvr"
       ];
+      devices = [ "/dev/dri:/dev/dri" ];
       environment.SCRYPTED_NVR_VOLUME = "/nvr";
     };
     volumes.scrypted-nvr = {
