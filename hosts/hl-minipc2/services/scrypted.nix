@@ -1,8 +1,9 @@
-{ config, ... }:
+{ config, skyg-secrets, ... }:
 let
   app = config.skyg.internalNetworkingMap.apps.nvr;
 in
 {
+  age.secrets.scrypted-envs.file = skyg-secrets.scrypted-envs;
   skyg.nixos.common.container-services.scrypted = {
     enable = true;
     autoUpdate.enable = true;
@@ -18,6 +19,9 @@ in
       ];
       devices = [ "/dev/dri:/dev/dri" ];
       environment.SCRYPTED_NVR_VOLUME = "/nvr";
+      environmentFiles = [
+        config.age.secrets.scrypted-envs.path
+      ];
     };
     volumes.scrypted-nvr = {
       driver = "local";

@@ -40,6 +40,7 @@ in
   # stack compose definition — minipc2
   "secrets/stack1.age".publicKeys = [ ari minipc2 hermenix ];
   "secrets/stack2.age".publicKeys = [ ari minipc2 hermenix ];
+  "secrets/scrypted-envs.age".publicKeys = [ ari minipc2 ];
 
   # portainer agent envs
   "secrets/portainer-agent-bigbox1.age".publicKeys = [ ari bigbox1 ];
