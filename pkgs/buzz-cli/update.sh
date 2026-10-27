@@ -24,6 +24,12 @@ else
     echo "Latest: $VERSION"
 fi
 
+CURRENT=$(sed -n 's/^ *version = "\(.*\)";/\1/p' default.nix | head -n1)
+if [ "$CURRENT" = "$VERSION" ]; then
+    echo "✅ ${PKG} already at ${VERSION}"
+    exit 0
+fi
+
 HASH=$(nix flake prefetch "github:${REPO}/desktop-v${VERSION}" --json | jq -r '.hash')
 if [ -z "$HASH" ] || [ "$HASH" = "null" ]; then
     echo "Could not prefetch tag desktop-v${VERSION}"

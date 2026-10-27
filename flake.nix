@@ -4,6 +4,17 @@
     skygqts.url = "git+ssh://gitea@gitea.app.internal:22/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
     hermenix.url = "git+ssh://gitea@gitea.app.internal:22/ari/hermenix.git";
+    # Self-managed nspawn robots. Robots pin the same hermes-agent rev.
+    robotnix = {
+      url = "git+ssh://gitea@gitea.app.internal:22/ari/robotnix.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hermes-agent.follows = "hermes-agent";
+      # Dev/test-only inputs of robotnix: keep them out of this lock.
+      inputs.git-hooks.follows = "git-hooks";
+      inputs.devenv.follows = "";
+      inputs.treefmt-nix.follows = "";
+      inputs.nutest.follows = "";
+    };
     # Read-only host monitor (systemd, journal, Docker) over REST + MCP.
     skyg-linux-tracker = {
       url = "git+https://gitea.skyg.ca/ari/skyg-linux-tracker.git";
@@ -104,6 +115,7 @@
     { self
     , skygqts
     , hermenix
+    , robotnix
     , skyg-linux-tracker
     , hhstream
     , nixpkgs-unstable
@@ -197,6 +209,7 @@
                 hermes-agent
                 skygqts
                 hermenix
+                robotnix
                 skyg-linux-tracker
                 hhstream
                 flox

@@ -3054,6 +3054,35 @@
         "type": "github"
       }
     },
+    "robotnix": {
+      "inputs": {
+        "devenv": [],
+        "git-hooks": [
+          "git-hooks"
+        ],
+        "hermes-agent": [
+          "hermes-agent"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nutest": [],
+        "treefmt-nix": []
+      },
+      "locked": {
+        "lastModified": 1793121438,
+        "narHash": "sha256-/oPrlfJoMbRNvv9r9M2O9chx74UkxF9y0aV3C6TqSK8=",
+        "ref": "refs/heads/main",
+        "rev": "01e1d47856dae496ba7e30d8864ae3228e22612a",
+        "revCount": 2,
+        "type": "git",
+        "url": "ssh://gitea@gitea.app.internal:22/ari/robotnix.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://gitea@gitea.app.internal:22/ari/robotnix.git"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -3080,6 +3109,7 @@
         "nixpkgs": "nixpkgs_13",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
+        "robotnix": "robotnix",
         "skyg-linux-tracker": "skyg-linux-tracker",
         "skygqts": "skygqts",
         "stylix": "stylix",

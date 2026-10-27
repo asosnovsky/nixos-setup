@@ -2,11 +2,8 @@
 # things here (then rebuild the host), not inside the robot.
 { config, lib, pkgs, ... }:
 let
-  # The robot's own nixpkgs has no host overlay, so build it from the repo.
-  # Fine for the seed build; a rebuild inside the robot can't see this path.
   buzz-cli = pkgs.callPackage ../../../../pkgs/buzz-cli { };
-  # Buzz profile name: the Hermes name the host passes to the gateway.
-  buzzName = config.services.hermes-agent.environment.API_SERVER_MODEL_NAME or "sibli";
+  robotoName = config.services.hermes-agent.environment.API_SERVER_MODEL_NAME;
 in
 {
   # The user has no password; ssh keys only.
@@ -36,8 +33,10 @@ in
     '';
   };
 
-  # Hermes's Buzz platform runs `buzz`; the service PATH has no system packages.
-  services.hermes-agent.environment.BUZZ_CLI_PATH = "${buzz-cli}/bin/buzz";
+  services.hermes-agent.environment = {
+    BUZZ_CLI_PATH = "${buzz-cli}/bin/buzz";
+    BUZZ_HOME_CHANNEL = "a8969cdc-7ba2-4e25-ae18-b898ab59003d";
+  };
 
   # A new Buzz key has no profile, and Hermes won't connect without one.
   # Publish one at start if missing; the relay keeps it across resets.
@@ -52,7 +51,6 @@ in
       Type = "oneshot";
       RemainAfterExit = true;
       User = "hermes";
-      # Same secrets as Hermes (container credentials from the host).
       EnvironmentFile = config.systemd.services.hermes-agent.serviceConfig.EnvironmentFile;
     };
     script = ''
@@ -67,7 +65,7 @@ in
           n=$(jq 'length' <<<"$out") || n=""
         fi
         if [ "$n" = "0" ]; then
-          if buzz users set-profile --name ${lib.escapeShellArg buzzName}; then
+          if buzz users set-profile --name ${lib.escapeShellArg robotoName}; then
             echo "Published Buzz profile."
             exit 0
           fi
@@ -84,12 +82,55 @@ in
   # Docker + compose. Needs allowDocker = true on the host.
   virtualisation.docker.enable = true;
   users.users.ari.extraGroups = [ "docker" ];
+  users.users.hermes.extraGroups = [ "docker" ];
 
   # Own tailnet machine. Needs allowTun = true on the host.
-  # Log in once: sudo tailscale up (state is kept via persist on the host)
+  # Logs in by itself with TS_AUTHKEY from the robots-sibli secret.
+  # State is kept via persist on the host, so this only matters once.
   services.tailscale.enable = true;
   services.tailscale.openFirewall = true;
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
+  systemd.services.tailscale-login = {
+    description = "Log in to Tailscale if needed";
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" "tailscaled.service" ];
+    requires = [ "tailscaled.service" ];
+    path = [ config.services.tailscale.package pkgs.jq ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      EnvironmentFile = config.systemd.services.hermes-agent.serviceConfig.EnvironmentFile;
+    };
+    script = ''
+      if [ -z "''${TS_AUTHKEY:-}" ]; then
+        echo "No TS_AUTHKEY, skipping."
+        exit 0
+      fi
+      # Retry: the daemon may not be ready yet. Failure is not fatal.
+      for _ in 1 2 3 4 5 6; do
+        state=""
+        if out=$(tailscale status --json); then
+          state=$(jq -r '.BackendState' <<<"$out") || state=""
+        fi
+        case "$state" in
+          Running)
+            echo "Already logged in."
+            exit 0
+            ;;
+          NeedsLogin|Stopped)
+            if tailscale up --auth-key="$TS_AUTHKEY" --hostname=${robotoName}-bot; then
+              echo "Logged in."
+              exit 0
+            fi
+            ;;
+        esac
+        sleep 5
+      done
+      echo "Could not log in to Tailscale." >&2
+    '';
+  };
   nix.gc = {
     automatic = true;
     dates = "weekly";

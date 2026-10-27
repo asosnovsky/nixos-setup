@@ -16,7 +16,8 @@ in
     mode = "0400";
   });
 
-  skyg.nixos.server.robotnix = {
+  # robotnix flake input; options and docs in its repo.
+  services.robotnix = {
     enable = true;
     externalInterface = "enp191s0";
 

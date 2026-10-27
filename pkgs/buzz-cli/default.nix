@@ -23,7 +23,7 @@ rustPlatform.buildRustPackage rec {
   };
 
   # The workspace has git deps in [patch.crates-io]; cargoHash covers them.
-  cargoHash = lib.fakeHash;
+  cargoHash = "sha256-UQ8qNqoeDwkwhmVZebi++gb2GP61dr1Zv2QU9mJ6KJ8=";
 
   # Only this crate; the workspace has 30+ others (relay, db, ...).
   cargoBuildFlags = [ "-p" "buzz-cli" ];

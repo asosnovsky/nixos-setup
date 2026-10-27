@@ -18,7 +18,7 @@ server/
 ├── k3s/           # Single-binary K3s cluster role
 ├── k8s/           # Full upstream Kubernetes (master/node)
 ├── portainer.nix  # skyg.nixos.server.portainer — Portainer server or Edge agent
-├── robotnix/      # skyg.nixos.server.robotnix — self-managed NixOS nspawn containers
+├── robotnix/      # adapter: imports the robotnix flake (services.robotnix)
 └── services/      # Self-hosted apps (jellyfin, audiobookshelf, comfyui, ds4, colibri, ai…)
 ```
 
@@ -36,8 +36,8 @@ server/
 
 | Structure    | Namespace                    | Notes                                                                                                                                                                       |
 | ------------ | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `robotnix/`  | `skyg.nixos.server.robotnix` | Self-managed NixOS nspawn containers (persistent system, own LAN IP, snapshots, host-controlled web access). The one sanctioned nspawn exception to the oci-containers rule |
-| `timers.nix` | `skyg.server.timers`         | Generic attrset → timer + oneshot service (robotnix snapshot timers use it)                                                                                                 |
+| `robotnix/`  | `services.robotnix`          | Adapter for the robotnix flake (own repo): self-managed NixOS nspawn robots. Sets skyg defaults; the one sanctioned nspawn exception to the oci-containers rule             |
+| `timers.nix` | `skyg.server.timers`         | Generic attrset → timer + oneshot service                                                                                                                                   |
 
 ## Option Namespace
 
@@ -50,7 +50,7 @@ skyg.server.arrs.*                → arrs/
 skyg.server.dns.*                 → dns/
 skyg.nixos.server.k3s.*           → k3s/
 skyg.nixos.server.k8s.*           → k8s/
-skyg.nixos.server.robotnix.*      → robotnix/  (self-managed nspawn containers)
+services.robotnix.*               → robotnix/  (adapter for the robotnix flake)
 skyg.nixos.server.services.*      → services/
 skyg.nixos.server.portainer.*     → portainer.nix
 ```
