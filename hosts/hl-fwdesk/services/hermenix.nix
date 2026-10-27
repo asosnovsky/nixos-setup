@@ -31,7 +31,6 @@ in
     hostAccess = [
       { port = ports.ollama; }
       { port = ports.ds4; }
-      # Primary skyg-linux-tracker on this host (it consolidates the lab).
       { port = ports.tracker; }
     ];
     lanAccess = [

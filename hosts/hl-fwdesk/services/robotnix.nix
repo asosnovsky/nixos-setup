@@ -26,7 +26,12 @@ in
       hostAccess = [
         { port = ports.ollama; }
       ];
-      lanAccess = [ ];
+      lanAccess = [
+        { address = "10.0.101.3"; port = 443; }
+        { address = "10.0.101.3"; port = 3000; }
+        { address = "10.0.101.3"; port = 8080; }
+        { address = "10.0.101.3"; port = 9102; }
+      ];
     };
 
     # A Hermes agent in every robot.

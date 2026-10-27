@@ -173,13 +173,17 @@ Each robot gets its own Buzz (Nostr) identity in its own `robots-<name>` secret:
    limits it, `--restricted` allows no one.
 2. Add the printed npub to the relay: `sudo buzz-manage add-member <npub>` on
    hl-minipc1.
-3. The robot needs `lanAccess` to the relay and the `buzz` CLI. The robot's
+3. The robot needs `lanAccess` to the relay (`10.0.101.3` ports 443, 3000,
+   8080, 9102; the default relay URL uses 443) and the `buzz` CLI. The robot's
    nixpkgs has no host overlay, so its config builds it with
    `pkgs.callPackage <repo>/pkgs/buzz-cli { }` and points `BUZZ_CLI_PATH` at it
    (`services.hermes-agent.environment`), because the service PATH has no
    system packages. That relative path only resolves for the host's seed
    build, not for a rebuild inside the robot. Restart the robot after the
    secret changes.
+4. A new key has no profile, and Hermes won't connect without one
+   (`buzz users get returned no profile`). sibli runs a `buzz-profile`
+   oneshot at start that calls `buzz users set-profile` when the key has none.
 
 ## Docker and Tailscale (opt-in, host side only)
 
