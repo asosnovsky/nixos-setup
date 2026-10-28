@@ -3203,11 +3203,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792467407,
-        "narHash": "sha256-hMm4hFiwpqELJTvhms0gdL56icKgh2C7GgM0RhY4/qQ=",
+        "lastModified": 1793122942,
+        "narHash": "sha256-J7Jl1K9lAqHoBFffl0fVMwz9Dfe/uD3bduvqetpZlas=",
         "ref": "refs/heads/main",
-        "rev": "b127fc22565770ccb605a41dc66b462aafb00093",
-        "revCount": 36,
+        "rev": "3cb0d69d10511aba56ff1459615028309d628b79",
+        "revCount": 40,
         "type": "git",
         "url": "ssh://gitea@gitea.app.internal:22/ari/skygqts.git"
       },

@@ -120,7 +120,7 @@ in
             exit 0
             ;;
           NeedsLogin|Stopped)
-            if tailscale up --auth-key="$TS_AUTHKEY" --hostname=${robotoName}-bot; then
+            if tailscale up --auth-key="$TS_AUTHKEY" --hostname=ari-fwdesk-${robotoName}-bot; then
               echo "Logged in."
               exit 0
             fi
