@@ -136,10 +136,62 @@ let
         print("Lid event monitor stopped", file=sys.stderr, flush=True)
     EOFPYTHON
   '';
+
+  # Safety net: if the lid is closed but the machine is still awake, force a
+  # suspend. Runs every minute via lid-suspend-watchdog.timer. Rescues the
+  # "closed laptop in a bag, sitting awake and overheating" failure mode where
+  # logind missed the lid event or the compositor wedged before sleep.
+  lid-suspend-watchdog-script = pkgs.writeShellScript "lid-suspend-watchdog" ''
+    set -u
+    LID_GLOB="/proc/acpi/button/lid/*/state"
+    STAMP="/run/lid-suspend-watchdog.stamp"
+    COOLDOWN=90
+
+    lid_closed() {
+        for f in $LID_GLOB; do
+            [ -f "$f" ] || continue
+            grep -q "closed" "$f" && return 0
+        done
+        return 1
+    }
+
+    if ! lid_closed; then
+        rm -f "$STAMP"
+        exit 0
+    fi
+
+    # Already suspending/suspended, or a suspend job is queued: nothing to do.
+    if systemctl is-active --quiet suspend.target; then
+        exit 0
+    fi
+    if systemctl list-jobs --no-legend 2>/dev/null | grep -q "suspend.target"; then
+        exit 0
+    fi
+
+    now=$(date +%s)
+    last=$(cat "$STAMP" 2>/dev/null || echo 0)
+    if [ $((now - last)) -ge "$COOLDOWN" ]; then
+        echo "$now" > "$STAMP"
+        echo "lid-suspend-watchdog: lid closed and system still awake — forcing suspend"
+        systemctl suspend
+    fi
+  '';
 in
 {
   options.skyg.nixos.common.hardware.laptop-power-mgr = with lib; {
     enable = mkEnableOption "Settings for laptop power management";
+
+    enableLidSuspendWatchdog = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Enable a safety-net watchdog that periodically checks the lid switch
+        and forces a suspend whenever the lid is closed but the machine is
+        still awake (e.g. logind missed the lid event, or the compositor
+        wedged on s2idle). Without this, a laptop can sit closed in a bag,
+        fully awake, and overheat.
+      '';
+    };
 
     enableTempMonitor = mkOption {
       type = types.bool;
@@ -298,6 +350,27 @@ in
         RestartSec = 5;
         StandardOutput = "journal";
         StandardError = "journal";
+      };
+    };
+
+    # Safety-net suspend watchdog: periodically check the lid, suspend if the
+    # lid is closed but the machine is still awake. Only enabled if
+    # enableLidSuspendWatchdog is true.
+    systemd.services.lid-suspend-watchdog = lib.mkIf cfg.enableLidSuspendWatchdog {
+      description = "Force suspend when the lid is closed but the system is still awake";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${lid-suspend-watchdog-script}";
+      };
+    };
+
+    systemd.timers.lid-suspend-watchdog = lib.mkIf cfg.enableLidSuspendWatchdog {
+      description = "Periodic lid-closed suspend check";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "2m";
+        OnUnitActiveSec = "1m";
+        AccuracySec = "10s";
       };
     };
   };

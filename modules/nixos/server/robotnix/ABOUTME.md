@@ -21,11 +21,12 @@ This folder only holds `default.nix`, which:
   hermenix: the options belong to an external flake.
 - **hermes-agent pin**: the input follows this repo's `hermes-agent`, so
   robots pin the same revision the host locked.
-- **Buzz stays here**: robotnix knows nothing about Buzz. A robot's seed
-  config (e.g. `hosts/hl-fwdesk/services/robotnix/sibli.nix`) builds
-  `pkgs/buzz-cli` from this repo and sets `BUZZ_CLI_PATH` itself. That
-  relative path works for the seed build only, which is fine for ephemeral
-  robots; a persistent robot that rebuilds itself would need its own copy.
+- **Buzz stays here**: robotnix knows nothing about Buzz. The robots' shared
+  `hosts/hl-fwdesk/services/robotnix/buzz.nix` builds `pkgs/buzz-cli` from
+  this repo and sets `BUZZ_CLI_PATH`. Robots get copies of it, `common.nix`
+  and `pkgs/buzz-cli` under `/etc/nixos/seed` (robotnix `seed.extraFiles`,
+  `seedOf` in the host file), so a robot that rebuilds itself (genix) has
+  its own copy.
 - **nspawn, not `oci-containers`**: the oci-containers rule targets
   Docker/Podman. nspawn robots need their own store for self-rebuilds, which
   the `containers.*` module can't give.

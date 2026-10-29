@@ -1400,15 +1400,16 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1792542070,
-        "narHash": "sha256-FI+AF5jFi/NqfbMmFZ/CfS6dLzguZi2Im4CgAqU/W28=",
+        "lastModified": 1793183825,
+        "narHash": "sha256-MMn1clKPz3FyrFEq39OqXZ2SO3QBaOOFtAFVIcO+VvU=",
         "owner": "hyprwm",
         "repo": "Hyprland",
-        "rev": "c7216a9807a2683ce243f6ed14ae01e7e884c426",
+        "rev": "0aa6745f705f2c4b0a5004eb019ef76e5bbdb426",
         "type": "github"
       },
       "original": {
         "owner": "hyprwm",
+        "ref": "v0.57.0",
         "repo": "Hyprland",
         "type": "github"
       }
@@ -1903,11 +1904,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792422421,
-        "narHash": "sha256-PPFSrljjMij4EkXf5fDvKGwZZvVUlets3s1GpvJovr0=",
+        "lastModified": 1792673440,
+        "narHash": "sha256-7l2+xIZ7IU9r4h9ngSrGH7oQs8XZj0NR0V+96wkN8zk=",
         "owner": "hyprwm",
         "repo": "hyprutils",
-        "rev": "b6e5781af3716d2d401cfbee47fc2e961d479ccb",
+        "rev": "0d13d5a624eb093b600d1b2cbe448fb613c86424",
         "type": "github"
       },
       "original": {
@@ -3070,11 +3071,11 @@
         "treefmt-nix": []
       },
       "locked": {
-        "lastModified": 1793121438,
-        "narHash": "sha256-/oPrlfJoMbRNvv9r9M2O9chx74UkxF9y0aV3C6TqSK8=",
+        "lastModified": 1793232093,
+        "narHash": "sha256-lH8MNrXEyWzkM+iA0ILRH3qoqSrE0ZJ76FeFoEHWgac=",
         "ref": "refs/heads/main",
-        "rev": "01e1d47856dae496ba7e30d8864ae3228e22612a",
-        "revCount": 2,
+        "rev": "c8a494361d085a355f63f98ec92c5aee58f3c51c",
+        "revCount": 4,
         "type": "git",
         "url": "ssh://gitea@gitea.app.internal:22/ari/robotnix.git"
       },
