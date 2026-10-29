@@ -19,7 +19,6 @@
         laptop-power-mgr = {
           enable = true;
           enableTempMonitor = true;
-          enableLidSuspendWatchdog = true;
         };
         amdgpu.enable = true;
       };
