@@ -3113,6 +3113,7 @@
         "robotnix": "robotnix",
         "skyg-linux-tracker": "skyg-linux-tracker",
         "skygqts": "skygqts",
+        "slackerbot": "slackerbot",
         "stylix": "stylix",
         "systems": "systems_6"
       }
@@ -3215,6 +3216,26 @@
       "original": {
         "type": "git",
         "url": "ssh://gitea@gitea.app.internal:22/ari/skygqts.git"
+      }
+    },
+    "slackerbot": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793556114,
+        "narHash": "sha256-TxDFlMNXyd9GXHa1FUCfZjauf5W//m73aMlhArE4vAQ=",
+        "ref": "refs/heads/main",
+        "rev": "0ac61b4eceb017ccf94f86c8cde30d1fb6db3d3e",
+        "revCount": 2,
+        "type": "git",
+        "url": "https://gitea.skyg.ca/ari/slacker-bot.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://gitea.skyg.ca/ari/slacker-bot.git"
       }
     },
     "sops-nix": {

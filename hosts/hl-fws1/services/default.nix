@@ -1,5 +1,7 @@
 { ... }:
 {
+  imports = [ ./slackerbot.nix ];
+
   services.pipewire = {
     extraConfig.pipewire-pulse."10-raop-discover" = {
       context.modules = [

@@ -20,6 +20,11 @@
       url = "git+https://gitea.skyg.ca/ari/skyg-linux-tracker.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Slack bot that runs goose agents in nspawn containers.
+    slackerbot = {
+      url = "git+https://gitea.skyg.ca/ari/slacker-bot.git";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # Headless Hyprland session streamed over a Unix socket.
     hhstream = {
       url = "git+ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git";
@@ -120,6 +125,7 @@
     , hermenix
     , robotnix
     , skyg-linux-tracker
+    , slackerbot
     , hhstream
     , nixpkgs-unstable
     , flox
@@ -199,6 +205,9 @@
                 robots-shared = ./secrets/robots-shared.age;
                 robots-sibli = ./secrets/robots-sibli.age;
                 robots-genix = ./secrets/robots-genix.age;
+                slackerbot-slack = ./secrets/slackerbot-slack.age;
+                slackerbot-goose = ./secrets/slackerbot-goose.age;
+                slackerbot-cluster = ./secrets/slackerbot-cluster.age;
               };
               inherit
                 hyprlauncher
@@ -215,6 +224,7 @@
                 hermenix
                 robotnix
                 skyg-linux-tracker
+                slackerbot
                 hhstream
                 flox
                 determinate
@@ -373,6 +383,7 @@
               ./hosts/hl-fws1.disko.nix
               nixos-hardware.nixosModules.framework-11th-gen-intel
               disko.nixosModules.disko
+              slackerbot.nixosModules.host
             ];
           };
           hl-fwdesk = lib.makeNixOs {
@@ -383,6 +394,7 @@
               nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
               hermenix.nixosModules.default
               buildbot-nix.nixosModules.buildbot-worker
+              slackerbot.nixosModules.host
             ];
           };
           hl-bigbox1 = lib.makeNixOs {

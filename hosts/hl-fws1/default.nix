@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 {
   imports = [
-    ./services.nix
+    ./services
     ./hardware-configuration
     ./hardware.nix
     ./systemd.nix
