@@ -77,12 +77,12 @@ let
 in
 stdenv.mkDerivation {
   pname = "colibri" + lib.optionalString (backend == "rocm") "-rocm";
-  version = "2.0.0";
+  version = "2.1.0";
 
   src = fetchFromGitHub {
     owner = "JustVugg";
     repo = "colibri";
-    rev = "a7f535a9b34ffa31a4eef18c8a0bb6775c973a6e"; # tag v1.5.0
+    rev = "8579957378ca922ad4340a6392513485cbc50c2c"; # tag v1.5.0
     hash = "sha256-4gxlmTiB3RfWdeqQfkr6nstBrQktRA0jUP7TY29KpM0=";
   };
 

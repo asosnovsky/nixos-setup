@@ -1,11 +1,16 @@
-{ config, lib, pkgs, slackerbot, skyg-secrets, ... }:
+{ config, lib, pkgs, skyg-secrets, ... }:
 let
   ports = { cluster = 7946; };
   homes = "/data/slackerbot";
   secrets = [ "slackerbot-slack" "slackerbot-goose" "slackerbot-cluster" ];
+  bazel = config.skyg.nixos.server.services.bazel-build;
   settings = {
-    # The system each container boots; updated on every rebuild.
-    system = "${slackerbot.packages.${pkgs.stdenv.hostPlatform.system}.agent}";
+    # The system each container boots (slackerbot's agent + bazel/rbuild);
+    # updated on every rebuild.
+    system = "${bazel.agentSystem}";
+    # /handoff and /outputs for remote Bazel builds on this host.
+    rw_binds = bazel.binds.rw;
+    ro_binds = bazel.binds.ro;
     machines_dir = "/var/lib/machines";
     state_dir = "/var/lib/slackerbot";
     agent_cwd = "/root";
@@ -56,6 +61,13 @@ in
     clusterPort = ports.cluster;
     configFile = (pkgs.formats.toml { }).generate "slackerbot.toml" settings;
   };
+  # Bazel build server for the containers (16 cores / 32 threads).
+  skyg.nixos.server.services.bazel-build = {
+    enable = true;
+    cpuCount = 32;
+    cacheGB = 200;
+  };
+
   # The module takes one env file; these add to it.
   systemd.services.slackerbot.serviceConfig.EnvironmentFile =
     map (name: config.age.secrets.${name}.path) secrets;

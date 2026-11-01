@@ -1,9 +1,14 @@
-{ config, pkgs, slackerbot, skyg-secrets, ... }:
+{ config, pkgs, skyg-secrets, ... }:
 let
   homes = "/var/lib/slackerbot/homes";
+  bazel = config.skyg.nixos.server.services.bazel-build;
   settings = {
-    # The system each container boots; updated on every rebuild.
-    system = "${slackerbot.packages.${pkgs.stdenv.hostPlatform.system}.agent}";
+    # The system each container boots (slackerbot's agent + bazel/rbuild);
+    # updated on every rebuild.
+    system = "${bazel.agentSystem}";
+    # /handoff and /outputs for remote Bazel builds on this host.
+    rw_binds = bazel.binds.rw;
+    ro_binds = bazel.binds.ro;
     machines_dir = "/var/lib/machines";
     state_dir = "/var/lib/slackerbot";
     agent_cwd = "/root";
@@ -41,6 +46,13 @@ in
     mode = "slave";
     configFile = (pkgs.formats.toml { }).generate "slackerbot.toml" settings;
     environmentFile = config.age.secrets.slackerbot-cluster.path;
+  };
+
+  # Bazel build server for the containers (4 cores / 8 threads).
+  skyg.nixos.server.services.bazel-build = {
+    enable = true;
+    cpuCount = 8;
+    cacheGB = 50;
   };
 
   # Container links belong to systemd-networkd.

@@ -25,6 +25,9 @@
       url = "git+https://gitea.skyg.ca/ari/slacker-bot.git";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    # Bazel remote build server for slackerbot containers. Pinned: its config
+    # format changes between releases (see bazel-build.nix).
+    nativelink.url = "github:TraceMachina/nativelink/v1.8.3";
     # Headless Hyprland session streamed over a Unix socket.
     hhstream = {
       url = "git+ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git";
@@ -126,6 +129,7 @@
     , robotnix
     , skyg-linux-tracker
     , slackerbot
+    , nativelink
     , hhstream
     , nixpkgs-unstable
     , flox
@@ -225,6 +229,7 @@
                 robotnix
                 skyg-linux-tracker
                 slackerbot
+                nativelink
                 hhstream
                 flox
                 determinate
