@@ -28,7 +28,7 @@ let
       OPENROUTER_API_KEY = "$OPENROUTER_API_KEY";
     };
 
-    container = { memory_mb = 1024; cpus = 1.0; };
+    container = { memory_mb = 2048; cpus = 1.0; };
     max_container = { memory_mb = 4096; cpus = 2.0; };
     # Leave room for ollama, ds4, comfyui, hermes and the robots.
     host_reserve = { memory_mb = 32768; cpus = 4.0; };

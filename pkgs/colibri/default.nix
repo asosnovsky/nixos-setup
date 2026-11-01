@@ -83,7 +83,7 @@ stdenv.mkDerivation {
     owner = "JustVugg";
     repo = "colibri";
     rev = "8579957378ca922ad4340a6392513485cbc50c2c"; # tag v1.5.0
-    hash = "sha256-4gxlmTiB3RfWdeqQfkr6nstBrQktRA0jUP7TY29KpM0=";
+    hash = "sha256-wuSLM50nAzcFWDC7fJb3dfAvuq1sc69quT1y0ANq9Pk=";
   };
 
   nativeBuildInputs = [ makeWrapper ];

@@ -10,7 +10,7 @@ Key non-negotiable rules from that file:
   changes — no matter how small the task.
 - **Never run builds, system switches, or remote installs** (`nixos-rebuild`,
   `nh os`, `skyg os`, `skyg remote install`, `nixos-anywhere`, `nix build`,
-  `nix flake check`, etc.) — zero exceptions, even if asked.
+  `nix flake check`, etc.). You may only run it after asking the user 3 times if the are sure about it!
 - Never edit `flake.lock`, `*.hardware-configuration.nix`, or anything in
   `secrets/`.
 - Never add `imports = [...]` to host files.

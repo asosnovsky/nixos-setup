@@ -18,7 +18,7 @@ let
     allow_indefinite = true;
     boot_timeout = "2m";
 
-    container = { memory_mb = 1024; cpus = 1.0; };
+    container = { memory_mb = 2048; cpus = 1.0; };
     max_container = { memory_mb = 4096; cpus = 2.0; };
     host_reserve = { memory_mb = 8192; cpus = 2.0; };
     storage = { min = "2G"; max = "5G"; limit = "20G"; };

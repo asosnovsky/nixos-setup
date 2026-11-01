@@ -20,6 +20,34 @@ with lib;
 let
   cfg = config.skyg.nixos.server.services.bazel-build;
   system = pkgs.stdenv.hostPlatform.system;
+  # Official Bazel release, checked against its sha256. Containers see
+  # /nix/store read-only, so one copy per node serves all of them. Upstream
+  # builds only run on NixOS through nix-ld. To bump: change both values.
+  bazelVersion = "8.7.0";
+  bazelSha256 = "d7606e679b78067c811096fb3d6cf135225b528835ca396e3a4dddf957859544";
+  # Copied as-is: patching would break the archive appended to the binary.
+  bazelRelease = pkgs.runCommand "bazel-${bazelVersion}-release" { } ''
+    install -Dm755 ${pkgs.fetchurl {
+      url = "https://releases.bazel.build/${bazelVersion}/release/bazel-${bazelVersion}-linux-x86_64";
+      sha256 = bazelSha256;
+    }} $out/bin/bazel
+  '';
+
+  # `bazel` runs bazelisk on the host and in containers: a repo's
+  # .bazelversion wins, otherwise bazelVersion. bazelVersion is pre-entered in
+  # bazelisk's cache (format of bazelisk 1.28) as a link to bazelRelease, so it
+  # is never downloaded. Other versions download into each user's own cache.
+  bazel = pkgs.writeShellScriptBin "bazel" ''
+    export USE_BAZEL_FALLBACK_VERSION=''${USE_BAZEL_FALLBACK_VERSION:-silent:${bazelVersion}}
+    dl=''${BAZELISK_HOME_LINUX:-''${BAZELISK_HOME:-''${XDG_CACHE_HOME:-$HOME/.cache}/bazelisk}}/downloads
+    meta=$dl/metadata/bazelbuild/bazel-${bazelVersion}-linux-x86_64
+    if [ ! -e "$dl/sha256/${bazelSha256}/bin/bazel" ] || [ "$(cat "$meta" 2>/dev/null)" != ${bazelSha256} ]; then
+      mkdir -p "$dl/sha256" "''${meta%/*}"
+      ln -sfn ${bazelRelease} "$dl/sha256/${bazelSha256}"
+      printf %s ${bazelSha256} > "$meta"
+    fi
+    exec ${pkgs.bazelisk}/bin/bazelisk "$@"
+  '';
 
   stateDir = "/var/lib/nativelink";
   handoffRoot = "/var/lib/build-handoff";
@@ -386,7 +414,7 @@ let
     remote=--remote_executor=grpc://$gw:${toString cfg.port}
     rm -f $H/bep.json $H/result.json
     touch $H/started
-    ${pkgs.bazel}/bin/bazel build "$remote" --remote_download_minimal --build_event_json_file=$H/bep.json "$@"
+    ${bazel}/bin/bazel build "$remote" --remote_download_minimal --build_event_json_file=$H/bep.json "$@"
     rc=$?
     rm -f $H/started
     for _ in $(seq 600); do [ -f $H/result.json ] && break; sleep 0.1; done
@@ -399,15 +427,22 @@ let
       # Rare: outputs were evicted before the host could link them. Bazel
       # finds them gone, rebuilds them, and downloads them over the network.
       echo "rbuild: rebuilding ''${#missing[@]} evicted target(s)" >&2
-      ${pkgs.bazel}/bin/bazel build "$remote" --remote_download_toplevel "''${missing[@]}" || rc=$?
+      ${bazel}/bin/bazel build "$remote" --remote_download_toplevel "''${missing[@]}" || rc=$?
     fi
     echo "rbuild: outputs are in /outputs" >&2
     exit $rc
   '';
 
+  remoteRc = "/run/bazel-remote.bazelrc";
+
   bazelrc = ''
+    # Builds run on the host, so the Bazel server in a container stays small.
+    startup --host_jvm_args=-Xmx512m
+
     build --remote_instance_name=main
-    build --remote_download_minimal
+    # Plain `bazel build` downloads final outputs; rbuild overrides this with
+    # minimal and gets them through /outputs instead.
+    build --remote_download_toplevel
     build --jobs=${toString (cfg.cpuCount * 4)}
 
     # Rebuild instead of failing when the cache evicts something Bazel needs.
@@ -416,13 +451,62 @@ let
     build --action_env=PATH=${toolchain}/bin
     build --host_action_env=PATH=${toolchain}/bin
     build --repo_env=CC=${toolchain}/bin/gcc
+
+    # Points plain `bazel` at the host (written at boot). Missing = local build.
+    try-import ${remoteRc}
+  '';
+
+  # Global goose instructions in each container.
+  goosehints = ''
+    # Bazel builds run on the host, never in this container
+
+    This container is small (about 2 GB RAM, 1 CPU). `bazel build/test/run` is
+    set up to run every action on the host's build server, and `rbuild //target`
+    does the same and puts outputs in /outputs.
+
+    A normal build ends with a line like
+    `INFO: 120 processes: 110 remote, 10 internal.` (or "remote cache hit").
+    If instead you see `linux-sandbox`, `local` or `processwrapper-sandbox`
+    doing the work, or /run/bazel-remote.bazelrc is missing, or a build can't
+    reach the remote executor, something is wrong:
+    - stop the build (`bazel shutdown`), don't retry it locally,
+    - don't remove or override the --remote_* flags,
+    - tell the user what you saw, with the error lines.
   '';
 
   # Added to slackerbot's agent system. Uses host packages so bazel and the
   # toolchain match the host exactly.
   agentModule = {
-    environment.systemPackages = [ pkgs.bazel pkgs.git rbuild ];
+    environment.systemPackages = [ bazel pkgs.bazelisk pkgs.go pkgs.git rbuild ];
     environment.etc."bazel.bazelrc".text = bazelrc;
+    environment.etc."goose/goosehints".text = goosehints;
+    programs.nix-ld.enable = true;
+
+    systemd.tmpfiles.rules = [
+      "d /root/.config/goose 0755 root root -"
+      "L+ /root/.config/goose/.goosehints - - - - /etc/goose/goosehints"
+    ];
+
+    # The host is the default gateway, whose address changes per container,
+    # so write it for bazel.bazelrc once the route is up. Doesn't hold up boot.
+    systemd.services.bazel-remote-rc = {
+      description = "Point Bazel at the host build server";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+      path = [ pkgs.iproute2 pkgs.gawk pkgs.coreutils ];
+      script = ''
+        for _ in $(seq 60); do
+          gw=$(ip -4 route show default | awk '{print $3; exit}')
+          if [ -n "$gw" ]; then
+            echo "build --remote_executor=grpc://$gw:${toString cfg.port}" > ${remoteRc}
+            exit 0
+          fi
+          sleep 1
+        done
+        echo "no default route after 60s; bazel will build locally" >&2
+        exit 1
+      '';
+    };
   };
 in
 {
@@ -448,14 +532,14 @@ in
       };
 
       agentSystem = mkOption {
-        description = "slackerbot's agent system with bazel, bazelrc and rbuild added. Use for slackerbot's `system`.";
+        description = "slackerbot's agent system with bazel, go, bazelrc and rbuild added. Use for slackerbot's `system`.";
         readOnly = true;
         type = types.package;
         default = (slackerbot.nixosConfigurations.agent.extendModules {
           modules = [ agentModule ];
         }).config.system.build.toplevel;
         # Keeps the manual from building it on every host.
-        defaultText = literalExpression "slackerbot agent + bazel, bazelrc, rbuild";
+        defaultText = literalExpression "slackerbot agent + bazel, go, bazelrc, rbuild";
       };
 
       binds = mkOption {
@@ -471,7 +555,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ pkgs.bazel ];
+    environment.systemPackages = [ bazel pkgs.bazelisk ];
+    programs.nix-ld.enable = true; # for the Bazel bazelisk downloads
 
     systemd.services.nativelink = {
       description = "NativeLink remote cache and build service";

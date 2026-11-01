@@ -27,10 +27,23 @@ services/
   to v1.8.3 because its config format changes) plus `build-materializer`, which
   hardlinks finished outputs from the cache into `/var/lib/build-outputs/<container>`.
   Containers run `rbuild //target` (finds the host as the default gateway) and read
-  results at `/outputs`. It also exposes `agentSystem` (slackerbot's agent + bazel,
+  results at `/outputs`. Plain `bazel` builds remotely too: at boot,
+  `bazel-remote-rc` writes the gateway into `/run/bazel-remote.bazelrc`, which the
+  container's `/etc/bazel.bazelrc` try-imports (missing = local build). Plain builds
+  download final outputs (`--remote_download_toplevel`). The Bazel server is capped at
+  512M. Global goose hints (`/root/.config/goose/.goosehints` → `/etc/goose/goosehints`)
+  tell goose that a local build means something is wrong: stop and report it. It also exposes `agentSystem` (slackerbot's agent + bazel, go,
   bazelrc, rbuild) and `binds` (slackerbot `ro_binds`/`rw_binds`). Used on hl-fws1
   and hl-fwdesk. Slackerbot must create `ro_binds` source folders, or containers fail
   to start before their first build.
+  `bazel` is a bazelisk wrapper on the host and in containers: a repo's
+  `.bazelversion` wins, otherwise 8.7.0 (`USE_BAZEL_FALLBACK_VERSION`). Bazel 8.7.0
+  is fetched once per node by Nix (official release, sha256-checked) and the wrapper
+  enters it into each user's bazelisk cache as a link, so containers share that one
+  read-only copy and never download it. Other versions download into each container's
+  own `/root/.cache/bazelisk`. Upstream Bazel only runs on NixOS through
+  `programs.nix-ld`, enabled on the host and in containers. Bump `bazelVersion` and
+  `bazelSha256` together.
 - **`colibri.nix`** runs `coli serve` (colibrì's OpenAI-compatible API) as a native systemd
   service. `package` picks the backend (`pkgs.colibri`
   cpu / `pkgs.colibri-rocm`); `environmentFile` supplies `COLI_API_KEY` via agenix instead of
