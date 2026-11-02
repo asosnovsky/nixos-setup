@@ -4,8 +4,10 @@
 #   container: bazel build //app  ──grpc──▶  NativeLink (host)  ──▶ host CPUs
 #                 ◀── final outputs downloaded (small, same machine)
 #
-# slackerbot mounts the shared download cache through `binds`. Containers use
-# private user IDs, so writable binds need `idmap` (container root = host root).
+# slackerbot mounts the shared download cache through `binds`. Container root
+# is an unprivileged host user; `idmap` only maps file owners on that mount, so
+# what it writes in /repo-cache is owned by root on the host.
+# TODO: share the Bazel cache with containers without files owned by root.
 { config, lib, pkgs, nativelink, slackerbot, ... }:
 
 with lib;
