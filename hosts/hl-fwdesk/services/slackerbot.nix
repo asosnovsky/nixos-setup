@@ -8,7 +8,7 @@ let
     # The system each container boots (slackerbot's agent + bazel/rbuild);
     # updated on every rebuild.
     system = "${bazel.agentSystem}";
-    # /handoff and /outputs for remote Bazel builds on this host.
+    # Shared Bazel download cache (/repo-cache) for the containers.
     rw_binds = bazel.binds.rw;
     ro_binds = bazel.binds.ro;
     machines_dir = "/var/lib/machines";
@@ -28,8 +28,8 @@ let
       OPENROUTER_API_KEY = "$OPENROUTER_API_KEY";
     };
 
-    container = { memory_mb = 2048; cpus = 1.0; };
-    max_container = { memory_mb = 4096; cpus = 2.0; };
+    container = { memory_mb = 4096; cpus = 1.0; };
+    max_container = { memory_mb = 8192; cpus = 2.0; };
     # Leave room for ollama, ds4, comfyui, hermes and the robots.
     host_reserve = { memory_mb = 32768; cpus = 4.0; };
     storage = { min = "2G"; max = "5G"; limit = "20G"; };

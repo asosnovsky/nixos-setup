@@ -3434,11 +3434,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793566366,
-        "narHash": "sha256-yytC8S47uJZNm7GraZQb84QH4YHA/tIOKIw6sis7sJA=",
+        "lastModified": 1793590815,
+        "narHash": "sha256-Z2HRkYW0547L309qm4e0w++xVKIJFpKbqBUDLEoWG4c=",
         "ref": "refs/heads/main",
-        "rev": "917a361370ab4da27ae10b232da34fcb40e04adf",
-        "revCount": 19,
+        "rev": "4db99eaa2a0e1529194983962a07109fdb716bcd",
+        "revCount": 22,
         "type": "git",
         "url": "https://gitea.skyg.ca/ari/slacker-bot.git"
       },

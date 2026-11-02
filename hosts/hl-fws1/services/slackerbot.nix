@@ -6,7 +6,7 @@ let
     # The system each container boots (slackerbot's agent + bazel/rbuild);
     # updated on every rebuild.
     system = "${bazel.agentSystem}";
-    # /handoff and /outputs for remote Bazel builds on this host.
+    # Shared Bazel download cache (/repo-cache) for the containers.
     rw_binds = bazel.binds.rw;
     ro_binds = bazel.binds.ro;
     machines_dir = "/var/lib/machines";
@@ -18,8 +18,8 @@ let
     allow_indefinite = true;
     boot_timeout = "2m";
 
-    container = { memory_mb = 2048; cpus = 1.0; };
-    max_container = { memory_mb = 4096; cpus = 2.0; };
+    container = { memory_mb = 4096; cpus = 1.0; };
+    max_container = { memory_mb = 8192; cpus = 2.0; };
     host_reserve = { memory_mb = 8192; cpus = 2.0; };
     storage = { min = "2G"; max = "5G"; limit = "20G"; };
     drives = [{ path = homes; reserve = "100G"; }];
@@ -58,6 +58,9 @@ in
   # Container links belong to systemd-networkd.
   networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];
   networking.dhcpcd.denyInterfaces = [ "ve-*" ];
+  # networkd only has the container links here (NetworkManager owns wlan),
+  # so wait-online would always time out.
+  systemd.network.wait-online.enable = false;
 
   systemd.tmpfiles.rules = [ "d ${homes} 0700 root root -" ];
 }

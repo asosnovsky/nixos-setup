@@ -24,18 +24,38 @@ services/
 - **`ai-services.nix`** openwakeword as containers and
   enables NixOS-native Wyoming faster-whisper + piper. Opens 11434/10200/10300/10400.
 - **`bazel-build.nix`** runs NativeLink (from the `nativelink` flake input, pinned
-  to v1.8.3 because its config format changes) plus `build-materializer`, which
-  hardlinks finished outputs from the cache into `/var/lib/build-outputs/<container>`.
-  Containers run `rbuild //target` (finds the host as the default gateway) and read
-  results at `/outputs`. Plain `bazel` builds remotely too: at boot,
-  `bazel-remote-rc` writes the gateway into `/run/bazel-remote.bazelrc`, which the
-  container's `/etc/bazel.bazelrc` try-imports (missing = local build). Plain builds
-  download final outputs (`--remote_download_toplevel`). The Bazel server is capped at
-  512M. Global goose hints (`/root/.config/goose/.goosehints` → `/etc/goose/goosehints`)
-  tell goose that a local build means something is wrong: stop and report it. It also exposes `agentSystem` (slackerbot's agent + bazel, go,
-  bazelrc, rbuild) and `binds` (slackerbot `ro_binds`/`rw_binds`). Used on hl-fws1
-  and hl-fwdesk. Slackerbot must create `ro_binds` source folders, or containers fail
-  to start before their first build.
+  to v1.8.3 because its config format changes) as a remote cache and executor for
+  slackerbot containers. Used on hl-fws1 and hl-fwdesk. Goal: as little as possible
+  runs in a container. Measured on slacker-bot (1 CPU container, 2026-11-01): local
+  458 s, remote with no cache 65 s, remote with warm cache 17 s.
+  - NativeLink uses `DynamicUser`, whose state folder systemd mounts `noexec`;
+    `ExecPaths` re-allows it, or every remote action fails with "Permission denied".
+  - Containers get their own `bazel` (`agentBazel`), with no plain bazel/bazelisk on
+    PATH. At boot `bazel-remote-rc` writes the gateway into `/run/bazel-remote.bazelrc`,
+    which `/etc/bazel.bazelrc` try-imports. Only remote actions are allowed
+    (`--spawn_strategy=remote`, no local fallback), so a missing file or unreachable
+    host fails the build instead of building in the container. The wrapper refuses
+    command-line flags that change this (`--spawn_strategy`, `--strategy*`,
+    `--remote_executor`, `--bazelrc`, ...). Flags in a repo's own `.bazelrc` are not
+    checked.
+  - Final outputs are downloaded into `bazel-bin` (`--remote_download_toplevel`).
+    `rbuild` is just `bazel build`. A `/handoff` → `/outputs` path that hardlinked
+    outputs from the cache was tried and removed: outputs are a few MB over a local
+    link, so it saved nothing (download ~20 s vs handoff ~344 s). Most of that was a
+    lock bug: Bazel's server inherits open file handles, so a lock held on an fd in
+    the wrapper stays held until the server exits. Close such fds for Bazel (`9>&-`).
+  - Still in the container: goose, the Bazel server (512M heap, exits after 5 idle
+    minutes) and repository rules, which Bazel can't run remotely.
+  - Downloads share one cache per host (`/var/lib/bazel-repo-cache` → `/repo-cache`,
+    sha256-checked, 30-day cleanup). Fetched repo folders stay per container
+    (`--repo_contents_cache`), since their contents are not checked.
+  - Containers use private user IDs, so writable binds (`/repo-cache`) use
+    `idmap`; without it the folder shows as `nobody` and the container can't write.
+  - Global goose hints (`/root/.config/goose/.goosehints` → `/etc/goose/goosehints`):
+    a local build means something is wrong (stop and report); build Go through Bazel.
+  - Exposes `agentSystem` (slackerbot's agent + bazel, go, bazelrc, rbuild) and
+    `binds` (slackerbot `ro_binds`/`rw_binds`). Slackerbot creates missing bind
+    source folders, or containers fail to start.
   `bazel` is a bazelisk wrapper on the host and in containers: a repo's
   `.bazelversion` wins, otherwise 8.7.0 (`USE_BAZEL_FALLBACK_VERSION`). Bazel 8.7.0
   is fetched once per node by Nix (official release, sha256-checked) and the wrapper
