@@ -5,9 +5,9 @@
 #                 ◀── final outputs downloaded (small, same machine)
 #
 # slackerbot mounts the shared download cache through `binds`. Container root
-# is an unprivileged host user; `idmap` only maps file owners on that mount, so
-# what it writes in /repo-cache is owned by root on the host.
-# TODO: share the Bazel cache with containers without files owned by root.
+# isn't root on the host, but with `idmap` its files in /repo-cache are owned
+# by host root.
+# TODO: own the cache by a dedicated host user and map container root to it.
 { config, lib, pkgs, nativelink, slackerbot, ... }:
 
 with lib;

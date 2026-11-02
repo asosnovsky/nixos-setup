@@ -49,10 +49,10 @@ services/
   - Downloads share one cache per host (`/var/lib/bazel-repo-cache` → `/repo-cache`,
     sha256-checked, 30-day cleanup). Fetched repo folders stay per container
     (`--repo_contents_cache`), since their contents are not checked.
-  - Container root is an unprivileged host user, so writable binds (`/repo-cache`)
-    use `idmap`; without it the folder shows as `nobody` and the container can't
-    write. `idmap` only maps file owners on that mount, so what it writes there is
-    owned by root on the host. TODO: share the cache without root-owned files.
+  - Writable binds (`/repo-cache`) use `idmap`, or the container can't write
+    to them. Container root isn't root on the host, but its files there are
+    owned by host root. TODO: own the cache by a dedicated host user and map
+    container root to it.
   - Global goose hints (`/root/.config/goose/.goosehints` → `/etc/goose/goosehints`):
     a local build means something is wrong (stop and report); build Go through Bazel.
   - Exposes `agentSystem` (slackerbot's agent + bazel, go, bazelrc, rbuild) and
