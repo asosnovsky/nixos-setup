@@ -4,9 +4,6 @@
 #   container: bazel build //app  ──grpc──▶  NativeLink (host)  ──▶ host CPUs
 #                 ◀── final outputs downloaded (small, same machine)
 #
-# A /outputs handoff (hardlinking outputs from the cache) was tried and
-# removed: it saved nothing here, since outputs are a few MB over a local link.
-#
 # slackerbot mounts the shared download cache through `binds`. Containers use
 # private user IDs, so writable binds need `idmap` (container root = host root).
 { config, lib, pkgs, nativelink, slackerbot, ... }:
