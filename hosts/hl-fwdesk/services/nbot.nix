@@ -21,7 +21,25 @@ let
       GOOSE_PROVIDER = "$GOOSE_PROVIDER";
       GOOSE_MODEL = "$GOOSE_MODEL";
       OPENROUTER_API_KEY = "$OPENROUTER_API_KEY";
+      CLAUDE_CODE_OAUTH_TOKEN = "$CLAUDE_CODE_OAUTH_TOKEN";
+      COMMAND_CODE_API_KEY = "$COMMAND_CODE_API_KEY";
     };
+
+    model_providers = [
+      {
+        id = "claude-acp";
+        name = "Claude ACP (Ari Credentials)";
+        key_env = "CLAUDE_CODE_OAUTH_TOKEN";
+        models = [ "default" "sonnet" "haiku" ];
+        users = [ "U0CBGSS4U6A" ];
+      }
+      {
+        id = "custom_commandcode";
+        name = "Command Code";
+        key_env = "COMMAND_CODE_API_KEY";
+        models = [ "deepseek/deepseek-v4-flash" ];
+      }
+    ];
 
     container = { memory_mb = 4096; cpus = 1.0; };
     max_container = { memory_mb = 8192; cpus = 2.0; };
@@ -37,8 +55,8 @@ let
 
     # Only read on first start; after that, manage permissions from Slack.
     permissions = {
-      managers = [ "U0CDGSJADMM" ];
-      default.U0CDGSJADMM = [ "all" ];
+      managers = [ "U0CBGSS4U6A" ];
+      default.U0CBGSS4U6A = [ "all" ];
     };
   };
 in

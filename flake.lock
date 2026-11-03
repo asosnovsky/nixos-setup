@@ -2331,6 +2331,26 @@
         "type": "github"
       }
     },
+    "nbot": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793732378,
+        "narHash": "sha256-JX6QgdeCCNKSsbI1VVDKduf7FNXRsFE//N6JQpGEmI8=",
+        "ref": "refs/heads/main",
+        "rev": "cee73da6c9745cb358597ea245beee039d86ac22",
+        "revCount": 68,
+        "type": "git",
+        "url": "ssh://git@github.com/asosnovsky/nbot.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/asosnovsky/nbot.git"
+      }
+    },
     "nix": {
       "inputs": {
         "bdwgc": "bdwgc",
@@ -2817,12 +2837,12 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1792210252,
-        "narHash": "sha256-Mh0PUaIv4nFY+8wAGonaEh8iBzwsmdNlwjVHmFg1Biw=",
-        "rev": "09063bd1f2b36fd9fd793c36dfade7bd40a93dfc",
-        "revCount": 1095516,
+        "lastModified": 1793540411,
+        "narHash": "sha256-fiPJ88izTVucjeo2EQ3jk4aWmLg03I1D4vxnX2QjEgE=",
+        "rev": "0bb2eedc20e4739f29e8045034f2828ad7054f8f",
+        "revCount": 1106360,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.1.1095516%2Brev-09063bd1f2b36fd9fd793c36dfade7bd40a93dfc/01a157d6-3d9b-79b3-a066-790f409256a3/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.1.1106360%2Brev-0bb2eedc20e4739f29e8045034f2828ad7054f8f/01a19d56-7554-7803-a091-6a18d4aafdff/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -3290,6 +3310,7 @@
         "hyprlauncher": "hyprlauncher",
         "my-nixpkgs": "my-nixpkgs",
         "nativelink": "nativelink",
+        "nbot": "nbot",
         "nix-darwin": "nix-darwin",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",
