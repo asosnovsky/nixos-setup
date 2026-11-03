@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Slack bot that runs goose agents in nspawn containers.
+    nbot = {
+      url = "git+ssh://git@github.com/asosnovsky/nbot.git";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    # Off.
     slackerbot = {
       url = "git+https://gitea.skyg.ca/ari/slacker-bot.git";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -128,6 +133,7 @@
     , hermenix
     , robotnix
     , skyg-linux-tracker
+    , nbot
     , slackerbot
     , nativelink
     , hhstream
@@ -212,6 +218,9 @@
                 slackerbot-slack = ./secrets/slackerbot-slack.age;
                 slackerbot-goose = ./secrets/slackerbot-goose.age;
                 slackerbot-cluster = ./secrets/slackerbot-cluster.age;
+                nbot-slack = ./secrets/nbot-slack.age;
+                nbot-goose = ./secrets/nbot-goose.age;
+                nbot-cluster = ./secrets/nbot-cluster.age;
               };
               inherit
                 hyprlauncher
@@ -228,6 +237,7 @@
                 hermenix
                 robotnix
                 skyg-linux-tracker
+                nbot
                 slackerbot
                 nativelink
                 hhstream
@@ -389,6 +399,7 @@
               nixos-hardware.nixosModules.framework-11th-gen-intel
               disko.nixosModules.disko
               slackerbot.nixosModules.host
+              nbot.nixosModules.host
             ];
           };
           hl-fwdesk = lib.makeNixOs {
@@ -400,6 +411,7 @@
               hermenix.nixosModules.default
               buildbot-nix.nixosModules.buildbot-worker
               slackerbot.nixosModules.host
+              nbot.nixosModules.host
             ];
           };
           hl-bigbox1 = lib.makeNixOs {

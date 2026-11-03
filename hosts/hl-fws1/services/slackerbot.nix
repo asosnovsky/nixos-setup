@@ -1,4 +1,4 @@
-{ config, pkgs, skyg-secrets, ... }:
+{ config, lib, pkgs, skyg-secrets, ... }:
 let
   homes = "/var/lib/slackerbot/homes";
   bazel = config.skyg.nixos.server.services.bazel-build;
@@ -34,33 +34,36 @@ let
   };
 in
 {
-  age.secrets.slackerbot-cluster = {
-    file = skyg-secrets.slackerbot-cluster;
-    owner = "root";
-    mode = "0400";
+  # Off.
+  config = lib.mkIf false {
+    age.secrets.slackerbot-cluster = {
+      file = skyg-secrets.slackerbot-cluster;
+      owner = "root";
+      mode = "0400";
+    };
+
+    # slackerbot flake input; options and docs in its repo.
+    services.slackerbot = {
+      enable = true;
+      mode = "slave";
+      configFile = (pkgs.formats.toml { }).generate "slackerbot.toml" settings;
+      environmentFile = config.age.secrets.slackerbot-cluster.path;
+    };
+
+    # Bazel build server for the containers (4 cores / 8 threads).
+    skyg.nixos.server.services.bazel-build = {
+      enable = true;
+      cpuCount = 8;
+      cacheGB = 50;
+    };
+
+    # Container links belong to systemd-networkd.
+    networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];
+    networking.dhcpcd.denyInterfaces = [ "ve-*" ];
+    # networkd only has the container links here (NetworkManager owns wlan),
+    # so wait-online would always time out.
+    systemd.network.wait-online.enable = false;
+
+    systemd.tmpfiles.rules = [ "d ${homes} 0700 root root -" ];
   };
-
-  # slackerbot flake input; options and docs in its repo.
-  services.slackerbot = {
-    enable = true;
-    mode = "slave";
-    configFile = (pkgs.formats.toml { }).generate "slackerbot.toml" settings;
-    environmentFile = config.age.secrets.slackerbot-cluster.path;
-  };
-
-  # Bazel build server for the containers (4 cores / 8 threads).
-  skyg.nixos.server.services.bazel-build = {
-    enable = true;
-    cpuCount = 8;
-    cacheGB = 50;
-  };
-
-  # Container links belong to systemd-networkd.
-  networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];
-  networking.dhcpcd.denyInterfaces = [ "ve-*" ];
-  # networkd only has the container links here (NetworkManager owns wlan),
-  # so wait-online would always time out.
-  systemd.network.wait-online.enable = false;
-
-  systemd.tmpfiles.rules = [ "d ${homes} 0700 root root -" ];
 }

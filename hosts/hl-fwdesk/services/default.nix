@@ -10,5 +10,6 @@
     ./linux-tracker.nix
     ./robotnix.nix
     ./slackerbot.nix
+    ./nbot.nix
   ];
 }

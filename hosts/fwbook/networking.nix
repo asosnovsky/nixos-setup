@@ -13,6 +13,7 @@ in
   };
   networking.firewall.allowedUDPPorts = openPorts;
   networking.firewall.allowedTCPPorts = openPorts;
+  programs.mosh.enable = true;
   networking.hosts = {
     "0.0.0.0" = [
       "auth.me.internal"

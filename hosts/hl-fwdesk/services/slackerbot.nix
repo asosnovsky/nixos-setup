@@ -48,33 +48,36 @@ let
   };
 in
 {
-  age.secrets = lib.genAttrs secrets (name: {
-    file = skyg-secrets.${name};
-    owner = "root";
-    mode = "0400";
-  });
+  # Off.
+  config = lib.mkIf false {
+    age.secrets = lib.genAttrs secrets (name: {
+      file = skyg-secrets.${name};
+      owner = "root";
+      mode = "0400";
+    });
 
-  # slackerbot flake input; options and docs in its repo.
-  services.slackerbot = {
-    enable = true;
-    mode = "master";
-    clusterPort = ports.cluster;
-    configFile = (pkgs.formats.toml { }).generate "slackerbot.toml" settings;
+    # slackerbot flake input; options and docs in its repo.
+    services.slackerbot = {
+      enable = true;
+      mode = "master";
+      clusterPort = ports.cluster;
+      configFile = (pkgs.formats.toml { }).generate "slackerbot.toml" settings;
+    };
+    # Bazel build server for the containers (16 cores / 32 threads).
+    skyg.nixos.server.services.bazel-build = {
+      enable = true;
+      cpuCount = 32;
+      cacheGB = 200;
+    };
+
+    # The module takes one env file; these add to it.
+    systemd.services.slackerbot.serviceConfig.EnvironmentFile =
+      map (name: config.age.secrets.${name}.path) secrets;
+
+    # Container links belong to systemd-networkd.
+    networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];
+    networking.dhcpcd.denyInterfaces = [ "ve-*" ];
+
+    systemd.tmpfiles.rules = [ "d ${homes} 0700 root root -" ];
   };
-  # Bazel build server for the containers (16 cores / 32 threads).
-  skyg.nixos.server.services.bazel-build = {
-    enable = true;
-    cpuCount = 32;
-    cacheGB = 200;
-  };
-
-  # The module takes one env file; these add to it.
-  systemd.services.slackerbot.serviceConfig.EnvironmentFile =
-    map (name: config.age.secrets.${name}.path) secrets;
-
-  # Container links belong to systemd-networkd.
-  networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];
-  networking.dhcpcd.denyInterfaces = [ "ve-*" ];
-
-  systemd.tmpfiles.rules = [ "d ${homes} 0700 root root -" ];
 }

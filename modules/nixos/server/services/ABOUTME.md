@@ -25,7 +25,8 @@ services/
   enables NixOS-native Wyoming faster-whisper + piper. Opens 11434/10200/10300/10400.
 - **`bazel-build.nix`** runs NativeLink (from the `nativelink` flake input, pinned
   to v1.8.3 because its config format changes) as a remote cache and executor for
-  slackerbot containers. Used on hl-fws1 and hl-fwdesk. Goal: as little as possible
+  slackerbot containers. Off on every host: only the disabled slackerbot configs on
+  hl-fws1 and hl-fwdesk turn it on, and nbot doesn't use it. Goal: as little as possible
   runs in a container. Measured on slacker-bot (1 CPU container, 2026-11-01): local
   458 s, remote with no cache 65 s, remote with warm cache 17 s.
   - NativeLink uses `DynamicUser`, whose state folder systemd mounts `noexec`;
