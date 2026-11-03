@@ -359,6 +359,7 @@
           buzz-desktop = lib.pkgs.${system}.buzz-desktop;
           delta-editor = lib.pkgs.${system}.delta-editor;
           colibri = lib.pkgs.${system}.colibri;
+          llama-cpp-halo = lib.pkgs.${system}.llama-cpp-halo;
           herdr = herdr.packages.${system}.default;
         }
       );
