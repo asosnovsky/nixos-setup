@@ -16,6 +16,7 @@ services/
 ├── nbot-agent.nix     # skyg.nixos.server.services.nbot-agent — nbot's agent system + gh, for nbot's `system`
 ├── signal-cli.nix     # skyg.nixos.server.services.signal-cli — signal-cli HTTP daemon (Hermes Signal bridge)
 ├── colibri.nix        # skyg.nixos.server.services.colibri — coli serve HTTP API (GLM-5.2/OLMoE local inference)
+├── llama-cpp.nix      # skyg.nixos.server.services.llama-cpp — llama-server (GGUF, DFlash2 speculative decoding)
 └── comfyui/           # skyg.nixos.server.services.comfyui — ComfyUI with ROCm/CUDA GPU support
 ```
 
@@ -31,6 +32,11 @@ services/
   service. `package` picks the backend (`pkgs.colibri`
   cpu / `pkgs.colibri-rocm`); `environmentFile` supplies `COLI_API_KEY` via agenix instead of
   a CLI flag.
+- **`llama-cpp.nix`** runs `llama-server` as a native systemd service. `draftModel` plus
+  `specType = "draft-dflash"` turns on DFlash2 speculative decoding; `cacheReuse` turns on
+  prefix reuse for repeated prompts (agents). Model files are read from disk, never packaged —
+  the unit refuses to start with a clear message when one is missing. Enabled on fwdesk
+  (off by default: ~19 GB of weights, first build is the ROCm package).
 
 ## Option Namespace
 
@@ -41,6 +47,7 @@ skyg.nixos.server.services.jellyfin.enable
 skyg.nixos.server.services.nbot-agent.system
 skyg.nixos.server.services.signal-cli.{enable,host,port,configDir,account,environmentFile,openFirewall}
 skyg.nixos.server.services.colibri.{enable,package,model,host,port,environmentFile,openFirewall,...}
+skyg.nixos.server.services.llama-cpp.{enable,package,model,draftModel,specType,specDraftNMax,cacheReuse,ctx,host,port,openFirewall,...}
 skyg.nixos.server.services.comfyui.{enable,mode,port,openFirewall}
 ```
 
