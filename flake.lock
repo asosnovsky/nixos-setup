@@ -2338,11 +2338,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793743562,
-        "narHash": "sha256-9Uez0aT7Z7mXCkkcXnq+F0F1oYCMAWLhUu7G6Wtldls=",
+        "lastModified": 1793792764,
+        "narHash": "sha256-5hNJ6MiLTRmf5w6SQRzrrlxU4ZLY8obQP+ZkXlIBdZQ=",
         "ref": "refs/heads/main",
-        "rev": "38c9ec8a69b344025d5b209cfe41b96506327139",
-        "revCount": 90,
+        "rev": "ee0b0b71580ad20101dfb01c52879297242be2a9",
+        "revCount": 123,
         "type": "git",
         "url": "ssh://git@github.com/asosnovsky/nbot.git"
       },
