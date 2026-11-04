@@ -1,9 +1,9 @@
-{ config, pkgs, nbot, skyg-secrets, ... }:
+{ config, pkgs, skyg-secrets, ... }:
 let
   homes = "/var/lib/nbot/homes";
   settings = {
-    # The system each container boots; updated on every rebuild.
-    system = "${nbot.packages.${pkgs.stdenv.hostPlatform.system}.agent}";
+    # The system each container boots (nbot's agent + gh); updated on every rebuild.
+    system = "${config.skyg.nixos.server.services.nbot-agent.system}";
     machines_dir = "/var/lib/machines";
     state_dir = "/var/lib/nbot";
     agent_cwd = "/root";
@@ -23,14 +23,15 @@ let
     # from the master. Trusts the first certificate it sees (saved in
     # state_dir/master.fingerprint); pin it in master_fingerprint if wanted.
     cluster = {
-      secret = "$CLUSTER_SECRET";
+      name = "hl-fws1";
       master = "wss://fwdesk.lab.internal:7946";
+      master_fingerprint = "ce08c6b0f3aec855cc8b936d81449c1a34074d181089b26acbdddacfca60af1d";
     };
   };
 in
 {
   age.secrets.nbot-cluster = {
-    file = skyg-secrets.nbot-cluster;
+    file = skyg-secrets.nbot-cluster-hl-fws1;
     owner = "root";
     mode = "0400";
   };

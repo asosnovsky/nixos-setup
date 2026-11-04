@@ -1,11 +1,11 @@
-{ config, lib, pkgs, nbot, skyg-secrets, ... }:
+{ config, lib, pkgs, skyg-secrets, ... }:
 let
   ports = { cluster = 7946; };
   homes = "/data/nbot";
   secrets = [ "nbot-slack" "nbot-goose" "nbot-cluster" ];
   settings = {
-    # The system each container boots; updated on every rebuild.
-    system = "${nbot.packages.${pkgs.stdenv.hostPlatform.system}.agent}";
+    # The system each container boots (nbot's agent + gh); updated on every rebuild.
+    system = "${config.skyg.nixos.server.services.nbot-agent.system}";
     machines_dir = "/var/lib/machines";
     state_dir = "/var/lib/nbot";
     agent_cwd = "/root";
@@ -23,6 +23,8 @@ let
       OPENROUTER_API_KEY = "$OPENROUTER_API_KEY";
       CLAUDE_CODE_OAUTH_TOKEN = "$CLAUDE_CODE_OAUTH_TOKEN";
       COMMAND_CODE_API_KEY = "$COMMAND_CODE_API_KEY";
+      # Every agent can use this PAT, so anyone who can prompt one can too.
+      GH_TOKEN = "$GH_TOKEN";
     };
 
     model_providers = [
@@ -30,14 +32,28 @@ let
         id = "claude-acp";
         name = "Claude ACP (Ari Credentials)";
         key_env = "CLAUDE_CODE_OAUTH_TOKEN";
-        models = [ "default" "sonnet" "haiku" ];
+        models = [ "default" "sonnet" "haiku" "opus" ];
         users = [ "U0CBGSS4U6A" ];
       }
       {
         id = "custom_commandcode";
         name = "Command Code";
         key_env = "COMMAND_CODE_API_KEY";
-        models = [ "deepseek/deepseek-v4-flash" ];
+        models = [
+          "deepseek/deepseek-v4-flash"
+          "minimax/minimax-m3.1-flash"
+          "minimaxai/minimax-m3"
+          "claude-opus-5-5"
+          "claude-sonnet-5-5"
+          "claude-haiku-5-5"
+          "reflection/beam:free"
+          "moonshotai/kimi-k3"
+          "moonshotai/kimi-k2.7-code"
+          "zai-org/glm-5.3"
+          "z-ai/glm-5.3-flash"
+          "xai/grok-4.7"
+          "gpt-6.1-sol"
+        ];
       }
     ];
 
@@ -49,7 +65,7 @@ let
     drives = [{ path = homes; reserve = "40G"; }];
 
     cluster = {
-      secret = "$CLUSTER_SECRET";
+      node_secrets = { hl-fws1 = "$HL_FWS1_CLUSTER_SECRET"; };
       listen = ":${toString ports.cluster}";
     };
 

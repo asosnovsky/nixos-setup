@@ -14,6 +14,7 @@ services/
 ├── bazel-build.nix    # skyg.nixos.server.services.bazel-build — NativeLink Bazel build server for slackerbot containers
 ├── audiobookshelf.nix # skyg.nixos.server.services.audiobookshelf — audiobook/podcast server
 ├── jellyfin.nix       # skyg.nixos.server.services.jellyfin — media server (uid/gid 7777)
+├── nbot-agent.nix     # skyg.nixos.server.services.nbot-agent — nbot's agent system + gh, for nbot's `system`
 ├── signal-cli.nix     # skyg.nixos.server.services.signal-cli — signal-cli HTTP daemon (Hermes Signal bridge)
 ├── colibri.nix        # skyg.nixos.server.services.colibri — coli serve HTTP API (GLM-5.2/OLMoE local inference)
 └── comfyui/           # skyg.nixos.server.services.comfyui — ComfyUI with ROCm/CUDA GPU support
@@ -67,6 +68,10 @@ services/
   own `/root/.cache/bazelisk`. Upstream Bazel only runs on NixOS through
   `programs.nix-ld`, enabled on the host and in containers. Bump `bazelVersion` and
   `bazelSha256` together.
+- **`nbot-agent.nix`** adds `gh` to nbot's agent system from this repo, leaving the nbot
+  repo unchanged. `gh` reads `GH_TOKEN` from `agent_env`, and git over HTTPS to github.com
+  uses it through `gh`. Every container gets that token (chosen on purpose, 2026-11-03),
+  so anyone who can prompt an agent can use it or ask it to print the token.
 - **`colibri.nix`** runs `coli serve` (colibrì's OpenAI-compatible API) as a native systemd
   service. `package` picks the backend (`pkgs.colibri`
   cpu / `pkgs.colibri-rocm`); `environmentFile` supplies `COLI_API_KEY` via agenix instead of
@@ -79,6 +84,7 @@ skyg.nixos.server.services.ai.enable
 skyg.nixos.server.services.audiobookshelf.{enable,package,configDir,dataDir}
 skyg.nixos.server.services.bazel-build.{enable,cpuCount,cacheGB,port,agentSystem,binds}
 skyg.nixos.server.services.jellyfin.enable
+skyg.nixos.server.services.nbot-agent.system
 skyg.nixos.server.services.signal-cli.{enable,host,port,configDir,account,environmentFile,openFirewall}
 skyg.nixos.server.services.colibri.{enable,package,model,host,port,environmentFile,openFirewall,...}
 skyg.nixos.server.services.comfyui.{enable,mode,port,openFirewall}

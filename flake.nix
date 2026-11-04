@@ -221,6 +221,7 @@
                 nbot-slack = ./secrets/nbot-slack.age;
                 nbot-goose = ./secrets/nbot-goose.age;
                 nbot-cluster = ./secrets/nbot-cluster.age;
+                nbot-cluster-hl-fws1 = ./secrets/nbot-cluster-hl-fws1.age;
               };
               inherit
                 hyprlauncher

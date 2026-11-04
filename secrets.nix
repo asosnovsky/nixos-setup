@@ -41,7 +41,8 @@ in
   # nbot (master on fwdesk, worker on fws1)
   "secrets/nbot-slack.age".publicKeys = [ ari fwdesk ];
   "secrets/nbot-goose.age".publicKeys = [ ari fwdesk ];
-  "secrets/nbot-cluster.age".publicKeys = [ ari fwdesk fws1 ];
+  "secrets/nbot-cluster.age".publicKeys = [ ari fwdesk ];
+  "secrets/nbot-cluster-hl-fws1.age".publicKeys = [ ari fws1 ];
 
   # Buzz stack env (minipc1)
   "secrets/buzz-env.age".publicKeys = [ ari minipc1 ];
