@@ -42,6 +42,7 @@ in
           redis.condition = "service_healthy";
           minio.condition = "service_healthy";
           minio-init.condition = "service_completed_successfully";
+          relay-index-prebuild.condition = "service_completed_successfully";
         };
         networks = [ "internal" ];
         environmentFiles = [ config.age.secrets.buzz-env.path ];
@@ -187,6 +188,47 @@ in
         extraConfig = {
           entrypoint = [ "/bin/sh" "/usr/local/bin/minio-init.sh" ];
           depends_on.minio.condition = "service_healthy";
+        };
+        restart = "no";
+      };
+      relay-index-prebuild = {
+        image = buzz.images.posgres;
+        networks = [ "internal" ];
+        environmentFiles = [ config.age.secrets.buzz-env.path ];
+        environment = {
+          POSTGRES_DB = "buzz";
+          POSTGRES_USER = "buzz";
+        };
+        files."/usr/local/bin/prebuild-indexes.sh" = ''
+          #!/bin/sh
+          set -eu
+          export PGPASSWORD="$POSTGRES_PASSWORD"
+
+          run_psql() {
+            psql -v ON_ERROR_STOP=1 -h postgres -U "$POSTGRES_USER" -d "$POSTGRES_DB" "$@"
+          }
+
+          ensure_index() {
+            name="$1"
+            sql="$2"
+            state=$(run_psql -tAc "SELECT coalesce((SELECT CASE WHEN i.indisvalid AND i.indisready AND i.indislive THEN 'valid' ELSE 'invalid' END FROM pg_index i WHERE i.indexrelid = to_regclass('public.$name')), 'missing')")
+            if [ "$state" = valid ]; then
+              return 0
+            fi
+            if [ "$state" = invalid ]; then
+              run_psql -c "DROP INDEX CONCURRENTLY IF EXISTS public.$name"
+            fi
+            run_psql -c "$sql"
+          }
+
+          ensure_index artifact_heads_modified "CREATE INDEX CONCURRENTLY artifact_heads_modified ON public.artifact_heads (community_id, modified_at, artifact_id);"
+          ensure_index artifact_heads_channel "CREATE INDEX CONCURRENTLY artifact_heads_channel ON public.artifact_heads (community_id, channel_id, artifact_id);"
+          ensure_index channel_members_sync "CREATE INDEX CONCURRENTLY channel_members_sync ON public.channel_members (community_id, pubkey, sync_modified_at, channel_id);"
+          ensure_index artifact_revisions_moves "CREATE INDEX CONCURRENTLY artifact_revisions_moves ON public.artifact_revisions (community_id, modified_at, event_id) WHERE source_channel_id IS NOT NULL;"
+        '';
+        extraConfig = {
+          entrypoint = [ "/bin/sh" "/usr/local/bin/prebuild-indexes.sh" ];
+          depends_on.postgres.condition = "service_healthy";
         };
         restart = "no";
       };
