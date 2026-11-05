@@ -15,6 +15,11 @@ let
     allow_indefinite = true;
     boot_timeout = "2m";
 
+    summaries = {
+      enabled = true;
+      timeout = "10s";
+    };
+
     # Goose settings sent to every container (also on fws1).
     # Values come from the nbot-goose secret.
     agent_env = {
@@ -36,6 +41,33 @@ let
         users = [ "U0CBGSS4U6A" ];
       }
       {
+        id = "claude";
+        name = "Claude (API key)";
+        personal = true;
+        upstream = "https://api.anthropic.com";
+        engine = "anthropic";
+        auth = "x-api-key";
+        models = [ "claude-opus-5-5" "claude-sonnet-5-5" "claude-haiku-5-5" ];
+      }
+      {
+        id = "codex";
+        name = "Codex (OpenAI API key)";
+        personal = true;
+        upstream = "https://api.openai.com";
+        engine = "openai";
+        auth = "bearer";
+        models = [ "gpt-6.1-codex" "gpt-6.1" ];
+      }
+      {
+        id = "xai";
+        name = "Grok";
+        personal = true;
+        upstream = "https://api.x.ai";
+        engine = "openai";
+        auth = "bearer";
+        models = [ "grok-4.7" "grok-4" ];
+      }
+      {
         id = "custom_commandcode";
         name = "Command Code";
         key_env = "COMMAND_CODE_API_KEY";
@@ -43,16 +75,16 @@ let
           "deepseek/deepseek-v4-flash"
           "minimax/minimax-m3.1-flash"
           "minimaxai/minimax-m3"
-          "claude-opus-5-5"
-          "claude-sonnet-5-5"
-          "claude-haiku-5-5"
+          "anthropic/claude-opus-5-5"
+          "anthropic/claude-sonnet-5-5"
+          "anthropic/claude-haiku-5-5"
           "reflection/beam:free"
           "moonshotai/kimi-k3"
           "moonshotai/kimi-k2.7-code"
           "zai-org/glm-5.3"
           "z-ai/glm-5.3-flash"
           "xai/grok-4.7"
-          "gpt-6.1-sol"
+          "openai/gpt-6.1-sol"
         ];
       }
     ];
