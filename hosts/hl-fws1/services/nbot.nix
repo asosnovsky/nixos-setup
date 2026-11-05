@@ -14,7 +14,7 @@ let
     boot_timeout = "2m";
 
     container = { memory_mb = 4096; cpus = 1.0; };
-    max_container = { memory_mb = 8192; cpus = 2.0; };
+    max_container = { memory_mb = 51200; cpus = 6; };
     host_reserve = { memory_mb = 8192; cpus = 2.0; };
     storage = { min = "2G"; max = "5G"; limit = "20G"; };
     drives = [{ path = homes; reserve = "100G"; }];

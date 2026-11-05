@@ -90,8 +90,7 @@ let
     ];
 
     container = { memory_mb = 4096; cpus = 1.0; };
-    max_container = { memory_mb = 8192; cpus = 2.0; };
-    # Leave room for ollama, ds4, comfyui, hermes and the robots.
+    max_container = { memory_mb = 16384; cpus = 4; };
     host_reserve = { memory_mb = 32768; cpus = 4.0; };
     storage = { min = "2G"; max = "5G"; limit = "20G"; };
     drives = [{ path = homes; reserve = "40G"; }];
