@@ -8,8 +8,6 @@
     ./steam.nix
     ./buildbot.nix
     ./linux-tracker.nix
-    ./robotnix.nix
-    ./slackerbot.nix
     ./nbot.nix
   ];
 }

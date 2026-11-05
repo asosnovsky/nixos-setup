@@ -38,7 +38,6 @@ skyg.rootDir              → core/default.nix (set by the flake; repo root stor
 skyg.nixos.common.*       → nixos/common/
 skyg.nixos.desktop.*      → nixos/desktop/
 skyg.nixos.server.*       → nixos/server/
-services.robotnix.*       → nixos/server/robotnix/ (adapter for the robotnix flake)
 skyg.core.*               → core/
 ```
 

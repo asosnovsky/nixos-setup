@@ -4,17 +4,6 @@
     skygqts.url = "git+ssh://gitea@gitea.app.internal:22/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
     hermenix.url = "git+ssh://gitea@gitea.app.internal:22/ari/hermenix.git";
-    # Self-managed nspawn robots. Robots pin the same hermes-agent rev.
-    robotnix = {
-      url = "git+ssh://gitea@gitea.app.internal:22/ari/robotnix.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hermes-agent.follows = "hermes-agent";
-      # Dev/test-only inputs of robotnix: keep them out of this lock.
-      inputs.git-hooks.follows = "git-hooks";
-      inputs.devenv.follows = "";
-      inputs.treefmt-nix.follows = "";
-      inputs.nutest.follows = "";
-    };
     # Read-only host monitor (systemd, journal, Docker) over REST + MCP.
     skyg-linux-tracker = {
       url = "git+https://gitea.skyg.ca/ari/skyg-linux-tracker.git";
@@ -25,14 +14,6 @@
       url = "git+ssh://git@github.com/asosnovsky/nbot.git";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    # Off.
-    slackerbot = {
-      url = "git+https://gitea.skyg.ca/ari/slacker-bot.git";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    # Bazel remote build server for slackerbot containers. Pinned: its config
-    # format changes between releases (see bazel-build.nix).
-    nativelink.url = "github:TraceMachina/nativelink/v1.8.3";
     # Headless Hyprland session streamed over a Unix socket.
     hhstream = {
       url = "git+ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git";
@@ -131,11 +112,8 @@
     { self
     , skygqts
     , hermenix
-    , robotnix
     , skyg-linux-tracker
     , nbot
-    , slackerbot
-    , nativelink
     , hhstream
     , nixpkgs-unstable
     , flox
@@ -212,12 +190,6 @@
                 linux-tracker-peer-bigbox2 = ./secrets/linux-tracker-peer-bigbox2.age;
                 linux-tracker-peer-terra1 = ./secrets/linux-tracker-peer-terra1.age;
                 scrypted-envs = ./secrets/scrypted-envs.age;
-                robots-shared = ./secrets/robots-shared.age;
-                robots-sibli = ./secrets/robots-sibli.age;
-                robots-genix = ./secrets/robots-genix.age;
-                slackerbot-slack = ./secrets/slackerbot-slack.age;
-                slackerbot-goose = ./secrets/slackerbot-goose.age;
-                slackerbot-cluster = ./secrets/slackerbot-cluster.age;
                 nbot-slack = ./secrets/nbot-slack.age;
                 nbot-goose = ./secrets/nbot-goose.age;
                 nbot-cluster = ./secrets/nbot-cluster.age;
@@ -236,11 +208,8 @@
                 hermes-agent
                 skygqts
                 hermenix
-                robotnix
                 skyg-linux-tracker
                 nbot
-                slackerbot
-                nativelink
                 hhstream
                 flox
                 determinate
@@ -399,7 +368,6 @@
               ./hosts/hl-fws1.disko.nix
               nixos-hardware.nixosModules.framework-11th-gen-intel
               disko.nixosModules.disko
-              slackerbot.nixosModules.host
               nbot.nixosModules.host
             ];
           };
@@ -411,7 +379,6 @@
               nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
               hermenix.nixosModules.default
               buildbot-nix.nixosModules.buildbot-worker
-              slackerbot.nixosModules.host
               nbot.nixosModules.host
             ];
           };

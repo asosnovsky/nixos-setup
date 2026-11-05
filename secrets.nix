@@ -28,16 +28,6 @@ in
   "secrets/hermes-env.age".publicKeys = [ ari fwdesk ];
   "secrets/iu-project.age".publicKeys = [ ari minipc1 ];
 
-  # Robots
-  "secrets/robots-shared.age".publicKeys = [ ari fwdesk ];
-  "secrets/robots-genix.age".publicKeys = [ ari fwdesk ];
-  "secrets/robots-sibli.age".publicKeys = [ ari fwdesk ];
-
-  # Slackerbot (master on fwdesk, worker on fws1)
-  "secrets/slackerbot-slack.age".publicKeys = [ ari fwdesk ];
-  "secrets/slackerbot-goose.age".publicKeys = [ ari fwdesk ];
-  "secrets/slackerbot-cluster.age".publicKeys = [ ari fwdesk fws1 ];
-
   # nbot (master on fwdesk, worker on fws1)
   "secrets/nbot-slack.age".publicKeys = [ ari fwdesk ];
   "secrets/nbot-goose.age".publicKeys = [ ari fwdesk ];

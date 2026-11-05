@@ -103,7 +103,6 @@ export def "skyg buzz identity" [
     print $"npub: ($npub)"
     print "Next:"
     print $"  1. On hl-minipc1: sudo buzz-manage add-member ($npub)"
-    print $"  2. Rebuild, then restart the robot: robotnix restart ($robot)"
     if $restricted and not $gated {
         print "⚠️  --restricted with no BUZZ_ALLOWED_USERS: the bot will ignore everyone. Re-run with --rotate --allowed-users <npub,...> or edit the secret."
     }

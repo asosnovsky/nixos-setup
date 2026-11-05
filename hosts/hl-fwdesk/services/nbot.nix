@@ -28,7 +28,6 @@ let
       OPENROUTER_API_KEY = "$OPENROUTER_API_KEY";
       CLAUDE_CODE_OAUTH_TOKEN = "$CLAUDE_CODE_OAUTH_TOKEN";
       COMMAND_CODE_API_KEY = "$COMMAND_CODE_API_KEY";
-      # Every agent can use this PAT, so anyone who can prompt one can too.
       GH_TOKEN = "$GH_TOKEN";
     };
 

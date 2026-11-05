@@ -1,6 +1,6 @@
 { ... }:
 {
-  imports = [ ./slackerbot.nix ./nbot.nix ];
+  imports = [ ./nbot.nix ];
 
   services.pipewire = {
     extraConfig.pipewire-pulse."10-raop-discover" = {

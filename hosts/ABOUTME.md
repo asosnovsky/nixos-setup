@@ -31,8 +31,8 @@ hosts/
 | Folder        | Host       | Role                                                                                                                                           |
 | ------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `fwbook/`     | fwbook     | Framework 13 AMD — personal laptop / daily driver                                                                                              |
-| `hl-fwdesk/`  | hl-fwdesk  | Framework Desktop AI Max 300 — AI workstation; buildbot-nix CI worker (4 cores); nbot master (slackerbot off)                                 |
-| `hl-fws1/`    | hl-fws1    | Framework 11th Intel — K3s server node; nbot worker (slackerbot off)                                                                           |
+| `hl-fwdesk/`  | hl-fwdesk  | Framework Desktop AI Max 300 — AI workstation; buildbot-nix CI worker (4 cores); nbot master                                                    |
+| `hl-fws1/`    | hl-fws1    | Framework 11th Intel — K3s server node; nbot worker                                                                                             |
 | `hl-bigbox1/` | hl-bigbox1 | AI/compute server (NVIDIA + AMD); Immich machine-learning (CUDA)                                                                               |
 | `hl-bigbox2/` | hl-bigbox2 | NFS storage server; Immich server/db (docker, `immich.home.sosnovsky.ca`)                                                                      |
 | `hl-minipc1/` | hl-minipc1 | Core infra: Gitea (native or containerized), nix-serve, registry, Buzz (docker, `buzz-manage` CLI), monitoring (Grafana, Prometheus, Loki, OTel collector) |
