@@ -40,32 +40,32 @@ let
         users = [ "U0CBGSS4U6A" ];
       }
       {
-        id = "claude";
-        name = "Claude (API key)";
+        id = "claude-oauth";
+        name = "Claude OAuth";
         personal = true;
         upstream = "https://api.anthropic.com";
-        engine = "anthropic";
-        auth = "x-api-key";
-        models = [ "claude-opus-5-5" "claude-sonnet-5-5" "claude-haiku-5-5" ];
+        engine = "claude-code";
+        login = "claude";
+        models = [ "default" "opus" "sonnet" "haiku" "fable" ];
       }
-      {
-        id = "codex";
-        name = "Codex (OpenAI API key)";
-        personal = true;
-        upstream = "https://api.openai.com";
-        engine = "openai";
-        auth = "bearer";
-        models = [ "gpt-6.1-codex" "gpt-6.1" ];
-      }
-      {
-        id = "xai";
-        name = "Grok";
-        personal = true;
-        upstream = "https://api.x.ai";
-        engine = "openai";
-        auth = "bearer";
-        models = [ "grok-4.7" "grok-4" ];
-      }
+      # {
+      #   id = "codex";
+      #   name = "Codex (OpenAI API key)";
+      #   personal = true;
+      #   upstream = "https://api.openai.com";
+      #   engine = "openai";
+      #   auth = "bearer";
+      #   models = [ "gpt-6.1-codex" "gpt-6.1" ];
+      # }
+      # {
+      #   id       = "xai";
+      #   name     = "Grok";
+      #   personal = true;
+      #   upstream = "https://api.x.ai";
+      #   engine   = "openai";
+      #   auth     = "bearer";
+      #   models   = ["grok-4"];
+      # }
       {
         id = "custom_commandcode";
         name = "Command Code";
