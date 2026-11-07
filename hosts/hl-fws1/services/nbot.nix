@@ -17,7 +17,7 @@ let
     max_container = { memory_mb = 51200; cpus = 6; };
     host_reserve = { memory_mb = 8192; cpus = 2.0; };
     storage = { min = "2G"; max = "10G"; limit = "50G"; };
-    drives = [{ path = homes; reserve = "200G"; }];
+    drives = [{ path = homes; reserve = "200G"; allow_subdir = true; }];
 
     # Worker of the master on fwdesk. Slack tokens and goose settings come
     # from the master. Trusts the first certificate it sees (saved in

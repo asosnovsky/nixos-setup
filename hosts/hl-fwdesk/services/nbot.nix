@@ -16,7 +16,6 @@ let
     boot_timeout = "2m";
 
     summaries = {
-      enabled = true;
       timeout = "10s";
     };
 
@@ -92,7 +91,7 @@ let
     max_container = { memory_mb = 16384; cpus = 4; };
     host_reserve = { memory_mb = 32768; cpus = 4.0; };
     storage = { min = "2G"; max = "5G"; limit = "20G"; };
-    drives = [{ path = homes; reserve = "40G"; }];
+    drives = [{ path = homes; reserve = "40G"; allow_subdir = true; }];
 
     cluster = {
       node_secrets = { hl-fws1 = "$HL_FWS1_CLUSTER_SECRET"; };
