@@ -25,7 +25,7 @@ let
     cluster = {
       name = "hl-fws1";
       master = "wss://fwdesk.lab.internal:7946";
-      master_fingerprint = "ce08c6b0f3aec855cc8b936d81449c1a34074d181089b26acbdddacfca60af1d";
+      master_fingerprint = [ "ce08c6b0f3aec855cc8b936d81449c1a34074d181089b26acbdddacfca60af1d" ];
     };
   };
 in
@@ -40,6 +40,8 @@ in
   services.nbot = {
     enable = true;
     mode = "slave";
+    drives = [ homes ];
+    stateDir = "/var/lib/nbot";
     configFile = (pkgs.formats.toml { }).generate "nbot.toml" settings;
     environmentFile = config.age.secrets.nbot-cluster.path;
   };
