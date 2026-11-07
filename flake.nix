@@ -11,7 +11,7 @@
     };
     # Slack bot that runs goose agents in nspawn containers.
     nbot = {
-      url = "git+ssh://git@github.com/asosnovsky/nbot.git";
+      url = "git+https://github.com/asosnovsky/nbot.git";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     # Headless Hyprland session streamed over a Unix socket.

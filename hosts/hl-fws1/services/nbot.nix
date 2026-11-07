@@ -17,7 +17,8 @@ let
     max_container = { memory_mb = 51200; cpus = 6; };
     host_reserve = { memory_mb = 8192; cpus = 2.0; };
     storage = { min = "2G"; max = "10G"; limit = "50G"; };
-    drives = [{ path = homes; reserve = "200G"; }];
+    # allow_subdir: the folder is a plain folder on the root disk.
+    drives = [{ path = homes; reserve = "200G"; allow_subdir = true; }];
 
     # Worker of the master on fwdesk. Slack tokens and goose settings come
     # from the master. Trusts the first certificate it sees (saved in
@@ -25,7 +26,9 @@ let
     cluster = {
       name = "hl-fws1";
       master = "wss://fwdesk.lab.internal:7946";
-      master_fingerprint = "ce08c6b0f3aec855cc8b936d81449c1a34074d181089b26acbdddacfca60af1d";
+      # A list, so the master's certificate can be rotated with no time where
+      # a slave refuses the master: add the new fingerprint, then drop the old.
+      master_fingerprint = [ "ce08c6b0f3aec855cc8b936d81449c1a34074d181089b26acbdddacfca60af1d" ];
     };
   };
 in
@@ -40,6 +43,9 @@ in
   services.nbot = {
     enable = true;
     mode = "slave";
+    # The unit waits for these mounts before it starts.
+    drives = [ homes ];
+    stateDir = "/var/lib/nbot";
     configFile = (pkgs.formats.toml { }).generate "nbot.toml" settings;
     environmentFile = config.age.secrets.nbot-cluster.path;
   };

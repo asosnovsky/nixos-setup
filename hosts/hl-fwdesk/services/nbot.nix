@@ -15,8 +15,8 @@ let
     allow_indefinite = true;
     boot_timeout = "2m";
 
+    # Summaries are always on now; only the model and its timeout are set.
     summaries = {
-      enabled = true;
       timeout = "10s";
     };
 
@@ -92,7 +92,10 @@ let
     max_container = { memory_mb = 16384; cpus = 4; };
     host_reserve = { memory_mb = 32768; cpus = 4.0; };
     storage = { min = "2G"; max = "5G"; limit = "20G"; };
-    drives = [{ path = homes; reserve = "40G"; }];
+    # allow_subdir: the folder is a plain folder on the /data disk. The unit
+    # waits for that disk (services.nbot.drives), which is what the check in
+    # nbot is for.
+    drives = [{ path = homes; reserve = "40G"; allow_subdir = true; }];
 
     cluster = {
       node_secrets = { hl-fws1 = "$HL_FWS1_CLUSTER_SECRET"; };
@@ -118,6 +121,9 @@ in
     enable = true;
     mode = "master";
     clusterPort = ports.cluster;
+    # The unit waits for these mounts before it starts.
+    drives = [ homes ];
+    stateDir = "/var/lib/nbot";
     configFile = (pkgs.formats.toml { }).generate "nbot.toml" settings;
   };
 
