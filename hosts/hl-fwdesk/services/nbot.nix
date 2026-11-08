@@ -117,6 +117,7 @@ in
     enable = true;
     mode = "master";
     clusterPort = ports.cluster;
+    kvm = true;
     drives = [ homes ];
     stateDir = "/var/lib/nbot";
     configFile = (pkgs.formats.toml { }).generate "nbot.toml" settings;

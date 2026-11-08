@@ -40,6 +40,7 @@ in
   services.nbot = {
     enable = true;
     mode = "slave";
+    kvm = true;
     drives = [ homes ];
     stateDir = "/var/lib/nbot";
     configFile = (pkgs.formats.toml { }).generate "nbot.toml" settings;
