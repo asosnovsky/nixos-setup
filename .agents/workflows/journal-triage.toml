@@ -1,0 +1,42 @@
+name = "journal-triage"
+description = "Collect journald warnings, triage them with Claude Opus against this repo, and write an urgency-ranked report with fixes as repo changes."
+
+[inputs.static]
+since = { type = "string", min_length = 1, default = "24 hours ago" }
+priority = { type = "enum", values = ["err", "warning", "notice"], default = "warning" }
+host = { type = "string", min_length = 1, default = "fwbook" }
+repo = { type = "string", min_length = 1, default = "/home/ari/nixos-setup" }
+
+[[step.collect]]
+kind = "shell"
+cwd = "{{ inputs.repo }}"
+run = ["sh .agents/workflows/journal-triage/collect.sh {{ inputs.since }} {{ inputs.priority }}"]
+
+[step.collect.outputs]
+raw_log = { type = "string" }
+digest = { type = "string" }
+lines = { type = "int" }
+unique = { type = "int" }
+
+[[step.triage]]
+kind = "agent"
+needs = ["collect"]
+agent = { command = ["claude-agent-acp"], model = "opus" }
+cwd = "{{ inputs.repo }}"
+brief = "journal-triage/triage.md"
+failover = "agent"
+
+[step.triage.outputs]
+summary = { type = "string", min_length = 1 }
+issues = { type = "list", items = { title = { type = "string" }, urgency = { type = "enum", values = ["critical", "high", "medium", "low", "noise"] }, fix = { type = "string" }, files = { type = "list" } } }
+
+[[step.report]]
+kind = "shell"
+needs = ["triage"]
+run = [
+  "mkdir -p \"$HOME/journal-reports\"",
+  "S={{ steps.triage.outputs.summary }}; H={{ inputs.host }}; f=\"$HOME/journal-reports/$H-$(date +%Y-%m-%d-%H%M).md\"; printf '%s\\n' \"$S\" > \"$f\"; echo \"report=$f\" >> \"$NBOT_WF_OUTPUTS\"; echo \"Report written to $f\"",
+]
+
+[step.report.outputs]
+report = { type = "string" }

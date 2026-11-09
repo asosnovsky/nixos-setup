@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, hermes-agent, nixarchy, skygUtils, config, ... }:
+{ pkgs, unstablePkgs, hermes-agent, nixarchy, skygUtils, config, nbot, ... }:
 let
   # Omarchy (nixarchy) shell, hand-wired — no nixarchy modules. The shell is
   # launched from configs/fwbook/hypr/conf/autostart.lua (omarchy-launch-shell).
@@ -55,8 +55,6 @@ in
   environment.systemPackages =
     [ omarchy ]
     ++ omarchyRuntime
-    # Theme application: omarchy-theme-set-gnome writes gsettings, and every
-    # theme names a Yaru icon variant.
     ++ (with pkgs; [
       glib
       gsettings-desktop-schemas
@@ -174,6 +172,7 @@ in
       delta-editor
       herdr
       hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
+      nbot.packages.${pkgs.stdenv.hostPlatform.system}.nbot-wf
 
       skygqts
       hermenix
