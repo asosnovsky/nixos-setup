@@ -52,5 +52,7 @@ If adding a new per-service option:
 - The group's unit sets `restartTriggers` to the files-write script, so editing any
   `files` entry restarts the stack on the next switch (services that read files at
   startup, like Gitea templates, otherwise keep serving the old content)
-- Env file changes trigger a path unit that restarts the stack (`container-services-<group>-env-reload.*`)
+- Env file changes trigger a path unit that restarts the stack (`container-services-<group>-env-reload.*`);
+  the restart is queued with `systemctl restart --no-block`, so the reload unit does not wait for or
+  inherit the health of the stack it restarted
 - Compose files are rendered to the store and staged to `/var/lib/container-services/<group>/compose.yml`

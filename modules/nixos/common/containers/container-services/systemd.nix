@@ -108,7 +108,7 @@
         description = "Restart container service group '${groupName}' on env file changes";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${pkgs.systemd}/bin/systemctl restart container-services-${groupName}.service";
+          ExecStart = "${pkgs.systemd}/bin/systemctl restart --no-block container-services-${groupName}.service";
         };
       };
     };
