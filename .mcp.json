@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "nbot-wf": {
+      "command": "nbot-wf",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}

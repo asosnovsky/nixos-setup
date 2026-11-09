@@ -45,3 +45,6 @@ docs
 
 # Zed local settings (machine-local MCP tokens live here)
 .zed/settings.local.json
+
+
+.nbot-wf

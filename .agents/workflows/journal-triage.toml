@@ -34,8 +34,8 @@ issues = { type = "list", items = { title = { type = "string" }, urgency = { typ
 kind = "shell"
 needs = ["triage"]
 run = [
-  "mkdir -p \"$HOME/journal-reports\"",
-  "S={{ steps.triage.outputs.summary }}; H={{ inputs.host }}; f=\"$HOME/journal-reports/$H-$(date +%Y-%m-%d-%H%M).md\"; printf '%s\\n' \"$S\" > \"$f\"; echo \"report=$f\" >> \"$NBOT_WF_OUTPUTS\"; echo \"Report written to $f\"",
+  "R={{ inputs.repo }}; mkdir -p \"$R/.tmp/journal-reports\"",
+  "S={{ steps.triage.outputs.summary }}; H={{ inputs.host }}; R={{ inputs.repo }}; f=\"$R/.tmp/journal-reports/$H-$(date +%Y-%m-%d-%H%M).md\"; printf '%s\\n' \"$S\" > \"$f\"; echo \"report=$f\" >> \"$NBOT_WF_OUTPUTS\"; echo \"Report written to $f\"",
 ]
 
 [step.report.outputs]

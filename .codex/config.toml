@@ -1,0 +1,3 @@
+[mcp_servers.nbot-wf]
+command = "nbot-wf"
+args = ["mcp"]

@@ -5,7 +5,7 @@ nbot-wf workflow files for this repo.
 ## journal-triage
 
 `journal-triage.toml` reads the journald log of this machine, has Claude Opus triage it
-against this repo, and writes a report ranked by urgency to `~/journal-reports/<host>-<date>.md`.
+against this repo, and writes a report ranked by urgency to `.tmp/journal-reports/<host>-<date>.md` (gitignored).
 
 - `journal-triage/collect.sh`: pulls warnings (and worse), failed units and a digest of
   unique messages into the run folder.
