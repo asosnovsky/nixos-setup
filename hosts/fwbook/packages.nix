@@ -88,18 +88,6 @@ in
 
       obs-studio
       davinci-resolve-wrapped
-      grim
-      slurp
-      wl-clipboard
-      tesseract
-      imagemagick
-      zbar
-      curl
-      translate-shell
-      wl-screenrec
-      ffmpeg
-      gifski
-      jq
 
       krita
       gimp-with-plugins
