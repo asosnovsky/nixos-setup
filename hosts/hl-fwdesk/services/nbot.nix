@@ -121,11 +121,8 @@ in
     drives = [ homes ];
     stateDir = "/var/lib/nbot";
     configFile = (pkgs.formats.toml { }).generate "nbot.toml" settings;
+    environmentFile = map (name: config.age.secrets.${name}.path) secrets;
   };
-
-  # The module takes one env file; these add to it.
-  systemd.services.nbot.serviceConfig.EnvironmentFile =
-    map (name: config.age.secrets.${name}.path) secrets;
 
   # Container links belong to systemd-networkd.
   networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];
