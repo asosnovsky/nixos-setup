@@ -72,12 +72,8 @@ let
         "x-scheme-handler/http" = "chromium-browser.desktop";
         "x-scheme-handler/https" = "chromium-browser.desktop";
       };
-      portal = {
-        enable = true;
-        extraPortals = [
-          pkgs.xdg-desktop-portal
-        ];
-      };
+      # Backends come from each desktop module (niri, hyprland, kde, ...)
+      portal.enable = true;
     };
   };
 in
