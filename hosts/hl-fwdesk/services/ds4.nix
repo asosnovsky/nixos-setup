@@ -4,7 +4,7 @@ let
 in
 {
   services.ds4 = {
-    enable = true;
+    enable = false;
     package = (myPkgs.ds4-rocm.override { rocmArch = "gfx1151"; });
     user = "ari";
     group = "users";
