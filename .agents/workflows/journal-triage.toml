@@ -2,24 +2,26 @@ name = "journal-triage"
 description = "Collect journald warnings, triage them with Claude Opus against this repo, and write an urgency-ranked report with fixes as repo changes."
 
 [inputs.static]
-since = { type = "string", min_length = 1, default = "24 hours ago" }
-priority = { type = "enum", values = ["err", "warning", "notice"], default = "warning" }
-host = { type = "string", min_length = 1, default = "fwbook" }
-repo = { type = "string", min_length = 1, default = "/home/ari/nixos-setup" }
+since = { type = "string", description = "How far back to read the journal.", min_length = 1, default = "24 hours ago" }
+priority = { type = "enum", description = "Lowest log priority to include.", values = ["err", "warning", "notice"], default = "warning" }
+host = { type = "string", description = "Name of the host folder under hosts/ to trace issues to.", min_length = 1, default = "fwbook" }
+repo = { type = "string", description = "Path of the NixOS config repo.", min_length = 1, default = "/home/ari/nixos-setup" }
 
 [[step.collect]]
 kind = "shell"
+description = "Collects journal warnings and failed units into a digest."
 cwd = "{{ inputs.repo }}"
 run = ["sh .agents/workflows/journal-triage/collect.sh {{ inputs.since }} {{ inputs.priority }}"]
 
 [step.collect.outputs]
-raw_log = { type = "string" }
-digest = { type = "string" }
-lines = { type = "int" }
-unique = { type = "int" }
+raw_log = { type = "string", description = "Path of the full raw journal log." }
+digest = { type = "string", description = "Path of the deduplicated digest." }
+lines = { type = "int", description = "Number of raw log lines." }
+unique = { type = "int", description = "Number of distinct messages." }
 
 [[step.triage]]
 kind = "agent"
+description = "Has Opus triage the log against the repo and suggest fixes."
 needs = ["collect"]
 agent = { command = ["claude-agent-acp"], model = "opus" }
 cwd = "{{ inputs.repo }}"
@@ -27,11 +29,12 @@ brief = "journal-triage/triage.md"
 failover = "agent"
 
 [step.triage.outputs]
-summary = { type = "string", min_length = 1 }
-issues = { type = "list", items = { title = { type = "string" }, urgency = { type = "enum", values = ["critical", "high", "medium", "low", "noise"] }, fix = { type = "string" }, files = { type = "list" } } }
+summary = { type = "string", description = "Markdown report ranked by urgency.", min_length = 1 }
+issues = { type = "list", description = "The issues found, with urgency, fix and files.", items = { title = { type = "string" }, urgency = { type = "enum", values = ["critical", "high", "medium", "low", "noise"] }, fix = { type = "string" }, files = { type = "list" } } }
 
 [[step.report]]
 kind = "shell"
+description = "Writes the report to .tmp/journal-reports."
 needs = ["triage"]
 run = [
   "R={{ inputs.repo }}; mkdir -p \"$R/.tmp/journal-reports\"",
@@ -39,4 +42,4 @@ run = [
 ]
 
 [step.report.outputs]
-report = { type = "string" }
+report = { type = "string", description = "Path of the written report." }
