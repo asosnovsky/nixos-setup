@@ -1,13 +1,5 @@
-{ pkgs, unstablePkgs, hermes-agent, nixarchy, skygUtils, config, nbot, ... }:
+{ pkgs, unstablePkgs, nixarchy, skygUtils, config, nbot, ... }:
 let
-  # Omarchy (nixarchy) shell, hand-wired — no nixarchy modules. The shell is
-  # launched from configs/fwbook/hypr/conf/autostart.lua (omarchy-launch-shell).
-  #
-  # Workaround for an upstream bug in nixarchy v4.0.4-1: the omarchy package's
-  # installPhase is one '' string whose least-indented lines are the shell-quoted
-  # omarchy-theme-set patterns (indent 4), so Nix dedents the whole string by 4
-  # and the inline `python3 -c '...'` menu check stays indented -> IndentationError.
-  # Wrap that one invocation so its code is dedented before Python sees it.
   dedent = "${pkgs.gawk}/bin/awk 'BEGIN{m=9999} {l[NR]=$0; match($0,/^ */); if ($0 ~ /[^ ]/ && RLENGTH<m) m=RLENGTH} END{for(i=1;i<=NR;i++) print substr(l[i],m+1)}'";
   omarchy = ((pkgs.extend nixarchy.overlays.default).omarchy).overrideAttrs (old: {
     installPhase = builtins.replaceStrings
@@ -26,10 +18,6 @@ let
       kubectl
     ]
   );
-  # Resolve bundles its own Qt5, which has no wayland platform plugin. The
-  # Hyprland session exports QT_QPA_PLATFORM=wayland globally
-  # (configs/fwbook/hypr/conf/env.lua), so Resolve aborts at startup. Force
-  # xcb — Resolve is X11-only and runs under XWayland anyway.
   davinci-resolve-wrapped = pkgs.symlinkJoin {
     name = "davinci-resolve";
     paths = [ pkgs.davinci-resolve ];
@@ -171,7 +159,6 @@ in
       bubblewrap
       delta-editor
       herdr
-      hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default
       nbot.packages.${pkgs.stdenv.hostPlatform.system}.nbot-wf
 
       skygqts
