@@ -53,6 +53,11 @@
     playerctl
   ];
 
+  programs.nh.clean = {
+    dates = "daily";
+    extraArgs = "--keep-since 2d --keep 5";
+  };
+
   services.flatpak.enable = true;
   services.flatpak.packages = [ "com.spotify.Client" ];
 

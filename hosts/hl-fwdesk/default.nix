@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, myPkgs, my-nixpkgs, ... }:
+{ pkgs, my-nixpkgs, ... }:
 let
   ports = {
     tabby = 11029;
@@ -39,6 +39,11 @@ in
   ];
 
   environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+
+  programs.nh.clean = {
+    dates = "daily";
+    extraArgs = "--keep-since 2d --keep 5";
+  };
 
   skyg = {
     user.enable = true;

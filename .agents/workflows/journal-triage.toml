@@ -11,7 +11,7 @@ repo = { type = "string", description = "Path of the NixOS config repo.", min_le
 kind = "shell"
 description = "Collects journal warnings and failed units into a digest."
 cwd = "{{ inputs.repo }}"
-run = ["sh .agents/workflows/journal-triage/collect.sh {{ inputs.since }} {{ inputs.priority }}"]
+run = ["/usr/bin/env", "sh", ".agents/workflows/journal-triage/collect.sh {{ inputs.since }} {{ inputs.priority }}"]
 
 [step.collect.outputs]
 raw_log = { type = "string", description = "Path of the full raw journal log." }

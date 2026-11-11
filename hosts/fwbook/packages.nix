@@ -101,8 +101,8 @@ in
       nixd
       kdePackages.qtdeclarative
       just
-      devcontainer
-      devenv
+      unstablePkgs.devcontainer
+      unstablePkgs.devenv
       flox_dev
       nix-prefetch
       gh
@@ -110,7 +110,7 @@ in
       delta-editor
 
       # Editors
-      vscode
+      unstablePkgs.vscode
       unstablePkgs.zed-editor-fhs
       code-cursor-fhs
 
@@ -120,10 +120,10 @@ in
       unstablePkgs.grok-build
       unstablePkgs.pi-coding-agent
       unstablePkgs.goose-cli
-      herdr
+      unstablePkgs.herdr
       nbot.packages.${pkgs.stdenv.hostPlatform.system}.nbot-wf
       hermenix
-      pi-coding-agent
+      unstablePkgs.pi-coding-agent
 
       # Remote & CLI tools
       unstablePkgs.et
