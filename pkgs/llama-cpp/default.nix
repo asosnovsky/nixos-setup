@@ -7,8 +7,9 @@
   pkg-config,
   autoPatchelfHook,
   rocmPackages,
-  # "rocm" builds the gfx1151 engine. "cpu" is the same tree without the GPU
-  # backend, so the recipe can be checked on a machine with no AMD card.
+  cuda_packages,
+  # "rocm" builds the gfx1151 engine (Strix Halo). "cuda" builds for NVIDIA
+  # GPUs (e.g., RTX 3060). "cpu" is the same tree without a GPU backend.
   backend ? "rocm",
   rocmArch ? "gfx1151",
 }:
@@ -16,7 +17,7 @@
 # llama.cpp, pinned to the first release that carries DFlash2 drafters
 # (v0.8.0, 2026-10-28). nixpkgs only has v0.6.0 in the unstable input and an
 # older tree in the stable one, and DFlash2 landed upstream after both — hence
-# this package. Built for the Framework Desktop iGPU (Strix Halo, gfx1151).
+# this package. Supports ROCm (AMD, Strix Halo) and CUDA (NVIDIA, RTX 3060).
 #
 # To bump: set `version` and `rev`, refresh `hash` with
 # `nix-prefetch-url --unpack https://github.com/ggml-org/llama.cpp/archive/refs/tags/vX.Y.Z.tar.gz`
@@ -26,6 +27,7 @@
 assert lib.elem backend [
   "cpu"
   "rocm"
+  "cuda"
 ];
 
 let
@@ -35,9 +37,13 @@ let
     rocmPackages.hipblas
     rocmPackages.rocblas
   ];
+  cudaInputs = [
+    cuda_packages.cudatoolkit
+    cuda_packages.cudnn
+  ];
 in
 stdenv.mkDerivation {
-  pname = "llama-cpp-halo" + lib.optionalString (backend == "cpu") "-cpu";
+  pname = "llama-cpp" + lib.optionalString (backend == "rocm") "-halo" + lib.optionalString (backend == "cuda") "-cuda" + lib.optionalString (backend == "cpu") "-cpu";
   version = "0.8.0";
 
   src = fetchFromGitHub {
@@ -56,9 +62,13 @@ stdenv.mkDerivation {
     autoPatchelfHook
     # Provides clang++ and the HIP headers; llama.cpp wants ROCm's own clang.
     rocmPackages.clr
+  ]
+  ++ lib.optionals (backend == "cuda") [
+    autoPatchelfHook
+    cuda_packages.cudatoolkit
   ];
 
-  buildInputs = lib.optionals (backend == "rocm") rocmInputs;
+  buildInputs = lib.optionals (backend == "rocm") rocmInputs ++ lib.optionals (backend == "cuda") cudaInputs;
 
   # The web UI is a prebuilt asset downloaded at build time, which the sandbox
   # cannot do. The API does not need it.
@@ -80,12 +90,16 @@ stdenv.mkDerivation {
     (lib.cmakeBool "GGML_HIP" true)
     (lib.cmakeFeature "CMAKE_HIP_COMPILER" "${rocmPackages.clr.hipClangPath}/clang++")
     (lib.cmakeFeature "CMAKE_HIP_ARCHITECTURES" rocmArch)
+  ]
+  ++ lib.optionals (backend == "cuda") [
+    (lib.cmakeBool "GGML_CUDA" true)
+    (lib.cmakeFeature "CMAKE_CUDA_COMPILER" "${cuda_packages.cudatoolkit}/bin/nvcc")
   ];
 
   doCheck = false;
 
   meta = {
-    description = "llama.cpp server (DFlash2 speculative decoding) for AMD Strix Halo (gfx1151)";
+    description = "llama.cpp server (DFlash2 speculative decoding) with ROCm/CUDA support";
     homepage = "https://github.com/ggml-org/llama.cpp";
     license = lib.licenses.mit;
     platforms = lib.platforms.linux;

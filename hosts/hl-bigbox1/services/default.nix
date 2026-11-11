@@ -5,5 +5,6 @@
     ./portainer.nix
     ./timers.nix
     ./linux-tracker.nix
+    ./llama-cpp.nix
   ];
 }

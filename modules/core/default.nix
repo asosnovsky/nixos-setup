@@ -22,9 +22,10 @@
         # colibrì (JustVugg/colibri) — GLM-5.2/OLMoE local inference, see pkgs/colibri.
         colibri = final.callPackage ../../pkgs/colibri { };
         colibri-rocm = final.callPackage ../../pkgs/colibri { backend = "rocm"; };
-        # llama.cpp v0.8.0 for gfx1151 — DFlash2 speculative decoding, see pkgs/llama-cpp.
+        # llama.cpp v0.8.0 with DFlash2 speculative decoding, see pkgs/llama-cpp.
         llama-cpp-halo = final.callPackage ../../pkgs/llama-cpp { };
         llama-cpp-halo-cpu = final.callPackage ../../pkgs/llama-cpp { backend = "cpu"; };
+        llama-cpp-cuda = final.callPackage ../../pkgs/llama-cpp { backend = "cuda"; };
         # Touchscreen gesture bridge for niri, see pkgs/niri-touchscreen-gestures.
         niri-touchscreen-gestures = final.callPackage ../../pkgs/niri-touchscreen-gestures { };
         # Buzz Desktop AppImage wrapper, see pkgs/buzz-desktop.
