@@ -1,16 +1,5 @@
-{ pkgs, unstablePkgs, nixarchy, skygUtils, config, nbot, ... }:
+{ pkgs, unstablePkgs, nbot, ... }:
 let
-  dedent = "${pkgs.gawk}/bin/awk 'BEGIN{m=9999} {l[NR]=$0; match($0,/^ */); if ($0 ~ /[^ ]/ && RLENGTH<m) m=RLENGTH} END{for(i=1;i<=NR;i++) print substr(l[i],m+1)}'";
-  omarchy = ((pkgs.extend nixarchy.overlays.default).omarchy).overrideAttrs (old: {
-    installPhase = builtins.replaceStrings
-      [ "python3 -c '" "' $menu\n" ]
-      [ "python3 -c \"$(printf '%s' '" "' | ${dedent})\" $menu\n" ]
-      old.installPhase;
-  });
-  # The shell's runtime deps, minus hyprland (we keep the flake's Hyprland).
-  omarchyRuntime = builtins.filter
-    (d: !(pkgs.lib.hasPrefix "hyprland-" (d.name or "")))
-    omarchy.passthru.runtimeDeps;
   gdk = pkgs.google-cloud-sdk.withExtraComponents (
     with pkgs.google-cloud-sdk.components;
     [
@@ -28,128 +17,120 @@ let
   };
 in
 {
-  # The shell resolves everything through OMARCHY_PATH.
-  environment.sessionVariables.OMARCHY_PATH = "${omarchy}/share/omarchy";
-  environment.sessionVariables.OMARCHY_SCREENSHOT_EDITOR = "satty-edit";
-
-  # ~/.config/omarchy -> configs/fwbook/omarchy (same pattern as hypr/noctalia).
-  system.userActivationScripts.omarchyConfig.text =
-    skygUtils.makeHyperlinkScriptToConfigs {
-      filePath = "fwbook/omarchy";
-      targetPath = "omarchy";
-      configSource = "/home/${config.skyg.user.name}/nixos-setup/configs";
-    };
-
   environment.systemPackages =
-    [ omarchy ]
-    ++ omarchyRuntime
-    ++ (with pkgs; [
+    (with pkgs; [
+      # Desktop & theme
       glib
       gsettings-desktop-schemas
       gnome-themes-extra
       yaru-theme
       adwaita-icon-theme
-    ])
-    ++ (with pkgs; [
+      oreo-cursors-plus
+
+      # Screen & images
       grim
       slurp
       wl-clipboard
-      tesseract
+      wl-screenrec
+      gpu-screen-recorder
+      gifski
       imagemagick
       zbar
-      curl
-      translate-shell
-      wl-screenrec
+      tesseract
+
+      # Media & creative
+      obs-studio
+      davinci-resolve-wrapped
+      shotcut
       ffmpeg
-      gifski
-      libusb1
-      lshw
-      jq
-      parted
-      gparted-full
-      f3
-      nixd
-      kdePackages.qtdeclarative
+      krita
+      gimp-with-plugins
+      simple-scan
+      orca-slicer
+
+      # Chat & meetings
+      zoom-us
+      discord
+      betterdiscordctl
+      signal-desktop
+      telegram-desktop
+      unstablePkgs.slack
+
+      # Office
+      onlyoffice-desktopeditors
+      darling-dmg
       piper-tts
-      ffmpeg
-      oreo-cursors-plus
 
-      postgresql
-      google-cloud-sdk
-      awscli
-      openfortivpn
-      openfortivpn-webview
-      openfortivpn-webview-qt
-      nodejs
-
+      # Wine
       wineWow64Packages.stable
       winetricks
       wineWow64Packages.waylandFull
 
-      obs-studio
-      davinci-resolve-wrapped
+      # Cloud, VPN & data
+      postgresql
+      google-cloud-sdk
+      gdk
+      awscli
+      openfortivpn
+      openfortivpn-webview
+      openfortivpn-webview-qt
+      bitwarden-cli
 
-      krita
-      gimp-with-plugins
-      shotcut
-      simple-scan
+      # Disks & hardware
+      libusb1
+      lshw
+      parted
+      gparted-full
+      f3
+      rpi-imager
+      rpiboot
+      libimobiledevice
+      ifuse
+      idevicerestore
 
-      zoom-us
-      betterdiscordctl
-      discord
-      signal-desktop
-      telegram-desktop
-
+      # Languages & dev tools
+      nodejs
       python313
       python314
       uv
+      pipx
       cargo
       rustc
       go
-      pipx
       rust-analyzer
+      nixd
+      kdePackages.qtdeclarative
+      just
+      devcontainer
+      devenv
+      flox_dev
+      nix-prefetch
+      gh
+      bubblewrap
+      delta-editor
 
+      # Editors
       vscode
       unstablePkgs.zed-editor-fhs
-      unstablePkgs.et
-      unstablePkgs.devenv
-      just
-      rpi-imager
-      rpiboot
       code-cursor-fhs
-      nix-prefetch
-      orca-slicer
-      devcontainer
-      gpu-screen-recorder
-      flox_dev
 
-      darling-dmg
-
-      bitwarden-cli
-
-      onlyoffice-desktopeditors
-
-      gh
-      gdk
-      unstablePkgs.slack
-
-      libimobiledevice
-      ifuse
-
-      idevicerestore
-
+      # Agents & LLM tools
+      unstablePkgs.claude-code
+      unstablePkgs.claude-agent-acp
       unstablePkgs.grok-build
       unstablePkgs.pi-coding-agent
       unstablePkgs.goose-cli
-      unstablePkgs.claude-agent-acp
-      unstablePkgs.claude-code
-      buzz-desktop
-      bubblewrap
-      delta-editor
       herdr
       nbot.packages.${pkgs.stdenv.hostPlatform.system}.nbot-wf
-
-      skygqts
       hermenix
+      pi-coding-agent
+
+      # Remote & CLI tools
+      unstablePkgs.et
+      curl
+      jq
+      translate-shell
+      buzz-desktop
+      skygqts
     ]);
 }

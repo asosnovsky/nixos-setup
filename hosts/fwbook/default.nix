@@ -7,6 +7,7 @@
     ./networking.nix
     ./hardware.nix
     ./systemd.nix
+    ./omarchy.nix
   ];
 
   skyg = {
