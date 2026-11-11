@@ -10,6 +10,7 @@
     user.enable = true;
     nixos = {
       common.ssh-server.enable = true;
+      common.diagnix.enable = true;
       common.hardware.pipewire.enable = true;
       desktop = {
         enable = true;

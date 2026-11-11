@@ -13,6 +13,7 @@
         minimal = true;
         fonts.minimal = true;
         ssh-server.enable = true;
+        diagnix.enable = true;
         containers.enable = false;
         networking.nfsServer.enable = false;
         hardware.pipewire.enable = true;

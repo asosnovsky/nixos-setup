@@ -9,6 +9,7 @@ let
   bigbox2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6l6VqQ23PkGkWVABBoLp1KA6PzkX5oKTy5RBHbQXet root@hl-bigbox2";
   hermenix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPfMrT6dDPw3+J22k3X5aR9ERQ8RMRLeBGgqQjmuL7EI hermenix@lab";
   fws1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM6r0AIJyTlE+U6K97GijzAP4jNaAueVlwXbeMpEMcpe root@hl-fws1";
+  diagnix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPKsgkysVa3BiJQkUjiyESwjoi9ZMmUiWEB66JlbgIrO nbot-diagnix";
 in
 {
   "secrets/dns-addresses.conf.age".publicKeys = [

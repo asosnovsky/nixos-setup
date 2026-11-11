@@ -37,6 +37,7 @@ in
 
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
+  skyg.nixos.common.diagnix.enable = true;
   skyg.server.dns.routing = {
     enable = false;
     openFirewall = true;

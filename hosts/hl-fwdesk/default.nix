@@ -50,6 +50,7 @@ in
     core.qemu.enable = true;
     nixos = {
       common.ssh-server.enable = true;
+      common.diagnix.enable = true;
       common.cachePush.enable = true;
       common.hardware = {
         pipewire.enable = true;

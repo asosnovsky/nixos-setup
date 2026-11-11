@@ -28,6 +28,7 @@ let
       CLAUDE_CODE_OAUTH_TOKEN = "$CLAUDE_CODE_OAUTH_TOKEN";
       COMMAND_CODE_API_KEY = "$COMMAND_CODE_API_KEY";
       GH_TOKEN = "$GH_TOKEN";
+      DIAGNIX_KEY = "$DIAGNIX_KEY"; # base64 private key for lab-ssh (diagnix)
     };
 
     model_providers = [

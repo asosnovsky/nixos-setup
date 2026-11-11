@@ -17,6 +17,7 @@
         gnome.enable = false;
       };
       common.ssh-server.enable = true;
+      common.diagnix.enable = true;
 
       common.hardware = {
         nvidia.enable = true;

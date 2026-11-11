@@ -13,6 +13,7 @@
     user.enable = true;
     nixos.common = {
       ssh-server.enable = true;
+      diagnix.enable = true;
 
       containers.networks.ipvlanLab = {
         enable = true;
