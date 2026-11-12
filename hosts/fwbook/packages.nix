@@ -121,7 +121,9 @@ in
       unstablePkgs.pi-coding-agent
       unstablePkgs.goose-cli
       unstablePkgs.herdr
-      nbot.packages.${pkgs.stdenv.hostPlatform.system}.nbot-wf
+      unstablePkgs.codex
+      unstablePkgs.codex-acp
+      nbot.packages.${pkgs.stdenv.hostPlatform.system}.looprail
       hermenix
       unstablePkgs.pi-coding-agent
 
