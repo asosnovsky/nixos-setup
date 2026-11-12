@@ -2,6 +2,7 @@
 let
   ports = { cluster = 7946; };
   homes = "/data/nbot";
+  goCache = "/data/nbot-cache/go";
   secrets = [ "nbot-slack" "nbot-goose" "nbot-cluster" ];
   settings = {
     # The system each container boots (nbot's agent + gh); updated on every rebuild.
@@ -14,6 +15,12 @@ let
     max_idle_timeout = "0s";
     allow_indefinite = true;
     boot_timeout = "2m";
+
+    # Go caches shared by all containers on this node (see ABOUTME). Env vars are in agent_env.
+    rw_binds = [
+      "${goCache}/mod:/var/cache/go/mod:idmap"
+      "${goCache}/build:/var/cache/go/build:idmap"
+    ];
 
     summaries = {
       timeout = "10s";
@@ -29,6 +36,9 @@ let
       COMMAND_CODE_API_KEY = "$COMMAND_CODE_API_KEY";
       GH_TOKEN = "$GH_TOKEN";
       DIAGNIX_KEY = "$DIAGNIX_KEY"; # base64 private key for lab-ssh (diagnix)
+      # Shared Go caches, mounted by rw_binds on each node.
+      GOMODCACHE = "/var/cache/go/mod";
+      GOCACHE = "/var/cache/go/build";
     };
 
     model_providers = [
@@ -132,5 +142,9 @@ in
   networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];
   networking.dhcpcd.denyInterfaces = [ "ve-*" ];
 
-  systemd.tmpfiles.rules = [ "d ${homes} 0700 root root -" ];
+  systemd.tmpfiles.rules = [
+    "d ${homes} 0700 root root -"
+    "d ${goCache}/mod 0700 root root -"
+    "d ${goCache}/build 0700 root root -"
+  ];
 }

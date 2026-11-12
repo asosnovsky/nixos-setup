@@ -28,6 +28,12 @@ services/
   repo unchanged. `gh` reads `GH_TOKEN` from `agent_env`, and git over HTTPS to github.com
   uses it through `gh`. Every container gets that token (chosen on purpose, 2026-11-03),
   so anyone who can prompt an agent can use it or ask it to print the token.
+- **Shared Go caches** (2026-11-11, set in `hosts/hl-{fwdesk,fws1}/services/nbot.nix`, not
+  here): each node bind-mounts one `GOMODCACHE` and `GOCACHE` into every container under
+  `/var/cache/go/`, with the env vars in the master's `agent_env`. Go locks these, so sharing
+  is safe. Only Go caches are shared, not all of `~/.cache`: other tools break or leak logins
+  when shared, and it would skip each home's size limit. Trade-off: any container can change
+  build results the others use. The caches have no size limit; clear with `go clean -cache`.
 - **`colibri.nix`** runs `coli serve` (colibrì's OpenAI-compatible API) as a native systemd
   service. `package` picks the backend (`pkgs.colibri`
   cpu / `pkgs.colibri-rocm`); `environmentFile` supplies `COLI_API_KEY` via agenix instead of

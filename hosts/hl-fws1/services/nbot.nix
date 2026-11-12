@@ -1,6 +1,7 @@
 { config, pkgs, skyg-secrets, ... }:
 let
   homes = "/var/lib/nbot/homes";
+  goCache = "/var/lib/nbot-cache/go";
   settings = {
     # The system each container boots (nbot's agent + gh); updated on every rebuild.
     system = "${config.skyg.nixos.server.services.nbot-agent.system}";
@@ -12,6 +13,12 @@ let
     max_idle_timeout = "0s";
     allow_indefinite = true;
     boot_timeout = "2m";
+
+    # Go caches shared by all containers on this node (see ABOUTME). Env vars come from the master.
+    rw_binds = [
+      "${goCache}/mod:/var/cache/go/mod:idmap"
+      "${goCache}/build:/var/cache/go/build:idmap"
+    ];
 
     container = { memory_mb = 4096; cpus = 1.0; };
     max_container = { memory_mb = 51200; cpus = 6; };
@@ -54,5 +61,9 @@ in
   # so wait-online would always time out.
   systemd.network.wait-online.enable = false;
 
-  systemd.tmpfiles.rules = [ "d ${homes} 0700 root root -" ];
+  systemd.tmpfiles.rules = [
+    "d ${homes} 0700 root root -"
+    "d ${goCache}/mod 0700 root root -"
+    "d ${goCache}/build 0700 root root -"
+  ];
 }
