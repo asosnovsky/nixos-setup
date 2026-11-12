@@ -20,6 +20,8 @@
         parent = "enp3s0";
       };
       cachePush.enable = false;
+      # fwdesk pushes its builds here over ssh-ng; nix-serve serves them.
+      cacheReceive.enable = true;
     };
 
     networkDrives = {
