@@ -58,24 +58,24 @@ let
         login = "claude";
         models = [ "default" "opus" "sonnet" "haiku" "fable" ];
       }
-      # {
-      #   id = "codex";
-      #   name = "Codex (OpenAI API key)";
-      #   personal = true;
-      #   upstream = "https://api.openai.com";
-      #   engine = "openai";
-      #   auth = "bearer";
-      #   models = [ "gpt-6.1-codex" "gpt-6.1" ];
-      # }
-      # {
-      #   id       = "xai";
-      #   name     = "Grok";
-      #   personal = true;
-      #   upstream = "https://api.x.ai";
-      #   engine   = "openai";
-      #   auth     = "bearer";
-      #   models   = ["grok-4"];
-      # }
+      {
+        id = "codex";
+        name = "Codex (OpenAI API key)";
+        personal = true;
+        upstream = "https://api.openai.com";
+        engine = "openai";
+        auth = "bearer";
+        models = [ "gpt-6.1-codex" "gpt-6.1" ];
+      }
+      {
+        id = "xai";
+        name = "Grok";
+        personal = true;
+        upstream = "https://api.x.ai";
+        engine = "openai";
+        auth = "bearer";
+        models = [ "grok-4" ];
+      }
       {
         id = "custom_commandcode";
         name = "Command Code";
