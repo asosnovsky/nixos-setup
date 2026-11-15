@@ -29,53 +29,14 @@ let
     # Goose settings sent to every container (also on fws1).
     # Values come from the nbot-goose secret.
     agent_env = {
-      GOOSE_PROVIDER = "$GOOSE_PROVIDER";
-      GOOSE_MODEL = "$GOOSE_MODEL";
-      OPENROUTER_API_KEY = "$OPENROUTER_API_KEY";
-      CLAUDE_CODE_OAUTH_TOKEN = "$CLAUDE_CODE_OAUTH_TOKEN";
       COMMAND_CODE_API_KEY = "$COMMAND_CODE_API_KEY";
       GH_TOKEN = "$GH_TOKEN";
-      DIAGNIX_KEY = "$DIAGNIX_KEY"; # base64 private key for lab-ssh (diagnix)
-      # Shared Go caches, mounted by rw_binds on each node.
+      DIAGNIX_KEY = "$DIAGNIX_KEY";
       GOMODCACHE = "/var/cache/go/mod";
       GOCACHE = "/var/cache/go/build";
     };
 
     model_providers = [
-      # {
-      #   id = "claude-acp";
-      #   name = "Claude ACP (Ari Credentials)";
-      #   key_env = "CLAUDE_CODE_OAUTH_TOKEN";
-      #   models = [ "default" "sonnet" "haiku" "opus" ];
-      #   users = [ "U0CBGSS4U6A" ];
-      # }
-      {
-        id = "claude-oauth";
-        name = "Claude OAuth";
-        personal = true;
-        upstream = "https://api.anthropic.com";
-        engine = "claude-code";
-        login = "claude";
-        models = [ "default" "opus" "sonnet" "haiku" "fable" ];
-      }
-      # {
-      #   id = "codex";
-      #   name = "Codex (OpenAI API key)";
-      #   personal = true;
-      #   upstream = "https://api.openai.com";
-      #   engine = "openai";
-      #   auth = "bearer";
-      #   models = [ "gpt-6.1-codex" "gpt-6.1" ];
-      # }
-      # {
-      #   id = "xai";
-      #   name = "Grok";
-      #   personal = true;
-      #   upstream = "https://api.x.ai";
-      #   engine = "openai";
-      #   auth = "bearer";
-      #   models = [ "grok-4" ];
-      # }
       {
         id = "custom_commandcode";
         name = "Command Code";

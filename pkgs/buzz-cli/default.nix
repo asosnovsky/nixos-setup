@@ -13,17 +13,17 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "buzz-cli";
-  version = "0.5.28";
+  version = "0.5.30";
 
   src = fetchFromGitHub {
     owner = "block";
     repo = "buzz";
     rev = "desktop-v${version}";
-    hash = "sha256-NEsLQwcoQ2zTgznFgGFGNgYPnoclicNVycSEjl7I0Wo=";
+    hash = "sha256-Ay6zUeHHYO92/Fs4FGHm1+QQUoUEQjYyOC3dDg5+7Ss=";
   };
 
   # The workspace has git deps in [patch.crates-io]; cargoHash covers them.
-  cargoHash = "sha256-UQ8qNqoeDwkwhmVZebi++gb2GP61dr1Zv2QU9mJ6KJ8=";
+  cargoHash = lib.fakeHash;
 
   # Only this crate; the workspace has 30+ others (relay, db, ...).
   cargoBuildFlags = [ "-p" "buzz-cli" ];
