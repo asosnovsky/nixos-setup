@@ -3,6 +3,7 @@
   imports = [
     ./hardware-configuration
     ./packages.nix
+    ./slack.nix
     ./services.nix
     ./networking.nix
     ./hardware.nix

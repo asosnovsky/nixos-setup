@@ -54,7 +54,6 @@ in
       betterdiscordctl
       signal-desktop
       telegram-desktop
-      unstablePkgs.slack
 
       # Office
       onlyoffice-desktopeditors

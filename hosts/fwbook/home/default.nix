@@ -19,7 +19,7 @@ in
     "x-scheme-handler/mailto" = "chromium-browser.desktop";
     "x-scheme-handler/sgnl" = "signal.desktop";
     "x-scheme-handler/signalcaptcha" = "signal.desktop";
-    "x-scheme-handler/slack" = "slack.desktop";
+    "x-scheme-handler/slack" = "slack-link-picker.desktop";
     "x-scheme-handler/terminal" = "com.mitchellh.ghostty.desktop";
     "application/pdf" = "chromium-browser.desktop";
     "application/xhtml+xml" = "chromium-browser.desktop";
