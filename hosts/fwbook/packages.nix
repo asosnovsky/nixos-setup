@@ -122,7 +122,8 @@ in
       unstablePkgs.herdr
       unstablePkgs.codex
       unstablePkgs.codex-acp
-      nbot.packages.${pkgs.stdenv.hostPlatform.system}.looprail
+      # looprail now lives in its own repo; use the one nbot pins.
+      nbot.inputs.looprail.packages.${pkgs.stdenv.hostPlatform.system}.looprail
       hermenix
       unstablePkgs.pi-coding-agent
 

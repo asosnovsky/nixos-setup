@@ -34,6 +34,11 @@ services/
   is safe. Only Go caches are shared, not all of `~/.cache`: other tools break or leak logins
   when shared, and it would skip each home's size limit. Trade-off: any container can change
   build results the others use. The caches have no size limit; clear with `go clean -cache`.
+- **nbot models** (2026-11-17, set in `hosts/hl-fwdesk/services/nbot.nix`): the Claude,
+  Codex and Grok subscriptions find their models on their own (nbot's
+  `services.nbot.autoLoadModels`, on for all three by default), so they have no model lists
+  here. Only Command Code is listed, without its `anthropic/*` ids, which don't answer on
+  that endpoint. `looprail` comes from `nbot.inputs.looprail` since it moved to its own repo.
 - **`colibri.nix`** runs `coli serve` (colibrì's OpenAI-compatible API) as a native systemd
   service. `package` picks the backend (`pkgs.colibri`
   cpu / `pkgs.colibri-rocm`); `environmentFile` supplies `COLI_API_KEY` via agenix instead of

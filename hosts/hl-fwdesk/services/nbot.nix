@@ -36,6 +36,8 @@ let
       GOCACHE = "/var/cache/go/build";
     };
 
+    # Claude, Codex and Grok subscriptions find their models on their own
+    # (services.nbot.autoLoadModels), so only Command Code is listed here.
     model_providers = [
       {
         id = "custom_commandcode";
@@ -45,9 +47,6 @@ let
           "deepseek/deepseek-v4-flash"
           "minimax/minimax-m3.1-flash"
           "minimaxai/minimax-m3"
-          "anthropic/claude-opus-5-5"
-          "anthropic/claude-sonnet-5-5"
-          "anthropic/claude-haiku-5-5"
           "reflection/beam:free"
           "moonshotai/kimi-k3"
           "moonshotai/kimi-k2.7-code"
