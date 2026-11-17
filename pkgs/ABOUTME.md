@@ -33,7 +33,7 @@ Each package can have an `update.sh` script that automates version bumps.
 - **`skyg pkgs update --all`** — auto-detect the latest version for all packages that have `update.sh`.
 - **`skyg pkgs update <pkg-name>`** — auto-detect the latest version for a single package.
 - **`skyg pkgs update <pkg-name> <version>`** — bump a specific package to a specific version.
-- **Pre-commit hook** — a `pkgs-update` hook (defined in `flake.nix`) runs `skyg pkgs update --all` before every commit and blocks the commit if it changed anything under `pkgs/` (review + `git add pkgs/`, then commit again).
+- **Pre-commit hook** — a `pkgs-update` hook (defined in `flake.nix`) runs `skyg pkgs update --all` on the first commit attempt and then at most once every seven days. It records successful runs in Git's local metadata; failed updates are retried on the next commit. If it changed anything under `pkgs/`, it blocks the commit (review + `git add pkgs/`, then commit again without rerunning the update).
 
 Each `update.sh` supports two modes:
 
