@@ -19,6 +19,7 @@
       common.ssh-server.enable = true;
       common.diagnix.enable = true;
 
+      common.dns.enable = true;
       common.hardware = {
         nvidia.enable = true;
         amdgpu.enable = true;

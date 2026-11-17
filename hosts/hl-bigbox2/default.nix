@@ -15,6 +15,8 @@
       ssh-server.enable = true;
       diagnix.enable = true;
 
+      dns.enable = true;
+
       containers.networks.ipvlanLab = {
         enable = true;
         parent = "enp3s0";
