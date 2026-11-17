@@ -9,6 +9,7 @@
   skyg.user.enable = true;
   skyg.nixos.common.ssh-server.enable = true;
   skyg.nixos.common.diagnix.enable = true;
+  skyg.nixos.common.dns.enable = true;
   skyg.nixos.common.containers.networks.ipvlanLab = {
     enable = true;
     parent = "enp2s0";

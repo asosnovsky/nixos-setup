@@ -8,10 +8,10 @@
     ./user.nix
     ./fonts.nix
     ./ssh-server.nix
-    ./diagnix
     ./qemu.nix
     ./binary-cache.nix
     ./pritunl
+    ./dns
   ];
   config = {
     environment.sessionVariables.EDITOR = "vi";
