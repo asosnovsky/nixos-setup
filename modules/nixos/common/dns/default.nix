@@ -4,122 +4,86 @@ let
 in
 {
   options.skyg.nixos.common.dns = {
-    enable = lib.mkOption {
-      description = "Enable hardened systemd-resolved DNS with boot verification and journal recovery.";
-      type = lib.types.bool;
-      default = false;
+    enable = lib.mkEnableOption "systemd-resolved with a boot-time DNS diagnostic";
+
+    bootCheckName = lib.mkOption {
+      type = lib.types.strMatching "[a-zA-Z0-9][a-zA-Z0-9.-]*";
+      default = "portainer.app.internal";
+      description = "Internal DNS name expected to have an IPv4 address at boot.";
     };
-    
+
+    bootCheckRetries = lib.mkOption {
+      type = lib.types.ints.positive;
+      default = 5;
+      description = "Maximum number of DNS lookup attempts at boot.";
+    };
+
     watchdogEnabled = lib.mkOption {
-      description = "Enable systemd watchdog for automatic recovery on DNS/systemd failures.";
       type = lib.types.bool;
       default = true;
+      description = "Enable the system manager's hardware watchdog.";
     };
-    
+
     watchdogTimeout = lib.mkOption {
-      description = "Watchdog timeout in seconds (auto-reboot if system unresponsive for this long).";
-      type = lib.types.int;
+      type = lib.types.ints.positive;
       default = 30;
-    };
-    
-    bootCheckRetries = lib.mkOption {
-      description = "Number of DNS health check retries during boot before failing fast.";
-      type = lib.types.int;
-      default = 5;
+      description = "Runtime hardware watchdog timeout in seconds.";
     };
   };
-  
+
   config = lib.mkIf cfg.enable {
-    # Enable systemd-resolved explicitly (don't rely on defaults)
     services.resolved = {
       enable = true;
-      llmnr = "yes";           # Allow local resolution fallback
-      dnssec = "allow-downgrade";  # Tolerant of DNSSEC issues (network-dependent)
-      dnsovertls = "no";       # Keep plain DNS for lab environment
-      extraConfig = ''
-        [Resolve]
-        # Use upstream resolvers if configured by DHCP/static config
-        Domains=~.
-        # Increase timeout to tolerate slow lab network
-        DNSStubListenerPort=53
-      '';
+      settings.Resolve = {
+        LLMNR = "yes";
+        DNSSEC = "allow-downgrade";
+        DNSOverTLS = false;
+        Domains = config.networking.search ++ [ "~." ];
+      };
     };
-    
-    # Harden journald to survive unclean shutdown and corruption
-    systemd.journald = {
-      extraConfig = ''
-        [Journal]
-        Storage=persistent
-        # Keep journal compressed and limit size
+
+    services.journald = {
+      storage = "persistent";
+      extraConfig = lib.mkBefore ''
         SystemMaxUse=500M
         SystemMaxFileSize=50M
         RuntimeMaxUse=100M
         RuntimeMaxFileSize=10M
-        # Vacuum on startup to recover from corruption
         MaxRetentionSec=30day
         MaxFileSec=7day
       '';
     };
-    
-    # Enable watchdog for automatic recovery (if DNS fails to start, reboot)
-    systemd.watchdog = lib.mkIf cfg.watchdogEnabled {
-      runtimeSec = "${toString cfg.watchdogTimeout}s";
-      rebootTime = "${toString (cfg.watchdogTimeout + 10)}s";
+
+    systemd.settings.Manager = lib.mkIf cfg.watchdogEnabled {
+      RuntimeWatchdogSec = "${toString cfg.watchdogTimeout}s";
+      RebootWatchdogSec = "${toString (cfg.watchdogTimeout + 10)}s";
     };
-    
-    # Ensure systemd notices watchdog (all services should use it)
-    systemd.defaultUnit = "multi-user.target";
-    
-    # Boot check service: verify DNS is actually responding (not just started)
-    systemd.services."dns-boot-check" = {
-      description = "DNS Boot-Time Health Check";
-      documentation = [ "man:resolved.conf(5)" ];
-      wantedBy = [ "network-online.target" ];
-      before = [ "network-online.target" ];
-      after = [ "systemd-resolved.service" ];
+
+    systemd.services.dns-boot-check = {
+      description = "Check internal DNS resolution at boot";
+      wantedBy = [ "multi-user.target" ];
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" "systemd-resolved.service" ];
       requires = [ "systemd-resolved.service" ];
-      
-      unitConfig = {
-        # Allow this to fail without breaking the entire boot
-        # (watchdog will trigger if systemd-resolved is dead)
-        ConditionPathExists = "/run/systemd/resolve/stub-resolv.conf";
-      };
-      
+      path = [ pkgs.dnsutils pkgs.gnugrep pkgs.coreutils ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        # Try multiple times to allow systemd-resolved to settle
-        ExecStart = ''
-          ${pkgs.bash}/bin/bash -c '
-            attempt=0
-            max_attempts=${toString cfg.bootCheckRetries}
-            
-            while [ $attempt -lt $max_attempts ]; do
-              # Check that DNS responds on the stub resolver
-              if ${pkgs.dnsutils}/bin/dig +short @127.0.0.11 localhost > /dev/null 2>&1; then
-                echo "DNS is responding on 127.0.0.11:53"
-                exit 0
-              fi
-              attempt=$((attempt + 1))
-              echo "DNS check attempt $attempt/$max_attempts failed, retrying..."
-              sleep 1
-            done
-            
-            echo "ERROR: DNS did not respond after $max_attempts attempts"
-            echo "systemd-resolved status:"
-            ${pkgs.systemd}/bin/systemctl status systemd-resolved || true
-            exit 1
-          '
-        '';
-        StandardOutput = "journal";
-        StandardError = "journal";
-        SyslogIdentifier = "dns-boot-check";
-        # If this fails, the watchdog will eventually reboot us
-        # (better than a silent DNS failure)
       };
+      script = ''
+        name=${lib.escapeShellArg cfg.bootCheckName}
+        attempts=${toString cfg.bootCheckRetries}
+        for ((attempt=1; attempt<=attempts; attempt++)); do
+          if answer=$(dig +short +time=2 +tries=1 @127.0.0.53 -q "$name" -t A) &&
+             grep -Eq '^([0-9]{1,3}\.){3}[0-9]{1,3}$' <<< "$answer"; then
+            echo "$name resolved through 127.0.0.53"
+            exit 0
+          fi
+          echo "No IPv4 answer for $name (attempt $attempt/$attempts)" >&2
+          if ((attempt < attempts)); then sleep 1; fi
+        done
+        exit 1
+      '';
     };
-    
-    # Ensure network doesn't mark itself "online" until DNS is actually working
-    systemd.targets."network-online".wants = [ "dns-boot-check.service" ];
   };
 }
