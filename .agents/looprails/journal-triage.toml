@@ -11,7 +11,7 @@ repo = { type = "string", description = "Path of the NixOS config repo.", min_le
 kind = "shell"
 description = "Collects journal warnings and failed units into a digest."
 cwd = "{{ inputs.repo }}"
-run = ["/usr/bin/env", "sh", ".agents/workflows/journal-triage/collect.sh {{ inputs.since }} {{ inputs.priority }}"]
+run = ["sh .agents/looprails/journal-triage/collect.sh {{ inputs.since }} {{ inputs.priority }}"]
 
 [step.collect.outputs]
 raw_log = { type = "string", description = "Path of the full raw journal log." }
@@ -38,7 +38,7 @@ description = "Writes the report to .tmp/journal-reports."
 needs = ["triage"]
 run = [
   "R={{ inputs.repo }}; mkdir -p \"$R/.tmp/journal-reports\"",
-  "S={{ steps.triage.outputs.summary }}; H={{ inputs.host }}; R={{ inputs.repo }}; f=\"$R/.tmp/journal-reports/$H-$(date +%Y-%m-%d-%H%M).md\"; printf '%s\\n' \"$S\" > \"$f\"; echo \"report=$f\" >> \"$NBOT_WF_OUTPUTS\"; echo \"Report written to $f\"",
+  "S={{ steps.triage.outputs.summary }}; H={{ inputs.host }}; R={{ inputs.repo }}; f=\"$R/.tmp/journal-reports/$H-$(date +%Y-%m-%d-%H%M).md\"; printf '%s\\n' \"$S\" > \"$f\"; echo \"report=$f\" >> \"$NBOT_LR_OUTPUTS\"; echo \"Report written to $f\"",
 ]
 
 [step.report.outputs]

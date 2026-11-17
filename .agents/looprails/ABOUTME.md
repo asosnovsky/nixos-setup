@@ -1,6 +1,6 @@
-# .agents/workflows
+# .agents/looprails
 
-nbot-wf workflow files for this repo.
+Looprail files for this repo.
 
 ## journal-triage
 
@@ -15,4 +15,4 @@ against this repo, and writes a report ranked by urgency to `.tmp/journal-report
 - Inputs: `since` (default `24 hours ago`), `priority` (`err`, `warning`, `notice`),
   `host` (default `fwbook`), `repo` (default `/home/ari/nixos-setup`).
 
-Run: `nbot-wf run .agents/workflows/journal-triage.toml`, or ask the agent to run it.
+Run: `looprail run .agents/looprails/journal-triage.toml`, or ask the agent to run it.
