@@ -4,15 +4,18 @@
     skygqts.url = "git+ssh://gitea@gitea.app.internal:22/ari/skygqts.git";
     skygqts.inputs.nixpkgs.follows = "nixpkgs";
     hermenix.url = "git+ssh://gitea@gitea.app.internal:22/ari/hermenix.git";
+    nbot = {
+      url = "git+ssh://git@github.com/SkyG-Org/nBot.git";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    looprail = {
+      url = "git+ssh://git@github.com/SkyG-Org/LoopRail.git";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # Read-only host monitor (systemd, journal, Docker) over REST + MCP.
     skyg-linux-tracker = {
       url = "git+https://gitea.skyg.ca/ari/skyg-linux-tracker.git";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Slack bot that runs goose agents in nspawn containers.
-    nbot = {
-      url = "git+ssh://git@github.com/asosnovsky/nbot.git";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     # Headless Hyprland session streamed over a Unix socket.
     hhstream = {
@@ -114,6 +117,7 @@
     , hermenix
     , skyg-linux-tracker
     , nbot
+    , looprail
     , hhstream
     , nixpkgs-unstable
     , flox
@@ -210,6 +214,7 @@
                 hermenix
                 skyg-linux-tracker
                 nbot
+                looprail
                 hhstream
                 flox
                 determinate

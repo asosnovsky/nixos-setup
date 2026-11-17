@@ -1579,7 +1579,7 @@
         "hyprutils": "hyprutils_3",
         "hyprwayland-scanner": "hyprwayland-scanner_3",
         "hyprwire": "hyprwire_3",
-        "nixpkgs": "nixpkgs_11",
+        "nixpkgs": "nixpkgs_12",
         "pre-commit-hooks": "pre-commit-hooks_3",
         "systems": "systems_3",
         "xdph": "xdph_2"
@@ -2136,6 +2136,45 @@
         "type": "github"
       }
     },
+    "looprail": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794866996,
+        "narHash": "sha256-q9sqHlAVgxmQltqKCUKkljUH514cnOTB8kdgDdr7yqY=",
+        "ref": "refs/heads/main",
+        "rev": "75795eb4ff891ca64306a962dd6308309cfdf794",
+        "revCount": 21,
+        "type": "git",
+        "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
+      }
+    },
+    "looprail_2": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_11"
+      },
+      "locked": {
+        "lastModified": 1794866996,
+        "narHash": "sha256-q9sqHlAVgxmQltqKCUKkljUH514cnOTB8kdgDdr7yqY=",
+        "ref": "refs/heads/main",
+        "rev": "75795eb4ff891ca64306a962dd6308309cfdf794",
+        "revCount": 21,
+        "type": "git",
+        "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
+      },
+      "original": {
+        "rev": "75795eb4ff891ca64306a962dd6308309cfdf794",
+        "type": "git",
+        "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
+      }
+    },
     "mcp-servers-nix": {
       "inputs": {
         "nixpkgs": [
@@ -2199,22 +2238,23 @@
     },
     "nbot": {
       "inputs": {
+        "looprail": "looprail_2",
         "nixpkgs": [
           "nixpkgs-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1794689637,
-        "narHash": "sha256-i8/gz/MWFzf2Qu5HO0x5iAZNhZgsPl2Mmm6p3+ndMoQ=",
+        "lastModified": 1794921139,
+        "narHash": "sha256-YlykKn/+zvpBGsxbFcPcEczOBLguXwFrWjEK1W07diA=",
         "ref": "refs/heads/main",
-        "rev": "f851c2e220b4fd6e6d6752322eaa543937a37fe6",
-        "revCount": 1578,
+        "rev": "bdc877dd20d3f2389228ef2a3d25f4c1800a71ce",
+        "revCount": 1627,
         "type": "git",
-        "url": "ssh://git@github.com/asosnovsky/nbot.git"
+        "url": "ssh://git@github.com/SkyG-Org/nBot.git"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@github.com/asosnovsky/nbot.git"
+        "url": "ssh://git@github.com/SkyG-Org/nBot.git"
       }
     },
     "nix": {
@@ -2551,7 +2591,7 @@
     },
     "nixos-hardware_2": {
       "inputs": {
-        "nixpkgs": "nixpkgs_12"
+        "nixpkgs": "nixpkgs_13"
       },
       "locked": {
         "lastModified": 1792491056,
@@ -2696,6 +2736,22 @@
     },
     "nixpkgs_11": {
       "locked": {
+        "lastModified": 1794537146,
+        "narHash": "sha256-Wpz/7x/YWnDIBu7yj6ixe8j6fIMsidd9Y+o1PqPF3iM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "d5cc6833999746cffdfe0598f7bc801a57b887a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_12": {
+      "locked": {
         "lastModified": 1788404924,
         "narHash": "sha256-lhEhY8X5EgkQ/eg6IFz4cc8jRuSYSvnxx1al7d1dvZ0=",
         "owner": "NixOS",
@@ -2710,7 +2766,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_12": {
+    "nixpkgs_13": {
       "locked": {
         "lastModified": 1789546076,
         "narHash": "sha256-vWkSk5bbfTqdtMoSgD9FshACO8JCvXTFi+3cqEp0mH0=",
@@ -2723,7 +2779,7 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs_13": {
+    "nixpkgs_14": {
       "locked": {
         "lastModified": 1792503283,
         "narHash": "sha256-vhe2jyvRCgufWPqDuDq1S3t3ypE+ka46IFutV02xKso=",
@@ -3092,6 +3148,7 @@
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",
         "hyprlauncher": "hyprlauncher",
+        "looprail": "looprail",
         "my-nixpkgs": "my-nixpkgs",
         "nbot": "nbot",
         "nix-darwin": "nix-darwin",
@@ -3099,7 +3156,7 @@
         "nix-index-database": "nix-index-database",
         "nixarchy": "nixarchy",
         "nixos-hardware": "nixos-hardware_2",
-        "nixpkgs": "nixpkgs_13",
+        "nixpkgs": "nixpkgs_14",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
         "skyg-linux-tracker": "skyg-linux-tracker",

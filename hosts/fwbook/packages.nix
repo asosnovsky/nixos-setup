@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, nbot, ... }:
+{ pkgs, unstablePkgs, looprail, ... }:
 let
   gdk = pkgs.google-cloud-sdk.withExtraComponents (
     with pkgs.google-cloud-sdk.components;
@@ -122,7 +122,7 @@ in
       unstablePkgs.herdr
       unstablePkgs.codex
       unstablePkgs.codex-acp
-      nbot.packages.${pkgs.stdenv.hostPlatform.system}.looprail
+      looprail.packages.${pkgs.stdenv.hostPlatform.system}.looprail
       hermenix
       unstablePkgs.pi-coding-agent
 
