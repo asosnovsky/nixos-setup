@@ -11,6 +11,7 @@
     ./qemu.nix
     ./binary-cache.nix
     ./pritunl
+    ./diagnix
     ./dns
   ];
   config = {
