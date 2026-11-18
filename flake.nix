@@ -198,6 +198,7 @@
                 nbot-goose = ./secrets/nbot-goose.age;
                 nbot-cluster = ./secrets/nbot-cluster.age;
                 nbot-cluster-hl-fws1 = ./secrets/nbot-cluster-hl-fws1.age;
+                github-runner-token-fws1 = ./secrets/github-runner-token-fws1.age;
               };
               inherit
                 hyprlauncher

@@ -35,6 +35,8 @@ in
   "secrets/nbot-cluster.age".publicKeys = [ ari fwdesk ];
   "secrets/nbot-cluster-hl-fws1.age".publicKeys = [ ari fws1 ];
 
+  "secrets/github-runner-token-fws1.age".publicKeys = [ ari fws1 ];
+
   # Buzz stack env (minipc1)
   "secrets/buzz-env.age".publicKeys = [ ari minipc1 ];
 

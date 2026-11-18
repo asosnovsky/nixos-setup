@@ -1,6 +1,6 @@
 { ... }:
 {
-  imports = [ ./nbot.nix ];
+  imports = [ ./nbot.nix ./github-runners.nix ];
 
   services.pipewire = {
     extraConfig.pipewire-pulse."10-raop-discover" = {
