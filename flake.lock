@@ -2143,11 +2143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794942815,
-        "narHash": "sha256-YVZcT7Kqt0eYOTrjCPAreZHe0heKSJhcPnN54XU/vVc=",
+        "lastModified": 1794953232,
+        "narHash": "sha256-H63fInsOTbTU6/xPJu5foUxfafnNfCbKabgAuzPZNHo=",
         "ref": "refs/heads/main",
-        "rev": "9d5f57eb36661e76fb1160591484a323dde4f6b8",
-        "revCount": 91,
+        "rev": "bf49c2e2e02fd5ed172f047294afb782163ed736",
+        "revCount": 103,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
@@ -2244,11 +2244,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794935764,
-        "narHash": "sha256-MNWm/NWTMaWj3VW/9uIVJ5yEHpeh0qdvSf+fP2/BCFI=",
+        "lastModified": 1795009135,
+        "narHash": "sha256-TNgd9N4pyPbTOsaxDdsboujxPnLcNJBU6mX36PCaLao=",
         "ref": "refs/heads/main",
-        "rev": "dec5099a1db1bf0c85d28c066f5f551fd9f635c8",
-        "revCount": 1636,
+        "rev": "adc5ba5b6417ddb61ef3916de4dfa28b10430c7e",
+        "revCount": 1645,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/nBot.git"
       },
