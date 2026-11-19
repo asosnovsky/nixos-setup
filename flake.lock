@@ -2143,11 +2143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794953232,
-        "narHash": "sha256-H63fInsOTbTU6/xPJu5foUxfafnNfCbKabgAuzPZNHo=",
+        "lastModified": 1795033230,
+        "narHash": "sha256-C+kPdrI8UPFZT+sDfn6MpUKY5FaQMkBAke/6tWwudu8=",
         "ref": "refs/heads/main",
-        "rev": "bf49c2e2e02fd5ed172f047294afb782163ed736",
-        "revCount": 103,
+        "rev": "97c75f394a1e3d8d1911157752301f6e57646b5b",
+        "revCount": 126,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
@@ -2161,16 +2161,16 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1794866996,
-        "narHash": "sha256-q9sqHlAVgxmQltqKCUKkljUH514cnOTB8kdgDdr7yqY=",
+        "lastModified": 1795009353,
+        "narHash": "sha256-jWoG/1SXR5kZftFiQGpClgJdr8Z1PhRAOJyoUdYsVJg=",
         "ref": "refs/heads/main",
-        "rev": "75795eb4ff891ca64306a962dd6308309cfdf794",
-        "revCount": 21,
+        "rev": "edfc3138c1834b67aeeb961fc801875f0166dfaf",
+        "revCount": 104,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
       "original": {
-        "rev": "75795eb4ff891ca64306a962dd6308309cfdf794",
+        "rev": "edfc3138c1834b67aeeb961fc801875f0166dfaf",
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       }
@@ -2244,11 +2244,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795009135,
-        "narHash": "sha256-TNgd9N4pyPbTOsaxDdsboujxPnLcNJBU6mX36PCaLao=",
+        "lastModified": 1795050774,
+        "narHash": "sha256-upSTPB4CPR1M8aZ9ZHoCoY8Qi9+1wRAlW/Ysskc/FnM=",
         "ref": "refs/heads/main",
-        "rev": "adc5ba5b6417ddb61ef3916de4dfa28b10430c7e",
-        "revCount": 1645,
+        "rev": "cd35ba9bec0c528ad186a933069bee40b3214ec1",
+        "revCount": 1677,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/nBot.git"
       },
@@ -2738,16 +2738,14 @@
       "locked": {
         "lastModified": 1794537146,
         "narHash": "sha256-Wpz/7x/YWnDIBu7yj6ixe8j6fIMsidd9Y+o1PqPF3iM=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
         "rev": "d5cc6833999746cffdfe0598f7bc801a57b887a9",
-        "type": "github"
+        "revCount": 1119549,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.1.1119549%2Brev-d5cc6833999746cffdfe0598f7bc801a57b887a9/01a1de0c-832c-7c20-8d39-1fe64a0165e2/source.tar.gz"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/0.1"
       }
     },
     "nixpkgs_12": {
