@@ -43,8 +43,13 @@ common/
   `lab-ssh` in the agent system (`server/services/nbot-agent.nix`). It reads logs
   (`systemd-journal` group), units, `/proc` and the store, and can't change anything. It
   can't read root-only files. Through sudo it can run only the fixed `diag-*` scripts
-  (docker ps/logs, smart, ports, firewall, btrfs, io). The key is `restrict,pty` and only
-  works from the nbot hosts (`hosts.nix`). Hosts running nbot also let their own containers
+  (docker ps/logs, smart, ports, firewall, btrfs, io, pstore). The key is `restrict,pty` and only
+  works from the nbot hosts (`hosts.nix`). `diag-pstore` prints the kernel's saved crash
+  records from `/sys/fs/pstore` (root-only), the one trace a hard freeze can leave behind.
+  The hermenix VM has its own key (`hosts.nix` → `hermenix`), with the same limits, accepted
+  only from hl-fwdesk's addresses (the VM is NAT'ed out of fwdesk). Turn it off per host
+  with `skyg.nixos.common.diagnix.hermenix.enable = false`. fwdesk's `hermenix.nix` lets
+  the VM reach port 22 on `10.0.10.0/24`. Hosts running nbot also let their own containers
   reach port 22 and accept them from private IPs outside the LAN. Their IPs are random, so
   they can't be listed. Resources are capped (1G memory, 1 CPU, 256 tasks). The Nix daemon
   is left open on purpose: an allow-list would break nix-serve/buildbot.

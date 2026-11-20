@@ -43,6 +43,14 @@ let
       done
     '')
     (script "diag-io" [ pkgs.iotop ] "iotop -b -o -n 3 -d 1")
+    (script "diag-pstore" [ ] ''
+      shopt -s nullglob
+      files=(/sys/fs/pstore/*)
+      if [ ''${#files[@]} -eq 0 ]; then echo "pstore is empty"; exit 0; fi
+      for f in "''${files[@]}"; do
+        echo "=== $f"; cat "$f" || true
+      done
+    '')
   ] ++ lib.optionals (runtime != null) [
     (script "diag-docker-ps" [ ] ''
       ${rt} ps -a; ${rt} stats --no-stream; ${rt} system df
