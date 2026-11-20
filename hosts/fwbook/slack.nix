@@ -1,6 +1,9 @@
-{ pkgs, unstablePkgs, ... }:
+{ pkgs, nixpkgs-slack, ... }:
 let
-  slack = unstablePkgs.slack;
+  slack = (import nixpkgs-slack {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfreePredicate = pkg: pkgs.lib.getName pkg == "slack";
+  }).slack;
   slackIcon = "${slack}/share/icons/hicolor/512x512/apps/slack.png";
   makeSlack =
     { id, name, color }:

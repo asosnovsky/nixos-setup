@@ -34,6 +34,8 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     determinate.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    # Slack 4.53.287, NixOS/nixpkgs#557737.
+    nixpkgs-slack.url = "github:NixOS/nixpkgs/713bc1926b25ad17376e552e339faeea73cf86dc";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     # my fork of nixpkgs
     my-nixpkgs.url = "github:asosnovsky/nixpkgs/ds4-init";
@@ -120,6 +122,7 @@
     , looprail
     , hhstream
     , nixpkgs-unstable
+    , nixpkgs-slack
     , flox
     , determinate
     , nixos-hardware
@@ -204,6 +207,7 @@
                 hyprlauncher
                 hyprland
                 nixpkgs-unstable
+                nixpkgs-slack
                 my-nixpkgs
                 dms
                 dank-greeter

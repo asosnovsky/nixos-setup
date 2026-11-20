@@ -2143,11 +2143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795139283,
-        "narHash": "sha256-CmzYv5T2L/u7H162fKG5FUTshCn6hzR1eXGyBo1Nh3w=",
+        "lastModified": 1795206835,
+        "narHash": "sha256-9MP7M7Ifw6nU+K+38rymjG+z6a1jSJSQxzvMzFNcwoM=",
         "ref": "refs/heads/main",
-        "rev": "5b2858919ec1f2e286d98cc6c326c741321a0edd",
-        "revCount": 212,
+        "rev": "d6b3a8eababef6389895e126814659476e2ae1ee",
+        "revCount": 261,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
@@ -2688,6 +2688,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-slack": {
+      "locked": {
+        "lastModified": 1794707698,
+        "narHash": "sha256-5KAH1e8u/12aNUz79IA8xUlrzrwHIaxISaGoxsB/MyA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "713bc1926b25ad17376e552e339faeea73cf86dc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "713bc1926b25ad17376e552e339faeea73cf86dc",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1789009968,
@@ -3155,6 +3171,7 @@
         "nixarchy": "nixarchy",
         "nixos-hardware": "nixos-hardware_2",
         "nixpkgs": "nixpkgs_14",
+        "nixpkgs-slack": "nixpkgs-slack",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
         "skyg-linux-tracker": "skyg-linux-tracker",
