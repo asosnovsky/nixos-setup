@@ -10,6 +10,11 @@
   # nbot-goose secret, sent to containers via agent_env on fwdesk.
   publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPKsgkysVa3BiJQkUjiyESwjoi9ZMmUiWEB66JlbgIrO nbot-diagnix";
 
+  hermenix = {
+    publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKSYYLaAYJKifV3oOwnF7taNV4ko+A+A/r4oHgpKBwRW hermenix-diagnix";
+    from = [ "10.0.10.11" "10.0.101.101" "10.77.0.2" ];
+  };
+
   hosts = {
     hl-bigbox1 = { address = "bigbox1.lab.internal"; hostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFl5xiH4aFlmDWdoU+KmERLYOeOQK2aKP7jenY2G3rFb"; };
     hl-bigbox2 = { address = "bigbox2.lab.internal"; hostKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6l6VqQ23PkGkWVABBoLp1KA6PzkX5oKTy5RBHbQXet"; };

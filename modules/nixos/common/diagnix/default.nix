@@ -9,7 +9,7 @@ let
   # This host runs nbot, so its own containers connect from random private IPs.
   hasNbot = options.services ? nbot && config.services.nbot.enable;
 
-  keyLine = from: ''restrict,pty,from="${from}" ${cfg.publicKey}'';
+  keyLine = from: key: ''restrict,pty,from="${from}" ${key}'';
 
   runtime =
     if config.virtualisation.docker.enable then "${config.virtualisation.docker.package}/bin/docker"
@@ -63,6 +63,11 @@ in
       default = data.publicKey;
       description = "nbot's client public key for diagnix.";
     };
+    hermenix.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Let the hermenix VM log in as diagnix too.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -75,9 +80,10 @@ in
       shell = pkgs.bash;
       extraGroups = [ "systemd-journal" ];
       openssh.authorizedKeys.keys =
-        [ (keyLine (lib.concatStringsSep "," data.nbotHosts)) ]
+        [ (keyLine (lib.concatStringsSep "," data.nbotHosts) cfg.publicKey) ]
         # Containers on this host: any private IP outside the LAN.
-        ++ lib.optional hasNbot (keyLine "!${data.lanSubnet},10.0.0.0/8,172.16.0.0/12,192.168.0.0/16");
+        ++ lib.optional hasNbot (keyLine "!${data.lanSubnet},10.0.0.0/8,172.16.0.0/12,192.168.0.0/16" cfg.publicKey)
+        ++ lib.optional cfg.hermenix.enable (keyLine (lib.concatStringsSep "," data.hermenix.from) data.hermenix.publicKey);
     };
 
     # A runaway command can't starve the host.
