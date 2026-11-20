@@ -123,6 +123,7 @@ in
             "portainer.home.sosnovsky.ca"
             "immich.home.sosnovsky.ca"
             "gitea.skyg.ca"
+            "looprails.skyg.ca"
           ];
         };
       };

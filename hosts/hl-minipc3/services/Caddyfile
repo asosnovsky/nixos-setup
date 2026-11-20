@@ -55,6 +55,13 @@ gitea.skyg.ca {
   reverse_proxy {$GITEA_IP}:80
 }
 
+looprails.skyg.ca {
+  tls /etc/caddy/tls/gitea/fullchain.pem /etc/caddy/tls/gitea/key.pem
+  root * /srv/looprails
+  redir /looprail.html / permanent
+  file_server
+}
+
 # Buzz: straight to its own caddy, LAN only.
 buzz.home.sosnovsky.ca {
   import lan_only

@@ -1,5 +1,6 @@
-{ config, ... }:
+{ config, looprail, pkgs, ... }:
 let
+  looprailPackages = looprail.packages.${pkgs.stdenv.hostPlatform.system};
   app = config.skyg.internalNetworkingMap.apps.caddy;
   nvr = config.skyg.internalNetworkingMap.apps.nvr;
   jellyfin = config.skyg.internalNetworkingMap.apps.jellyfin;
@@ -37,6 +38,10 @@ in
         K8S_INGRESS = k8sIngress;
       };
       volumes = [
+        (if looprailPackages ? looprail-site then
+          "${looprailPackages.looprail-site}:/srv/looprails:ro"
+        else
+          "${looprail}/docs/looprail.html:/srv/looprails/index.html:ro")
         "/var/lib/acme/${certDomain}/fullchain.pem:/etc/caddy/tls/fullchain.pem:ro"
         "/var/lib/acme/${certDomain}/key.pem:/etc/caddy/tls/key.pem:ro"
         "/var/lib/acme/${giteaCertDomain}/fullchain.pem:/etc/caddy/tls/gitea/fullchain.pem:ro"
