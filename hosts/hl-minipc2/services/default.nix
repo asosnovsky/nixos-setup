@@ -7,5 +7,6 @@
     ./stack2.nix
     ./timers.nix
     ./linux-tracker.nix
+    ./umami.nix
   ];
 }

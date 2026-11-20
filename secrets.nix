@@ -80,4 +80,7 @@ in
   "secrets/linux-tracker-peer-bigbox1.age".publicKeys = [ ari fwdesk ];
   "secrets/linux-tracker-peer-bigbox2.age".publicKeys = [ ari fwdesk ];
   "secrets/linux-tracker-peer-terra1.age".publicKeys = [ ari fwdesk ];
+
+  # Unami App
+  "secrets/umami-app-secret.age".publicKeys = [ ari minipc2 ];
 }

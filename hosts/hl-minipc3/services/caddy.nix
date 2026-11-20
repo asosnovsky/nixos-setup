@@ -8,6 +8,10 @@ let
   portainer = config.skyg.internalNetworkingMap.apps.portainer;
   buzz = config.skyg.internalNetworkingMap.apps.buzz;
   publicGitea = config.skyg.internalNetworkingMap.apps.public-gitea;
+  umami = config.skyg.internalNetworkingMap.apps.umami;
+  # Sent by release looprail binaries on telemetry posts. It ships in the
+  # binary, so it only filters out scanners; it is not a secret.
+  looprailTelemetryKey = "70c685d238cc9ec7229e557a8de7b0d25527b1a402805251";
   certDomain = "home.sosnovsky.ca";
   giteaCertDomain = "gitea.skyg.ca";
   # k8s Traefik ingress — fallback for hosts caddy doesn't handle itself.
@@ -35,6 +39,8 @@ in
         PORTAINER_IP = portainer.ip;
         JELLYFIN_IP = jellyfin.ip;
         BUZZ_IP = buzz.ip;
+        UMAMI_IP = umami.ip;
+        LOOPRAIL_TELEMETRY_KEY = looprailTelemetryKey;
         K8S_INGRESS = k8sIngress;
       };
       volumes = [

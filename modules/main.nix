@@ -112,6 +112,7 @@ in
         immich = { ip = "10.0.101.10"; };
         immich-ml = { ip = "10.0.101.11"; };
         gilix = { ip = "10.0.101.13"; };
+        umami = { ip = "10.0.101.14"; };
         jellyfin = { ip = "10.0.101.5"; };
         nvr = { ip = "10.0.101.6"; };
         portainer = { ip = "10.0.101.241"; };
@@ -124,6 +125,7 @@ in
             "immich.home.sosnovsky.ca"
             "gitea.skyg.ca"
             "looprails.skyg.ca"
+            "umami.home.sosnovsky.ca"
           ];
         };
       };

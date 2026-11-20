@@ -36,8 +36,8 @@ hosts/
 | `hl-bigbox1/` | hl-bigbox1 | AI/compute server (NVIDIA + AMD); Immich machine-learning (CUDA)                                                                               |
 | `hl-bigbox2/` | hl-bigbox2 | NFS storage server; Immich server/db (docker, `immich.home.sosnovsky.ca`)                                                                      |
 | `hl-minipc1/` | hl-minipc1 | Core infra: Gitea (native or containerized), nix-serve, registry, Buzz (docker, `buzz-manage` CLI), monitoring (Grafana, Prometheus, Loki, OTel collector) |
-| `hl-minipc2/` | hl-minipc2 | Container/media server                                                                                                                         |
-| `hl-minipc3/` | hl-minipc3 | K3s worker node; central Caddy reverse-proxy (`*.home.sosnovsky.ca`, plus `gitea.skyg.ca` HTTP/SSH); serves LoopRail docs at `looprails.skyg.ca`; buildbot-nix CI master + worker (2 cores) |
+| `hl-minipc2/` | hl-minipc2 | Container/media server; Umami for LoopRail telemetry (own nspawn container, `10.0.101.14`, reachable only from Caddy) |
+| `hl-minipc3/` | hl-minipc3 | K3s worker node; central Caddy reverse-proxy (`*.home.sosnovsky.ca`, plus `gitea.skyg.ca` HTTP/SSH); serves LoopRail docs at `looprails.skyg.ca`, plus its guarded telemetry route `/t/v1` → Umami and the LAN-only `umami.home.sosnovsky.ca`; buildbot-nix CI master + worker (2 cores) |
 | `hl-pi1/`     | hl-pi1     | Raspberry Pi CM4 (aarch64) — headless server, SSH only                                                                                         |
 | `hl-pi2/`     | hl-pi2     | Raspberry Pi 4 (aarch64) — headless server, SSH only                                                                                           |
 | `hl-terra1/`  | hl-terra1  | NFS storage + Jellyfin backup                                                                                                                  |

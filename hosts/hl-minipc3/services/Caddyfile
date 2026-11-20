@@ -57,9 +57,50 @@ gitea.skyg.ca {
 
 looprails.skyg.ca {
   tls /etc/caddy/tls/gitea/fullchain.pem /etc/caddy/tls/gitea/key.pem
-  root * /srv/looprails
-  redir /looprail.html / permanent
-  file_server
+
+  # Telemetry: only looprail's own requests reach Umami.
+  @telemetry {
+    method POST
+    path /t/v1
+    header Content-Type application/json*
+    header User-Agent looprail/*
+    header X-Looprail-Telemetry {$LOOPRAIL_TELEMETRY_KEY}
+  }
+  handle @telemetry {
+    request_body {
+      max_size 256KB
+    }
+    rewrite * /api/batch
+    reverse_proxy {$UMAMI_IP}:3000 {
+      # Umami never sees the sender's IP.
+      header_up -X-Forwarded-For
+      header_up -X-Real-IP
+      header_up -Forwarded
+      header_up -CF-Connecting-IP
+      header_up -True-Client-IP
+      header_up -X-Client-IP
+      header_up -X-Looprail-Telemetry
+      # One connection per request, so Umami's rate limit counts requests.
+      transport http {
+        keepalive off
+      }
+    }
+  }
+  handle /t/* {
+    respond 404
+  }
+
+  handle {
+    root * /srv/looprails
+    redir /looprail.html / permanent
+    file_server
+  }
+}
+
+# Umami dashboard for LoopRail telemetry, LAN only.
+umami.home.sosnovsky.ca {
+  import lan_only
+  reverse_proxy {$UMAMI_IP}:3000
 }
 
 # Buzz: straight to its own caddy, LAN only.
