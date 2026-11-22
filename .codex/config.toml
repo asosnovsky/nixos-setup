@@ -1,3 +1,7 @@
 [mcp_servers.nbot-wf]
 command = "nbot-wf"
 args = ["mcp"]
+
+[mcp_servers.looprail]
+command = "looprail"
+args = ["mcp"]

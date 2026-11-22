@@ -1,7 +1,7 @@
 {
   "mcpServers": {
-    "nbot-wf": {
-      "command": "nbot-wf",
+    "looprail": {
+      "command": "looprail",
       "args": [
         "mcp"
       ]

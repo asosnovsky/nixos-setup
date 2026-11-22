@@ -92,6 +92,8 @@ looprails.skyg.ca {
 
   handle {
     root * /srv/looprails
+    # Store files are dated 1970; make browsers re-check.
+    header Cache-Control "no-cache"
     redir /looprail.html / permanent
     file_server
   }
