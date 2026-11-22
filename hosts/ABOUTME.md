@@ -33,7 +33,7 @@ hosts/
 | `fwbook/`     | fwbook     | Framework 13 AMD — personal laptop / daily driver                                                                                              |
 | `hl-fwdesk/`  | hl-fwdesk  | Framework Desktop AI Max 300 — AI workstation; buildbot-nix CI worker (4 cores); nbot master                                                    |
 | `hl-fws1/`    | hl-fws1    | Framework 11th Intel — K3s server node; nbot worker                                                                                             |
-| `hl-bigbox1/` | hl-bigbox1 | AI/compute server (NVIDIA + AMD); Immich machine-learning (CUDA)                                                                               |
+| `hl-bigbox1/` | hl-bigbox1 | AI/compute server (NVIDIA + AMD); Immich machine-learning (CUDA); CPU idle capped at C1 (`processor.max_cstate=1`) against Ryzen idle freezes     |
 | `hl-bigbox2/` | hl-bigbox2 | NFS storage server; Immich server/db (docker, `immich.home.sosnovsky.ca`)                                                                      |
 | `hl-minipc1/` | hl-minipc1 | Core infra: Gitea (native or containerized), nix-serve, registry, Buzz (docker, `buzz-manage` CLI), monitoring (Grafana, Prometheus, Loki, OTel collector) |
 | `hl-minipc2/` | hl-minipc2 | Container/media server; Umami for LoopRail telemetry (own nspawn container, `10.0.101.14`, reachable only from Caddy) |
