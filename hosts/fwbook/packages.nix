@@ -17,6 +17,12 @@ let
   };
 in
 {
+  # The desktop portal from unstable: 1.20.4 leaks memory with many short-lived
+  # clients (flatpak/xdg-desktop-portal#1416, fixed in 1.21.0).
+  nixpkgs.overlays = [
+    (_final: _prev: { xdg-desktop-portal = unstablePkgs.xdg-desktop-portal; })
+  ];
+
   environment.systemPackages =
     (with pkgs; [
       # Desktop & theme

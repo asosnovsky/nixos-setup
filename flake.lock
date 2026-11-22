@@ -2143,11 +2143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795206835,
-        "narHash": "sha256-9MP7M7Ifw6nU+K+38rymjG+z6a1jSJSQxzvMzFNcwoM=",
+        "lastModified": 1795219795,
+        "narHash": "sha256-UWkSni5iiZrFCnqLTLaK8dg289YVwYnHd0NJKFS7xBI=",
         "ref": "refs/heads/main",
-        "rev": "d6b3a8eababef6389895e126814659476e2ae1ee",
-        "revCount": 261,
+        "rev": "637faaa418da6b01ba8d0c51dac3c8a4937e7a4f",
+        "revCount": 288,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
@@ -2161,16 +2161,16 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1795060300,
-        "narHash": "sha256-T+k1mIiNGYPQFfvorraVlEy5qDIqMHtdprkbWFCOJ7k=",
+        "lastModified": 1795208433,
+        "narHash": "sha256-2Y06ZeeX7X8AcIZ7JIq/+88d9DpFSYO8lO0BV4XRRNE=",
         "ref": "refs/heads/main",
-        "rev": "70be15ae9d29264dd85c892b86209af486a92e6a",
-        "revCount": 136,
+        "rev": "3ea535838ab125160c049d795dce625dec49396c",
+        "revCount": 265,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
       "original": {
-        "rev": "70be15ae9d29264dd85c892b86209af486a92e6a",
+        "rev": "3ea535838ab125160c049d795dce625dec49396c",
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       }
@@ -2244,11 +2244,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795132051,
-        "narHash": "sha256-xPfYpDSNbLda+oKo/MIKEua20dKh/XoB4Tx5uUbeF5Q=",
+        "lastModified": 1795308743,
+        "narHash": "sha256-YU5VXLKti6rBDzzzNaGqJ3uaUsk2g4FIzcLHMcMDQrE=",
         "ref": "refs/heads/main",
-        "rev": "87839b5992e215f43e69833359b8c76e89027495",
-        "revCount": 1702,
+        "rev": "02631ef7dcdbe64b0d3cb9666a564a0026e8d625",
+        "revCount": 1712,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/nBot.git"
       },
