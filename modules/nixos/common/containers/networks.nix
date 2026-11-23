@@ -52,6 +52,19 @@ let
       ++ lib.optional net.internal "--internal"
       ++ [ net.name ]
     );
+
+  # Create each network if it is missing. Safe to run again.
+  ensureNetworks = pkgs.writeShellScript "container-networks-ensure" ''
+    set -e
+    ${lib.concatStringsSep "\n" (map (net: ''
+      ${runtimeBin} network inspect ${net.name} >/dev/null 2>&1 \
+        || ${runtimeBin} ${createArgs net}
+    '') allNetworks)}
+  '';
+
+  # The runtime's weekly prune deletes networks with no running container.
+  pruneService = if isDocker then "docker-prune" else "podman-prune";
+  pruneEnabled = config.virtualisation.${cfg.runtime}.autoPrune.enable;
 in
 {
   options.skyg.nixos.common.containers.networks = {
@@ -239,7 +252,7 @@ in
       wantedBy = [ "multi-user.target" ];
     };
 
-    systemd.services = lib.mkIf (cfg.enable && allNetworks != [ ]) {
+    systemd.services = lib.mkIf (cfg.enable && allNetworks != [ ]) ({
       container-networks-setup = {
         description = "Create configured container networks";
         after = [ runtimeService "network-online.target" ];
@@ -249,14 +262,13 @@ in
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
+          ExecStart = "${ensureNetworks}";
         };
-        script = ''
-          ${lib.concatStringsSep "\n" (map (net: ''
-            ${runtimeBin} network inspect ${net.name} >/dev/null 2>&1 \
-              || ${runtimeBin} ${createArgs net}
-          '') allNetworks)}
-        '';
       };
-    };
+    } // lib.optionalAttrs pruneEnabled {
+      # Put back any network the prune just removed (e.g. while a stack was
+      # stopped during a switch), so the stack can start again.
+      ${pruneService}.serviceConfig.ExecStartPost = [ "${ensureNetworks}" ];
+    });
   };
 }

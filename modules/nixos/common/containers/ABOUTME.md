@@ -50,10 +50,14 @@ skyg.nixos.common.containers.networks.extra.<name>.* → custom networks (networ
 
 ## Host-created networks (`skyg.nixos.common.containers.networks`)
 
-Creates container networks once on the host (one systemd oneshot each, ordered before
+Creates container networks once on the host (one `container-networks-setup` oneshot, ordered before
 `container-networks.target`), independent of any compose project. This is how a _single_
 network — e.g. one ipvlan network — is shared by several `container-services` groups
 instead of being re-declared (and re-created) per stack.
+
+The runtime's weekly auto-prune (`docker-prune` / `podman-prune`) deletes any network with
+no running container — e.g. while a stack is stopped mid-switch. So the same "create if
+missing" script also runs right after each prune (`ExecStartPost`), putting the networks back.
 
 Two predefined lab networks are available:
 
