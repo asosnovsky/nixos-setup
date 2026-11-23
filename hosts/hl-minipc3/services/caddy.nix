@@ -52,6 +52,7 @@ in
         "/var/lib/acme/${certDomain}/key.pem:/etc/caddy/tls/key.pem:ro"
         "/var/lib/acme/${giteaCertDomain}/fullchain.pem:/etc/caddy/tls/gitea/fullchain.pem:ro"
         "/var/lib/acme/${giteaCertDomain}/key.pem:/etc/caddy/tls/gitea/key.pem:ro"
+        "${./robots.txt}:/srv/static/robots.txt:ro"
       ];
     };
   };
