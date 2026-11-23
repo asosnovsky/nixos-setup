@@ -1,3 +1,25 @@
+# Shared git settings, linked to ~/.config/git/config.
+# Name and email come from /etc/gitconfig (skyg.user.*).
+[color]
+	ui = auto
+
+[init]
+	defaultBranch = main
+
+[push]
+	default = upstream
+	autoSetupRemote = true
+
+# delta as the pager
+[pager]
+	blame = delta
+	diff = delta
+	log = delta
+	show = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
 [alias]
 pp = "!f() { \
     echo 'git pull --ff';\

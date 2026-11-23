@@ -1,4 +1,4 @@
-{ config, lib, user, ... }:
+{ user, ... }:
 {
   imports = [
     ./hardware-configuration
@@ -10,6 +10,7 @@
     ./hardware.nix
     ./systemd.nix
     ./omarchy.nix
+    ./config-links.nix
   ];
 
   skyg = {
@@ -81,6 +82,4 @@
   };
 
   services.usbmuxd.enable = true;
-
-  home-manager.users.${user.name} = lib.mkIf config.skyg.user.enable (import ./home);
 }

@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   imports = [
     ./hardware
@@ -6,6 +6,9 @@
     ./core.nix
     ./networking.nix
     ./user.nix
+    ./user-env.nix
+    ./config-links.nix
+    ./hm-cleanup.nix # temporary, see the file
     ./fonts.nix
     ./ssh-server.nix
     ./qemu.nix
@@ -15,7 +18,8 @@
     ./dns
   ];
   config = {
-    environment.sessionVariables.EDITOR = "vi";
+    # Hosts with skyg.user.enable get nvim instead (user-env.nix).
+    environment.sessionVariables.EDITOR = lib.mkDefault "vi";
     environment.localBinInPath = true;
   };
 }

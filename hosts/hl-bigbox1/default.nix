@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./services
@@ -12,10 +12,6 @@
     server.admin.enable = true;
 
     nixos = {
-      desktop = {
-        enable = false;
-        gnome.enable = false;
-      };
       common.ssh-server.enable = true;
       common.diagnix.enable = true;
 
@@ -33,14 +29,6 @@
     enable = true;
     parent = "enp6s0";
   };
-  services.displayManager.defaultSession = "gnome";
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = config.skyg.user.name;
-  };
-  services.displayManager.gdm.autoSuspend = false;
-  services.displayManager.gdm.autoLogin.delay = 0;
-
   networking.firewall.enable = false;
   users.users.ari.extraGroups = [ "input" ];
 

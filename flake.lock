@@ -1104,7 +1104,7 @@
     "hermes-agent": {
       "inputs": {
         "flake-parts": "flake-parts_4",
-        "home-manager": "home-manager",
+        "home-manager": [],
         "nixpkgs": "nixpkgs_8",
         "npm-lockfile-fix": "npm-lockfile-fix",
         "pyproject-build-systems": "pyproject-build-systems",
@@ -1143,70 +1143,6 @@
       "original": {
         "type": "git",
         "url": "ssh://gitea@gitea.app.internal:22/Hermenix/hyprland-headless-stream-plugin.git"
-      }
-    },
-    "home-manager": {
-      "inputs": {
-        "nixpkgs": [
-          "hermes-agent",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1786487128,
-        "narHash": "sha256-ad60hrRVhH/bo3Jl1YLzO+QcS3mUNZr9LNJdzhMO2P4=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "f404edbfa4117810c96b97048299242fc50e5362",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "home-manager_2": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792438572,
-        "narHash": "sha256-5mQQOcggBRBXB7NlzUxO0dbvQN4euJOISjNybrtfxPk=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "24f8f8e786f87d6a818e1746cb2389bf922afdab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "release-26.05",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "home-manager_3": {
-      "inputs": {
-        "nixpkgs": [
-          "nixarchy",
-          "zen-browser",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1788229478,
-        "narHash": "sha256-G0F2rFORVcFkEvVdE/qWQTnYekIc77YP5/vRF9nZlxU=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "1dc2d1f720ab17fc7981e087346bf54b26d284b1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
       }
     },
     "hypr-rdp": {
@@ -2279,26 +2215,6 @@
         "url": "https://flakehub.com/f/DeterminateSystems/nix-src/%2A"
       }
     },
-    "nix-darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792366139,
-        "narHash": "sha256-jto4pdsl0bgErQ5vaMc3gOyj//PILLRJuqX3I7fUk6s=",
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "rev": "f0ec2b3fae4df92ea7788359aef9e07bb88d720f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "type": "github"
-      }
-    },
     "nix-flatpak": {
       "locked": {
         "lastModified": 1791644268,
@@ -2443,12 +2359,8 @@
     "nixarchy": {
       "inputs": {
         "disko": "disko_2",
-        "home-manager": [
-          "home-manager"
-        ],
-        "home-manager-stable": [
-          "home-manager"
-        ],
+        "home-manager": [],
+        "home-manager-stable": [],
         "hypr-rdp": "hypr-rdp",
         "hyprland": "hyprland_2",
         "mcp-servers-nix": "mcp-servers-nix",
@@ -3159,13 +3071,11 @@
         "hermenix": "hermenix",
         "hermes-agent": "hermes-agent",
         "hhstream": "hhstream",
-        "home-manager": "home-manager_2",
         "hyprland": "hyprland",
         "hyprlauncher": "hyprlauncher",
         "looprail": "looprail",
         "my-nixpkgs": "my-nixpkgs",
         "nbot": "nbot",
-        "nix-darwin": "nix-darwin",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",
         "nixarchy": "nixarchy",
@@ -3698,7 +3608,7 @@
     },
     "zen-browser": {
       "inputs": {
-        "home-manager": "home-manager_3",
+        "home-manager": [],
         "nixpkgs": [
           "nixarchy",
           "nixpkgs"

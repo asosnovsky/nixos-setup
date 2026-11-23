@@ -1,0 +1,43 @@
+# Shared zsh setup, linked to ~/.zshrc.
+# Prompt, completion, autosuggestions, history and aliases come from
+# /etc/zshrc (see modules/nixos/common/user-env.nix).
+
+# Completions for many CLIs
+if (( $+commands[carapace] )); then
+  source <(carapace _carapace zsh)
+fi
+
+# Desktop notification when a command that ran 5s or more finishes
+if (( $+commands[notify-send] )); then
+  zmodload zsh/datetime
+  autoload -Uz add-zsh-hook
+
+  __cmd_start_time=$EPOCHSECONDS
+  __cmd_has_run=0
+  __last_cmd=""
+
+  __record_start() {
+    __cmd_start_time=$EPOCHSECONDS
+    __cmd_has_run=1
+    __last_cmd="$1"
+  }
+  __notify_on_finish() {
+    if (( __cmd_has_run )); then
+      local exit_code=$?
+      local elapsed=$(( EPOCHSECONDS - __cmd_start_time ))
+      if (( elapsed >= 5 )); then
+        notify-send "${__last_cmd} finished (${elapsed}s)" "(exit: $exit_code)"
+      fi
+    fi
+    __cmd_start_time=$EPOCHSECONDS
+  }
+
+  add-zsh-hook preexec __record_start
+  add-zsh-hook precmd __notify_on_finish
+fi
+
+# Host extras: every ~/.config/zsh/*.zsh (linked from configs/<host>/zsh)
+for __f in ~/.config/zsh/*.zsh(N); do
+  source "$__f"
+done
+unset __f

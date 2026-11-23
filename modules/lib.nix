@@ -4,8 +4,6 @@
 , rootDir
 , configsDir
 , determinate
-, home-manager
-, nix-darwin
 , systems
 , nix-flatpak
 , stylix
@@ -42,7 +40,6 @@ let
   osModules = [
     determinate.nixosModules.default
     stylix.nixosModules.stylix
-    home-manager.nixosModules.default
     nix-flatpak.nixosModules.nix-flatpak
     agenix.nixosModules.default
     specialArgs.dms.nixosModules.dank-material-shell
@@ -53,7 +50,6 @@ let
     specialArgs.skyg-linux-tracker.nixosModules.default
     { programs.nix-index-database.comma.enable = true; }
   ];
-  makeHomeConfig = {}: import ./home { };
   allUnstablePkgs = eachSystem (
     system:
     import nixpkgs-unstable {
@@ -68,34 +64,6 @@ in
 {
   eachSystem = eachSystem;
   pkgs = allPkgs;
-
-  # Standalone home-manager configuration (for non-NixOS systems)
-  makeHomeManagerUsers =
-    { modules ? [ ]
-    , userConfig ? user
-    , system ? "x86_64-linux"
-    }:
-    let
-      hm = makeHomeConfig { };
-      pkgs = allPkgs.${system};
-    in
-    home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      extraSpecialArgs = specialArgs // {
-        inherit system skygUtils;
-        user = userConfig;
-        unstablePkgs = allUnstablePkgs.${system};
-      };
-      modules = [
-        {
-          # Convert the attribute set to a proper home-manager module
-          config = (hm.makeCommonUser userConfig) { inherit pkgs; };
-        }
-        stylix.homeModules.stylix
-        specialArgs.nix-index-database.homeModules.nix-index
-        { programs.nix-index-database.comma.enable = true; }
-      ] ++ modules;
-    };
 
   makeNixOs =
     { system ? "x86_64-linux"
@@ -125,7 +93,6 @@ in
     { system ? "x86_64-linux"
     , hostName
     , systemStateVersion ? "26.05"
-    , homeManagerVersion ? "26.05"
     , configuration ? [ ]
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
@@ -142,7 +109,6 @@ in
             configsDir
             hostName
             systemStateVersion
-            homeManagerVersion
             ;
         })
       ] ++ configuration;
@@ -152,7 +118,6 @@ in
     { system ? "aarch64-linux"
     , hostName
     , systemStateVersion ? "26.05"
-    , homeManagerVersion ? "26.05"
     , configuration ? [ ]
     }: nixpkgs.lib.nixosSystem {
       specialArgs = specialArgs // {
@@ -169,44 +134,7 @@ in
             configsDir
             hostName
             systemStateVersion
-            homeManagerVersion
             ;
-        })
-      ] ++ configuration;
-    };
-
-  makeDarwinModule =
-    { system ? "x86_64-darwin"
-    , user
-    , homeManagerVersion ? "26.05"
-    , systemStateVersion ? "26.05"
-    , hostName
-    , configuration ? [ ]
-    }:
-    nix-darwin.lib.darwinSystem {
-      inherit system;
-      specialArgs = specialArgs // {
-        inherit system skygUtils user;
-        unstablePkgs = allUnstablePkgs.${system};
-      };
-      modules = [
-        determinate.darwinModules.default
-        home-manager.darwinModules.home-manager
-        stylix.darwinModules.stylix
-        specialArgs.nix-index-database.darwinModules.nix-index
-        { programs.nix-index-database.comma.enable = true; }
-        (import ./macos.nix {
-          user = user;
-          system = system;
-        })
-        (import ./main.nix {
-          inherit
-            user
-            rootDir
-            configsDir
-            homeManagerVersion
-            hostName
-            systemStateVersion;
         })
       ] ++ configuration;
     };

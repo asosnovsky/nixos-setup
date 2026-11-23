@@ -1,9 +1,5 @@
 const REPO_ROOT = path self | path dirname | path dirname | path dirname
 
-export def hm-actions [] {
-    ["switch", "build"]
-}
-
 export def os-actions [] {
     [
         "test"

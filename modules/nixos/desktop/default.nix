@@ -48,7 +48,6 @@ let
     ];
     programs.chromium = {
       enable = true;
-      enablePlasmaBrowserIntegration = true;
       extensions = [
         "nngceckbapebfimnlniiiahkandclblb" # bitwarden
         "gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
@@ -72,17 +71,14 @@ let
         "x-scheme-handler/http" = "chromium-browser.desktop";
         "x-scheme-handler/https" = "chromium-browser.desktop";
       };
-      # Backends come from each desktop module (niri, hyprland, kde, ...)
+      # Backends come from each tiler module (niri, hyprland)
       portal.enable = true;
     };
   };
 in
 {
   imports = [
-    ./cosmic.nix
-    ./kde.nix
     ./crypto.nix
-    ./gnome.nix
     ./tiler
     ./stylix
     ./printers.nix

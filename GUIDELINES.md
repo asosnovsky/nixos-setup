@@ -31,7 +31,6 @@ nixos-rebuild switch / test / build / dry-build
 nh os switch / test / build
 skyg os switch / test / build
 skyg remote switch / test / build / boot / install
-skyg hm switch / build
 nix build
 docker/podman build
 nixos-anywhere
@@ -106,7 +105,7 @@ Every host folder follows a standard layout. Put config in the file that matches
 | Networking / firewall | `networking.nix`          |
 | Services (few)        | `services.nix`            |
 | Services (many)       | `services/<name>.nix`     |
-| Home-manager          | `home/default.nix`        |
+| Config links          | `config-links.nix`        |
 | Generated hardware    | `hardware-configuration/` |
 
 Don't dump unrelated options into `default.nix` — split them into the right file.
@@ -174,8 +173,7 @@ hosts/<hostname>/
 │   ├── default.nix          # imports all service files
 │   ├── <service>.nix        # One file per service (when > ~3 services)
 ├── networking.nix           # Firewall, Tailscale, NFS mounts, hosts
-├── home/
-│   └── default.nix          # home-manager users.<name> block
+├── config-links.nix         # skyg.configLinks: files from configs/ linked into ~
 └── hardware-configuration/  # Generated — DO NOT TOUCH
     ├── default.nix
     ├── boot.nix
@@ -194,10 +192,14 @@ hosts/<hostname>/
 - Packages for one host only → `environment.systemPackages` in the host file
 - Custom/third-party packages not in nixpkgs → `pkgs/<name>/default.nix` with an overlay in `modules/core/default.nix`
 
-### Home Manager
+### User Config (no Home Manager)
 
-Home Manager config lives inside `home-manager.users.<name>` blocks. Do not mix
-system-level and HM-level options. The HM entry point is `modules/home/default.nix`.
+This repo does not use Home Manager. Do not add it back.
+
+- Needs a store path, or must work for root and servers → a NixOS option. The shared
+  shell setup is `modules/nixos/common/user-env.nix` (gated by `skyg.user.enable`).
+- A plain dotfile → a file in `configs/` (`shared/` or `<hostname>/`), linked into the
+  home dir with `skyg.configLinks.links` (`modules/nixos/common/config-links.nix`).
 
 ### Greeter
 

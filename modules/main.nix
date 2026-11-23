@@ -140,7 +140,6 @@ in
     skyg.rootDir = rootDir;
     skyg.configsDir = configsDir;
     skyg.core.hostName = hostName;
-    skyg.home-manager.version = lib.mkDefault "26.05";
     system.stateVersion = systemStateVersion;
   };
 }

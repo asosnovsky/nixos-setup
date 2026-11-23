@@ -32,7 +32,7 @@ Window: since {{ inputs.since }}, priority {{ inputs.priority }} and worse.
 - Give each fix as a short suggested Nix change with its repo path, e.g.
   `hosts/{{ inputs.host }}/systemd.nix` plus a small snippet.
 - Follow the repo's layout: put config in the matching host sub-file (`hardware.nix`, `systemd.nix`,
-  `packages.nix`, `networking.nix`, `services.nix` or `services/<name>.nix`, `home/default.nix`).
+  `packages.nix`, `networking.nix`, `services.nix` or `services/<name>.nix`, `config-links.nix`).
   Custom options live under `skyg.*`; check `modules/lib.nix` before naming one.
 - Never suggest `imports = [...]` in host files.
 - Never suggest editing `flake.lock`, anything in `hosts/*/hardware-configuration/` or

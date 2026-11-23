@@ -1,6 +1,5 @@
 { config
 , lib
-, pkgs
 , ...
 }:
 
@@ -11,18 +10,8 @@ let
 in
 {
   options = {
-    skyg.home-manager.version = mkOption {
-      type = types.str;
-      default = "26.05";
-      description = "The home-manager state version";
-    };
-    skyg.home-manager.extraImports = mkOption {
-      type = types.listOf types.anything;
-      default = [ ];
-      description = "Extra imports to add to the user's home-manager configuration";
-    };
     skyg.user = {
-      enable = mkEnableOption "home-manager configuration for the user";
+      enable = mkEnableOption "the shell and CLI setup for the main user and root (see nixos/common/user-env.nix)";
       name = mkOption {
         type = types.str;
         default = "";
@@ -54,42 +43,21 @@ in
     };
   };
 
-  config =
-    let
-      hm = (
-        import ../home {
-          stateVersion = cfg.home-manager.version;
-        }
-      );
-    in
-    mkIf cfg.user.enable {
-      # Ensure user.name is set when enabling
-      assertions = [
-        {
-          assertion = cfg.user.name != "";
-          message = "skyg.user.name must be set when skyg.user.enable is true";
-        }
-        {
-          assertion = cfg.user.fullName != "";
-          message = "skyg.user.fullName must be set when skyg.user.enable is true";
-        }
-        {
-          assertion = cfg.user.email != "";
-          message = "skyg.user.email must be set when skyg.user.enable is true";
-        }
-      ];
-
-      programs.zsh.enable = true;
-      home-manager = {
-        backupFileExtension = ".bak";
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        users.root = (hm.makeRootUser { hostName = config.skyg.core.hostName; }) {
-          pkgs = pkgs;
-        };
-        users.${cfg.user.name} = ((hm.makeCommonUser cfg.user) { pkgs = pkgs; }) // {
-          imports = cfg.home-manager.extraImports;
-        };
-      };
-    };
+  config = mkIf cfg.user.enable {
+    # Ensure user.name is set when enabling
+    assertions = [
+      {
+        assertion = cfg.user.name != "";
+        message = "skyg.user.name must be set when skyg.user.enable is true";
+      }
+      {
+        assertion = cfg.user.fullName != "";
+        message = "skyg.user.fullName must be set when skyg.user.enable is true";
+      }
+      {
+        assertion = cfg.user.email != "";
+        message = "skyg.user.email must be set when skyg.user.enable is true";
+      }
+    ];
+  };
 }

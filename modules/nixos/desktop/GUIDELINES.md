@@ -40,18 +40,12 @@ Desktop/tiler hosts use **DankMaterialShell (DMS)** for the greeter, configured 
 - Change the look in `stylix/default.nix` (base16 scheme + fonts). Avoid scattering per-app
   color overrides elsewhere; let Stylix drive it.
 
-## Desktop environments are independent
-
-`gnome.nix`, `kde.nix`, and `cosmic.nix` are mutually independent opt-ins. A host can enable
-more than one, but typically picks a single primary DE/WM. Each excludes the upstream apps it
-doesn't want (terminals, text editors, etc.) — keep that list curated rather than installing
-everything.
-
 ## Config symlinks
 
-Some modules symlink files from the repo's `configs/` directory into `~/.config` via
+Some modules symlink files from the repo's `configs/` directory into the home dir via
 activation scripts. Edit the file in
-`configs/`, not the module, when changing that behaviour.
+`configs/`, not the module, when changing that behaviour. For new links use
+`skyg.configLinks.links` (see `modules/nixos/common/ABOUTME.md`).
 
 ## Validation
 

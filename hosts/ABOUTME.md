@@ -13,13 +13,13 @@ hosts/
 │   ├── hardware.nix               #   Kernel params, GPU tuning, boot (large hosts only)
 │   ├── networking.nix             #   Firewall, NFS mounts, DNS (large hosts only)
 │   ├── containers.nix             #   Container service groups (hl-minipc1, hl-minipc2)
+│   ├── config-links.nix           #   skyg.configLinks: files from configs/ linked into ~ (fwbook)
 │   └── ...                        #   Additional host-specific sub-files as needed
 ├── <hostname>.hardware-configuration.nix  # Generated — DO NOT EDIT
 ├── <hostname>.disko.nix                   # Declarative disk layout (hl-fws1 only)
 └── scripts/
     ├── fwbook/                          # fwbook-specific shell scripts
-    │   ├── functions.sh                 # ZSH functions sourced at shell startup
-    │   └── functions.nu                 # NuShell helpers
+    │   └── functions.nu                 # NuShell helpers (zsh functions moved to configs/fwbook/zsh/)
     ├── fw1/
     │   └── gs.sh                        # gamescope/Steam launch wrapper
     └── hl-minipc1/
