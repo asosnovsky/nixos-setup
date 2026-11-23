@@ -31,7 +31,7 @@ nvr.home.sosnovsky.ca {
 }
 
 jellyfin.home.sosnovsky.ca {
-  import public_access
+  import lan_only
   reverse_proxy {$JELLYFIN_IP}:8096
 }
 
