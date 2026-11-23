@@ -52,6 +52,15 @@ portainer.home.sosnovsky.ca {
 
 gitea.skyg.ca {
   tls /etc/caddy/tls/gitea/fullchain.pem /etc/caddy/tls/gitea/key.pem
+  
+  # Block Anthropic ClaudeBot (IP range 216.73.216.0/22, AWS-ANTHROPIC)
+  @claudebot {
+    remote_ip 216.73.216.0/22
+  }
+  handle @claudebot {
+    respond "Forbidden: ClaudeBot access not permitted" 403
+  }
+  
   reverse_proxy {$GITEA_IP}:80
 }
 
@@ -88,6 +97,11 @@ looprails.skyg.ca {
   }
   handle /t/* {
     respond 404
+  }
+
+  handle /robots.txt {
+    root * /srv/static
+    file_server
   }
 
   handle {
