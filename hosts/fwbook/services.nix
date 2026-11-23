@@ -1,4 +1,4 @@
-{ unstablePkgs, ... }:
+{ pkgs, unstablePkgs, ... }:
 {
   services.tailscale.enable = true;
   services.tailscale.extraDaemonFlags = [ "--statedir=/var/lib/tailscale" ];
@@ -15,6 +15,15 @@
   ];
 
   programs.kdeconnect.enable = true;
+
+  # Bluetooth tray applet
+  systemd.user.services.blueman-applet = {
+    description = "Blueman applet";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig.ExecStart = "${pkgs.blueman}/bin/blueman-applet";
+  };
 
   programs.steam = {
     enable = true;

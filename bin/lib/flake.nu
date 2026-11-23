@@ -52,6 +52,6 @@ export def "skyg flake check-versions" [] {
         }
     }
     print ""
-    print "All versioned inputs (home-manager, stylix, etc.) must use the same NixOS release."
+    print "All versioned inputs (nixpkgs, stylix, etc.) must use the same NixOS release."
     error make {msg: "Mismatched NixOS release versions"}
 }

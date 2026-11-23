@@ -1,26 +1,24 @@
 # modules/
 
-All reusable NixOS and Home Manager modules. Every host gets the full module tree via
+All reusable NixOS modules. Every host gets the full module tree via
 `modules/main.nix`, which is wired up in `flake.nix` through the `makeNixOs` helper.
 
 ## Structure
 
 ```
 modules/
-├── lib.nix            # makeNixOs / makeIso / makeHomeManagerUsers / makeDarwinModule / eachSystem
+├── lib.nix            # makeNixOs / makeIso / makeSdImage / eachSystem
 │                      #   (registers flake-input NixOS modules:
 │                      #    hhstream → services.hyprland-headless-stream)
 ├── main.nix           # Base module imported by every host: core/ + nixos/ + network-drives.nix
 │                      #   + skyg.internalNetworkingMap (global app registry + appNetwork)
 ├── internal-networking.nix # Renders skyg.internalNetworkingMap → router generalMappings
-├── skyg-utils.nix     # makeHyperlinkScriptToConfigs (symlinks configs/ → ~/.config/;
-│                      #   backs up an existing real dir to <path>.backup.<timestamp>)
-├── macos.nix          # macOS / nix-darwin module
+├── skyg-utils.nix     # makeLinkScript / makeHyperlinkScriptToConfigs (symlink configs/ into ~;
+│                      #   a real file or dir in the way moves to <path>.backup.<timestamp>)
 ├── network-drives.nix # skyg.networkDrives — NFS automount options
-├── core/              # User, binary caches, distributed builds, macOS workarounds
-├── home/              # Home Manager: shell, programs, git, fonts, services
+├── core/              # User options, binary caches, distributed builds
 ├── nixos/
-│   ├── common/        # Core system settings, networking, SSH, QEMU, fonts, hardware
+│   ├── common/        # Core system settings, user shell setup, config links, networking, SSH, hardware
 │   ├── server/        # Server services: K3s/K8s, DNS, AI stack, ARRs, media…
 │   └── desktop/       # Desktop: tiler (niri/hyprland), packages, theming, crypto
 ├── openwrt/           # OpenWrt router config generator
@@ -31,7 +29,8 @@ modules/
 All custom options live under `skyg.*`. Never introduce options outside this namespace.
 
 ```
-skyg.user.*               → core/user.nix
+skyg.user.*               → core/user.nix (applied by nixos/common/user-env.nix)
+skyg.configLinks.*        → nixos/common/config-links.nix
 skyg.networkDrives.*      → network-drives.nix
 skyg.internalNetworkingMap.* → main.nix (global app registry; rendered into router DNS by internal-networking.nix)
 skyg.rootDir              → core/default.nix (set by the flake; repo root store path)

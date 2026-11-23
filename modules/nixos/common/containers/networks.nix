@@ -256,6 +256,7 @@ in
       container-networks-setup = {
         description = "Create configured container networks";
         after = [ runtimeService "network-online.target" ];
+        wants = [ "network-online.target" ];
         requires = [ runtimeService ];
         wantedBy = [ "container-networks.target" ];
         before = [ "container-networks.target" ];

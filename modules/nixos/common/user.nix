@@ -7,7 +7,7 @@ in
   options.skyg.user.createSystemUser = lib.mkOption {
     type = lib.types.bool;
     default = true;
-    description = "Whether to create the system user (separate from home-manager configuration)";
+    description = "Whether to create the system user (separate from the shell setup of skyg.user.enable)";
   };
 
   config = lib.mkIf (cfg.name != "" && cfg.createSystemUser) {

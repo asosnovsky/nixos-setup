@@ -65,28 +65,22 @@
     nixarchy = {
       url = "github:olafkfreund/nixarchy/v4.0.4-1";
       inputs.nixpkgs.follows = "nixpkgs";
-      # nixarchy's own home-manager checkouts are unused here; follow ours so
-      # they don't sit in the lock.
-      inputs.home-manager.follows = "home-manager";
-      inputs.home-manager-stable.follows = "home-manager";
+      # home-manager is not used here; "" keeps it out of the lock.
+      inputs.home-manager.follows = "";
+      inputs.home-manager-stable.follows = "";
+      inputs.zen-browser.inputs.home-manager.follows = "";
     };
     # Hermes
-    hermes-agent.url = "github:NousResearch/hermes-agent";
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent";
+      # Only its checks use home-manager; "" keeps it out of the lock.
+      inputs.home-manager.follows = "";
+    };
     # Flatpak
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=main";
-    # Home manager
-    home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # Themes
     stylix = {
       url = "github:nix-community/stylix/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Macos
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Hyprland
@@ -128,8 +122,6 @@
     , nixos-hardware
     , nixpkgs
     , systems
-    , home-manager
-    , nix-darwin
     , nix-flatpak
     , stylix
     , hyprlauncher
@@ -162,9 +154,7 @@
             inherit
               nixpkgs
               nixpkgs-unstable
-              home-manager
               determinate
-              nix-darwin
               systems
               nix-flatpak
               stylix
@@ -297,7 +287,6 @@
               age
               yq
               nak
-              home-manager.packages.${system}.home-manager
               rustc
               cargo
               rust-analyzer
@@ -361,12 +350,6 @@
           herdr = herdr.packages.${system}.default;
         }
       );
-
-      # Non-NixOS Linux Setups (standalone home-manager)
-      # -------------
-      homeConfigurations = {
-        "ari" = lib.makeHomeManagerUsers { };
-      };
 
       # NixOS Linux Setups
       # -------------

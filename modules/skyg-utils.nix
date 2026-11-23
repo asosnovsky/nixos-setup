@@ -1,4 +1,18 @@
 { pkgs, lib, rootDir }:
+let
+  # Shell snippet: make `target` a symlink to `source` (file or dir).
+  # Makes the parent dir; a real file or dir in the way is kept as a backup.
+  makeLinkScript =
+    { source
+    , target
+    }: ''
+      mkdir -p "$(dirname "${target}")"
+      if [[ -e "${target}" && ! -L "${target}" ]]; then
+        mv "${target}" "${target}.backup.$(date +%Y_%m_%d_%H_%M_%S)"
+      fi
+      ln -sfn "${source}" "${target}"
+    '';
+in
 {
   bakeConfig =
     { configName
@@ -13,27 +27,15 @@
         cp -r "$src" "$out/${configName}/${configType}"
       '';
     };
+  inherit makeLinkScript;
   makeHyperlinkScriptToConfigs =
     { filePath
     , configSource
     , targetPath ? filePath
-    }:
-    let
-      homePath = "$HOME/.config/${targetPath}";
-      sourcePath = "${configSource}/${filePath}";
-    in
-    ''
-      if [[ -d "${homePath}" && ! -h "${homePath}" ]]; then
-        mv "${homePath}" "${homePath}.backup.$(date +%Y_%m_%d_%H_%M_%S)"
-      fi
-      rm -f "${homePath}"
-      if [[ ! -h "${homePath}" ]]; then
-        ln -s "${sourcePath}" "${homePath}" || {
-          echo "Failed to create symlink for ${filePath} at ${homePath}"
-          exit 1
-        }
-      fi
-    '';
+    }: makeLinkScript {
+      source = "${configSource}/${filePath}";
+      target = "$HOME/.config/${targetPath}";
+    };
   makeConfigLinkOptions =
     { configType
     , hostName

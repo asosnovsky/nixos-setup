@@ -1,0 +1,4 @@
+// Zellij, linked to ~/.config/zellij/config.kdl.
+session_serialization false
+show_startup_tips false
+theme "nord"

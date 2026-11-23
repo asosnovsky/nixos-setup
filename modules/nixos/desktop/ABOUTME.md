@@ -1,7 +1,7 @@
 # modules/nixos/desktop/
 
 Everything that turns a host into a workstation. The whole tree is gated by the master
-switch `skyg.nixos.desktop.enable`; individual desktop environments, tilers, and extras
+switch `skyg.nixos.desktop.enable`; tilers and extras
 have their own sub-options so a host enables only the stack it actually uses.
 
 ## Files
@@ -11,12 +11,9 @@ desktop/
 ├── default.nix    # skyg.nixos.desktop.enable — display manager, dbus, xdg portals
 │                  #                       slimMode — skip Xorg/browser/heavy desktop apps
 ├── tiler/         # Tiling WMs (niri / hyprland) + DankMaterialShell + swww
-├── stylix/        # System-wide theming via Stylix (gruvbox-dark-hard)
+├── stylix/        # System theming via Stylix (gruvbox-dark-hard) + fixed GTK/Qt app theme links
 ├── crypto.nix     # skyg.nixos.desktop.crypto — hardware wallet apps + udev rules
 ├── printers.nix   # CUPS printing + drivers (always on when desktop enabled)
-├── gnome.nix      # skyg.nixos.desktop.gnome — GNOME + pop-shell
-├── kde.nix        # skyg.nixos.desktop.kde — Plasma 6
-├── cosmic.nix     # skyg.nixos.desktop.cosmic — COSMIC DE
 └── fixes/         # skyg.nixos.desktop.fixes — workaround and fixes (e.g., AirPods audio)
 ```
 
@@ -29,8 +26,8 @@ desktop/
 - `slimMode` keeps the core substrate + tiler but skips the heavy desktop apps and Xorg
   (`packages.nix`/`wayland.nix`/`x11` were folded into `default.nix`; slim hosts use a
   headless-style desktop such as a clock box).
-- The DE/WM modules (`gnome`, `kde`, `cosmic`, `tiler`) are independent enables — pick the
-  one(s) a host should offer.
+- `tiler/` (niri, hyprland) is the only desktop stack; there are no GNOME, KDE or COSMIC
+  modules.
 - `printers.nix` activates automatically with the master desktop enable; `crypto` is a
   separate opt-in.
 
@@ -39,9 +36,6 @@ desktop/
 ```
 skyg.nixos.desktop.enable          → default.nix (master switch)
 skyg.nixos.desktop.slimMode        → default.nix (minimal desktop, no Xorg/heavy apps)
-skyg.nixos.desktop.gnome.enable    → gnome.nix
-skyg.nixos.desktop.kde.enable      → kde.nix
-skyg.nixos.desktop.cosmic.enable   → cosmic.nix
 skyg.nixos.desktop.tiler.*         → tiler/
 skyg.nixos.desktop.stylix.enable   → stylix/   (default true)
 skyg.nixos.desktop.crypto.enable   → crypto.nix
@@ -58,8 +52,9 @@ skyg.nixos.desktop.fixes.*         → fixes/
   `tiler/ABOUTME.md`.
 - Non-slim desktop sets `xdg.mime.defaultApplications` url-scheme entries to Chromium as a
   system-level fallback (a user-level `~/.config/mimeapps.list` still wins). Hosts like `fwbook`
-  additionally pin every handler declaratively via home-manager `xdg.mimeApps`, which also
-  stops apps (e.g. Slack) from re-registering themselves as the default browser.
+  additionally pin every handler with a read-only `~/.config/mimeapps.list` linked from
+  `configs/fwbook/mimeapps.list`, which also stops apps (e.g. Slack) from re-registering
+  themselves as the default browser.
 
 ## Conventions
 

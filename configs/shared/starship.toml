@@ -1,0 +1,38 @@
+# Starship prompt, linked to ~/.config/starship.toml.
+add_newline = true
+
+[battery]
+disabled = false
+
+[direnv]
+disabled = false
+
+[env_var]
+default = "unknown shell"
+variable = "SHELL"
+
+[gcloud]
+disabled = true
+
+[hostname]
+disabled = false
+ssh_only = false
+
+[kubernetes]
+disabled = false
+
+[localip]
+disabled = false
+ssh_only = false
+
+[memory_usage]
+disabled = false
+
+[nix_shell]
+disabled = false
+
+[sudo]
+disabled = false
+
+[time]
+disabled = false

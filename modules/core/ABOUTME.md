@@ -1,6 +1,6 @@
 # modules/core/
 
-Cross-platform base configuration imported by **every** host (NixOS and macOS) via
+Base configuration imported by **every** host via
 `modules/main.nix`. This is where the primary user, Nix binary caches, distributed builds,
 and a couple of nixpkgs overlays/workarounds live.
 
@@ -9,10 +9,9 @@ and a couple of nixpkgs overlays/workarounds live.
 ```
 core/
 ├── default.nix          # Entry point: imports the files below + overlays + remote builder
-├── user.nix             # skyg.user.* — the human user + Home Manager wiring
+├── user.nix             # skyg.user.* — options for the main user
 ├── nix-substituters.nix # skyg.core.substituters.* — binary caches & trusted keys
-├── lab-ca.nix           # Fleet-wide trust of the lab internal CA (configs/pki/lab-ca.crt)
-└── macos.nix            # skyg.user.macos.enableOverride — macOS-only HM tweaks
+└── lab-ca.nix           # Fleet-wide trust of the lab internal CA (configs/pki/lab-ca.crt)
 ```
 
 ## What lives here
@@ -22,11 +21,11 @@ core/
 - **Distributed builds** (`default.nix`): registers `bigbox1.lab.internal` and
   `fwdesk.lab.internal` as remote `x86_64-linux` build machines and enables
   `builders-use-substitutes`.
-- **User** (`user.nix`): defines `skyg.user.{name,fullName,email}` plus
-  `skyg.home-manager.{version,extraImports}`. When `skyg.user.enable` is set it wires up
-  Home Manager for both `root` and the named user using the functions in `modules/home`.
+- **User** (`user.nix`): defines `skyg.user.{enable,name,fullName,email,extraGitConfigs}`.
+  It only declares the options; `skyg.user.enable` is applied by
+  `nixos/common/user-env.nix` (shell and CLI setup for the user and root).
 - **Substituters** (`nix-substituters.nix`): the standing list of caches (local `minipc1`
-  and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/cosmic/ai/noctalia/nixarchy,
+  and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/ai/noctalia/hyprland/nixarchy,
   flox, devenv) and the trusted public keys. Extra entries can be appended per-host via
   `skyg.core.substituters.{urls,keys}`. Also sets `http-connections = 8` and
   `download-attempts = 10` so flaky links (Wi-Fi) don't disable cache.nixos.org mid-build.
@@ -38,14 +37,13 @@ core/
 ## Option Namespace
 
 ```
-skyg.user.*                  → user.nix (+ macos.nix for the macOS override)
-skyg.home-manager.*          → user.nix
+skyg.user.*                  → user.nix
 skyg.core.substituters.*     → nix-substituters.nix
 ```
 
 ## Conventions
 
-- `skyg.user.enable` triggers Home Manager setup and asserts that `name`, `fullName`, and
+- `skyg.user.enable` turns on the shell setup and asserts that `name`, `fullName`, and
   `email` are non-empty.
 - Cache URLs/keys here are global defaults; add host-specific caches through the
   `skyg.core.substituters.{urls,keys}` options rather than editing this file.

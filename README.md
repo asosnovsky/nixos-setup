@@ -9,15 +9,14 @@ nixos-setup/
 ├── bin/                  # `skyg` CLI (see bin/ABOUTME.md)
 │   ├── skyg              # Bash shim → NuShell modules in bin/lib/
 │   ├── temp-monitor      # CPU/GPU temperature logger (see TEMP_MONITOR_README.md)
-│   └── lib/              # Command modules: os, remote, secrets, ca, pkgs, flake, build, render, hm, net
-├── configs/              # App configs per host, plus configs/pki (lab TLS certs)
+│   └── lib/              # Command modules: os, remote, secrets, ca, pkgs, flake, build, render, net
+├── configs/              # Dotfiles linked into ~ (shared + per host), plus configs/pki (lab TLS certs)
 ├── pkgs/                 # Custom packages (see pkgs/ABOUTME.md)
 ├── hosts/                # One folder per host (fwbook, hl-*, iso) + disko/hardware files
 ├── modules/
 │   ├── main.nix          # Entry point that wires all modules together
 │   ├── core/             # Core system modules
 │   ├── nixos/            # NixOS modules (desktop, server, common)
-│   ├── home/             # Home Manager modules
 │   ├── openwrt/          # OpenWrt config generator
 │   └── *.nix             # Shared helpers (lib, skyg-utils, internal-networking, …)
 ├── openwrt-routers/      # OpenWrt router configs (glmain)
@@ -43,7 +42,7 @@ Custom packages and helpers are exported for reuse:
 }
 ```
 
-`nixos-setup.lib` also provides `makeNixOs`, `makeHomeManagerUsers`, `makeIso`, `makeSdImage`, and more.
+`nixos-setup.lib` also provides `makeNixOs`, `makeIso`, `makeSdImage`, and more.
 
 Inside this repo, every package in `pkgs/` is available as `pkgs.<name>` through the overlay.
 
@@ -86,13 +85,6 @@ Example: `skyg remote switch bigbox1` deploys `hl-bigbox1` to `root@bigbox1.lab.
 | ----------------------------------------- | ------------------------------------------------------------------------------ |
 | `skyg build image <iso\|pi1\|pi2>`        | Build an ISO or a Pi SD card image                                             |
 | `skyg build openwrt [router] [--dry-run]` | Deploy a router config (default `glmain`). `--dry-run` only renders to `.tmp/` |
-
-### Home Manager — `skyg hm`
-
-| Command                    | Description                               |
-| -------------------------- | ----------------------------------------- |
-| `skyg hm switch [profile]` | Apply Home Manager config (default `ari`) |
-| `skyg hm build [profile]`  | Build Home Manager config                 |
 
 ### Secrets — `skyg secrets`
 
