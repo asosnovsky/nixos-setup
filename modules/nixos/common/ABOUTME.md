@@ -13,7 +13,8 @@ common/
 ├── core.nix         # System packages, nh (clean + gc), nix-ld, timezone (Toronto), locale; skyg.nixos.common.minimal
 ├── networking.nix   # skyg.core.hostName, NetworkManager, NFS server opt-in (skyg.nixos.common.networking.nfsServer, default false)
 ├── user.nix         # skyg.user.createSystemUser — creates the system user/groups + zsh shell
-├── user-env.nix     # skyg.user.enable — shell and CLI setup for the user and root (zsh, starship, git, nvim, tmux, …)
+├── user-env/        # skyg.user.enable — shell and CLI setup for the user and root, one file per program:
+│                    #   packages, aliases, zsh, starship, nushell, git, neovim, tmux, zellij, direnv, bat, gnupg
 ├── config-links.nix # skyg.configLinks — symlink files from configs/ into the home dir
 ├── hm-cleanup.nix   # TEMPORARY — removes links left by home-manager; delete once all hosts switched
 ├── fonts.nix        # System font packages + fontconfig defaults (Fira Code, Noto, …); skyg.nixos.common.fonts.minimal
@@ -39,11 +40,16 @@ common/
   opt in.
 - **`user.nix`** creates the actual system user (in `wheel` + `networkmanager`) with zsh as
   the login shell; gated by `skyg.user.createSystemUser` (default `true`).
-- **`user-env.nix`** replaced Home Manager. Tools, and anything that needs a store path
+- **`user-env/`** replaced Home Manager. Each program has its own file (`zsh.nix`,
+  `git.nix`, …) holding its NixOS options and its `skyg.configLinks` entries.
+  Shell aliases are one list in `aliases.nix`: it sets `environment.shellAliases`
+  (zsh, bash) and installs the same list as a Nushell autoload file. Tools, and anything that needs a store path
   (zsh plugins, starship init, nvim/tmux plugins, direnv, bat, gpg-agent, the git identity),
   are NixOS options and so apply to every user. Plain dotfiles live in `configs/shared/`
   (`zsh/zshrc`, `starship.toml`, `git/config`, `zellij/config.kdl`, `nushell/config.nu`)
-  and are linked through `skyg.configLinks`.
+  and are linked through `skyg.configLinks`. The git name/email is also written to
+  `~/.config/git/identity` (included by `git/config`), so gits that skip `/etc/gitconfig`
+  still find it.
 - **`config-links.nix`** links each `skyg.configLinks.links.<name>` (`source` under
   `configs/`, `target` under the home dir) for `skyg.user.name`, at login and on every
   switch. By default the link points at a read-only store copy. Hosts with the repo
@@ -79,7 +85,7 @@ common/
 ```
 skyg.core.hostName               → networking.nix
 skyg.user.createSystemUser       → user.nix
-skyg.user.enable                 → user-env.nix (options declared in core/user.nix)
+skyg.user.enable                 → user-env/ (options declared in core/user.nix)
 skyg.configLinks.*               → config-links.nix
 skyg.core.qemu.*                 → qemu.nix
 skyg.nixos.common.ssh-server.*   → ssh-server.nix

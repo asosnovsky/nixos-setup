@@ -10,7 +10,7 @@ let
         dir="${home}/''${spec%%:*}"
         [[ -d "$dir" ]] || continue
         find "$dir" -maxdepth "''${spec##*:}" -type l \
-          -lname '/nix/store/*-home-manager-files/*' -delete
+          -lname '/nix/store/*-home-manager-files/*' -delete 2>/dev/null || true
       done
       rm -rf "${home}/.local/state/home-manager"
       rm -f "${home}"/.local/state/nix/profiles/home-manager*

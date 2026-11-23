@@ -1,5 +1,9 @@
 # Shared git settings, linked to ~/.config/git/config.
-# Name and email come from /etc/gitconfig (skyg.user.*).
+# Name and email come from skyg.user.*: in /etc/gitconfig and in the
+# included ~/.config/git/identity (made by user-env/git.nix).
+[include]
+	path = ~/.config/git/identity
+
 [color]
 	ui = auto
 

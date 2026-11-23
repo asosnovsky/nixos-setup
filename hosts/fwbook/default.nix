@@ -4,6 +4,7 @@
     ./hardware-configuration
     ./packages.nix
     ./slack.nix
+    ./browser.nix
     ./git.nix
     ./services.nix
     ./networking.nix

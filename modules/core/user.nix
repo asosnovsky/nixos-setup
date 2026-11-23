@@ -11,7 +11,7 @@ in
 {
   options = {
     skyg.user = {
-      enable = mkEnableOption "the shell and CLI setup for the main user and root (see nixos/common/user-env.nix)";
+      enable = mkEnableOption "the shell and CLI setup for the main user and root (see nixos/common/user-env/)";
       name = mkOption {
         type = types.str;
         default = "";

@@ -23,7 +23,7 @@ core/
   `builders-use-substitutes`.
 - **User** (`user.nix`): defines `skyg.user.{enable,name,fullName,email,extraGitConfigs}`.
   It only declares the options; `skyg.user.enable` is applied by
-  `nixos/common/user-env.nix` (shell and CLI setup for the user and root).
+  `nixos/common/user-env/` (shell and CLI setup for the user and root).
 - **Substituters** (`nix-substituters.nix`): the standing list of caches (local `minipc1`
   and `bigbox2` caches, cache.nixos.org, cachix caches for cuda/ai/noctalia/hyprland/nixarchy,
   flox, devenv) and the trusted public keys. Extra entries can be appended per-host via

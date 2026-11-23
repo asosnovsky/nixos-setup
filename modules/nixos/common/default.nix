@@ -6,7 +6,7 @@
     ./core.nix
     ./networking.nix
     ./user.nix
-    ./user-env.nix
+    ./user-env
     ./config-links.nix
     ./hm-cleanup.nix # temporary, see the file
     ./fonts.nix
@@ -18,7 +18,7 @@
     ./dns
   ];
   config = {
-    # Hosts with skyg.user.enable get nvim instead (user-env.nix).
+    # Hosts with skyg.user.enable get nvim instead (user-env/neovim.nix).
     environment.sessionVariables.EDITOR = lib.mkDefault "vi";
     environment.localBinInPath = true;
   };

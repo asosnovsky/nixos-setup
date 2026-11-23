@@ -1,6 +1,6 @@
 # Shared zsh setup, linked to ~/.zshrc.
 # Prompt, completion, autosuggestions, history and aliases come from
-# /etc/zshrc (see modules/nixos/common/user-env.nix).
+# /etc/zshrc (see modules/nixos/common/user-env/).
 
 # Completions for many CLIs
 if (( $+commands[carapace] )); then

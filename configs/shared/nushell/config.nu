@@ -42,10 +42,5 @@ if (which direnv | is-not-empty) {
     )
 }
 
-alias cat = bat
-alias la = eza -a
-alias ll = eza -l
-alias lla = eza -la
-alias ls = eza
-alias lt = eza --tree
-alias open = xdg-open
+# Aliases come from modules/nixos/common/user-env/aliases.nix (also used by
+# zsh and bash), loaded from the system's Nushell autoload dir.

@@ -55,6 +55,8 @@ skyg.nixos.desktop.fixes.*         → fixes/
   additionally pin every handler with a read-only `~/.config/mimeapps.list` linked from
   `configs/fwbook/mimeapps.list`, which also stops apps (e.g. Slack) from re-registering
   themselves as the default browser.
+  `fwbook` also routes `http(s)` links through `browser-link-picker` (`hosts/fwbook/browser.nix`),
+  a rofi menu that opens the link in the Chromium "Personal" or "Work" profile.
 
 ## Conventions
 

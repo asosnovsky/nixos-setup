@@ -197,7 +197,8 @@ hosts/<hostname>/
 This repo does not use Home Manager. Do not add it back.
 
 - Needs a store path, or must work for root and servers → a NixOS option. The shared
-  shell setup is `modules/nixos/common/user-env.nix` (gated by `skyg.user.enable`).
+  shell setup is `modules/nixos/common/user-env/`, one file per program (gated by
+  `skyg.user.enable`).
 - A plain dotfile → a file in `configs/` (`shared/` or `<hostname>/`), linked into the
   home dir with `skyg.configLinks.links` (`modules/nixos/common/config-links.nix`).
 

@@ -29,7 +29,7 @@ modules/
 All custom options live under `skyg.*`. Never introduce options outside this namespace.
 
 ```
-skyg.user.*               → core/user.nix (applied by nixos/common/user-env.nix)
+skyg.user.*               → core/user.nix (applied by nixos/common/user-env/)
 skyg.configLinks.*        → nixos/common/config-links.nix
 skyg.networkDrives.*      → network-drives.nix
 skyg.internalNetworkingMap.* → main.nix (global app registry; rendered into router DNS by internal-networking.nix)
