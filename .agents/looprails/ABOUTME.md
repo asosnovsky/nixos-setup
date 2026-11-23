@@ -16,3 +16,19 @@ against this repo, and writes a report ranked by urgency to `.tmp/journal-report
   `host` (default `fwbook`), `repo` (default `/home/ari/nixos-setup`).
 
 Run: `looprail run .agents/looprails/journal-triage.toml`, or ask the agent to run it.
+
+## flake-input-review
+
+From the repository root, run `looprail run flake-input-review '{"input":"nixpkgs-unstable"}'`.
+Use any direct input in `flake.nix`. The name `nixpkgs-stable` selects `nixpkgs`.
+
+The resolve step uses Nix to update the selected input in a temporary copy of the flake
+declaration and lockfile. For a changed graph, the gather step samples public upstream evidence
+and searches local configuration. One Claude Opus step assesses affected hosts, fixed issues,
+possible regressions, live activation and boot. A shell step renders `flake-input-review.html`
+in the Looprail run directory and returns its absolute path. An unchanged or unresolved input
+goes directly to HTML. A resolution failure yields an unknown verdict.
+
+Requires Nix with flakes, Python 3, ripgrep, and claude-agent-acp. Looprail checks the agent harness at startup.
+Upstream resolution uses the caller's existing network access and credentials. Coverage and
+unverified runtime behavior are recorded in the report.

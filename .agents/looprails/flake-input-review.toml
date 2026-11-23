@@ -1,0 +1,61 @@
+[metadata]
+name = "flake-input-review"
+description = "Preview one Nix flake input update and report its rollout risk."
+spec_version = "0.3.0"
+
+[inputs.static]
+input = { type = "string", min_length = 1, description = "Top-level flake input, e.g. nixpkgs-unstable, nixpkgs-stable (nixpkgs), or hyprland." }
+
+[[step.resolve]]
+kind = "shell"
+description = "Resolve the input in an isolated copy and compare lock graphs."
+run = ["python3 .agents/looprails/flake-input-review/resolve.py {{ inputs.input }}"]
+
+[step.resolve.outputs]
+changed = { type = "bool", description = "A candidate was resolved and changed a lock path." }
+preview = { type = "string", description = "Path to the lock comparison." }
+
+[[step.gather]]
+kind = "shell"
+needs = ["resolve"]
+when = "{{ steps.resolve.outputs.changed }}"
+description = "Collect upstream evidence and local configuration references."
+run = ["python3 .agents/looprails/flake-input-review/gather.py {{ steps.resolve.outputs.preview }}"]
+
+[step.gather.outputs]
+evidence = { type = "string", description = "Path to the source evidence." }
+
+[[step.assess]]
+kind = "agent"
+needs = ["gather"]
+when = "{{ steps.resolve.outputs.changed }}"
+description = "Trace host impact and assess live switch and boot separately."
+agent = { command = ["claude-agent-acp"], model = "opus" }
+brief = "flake-input-review/assess.md"
+
+[step.assess.outputs]
+summary = { type = "string", min_length = 1, description = "Changes and affected hosts, citing configuration paths." }
+switch = { type = "string", min_length = 1, description = "Live switch recommendation, reasons, hosts and preconditions." }
+boot = { type = "string", min_length = 1, description = "Boot and reboot recommendation, reasons, hosts and preconditions." }
+issues = { type = "string", min_length = 2, description = "JSON array encoded as a string. Each object has kind (Fixed, Reported regression, or Potential regression), detail and source (upstream URL). Use [] for no findings." }
+coverage = { type = "string", min_length = 1, description = "Evidence reviewed, uncertainty, missing evidence and checks before deployment." }
+
+[[step.report]]
+kind = "shell"
+needs = ["assess"]
+when = "{{ steps.resolve.outputs.changed }}"
+description = "Render the lock comparison and reviewed findings as HTML."
+run = ["python3 .agents/looprails/flake-input-review/report.py {{ steps.resolve.outputs.preview }} {{ steps.assess.outputs.summary }} {{ steps.assess.outputs.switch }} {{ steps.assess.outputs.boot }} {{ steps.assess.outputs.issues }} {{ steps.assess.outputs.coverage }}"]
+
+[step.report.outputs]
+report = { type = "string", description = "Absolute path to the HTML report." }
+
+[[step.preview_report]]
+kind = "shell"
+needs = ["resolve"]
+when = "{{ !steps.resolve.outputs.changed }}"
+description = "Render the no-bump or unresolved preview directly."
+run = ["python3 .agents/looprails/flake-input-review/report.py {{ steps.resolve.outputs.preview }}"]
+
+[step.preview_report.outputs]
+report = { type = "string", description = "Absolute path to the HTML report." }
