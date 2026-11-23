@@ -1,6 +1,6 @@
 [Added Associations]
 application/json=nvim.desktop;dev.zed.Zed.desktop;
-application/pdf=chromium-browser.desktop;onlyoffice-desktopeditors.desktop;
+application/pdf=browser-link-picker.desktop;onlyoffice-desktopeditors.desktop;
 audio/mpeg=vlc.desktop;mpv.desktop;
 image/png=org.gnome.eog.desktop;gimp.desktop;
 text/plain=dev.zed.Zed.desktop;nvim.desktop;code.desktop;
@@ -9,7 +9,7 @@ video/mp4=vlc.desktop;mpv.desktop;
 [Default Applications]
 application/javascript=code.desktop
 application/json=nvim.desktop
-application/pdf=chromium-browser.desktop
+application/pdf=browser-link-picker.desktop
 application/vnd.openxmlformats-officedocument.presentationml.presentation=onlyoffice-desktopeditors.desktop
 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=onlyoffice-desktopeditors.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=onlyoffice-desktopeditors.desktop
@@ -24,7 +24,7 @@ application/x-ruby=dev.zed.Zed.desktop
 application/x-shellscript=nvim.desktop
 application/x-terminal-emulator=com.mitchellh.ghostty.desktop
 application/x-yaml=nvim.desktop
-application/xhtml+xml=chromium-browser.desktop
+application/xhtml+xml=browser-link-picker.desktop
 application/xml=nvim.desktop
 audio/aac=vlc.desktop
 audio/flac=vlc.desktop
@@ -45,7 +45,7 @@ image/webp=org.gnome.eog.desktop
 inode/directory=org.gnome.Nautilus.desktop
 text/css=dev.zed.Zed.desktop
 text/csv=onlyoffice-desktopeditors.desktop
-text/html=chromium-browser.desktop
+text/html=browser-link-picker.desktop
 text/markdown=nvim.desktop
 text/plain=nvim.desktop
 text/turtle=dev.zed.Zed.desktop
@@ -72,16 +72,16 @@ video/ogg=vlc.desktop
 video/quicktime=vlc.desktop
 video/webm=vlc.desktop
 video/x-matroska=vlc.desktop
-x-scheme-handler/about=chromium-browser.desktop
-x-scheme-handler/chrome=chromium-browser.desktop
+x-scheme-handler/about=browser-link-picker.desktop
+x-scheme-handler/chrome=browser-link-picker.desktop
 x-scheme-handler/geo=google-maps-geo-handler.desktop
 x-scheme-handler/http=browser-link-picker.desktop
 x-scheme-handler/https=browser-link-picker.desktop
-x-scheme-handler/mailto=chromium-browser.desktop
+x-scheme-handler/mailto=browser-link-picker.desktop
 x-scheme-handler/sgnl=signal.desktop
 x-scheme-handler/signalcaptcha=signal.desktop
 x-scheme-handler/slack=slack-link-picker.desktop
 x-scheme-handler/terminal=com.mitchellh.ghostty.desktop
-x-scheme-handler/unknown=chromium-browser.desktop
+x-scheme-handler/unknown=browser-link-picker.desktop
 
 [Removed Associations]
