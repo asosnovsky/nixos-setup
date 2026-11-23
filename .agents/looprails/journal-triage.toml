@@ -60,7 +60,7 @@ description = "Writes the report to .tmp/journal-reports."
 needs = ["triage"]
 run = [
   "R={{ inputs.repo }}; mkdir -p \"$R/.tmp/journal-reports\"",
-  "S={{ steps.triage.outputs.summary }}; H={{ inputs.host }}; R={{ inputs.repo }}; f=\"$R/.tmp/journal-reports/$H-$(date +%Y-%m-%d-%H%M).md\"; printf '%s\\n' \"$S\" > \"$f\"; echo \"report=$f\" >> \"$LOOPRAILS_OUTPUTS\"; echo \"Report written to $f\"",
+  "S={{ steps.triage.outputs.summary }}; H={{ inputs.host }}; R={{ inputs.repo }}; f=\"$R/.tmp/journal-reports/$H-$(date +%Y-%m-%d-%H%M).md\"; printf '%s\\n' \"$S\" > \"$f\"; echo \"report=$f\" >> \"$LOOPRAIL_OUTPUTS\"; echo \"Report written to $f\"",
 ]
 
 [step.report.outputs]

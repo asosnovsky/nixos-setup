@@ -2,7 +2,7 @@
 # Collect journald warnings+ and failed units into the run folder, plus a deduplicated digest.
 set -eu
 since="$1"; priority="$2"
-dir="$LOOPRAILS_RUN_DIR"
+dir="$LOOPRAIL_CURRENT_RUN_DIR"
 raw="$dir/journal-raw.log"; digest="$dir/journal-digest.txt"
 
 journalctl -p "$priority" --since "$since" --no-pager -q -o short-iso > "$raw" || true
@@ -23,4 +23,4 @@ journalctl -p "$priority" --since "$since" --no-pager -q -o short-iso > "$raw" |
 
 lines=$(wc -l < "$raw")
 uniq=$(grep -c '^ *[0-9]' "$digest" || true)
-printf 'raw_log=%s\ndigest=%s\nlines=%s\nunique=%s\n' "$raw" "$digest" "$lines" "$uniq" >> "$LOOPRAILS_OUTPUTS"
+printf 'raw_log=%s\ndigest=%s\nlines=%s\nunique=%s\n' "$raw" "$digest" "$lines" "$uniq" >> "$LOOPRAIL_OUTPUTS"

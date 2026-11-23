@@ -2143,11 +2143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795453534,
-        "narHash": "sha256-mRhbRZWOjDpX1ZeQAE0MdyCD12X/X3jiIiwfqWd01RE=",
+        "lastModified": 1795458619,
+        "narHash": "sha256-1sNlv/mqOllcw7rOLA1jMK9G3EPhvDv/rtopFHC+840=",
         "ref": "refs/heads/main",
-        "rev": "0992b2a2a83dcb9d356eb829edd87cb3ca3d50b1",
-        "revCount": 487,
+        "rev": "18029cc98a7d33b9356726d2a5d691dd065ee0f9",
+        "revCount": 495,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
