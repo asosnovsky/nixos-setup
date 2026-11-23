@@ -85,10 +85,6 @@
     };
     # Hyprland
     hyprlauncher.url = "github:hyprwm/hyprlauncher";
-    # Hyprland compositor via flake — pinned to the latest stable release tag
-    # (was floating on main, 50 commits past v0.57.0, which caused a
-    # compositor render-spin episode on fwbook: ~4-core spin, 100°C, no
-    # suspend requested). Re-lock with: nix flake lock --update-input hyprland
     hyprland.url = "github:hyprwm/Hyprland/v0.57.0";
 
     # Secrets management
