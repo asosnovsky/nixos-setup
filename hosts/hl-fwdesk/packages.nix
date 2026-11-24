@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, myPkgs, ... }:
+{ pkgs, unstablePkgs, myPkgs, looprail, ... }:
 {
   environment.systemPackages =
     (with pkgs; [
@@ -23,6 +23,7 @@
       unstablePkgs.goose-cli
       unstablePkgs.claude-agent-acp
       unstablePkgs.claude-code
+      looprail.packages.${pkgs.stdenv.hostPlatform.system}.looprail
     ])
     ++ [ myPkgs.ds4-rocm ];
 }

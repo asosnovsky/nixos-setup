@@ -2100,11 +2100,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795470876,
-        "narHash": "sha256-ikSJWCBYelN3TCLqRDmMwpTYHOzOzluQyFXsN7KFJKs=",
+        "lastModified": 1795494490,
+        "narHash": "sha256-SkMxNTklq0ckCTmXn9asekJzV8kykculYUA/bPAhxOk=",
         "ref": "refs/heads/main",
-        "rev": "dae8a8a9e6b44c174b293fcb2c1e5296165b7dfa",
-        "revCount": 498,
+        "rev": "a80be1e05e8a51b3ee3c31ea89f9d1dfae9ef364",
+        "revCount": 536,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/LoopRail.git"
       },
@@ -2118,18 +2118,18 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1795208433,
-        "narHash": "sha256-2Y06ZeeX7X8AcIZ7JIq/+88d9DpFSYO8lO0BV4XRRNE=",
+        "lastModified": 1795488753,
+        "narHash": "sha256-JrhSvXGYJVYSw6FuAvVSB7mx/OmKY3Sa/G/Y6tyvJ4Q=",
         "ref": "refs/heads/main",
-        "rev": "3ea535838ab125160c049d795dce625dec49396c",
-        "revCount": 265,
+        "rev": "59f4439cf94daa1d2f23168bd3531d3e6536a60d",
+        "revCount": 528,
         "type": "git",
-        "url": "https://github.com/SkyG-Org/LoopRail.git"
+        "url": "https://github.com/SkyG-Org/Looprail.git"
       },
       "original": {
-        "rev": "3ea535838ab125160c049d795dce625dec49396c",
+        "rev": "59f4439cf94daa1d2f23168bd3531d3e6536a60d",
         "type": "git",
-        "url": "https://github.com/SkyG-Org/LoopRail.git"
+        "url": "https://github.com/SkyG-Org/Looprail.git"
       }
     },
     "mcp-servers-nix": {
@@ -2201,11 +2201,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795322438,
-        "narHash": "sha256-pCPpUEmdDfgoyXDOWPJ7u4zQY38Tzq7NFZ8ZX1Ay7Vg=",
+        "lastModified": 1795493501,
+        "narHash": "sha256-PRevO82kONQ0lsySEC9WxnsoQT055cclhdr1ifcYbhY=",
         "ref": "refs/heads/main",
-        "rev": "ecdb1b3bb784d5e2d178b9d3552e13bc1ee3a115",
-        "revCount": 1714,
+        "rev": "3e0d9caec58a60f5ecc08009c08e1d499f835975",
+        "revCount": 1716,
         "type": "git",
         "url": "ssh://git@github.com/SkyG-Org/nBot.git"
       },

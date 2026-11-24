@@ -1,5 +1,9 @@
-{ pkgs, nixpkgs-slack, ... }:
+{ pkgs, config, nixpkgs-slack, ... }:
 let
+  rofiTheme = import ./rofi-theme.nix {
+    colors = config.lib.stylix.colors;
+    font = "${config.stylix.fonts.monospace.name} ${toString config.stylix.fonts.sizes.popups}";
+  };
   slack = (import nixpkgs-slack {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfreePredicate = pkg: pkgs.lib.getName pkg == "slack";
@@ -26,6 +30,7 @@ let
     pkgs.symlinkJoin {
       name = "slack-${id}";
       paths = [ bin desktop ];
+      inherit icon;
     };
   slack-sibli = makeSlack { id = "sibli"; name = "Sibli"; color = "#2EB67D"; };
   slack-personal = makeSlack { id = "personal"; name = "Personal"; color = "#4A154B"; };
@@ -34,8 +39,11 @@ let
   slack-link-picker =
     let
       bin = pkgs.writeShellScriptBin "slack-link-picker" ''
-        choice=$(printf '%s\n' "Slack" "Slack (Sibli)" "Slack (Personal)" \
-          | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Open Slack link in")
+        choice=$(printf '%s\0icon\x1f%s\n' \
+          "Slack" "${slackIcon}" \
+          "Slack (Sibli)" "${slack-sibli.icon}" \
+          "Slack (Personal)" "${slack-personal.icon}" \
+          | ${pkgs.rofi}/bin/rofi -dmenu -i -show-icons -theme-str '${rofiTheme}' -p "Open Slack link in")
         case "$choice" in
           "Slack") exec ${slack}/bin/slack -s "$@" ;;
           "Slack (Sibli)") exec ${slack-sibli}/bin/slack-sibli -s "$@" ;;

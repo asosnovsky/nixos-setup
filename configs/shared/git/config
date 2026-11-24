@@ -59,3 +59,9 @@ clean-branches = "!f() { \
 aliases = "!f() { \
     git config --get-regexp alias | awk '{print $1}' | sed 's/alias\\./ - /' ; \
 }; f";
+[credential "https://github.com"]
+	helper = 
+	helper = !/nix/store/6mwni6f27wlhy6clj7c7n6s84x52b2xa-gh-2.105.0/bin/.gh-wrapped auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/nix/store/6mwni6f27wlhy6clj7c7n6s84x52b2xa-gh-2.105.0/bin/.gh-wrapped auth git-credential
