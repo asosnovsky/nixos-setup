@@ -10,12 +10,20 @@ let
   }).slack;
   slackIcon = "${slack}/share/icons/hicolor/512x512/apps/slack.png";
   makeSlack =
-    { id, name, color }:
+    { id, name, color, browserProfile }:
     let
       icon = pkgs.runCommand "slack-${id}-icon.png" { nativeBuildInputs = [ pkgs.imagemagick ]; } ''
         magick ${slackIcon} -modulate 100,0 -fill '${color}' -tint 100 $out
       '';
+      # Slack opens links via xdg-open from PATH; this one pins web links to a Chromium profile.
+      xdgOpen = pkgs.writeShellScriptBin "xdg-open" ''
+        case "$1" in
+          http://*|https://*|mailto:*) exec chromium --profile-directory="${browserProfile}" "$@" ;;
+        esac
+        exec ${pkgs.xdg-utils}/bin/xdg-open "$@"
+      '';
       bin = pkgs.writeShellScriptBin "slack-${id}" ''
+        export PATH="${xdgOpen}/bin:$PATH"
         exec ${slack}/bin/slack --user-data-dir="''${XDG_CONFIG_HOME:-$HOME/.config}/Slack-${name}" "$@"
       '';
       desktop = pkgs.makeDesktopItem {
@@ -32,8 +40,8 @@ let
       paths = [ bin desktop ];
       inherit icon;
     };
-  slack-sibli = makeSlack { id = "sibli"; name = "Sibli"; color = "#2EB67D"; };
-  slack-personal = makeSlack { id = "personal"; name = "Personal"; color = "#4A154B"; };
+  slack-sibli = makeSlack { id = "sibli"; name = "Sibli"; color = "#2EB67D"; browserProfile = "Profile 1"; };
+  slack-personal = makeSlack { id = "personal"; name = "Personal"; color = "#4A154B"; browserProfile = "Default"; };
 
   # Opens slack:// links in the Slack you pick.
   slack-link-picker =

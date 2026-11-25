@@ -62,6 +62,10 @@ in
       size: 28px;
       padding: 0px 10px 0px 0px;
   }
+  element normal.normal, element alternate.normal {
+      background-color: @background;
+      text-color: @foreground;
+  }
   element selected.normal {
       background-color: @accent;
       text-color: @background;
