@@ -29,7 +29,7 @@
 
 let
   pname = "delta-editor";
-  version = "0.28.0";
+  version = "0.29.1";
 
   apiUrl = "https://delta.dev/api/releases/nightly/${version}/asset?asset=delta&os=linux&arch=x86_64";
 
@@ -38,7 +38,7 @@ let
     inherit version;
 
     outputHashMode = "flat";
-    outputHash = "sha256-LryJftc5QdosIIaMnuX/PDcqXe3GHyOSbYfX0ZuhCBM=";
+    outputHash = "sha256-cZ7pv/l/nnMsyHlg1MjjbEcTVXaCl8xf3uxilTci3cg=";
 
     nativeBuildInputs = [ curl jq cacert ];
     SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";

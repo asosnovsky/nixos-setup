@@ -10,7 +10,7 @@ Most leaf modules expose a `skyg.nixos.common.*` enable flag and stay inert unti
 ```
 common/
 ├── default.nix      # Imports everything below + always-on env defaults
-├── core.nix         # System packages, nh (clean + gc), nix-ld, timezone (Toronto), locale; skyg.nixos.common.minimal
+├── core.nix         # System packages (including `skytop`), nh (clean + gc), nix-ld, timezone (Toronto), locale; skyg.nixos.common.minimal
 ├── networking.nix   # skyg.core.hostName, NetworkManager, NFS server opt-in (skyg.nixos.common.networking.nfsServer, default false)
 ├── user.nix         # skyg.user.createSystemUser — creates the system user/groups + zsh shell
 ├── user-env/        # skyg.user.enable — shell and CLI setup for the user and root, one file per program:
@@ -30,7 +30,7 @@ common/
 
 ## Notable details
 
-- **`core.nix`** sets `time.timeZone = "America/Toronto"`, `i18n` to `en_CA.UTF-8`, and enables
+- **`core.nix`** installs `skytop` (`bin/skytop`) on every host, sets `time.timeZone = "America/Toronto"`, `i18n` to `en_CA.UTF-8`, and enables
   `programs.nh` with auto-clean (`--keep-since 7d --keep 5`, overridable per host via
   `programs.nh.clean.extraArgs`) as the single GC mechanism — no separate cron jobs or
   `nix.gc.automatic`. `skyg.nixos.common.nh.flake` sets the flake path per host.

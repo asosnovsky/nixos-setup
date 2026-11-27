@@ -1,0 +1,70 @@
+#!/usr/bin/env nu
+
+# Top processes by CPU and by RAM.
+# One table: the top rows by CPU, then the top rows by RAM.
+
+def cmdline [pid: int] {
+    try {
+        open --raw $"/proc/($pid)/cmdline"
+        | str replace --all "\u{0000}" " "
+        | str trim
+    } catch {
+        ""
+    }
+}
+
+# Parent is "ppid name". Name comes from `ps` (the comm field).
+def parent-label [ppid: int, name: any] {
+    let parent_name = ($name | default "" | str trim)
+    if ($parent_name | is-empty) {
+        $"($ppid)"
+    } else {
+        $"($ppid) ($parent_name)"
+    }
+}
+
+def shorten [text: string, width: int] {
+    if ($text | str length) <= $width {
+        $text
+    } else {
+        let end = $width - 2
+        $"($text | str substring (0..$end))…"
+    }
+}
+
+def top-rows [rows: table, by: string, count: int, full: bool] {
+    $rows
+    | sort-by {|row| $row | get $by }
+    | reverse
+    | first $count
+    | each {|row|
+        let raw = (cmdline $row.pid)
+        let command = (if ($raw | is-empty) { $row.name } else { $raw })
+        {
+            pid: $row.pid
+            name: $row.name
+            cpu: $row.cpu
+            mem: $row.mem
+            parent: (parent-label $row.ppid $row.parent_name)
+            command: (if $full { $command } else { shorten $command 80 })
+        }
+    }
+}
+
+def main [
+    --count (-n): int = 15  # Rows in each table
+    --full                   # Keep the whole command line
+] {
+    let procs = (ps)
+    let parents = ($procs | select pid name | rename ppid parent_name)
+    let rows = (
+        $procs
+        | select pid name cpu mem ppid
+        | join --left $parents ppid
+    )
+
+    let cpu = (top-rows $rows cpu $count $full | insert by "cpu")
+    let ram = (top-rows $rows mem $count $full | insert by "ram")
+
+    $cpu | append $ram | select by pid name cpu mem parent command
+}

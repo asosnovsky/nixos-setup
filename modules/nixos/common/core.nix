@@ -1,4 +1,12 @@
 { pkgs, config, lib, ... }:
+let
+  # Every host. The store shebang does not need `nu` on PATH.
+  skytop = pkgs.runCommand "skytop" { } ''
+    mkdir -p $out/bin
+    sed '1s|^#!.*|#!${pkgs.nushell}/bin/nu|' ${../../../bin/skytop} > $out/bin/skytop
+    chmod +x $out/bin/skytop
+  '';
+in
 {
   options.skyg = {
     nixos.common.minimal = lib.mkOption {
@@ -41,6 +49,7 @@
         # shell tools
         wget
       ])
+      ++ [ skytop ]
       # On lean hosts, skip the heavy server/nix-dev extra tools.
       ++ (lib.optionals (!config.skyg.nixos.common.minimal) (with pkgs; [
         # system utils
